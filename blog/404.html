@@ -14,9 +14,14 @@
   <header class="site-header">
     <nav class="site-nav">
       <a class="site-title" href="/blog/">我的博客</a>
-      <div class="nav-links">
-        <a href="/blog/">首页</a>
-        <a href="/blog/about/">关于</a>
+      <button class="menu-toggle" aria-label="打开菜单" aria-expanded="false">
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+      </button>
+      <div class="nav-menu">
+        <a href="https://fayelin12.github.io">🏠 首页</a>
+        <a href="/blog/about/">👤 关于</a>
       </div>
     </nav>
   </header>
@@ -65,6 +70,26 @@
 
   <script>
     (function() {
+      // Hamburger menu toggle
+      var menuToggle = document.querySelector('.menu-toggle');
+      var navMenu = document.querySelector('.nav-menu');
+      if (menuToggle && navMenu) {
+        menuToggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+          menuToggle.setAttribute('aria-expanded', !expanded);
+          navMenu.classList.toggle('is-open');
+          menuToggle.classList.toggle('is-active');
+        });
+        document.addEventListener('click', function(e) {
+          if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
+            menuToggle.setAttribute('aria-expanded', 'false');
+            navMenu.classList.remove('is-open');
+            menuToggle.classList.remove('is-active');
+          }
+        });
+      }
+
       // IntersectionObserver for scroll reveal animations
       const reveals = document.querySelectorAll('.reveal');
       if (reveals.length > 0 && 'IntersectionObserver' in window) {

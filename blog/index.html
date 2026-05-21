@@ -14,9 +14,14 @@
   <header class="site-header">
     <nav class="site-nav">
       <a class="site-title" href="/blog/">我的博客</a>
-      <div class="nav-links">
-        <a href="/blog/">首页</a>
-        <a href="/blog/about/">关于</a>
+      <button class="menu-toggle" aria-label="打开菜单" aria-expanded="false">
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+        <span class="menu-bar"></span>
+      </button>
+      <div class="nav-menu">
+        <a href="https://fayelin12.github.io">🏠 首页</a>
+        <a href="/blog/about/">👤 关于</a>
       </div>
     </nav>
   </header>
@@ -36,7 +41,7 @@
       <div class="post-grid">
         
         <article class="post-card reveal">
-          <a class="post-card-link" href="/blog/jekyll/update/2026/05/21/welcome-to-jekyll.html">
+          <a class="post-card-link" href="/blog/jekyll/update/2026/05/21/welcome-to-jekyll.html" style="text-decoration:none;">
             <div class="post-card-body">
               <h2 class="post-card-title">Welcome to Jekyll!</h2>
               <div class="post-card-meta">
@@ -63,7 +68,7 @@
         </article>
         
         <article class="post-card reveal">
-          <a class="post-card-link" href="/blog/%E5%8D%9A%E5%AE%A2/2026/05/21/hello-world.html">
+          <a class="post-card-link" href="/blog/%E5%8D%9A%E5%AE%A2/2026/05/21/hello-world.html" style="text-decoration:none;">
             <div class="post-card-body">
               <h2 class="post-card-title">Hello World</h2>
               <div class="post-card-meta">
@@ -91,7 +96,73 @@
       </div>
     
   </section>
+
+  <section class="stats-section reveal">
+    <div class="stats-card">
+      <div class="stats-header">
+        <div class="stats-total">
+          <span class="stats-number">2</span>
+          <span class="stats-label">篇文章</span>
+        </div>
+      </div>
+      <div class="heatmap-wrapper">
+        <p class="heatmap-title">📊 发布热力图</p>
+        <div class="heatmap" id="heatmap"></div>
+        <div class="heatmap-legend">
+          <span class="legend-label">少</span>
+          <span class="legend-dot intensity-0"></span>
+          <span class="legend-dot intensity-1"></span>
+          <span class="legend-dot intensity-2"></span>
+          <span class="legend-dot intensity-3"></span>
+          <span class="legend-label">多</span>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
+
+<script id="posts-data" type="application/json">
+[
+  
+  {"date": "2026-05-21"},
+  
+  {"date": "2026-05-21"}
+  
+]
+</script>
+
+<script>
+  (function() {
+    var el = document.getElementById('posts-data');
+    if (!el) return;
+    var postsData = JSON.parse(el.textContent);
+    var monthCounts = {};
+    postsData.forEach(function(p) {
+      var month = p.date.substring(0, 7);
+      monthCounts[month] = (monthCounts[month] || 0) + 1;
+    });
+
+    var months = [];
+    var now = new Date();
+    for (var i = 11; i >= 0; i--) {
+      var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      var key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+      var label = (d.getMonth() + 1) + '月';
+      months.push({ key: key, label: label, count: monthCounts[key] || 0 });
+    }
+
+    var html = '<div class="heatmap-grid">';
+    months.forEach(function(m) {
+      var intensity = m.count === 0 ? 0 : m.count === 1 ? 1 : m.count <= 3 ? 2 : 3;
+      html += '<div class="heatmap-cell" title="' + m.key + '：' + m.count + '篇">';
+      html += '<div class="heatmap-block intensity-' + intensity + '"></div>';
+      html += '<span class="heatmap-label">' + m.label + '</span>';
+      html += '</div>';
+    });
+    html += '</div>';
+    document.getElementById('heatmap').innerHTML = html;
+  })();
+</script>
 
   </main>
 
@@ -104,6 +175,26 @@
 
   <script>
     (function() {
+      // Hamburger menu toggle
+      var menuToggle = document.querySelector('.menu-toggle');
+      var navMenu = document.querySelector('.nav-menu');
+      if (menuToggle && navMenu) {
+        menuToggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+          menuToggle.setAttribute('aria-expanded', !expanded);
+          navMenu.classList.toggle('is-open');
+          menuToggle.classList.toggle('is-active');
+        });
+        document.addEventListener('click', function(e) {
+          if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
+            menuToggle.setAttribute('aria-expanded', 'false');
+            navMenu.classList.remove('is-open');
+            menuToggle.classList.remove('is-active');
+          }
+        });
+      }
+
       // IntersectionObserver for scroll reveal animations
       const reveals = document.querySelectorAll('.reveal');
       if (reveals.length > 0 && 'IntersectionObserver' in window) {
