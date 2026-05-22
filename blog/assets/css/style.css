@@ -1727,7 +1727,7 @@ img {
 }
 
 .stats-number {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 800;
   line-height: 1;
   background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
@@ -1837,7 +1837,7 @@ img {
     gap: 0.5rem;
   }
   .stats-number {
-    font-size: 3rem;
+    font-size: 2rem;
   }
   .stats-label {
     font-size: 1rem;
