@@ -3,51 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
+  <title>南飞</title>
+  
   <!-- Begin Jekyll SEO tag v2.9.0 -->
-<title>我的博客 | 记录技术学习、产品思考与生活随笔的独立博客。</title>
+<title>南飞 | 记录技术学习、产品思考与生活随笔的独立博客。</title>
 <meta name="generator" content="Jekyll v4.4.1" />
-<meta property="og:title" content="我的博客" />
+<meta property="og:title" content="南飞" />
 <meta name="author" content="南飞" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="记录技术学习、产品思考与生活随笔的独立博客。" />
 <meta name="twitter:description" property="og:description" content="记录技术学习、产品思考与生活随笔的独立博客。" />
 <link rel="canonical" href="https://fayelin12.github.io/blog/" />
 <meta property="og:url" content="https://fayelin12.github.io/blog/" />
-<meta property="og:site_name" content="我的博客" />
+<meta property="og:site_name" content="南飞" />
+<meta property="og:image" content="https://fayelin12.github.io/blog/assets/images/og-image.png" />
 <meta property="og:type" content="website" />
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="我的博客" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://fayelin12.github.io/blog/assets/images/og-image.png" />
+<meta name="twitter:title" content="南飞" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","author":{"@type":"Person","name":"南飞"},"description":"记录技术学习、产品思考与生活随笔的独立博客。","headline":"我的博客","name":"我的博客","url":"https://fayelin12.github.io/blog/"}</script>
+{"@context":"https://schema.org","@type":"WebSite","author":{"@type":"Person","name":"南飞"},"description":"记录技术学习、产品思考与生活随笔的独立博客。","headline":"南飞","image":"https://fayelin12.github.io/blog/assets/images/og-image.png","name":"南飞","url":"https://fayelin12.github.io/blog/"}</script>
 <!-- End Jekyll SEO tag -->
 
-  <link type="application/atom+xml" rel="alternate" href="https://fayelin12.github.io/blog/feed.xml" title="我的博客" />
+  <link type="application/atom+xml" rel="alternate" href="https://fayelin12.github.io/blog/feed.xml" title="南飞" />
   <link rel="stylesheet" href="/blog/assets/css/style.css">
 </head>
 <body>
   <div class="bg-shape bg-shape-1"></div>
   <div class="bg-shape bg-shape-2"></div>
 
-  <header class="site-header">
-    <nav class="site-nav">
-      <button class="menu-toggle" aria-label="打开菜单" aria-expanded="false">
-        <span class="menu-bar"></span>
-        <span class="menu-bar"></span>
-        <span class="menu-bar"></span>
-      </button>
-      <div class="nav-menu">
-        <a href="https://fayelin12.github.io">🏠 首页</a>
-        <a href="/blog/about/">👤 关于</a>
-      </div>
-    </nav>
-  </header>
-
   <main class="page-content">
     <div class="home">
   <section class="hero reveal">
     <img class="hero-illustration" src="/blog/assets/images/hero.svg" alt="灵感流动">
     <div class="hero-content">
-      <h1 class="hero-title">我的博客</h1>
+      <h1 class="hero-title">南飞</h1>
       <p class="hero-desc">记录技术学习、产品思考与生活随笔的独立博客。</p>
       <div class="hero-divider"></div>
     </div>
@@ -156,33 +147,17 @@
 
   <footer class="site-footer">
     <div class="footer-content">
-      <p class="footer-copy">&copy; 2026 我的博客. All rights reserved.</p>
-      <span class="footer-mascot" title="你好呀~">🌿</span>
+      <div class="footer-links">
+        <a href="https://fayelin12.github.io">首页</a>
+        <span class="footer-dot">·</span>
+        <a href="/blog/about/">关于</a>
+      </div>
+      <p class="footer-copy">&copy; 2026 南飞. All rights reserved.</p>
     </div>
   </footer>
 
   <script>
     (function() {
-      // Hamburger menu toggle
-      var menuToggle = document.querySelector('.menu-toggle');
-      var navMenu = document.querySelector('.nav-menu');
-      if (menuToggle && navMenu) {
-        menuToggle.addEventListener('click', function(e) {
-          e.stopPropagation();
-          var expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-          menuToggle.setAttribute('aria-expanded', !expanded);
-          navMenu.classList.toggle('is-open');
-          menuToggle.classList.toggle('is-active');
-        });
-        document.addEventListener('click', function(e) {
-          if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
-            menuToggle.setAttribute('aria-expanded', 'false');
-            navMenu.classList.remove('is-open');
-            menuToggle.classList.remove('is-active');
-          }
-        });
-      }
-
       // IntersectionObserver for scroll reveal animations
       const reveals = document.querySelectorAll('.reveal');
       if (reveals.length > 0 && 'IntersectionObserver' in window) {
@@ -199,46 +174,7 @@
         });
         reveals.forEach(function(el) { observer.observe(el); });
       } else if (reveals.length > 0) {
-        // Fallback for browsers without IntersectionObserver
         reveals.forEach(function(el) { el.classList.add('revealed'); });
-      }
-
-      // Navbar hide/show on scroll
-      var lastScroll = 0;
-      var header = document.querySelector('.site-header');
-      var ticking = false;
-      window.addEventListener('scroll', function() {
-        if (!ticking) {
-          window.requestAnimationFrame(function() {
-            var currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-            if (currentScroll > lastScroll && currentScroll > 80) {
-              header.classList.add('nav-hidden');
-            } else {
-              header.classList.remove('nav-hidden');
-            }
-            lastScroll = currentScroll;
-            ticking = false;
-          });
-          ticking = true;
-        }
-      });
-
-      // Footer mascot subtle parallax & rotation
-      var mascot = document.querySelector('.footer-mascot');
-      if (mascot) {
-        var mascotTicking = false;
-        window.addEventListener('scroll', function() {
-          if (!mascotTicking) {
-            window.requestAnimationFrame(function() {
-              var scrollY = window.pageYOffset || document.documentElement.scrollTop;
-              var offset = Math.sin(scrollY / 180) * 6;
-              var rotate = scrollY / 12;
-              mascot.style.transform = 'translateY(' + offset + 'px) rotate(' + rotate + 'deg)';
-              mascotTicking = false;
-            });
-            mascotTicking = true;
-          }
-        });
       }
     })();
   </script>
