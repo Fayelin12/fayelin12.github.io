@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /**
  * Reset some basic elements
  */
@@ -646,11 +647,11 @@ table td {
   color: #099;
 }
 
-/* =====================================================
+/* <span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span>===
    Theme: Modern Minimalist Blog
    Palette: Emerald Green
    Mobile First
-   ===================================================== */
+   <span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span>=== */
 /* ---------- CSS Variables ---------- */
 :root {
   --color-primary: #028760;
@@ -695,6 +696,7 @@ table td {
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -704,6 +706,7 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 a {
@@ -856,9 +859,11 @@ img {
 .page-content {
   position: relative;
   z-index: 1;
+  width: 100%;
   max-width: var(--content-max-width);
   margin: 0 auto;
   padding: 1rem var(--page-padding) 0.5rem !important;
+  overflow-x: hidden;
 }
 
 /* ---------- Hero Section ---------- */
@@ -912,6 +917,8 @@ img {
   gap: 0;
   margin: 0.75rem 0;
   position: relative;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 /* Gradient fade on right edge (hints more content) */
@@ -1037,6 +1044,7 @@ img {
   gap: 0.75rem;
   margin-top: 0.75rem;
   align-items: start;
+  min-width: 0;
 }
 
 .post-grid.is-single {
@@ -1051,6 +1059,7 @@ img {
   transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
   will-change: transform, box-shadow;
   overflow: hidden;
+  min-width: 0;
 }
 
 .post-card:hover {
@@ -1104,7 +1113,7 @@ img {
 .post-card-divider {
   border: none;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(2, 135, 96, 0.15) 20%, rgba(2, 135, 96, 0.15) 80%, transparent);
+  background: linear-gradient(90deg, rgba(2, 135, 96, 0.2), transparent 90%);
   margin: 0 0 0.5rem;
 }
 
@@ -1198,7 +1207,7 @@ img {
 }
 
 .post-card--featured .post-card-divider {
-  margin-bottom: 0.625rem;
+  margin-bottom: 1rem;
 }
 
 .post-card--featured .post-card-excerpt {
@@ -1207,12 +1216,17 @@ img {
 }
 
 .post-card--featured .post-card-meta {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.625rem;
 }
 
 .post-card--featured .tag-pill {
   font-size: 0.625rem;
   padding: 0.125rem 0.375rem;
+}
+
+/* Grid 内的卡片由 grid-gap 控制间距，取消 featured 的 margin-bottom 避免叠罗汉 */
+.post-grid .post-card--featured {
+  margin-bottom: 0;
 }
 
 .post-card-footer {
@@ -1503,11 +1517,13 @@ img {
   border-bottom-color: var(--color-primary);
 }
 
-.post-content mark {
+.post-content mark,
+.post-content .post-highlight {
   background: linear-gradient(180deg, rgba(2, 135, 96, 0.15) 0%, rgba(2, 135, 96, 0.1) 100%);
   color: var(--color-text);
   padding: 0.125em 0.25em;
   border-radius: 2px;
+  font-style: normal;
 }
 
 /* ---------- Reading Progress Bar ---------- */
@@ -1648,9 +1664,9 @@ img {
   transform: translateX(-3px);
 }
 
-/* =====================================================
+/* <span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span>===
    Responsive: Tablet (>= 768px)
-   ===================================================== */
+   <span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span>=== */
 @media (min-width: 768px) {
   :root {
     --page-padding: 2rem;
@@ -1722,10 +1738,10 @@ img {
   }
   .post-card-meta {
     gap: 0.5rem 0.75rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.625rem;
   }
   .post-card-divider {
-    margin: 0 0 0.75rem;
+    margin: 0 0 1rem;
   }
   .post-date {
     font-size: 0.8125rem;
@@ -1765,14 +1781,14 @@ img {
     margin-bottom: 0.75rem;
   }
   .post-card--featured .post-card-divider {
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
   }
   .post-card--featured .post-card-excerpt {
     font-size: 0.9375rem;
     -webkit-line-clamp: 4;
   }
   .post-card--featured .post-card-meta {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.625rem;
   }
   .post-card--featured .tag-pill {
     font-size: 0.75rem;
@@ -1824,9 +1840,9 @@ img {
     max-width: 340px;
   }
 }
-/* =====================================================
+/* <span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span>===
    Responsive: Desktop (>= 1024px)
-   ===================================================== */
+   <span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span>=== */
 @media (min-width: 1024px) {
   :root {
     --page-padding: 2.5rem;
@@ -1941,6 +1957,7 @@ img {
 /* ---------- Stats Section ---------- */
 .stats-section {
   margin-top: 1rem;
+  max-width: 100%;
 }
 
 .stats-card {
@@ -1954,6 +1971,7 @@ img {
   gap: 0.5rem 0.75rem;
   align-items: center;
   transition: transform var(--transition-base), box-shadow var(--transition-base);
+  min-width: 0;
 }
 
 .stats-card:hover {
