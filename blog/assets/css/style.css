@@ -483,15 +483,10 @@ img {
 }
 
 /* ---------- Post Columns & Cards ---------- */
-/* ---------- Post Columns & Cards ---------- */
-/* Mobile: column-fill defaults to auto — natural fill without balancing.
-   column-fill: balance causes the browser to factor margin-bottom into
-   column height calculations, which on narrow mobile columns can push
-   the right column's first card down and create phantom spacing at its top.
-   Desktop uses explicit column-fill: balance (wider columns = safer). */
 .post-grid {
   column-count: 2;
   column-gap: 0.75rem;
+  column-fill: balance;
   margin-top: 0.75rem;
 }
 
@@ -1225,7 +1220,6 @@ img {
     column-gap: 1.5rem;
     column-fill: balance;
     margin-top: 1.5rem;
-    gap: normal;
   }
   .post-grid .post-card {
     break-inside: avoid;
