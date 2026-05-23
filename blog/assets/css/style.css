@@ -728,12 +728,10 @@ img {
 .bg-shape {
   position: fixed;
   border-radius: 50%;
-  filter: blur(40px);
   opacity: 0.35;
   pointer-events: none;
   z-index: 0;
-  will-change: transform;
-  /* Animation disabled by default — enabled below only on capable devices */
+  /* Mobile: no blur, no will-change — zero GPU overhead */
 }
 
 .bg-shape-1 {
@@ -741,9 +739,11 @@ img {
   height: 50vw;
   max-width: 500px;
   max-height: 500px;
-  background: radial-gradient(circle, var(--color-primary-light) 0%, transparent 70%);
+  background: var(--color-primary-light);
   top: -10%;
   right: -15%;
+  /* Mobile fallback: low-opacity solid color, no blur */
+  opacity: 0.08;
 }
 
 .bg-shape-2 {
@@ -751,11 +751,29 @@ img {
   height: 40vw;
   max-width: 400px;
   max-height: 400px;
-  background: radial-gradient(circle, var(--color-accent-light) 0%, transparent 70%);
+  background: var(--color-accent-light);
   bottom: 5%;
   left: -10%;
+  /* Mobile fallback: low-opacity solid color, no blur */
+  opacity: 0.08;
 }
 
+/* Desktop+: upgrade to blur + gradient + will-change */
+@media (min-width: 768px) {
+  .bg-shape {
+    filter: blur(40px);
+    will-change: transform;
+    opacity: 0.35;
+  }
+  .bg-shape-1 {
+    background: radial-gradient(circle, var(--color-primary-light) 0%, transparent 70%);
+    opacity: 0.35;
+  }
+  .bg-shape-2 {
+    background: radial-gradient(circle, var(--color-accent-light) 0%, transparent 70%);
+    opacity: 0.35;
+  }
+}
 /* Only animate on tablet+ AND only when user hasn't opted for reduced motion */
 @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
   .bg-shape-1 {
@@ -808,12 +826,17 @@ img {
   opacity: 0;
   transform: translateY(28px);
   transition: opacity 0.55s var(--transition-base), transform 0.55s var(--transition-base);
+  /* No will-change here — added via JS only during transition to avoid persistent compositing layers */
+}
+
+.reveal.is-transitioning {
   will-change: opacity, transform;
 }
 
 .revealed {
   opacity: 1;
   transform: translateY(0);
+  will-change: auto;
 }
 
 /* ---------- Footer ---------- */
@@ -872,16 +895,25 @@ img {
   margin: 0 auto;
   padding: 1rem var(--page-padding) 0.5rem !important;
   overflow-x: hidden;
-  transform: translateZ(0);
 }
 
+@media (min-width: 768px) {
+  .page-content {
+    transform: translateZ(0);
+  }
+}
 /* ---------- Hero Section ---------- */
 .hero {
   padding: 1rem 0 0.5rem;
   text-align: center;
-  animation: fadeInUp 0.7s ease-out both;
+  /* No animation on mobile — deferred to desktop to reduce first-paint cost */
 }
 
+@media (min-width: 768px) {
+  .hero {
+    animation: fadeInUp 0.7s ease-out both;
+  }
+}
 .hero-illustration {
   display: block;
   max-width: 160px;
@@ -1069,18 +1101,22 @@ img {
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border-light);
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
   overflow: hidden;
   min-width: 0;
   margin: 0;
+  /* No transition on mobile — transform/box-shadow only useful on hover (desktop) */
 }
 
-.post-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-  border-color: rgba(2, 135, 96, 0.15);
+@media (min-width: 768px) {
+  .post-card {
+    transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+  }
+  .post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: rgba(2, 135, 96, 0.15);
+  }
 }
-
 .post-card:active {
   transform: translateY(-1px) scale(0.995);
 }
@@ -1547,12 +1583,15 @@ img {
 
 .reading-progress-bar {
   height: 100%;
-  width: 0%;
+  width: 100%;
   background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
   box-shadow: 0 0 8px rgba(2, 135, 96, 0.35);
-  transition: width 0.15s linear, opacity 0.3s ease;
+  transition: opacity 0.3s ease;
   opacity: 0;
   border-radius: 0 2px 2px 0;
+  transform-origin: left center;
+  transform: scaleX(0);
+  will-change: transform;
 }
 
 /* ---------- Post Footer ---------- */
@@ -1772,11 +1811,6 @@ img {
   }
   .read-more {
     font-size: 0.875rem;
-  }
-  .post-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-xl);
-    will-change: transform;
   }
   .post-card--featured {
     margin-bottom: 1rem;

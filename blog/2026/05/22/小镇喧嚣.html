@@ -125,8 +125,9 @@
       var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       if (docHeight <= 0) return;
-      var progress = (scrollTop / docHeight) * 100;
-      progressBar.style.width = progress + '%';
+      var progress = scrollTop / docHeight;
+      // Use scaleX instead of width — avoids layout recalculation, only triggers composite
+      progressBar.style.transform = 'scaleX(' + progress + ')';
       progressBar.style.opacity = scrollTop > 10 ? '1' : '0';
     }
 
@@ -203,11 +204,13 @@
   <script>
     (function() {
       // IntersectionObserver for scroll reveal animations
-      const reveals = document.querySelectorAll('.reveal');
+      var reveals = document.querySelectorAll('.reveal');
       if (reveals.length > 0 && 'IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(function(entries) {
+        var observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
             if (entry.isIntersecting) {
+              // Temporarily add will-change during transition for GPU acceleration
+              entry.target.classList.add('is-transitioning');
               entry.target.classList.add('revealed');
               observer.unobserve(entry.target);
             }
@@ -217,6 +220,13 @@
           rootMargin: '0px 0px -40px 0px'
         });
         reveals.forEach(function(el) { observer.observe(el); });
+
+        // Remove will-change after transition ends to free GPU layers
+        reveals.forEach(function(el) {
+          el.addEventListener('transitionend', function() {
+            el.classList.remove('is-transitioning');
+          }, { once: true });
+        });
       } else if (reveals.length > 0) {
         reveals.forEach(function(el) { el.classList.add('revealed'); });
       }
