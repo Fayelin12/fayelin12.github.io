@@ -2,18 +2,30 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>答案之书 | 《原则》</title>
-  <meta property="og:title" content="答案之书 | 《原则》" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://fayelin12.github.io/blog/2026/05/22/%E5%8E%9F%E5%88%99.html" />
-  <meta property="og:image" content="https://fayelin12.github.io/blog/assets/images/og-image.png" />
-  <meta property="og:site_name" content="我的博客" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:title" content="答案之书 | 《原则》" />
-  <meta property="twitter:image" content="https://fayelin12.github.io/blog/assets/images/og-image.png" /><meta name="description" content="《原则》全书包含21条高原则、139条中原则和365条分原则，汇编后接近500条，可以成为一本答案之书，也就是放诸四海皆准的普适的感性定律。" />
-  <meta property="og:description" content="《原则》全书包含21条高原则、139条中原则和365条分原则，汇编后接近500条，可以成为一本答案之书，也就是放诸四海皆准的普适的感性定律。" />
-  <meta property="twitter:description" content="《原则》全书包含21条高原则、139条中原则和365条分原则，汇编后接近500条，可以成为一本答案之书，也就是放诸四海皆准的普适的感性定律。" />
-  <link rel="canonical" href="https://fayelin12.github.io/blog/2026/05/22/%E5%8E%9F%E5%88%99.html" /><link type="application/atom+xml" rel="alternate" href="https://fayelin12.github.io/blog/feed.xml" title="我的博客" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- Begin Jekyll SEO tag v2.9.0 -->
+<title>答案之书 《原则》 | 我的博客</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="答案之书 《原则》" />
+<meta name="author" content="南飞" />
+<meta property="og:locale" content="zh_CN" />
+<meta name="description" content="《原则》全书包含21条高原则、139条中原则和365条分原则，汇编后接近500条，可以成为一本答案之书，也就是放诸四海皆准的普适的感性定律。" />
+<meta name="twitter:description" property="og:description" content="《原则》全书包含21条高原则、139条中原则和365条分原则，汇编后接近500条，可以成为一本答案之书，也就是放诸四海皆准的普适的感性定律。" />
+<link rel="canonical" href="https://fayelin12.github.io/blog/2026/05/22/%E5%8E%9F%E5%88%99.html" />
+<meta property="og:url" content="https://fayelin12.github.io/blog/2026/05/22/%E5%8E%9F%E5%88%99.html" />
+<meta property="og:site_name" content="我的博客" />
+<meta property="og:image" content="https://fayelin12.github.io/blog/assets/images/og-image.webp" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-05-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2026-05-22T00:00:00+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://fayelin12.github.io/blog/assets/images/og-image.webp" />
+<meta name="twitter:title" content="答案之书 《原则》" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"南飞"},"dateModified":"2026-05-22T00:00:00+00:00","datePublished":"2026-05-22T00:00:00+00:00","description":"《原则》全书包含21条高原则、139条中原则和365条分原则，汇编后接近500条，可以成为一本答案之书，也就是放诸四海皆准的普适的感性定律。","headline":"答案之书 《原则》","image":"https://fayelin12.github.io/blog/assets/images/og-image.webp","mainEntityOfPage":{"@type":"WebPage","@id":"https://fayelin12.github.io/blog/2026/05/22/%E5%8E%9F%E5%88%99.html"},"url":"https://fayelin12.github.io/blog/2026/05/22/%E5%8E%9F%E5%88%99.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link type="application/atom+xml" rel="alternate" href="https://fayelin12.github.io/blog/feed.xml" title="我的博客" />
   <link rel="stylesheet" href="/blog/assets/css/style.css">
 </head>
 <body>
@@ -341,52 +353,57 @@
 
   <script>
     (function() {
-      // IntersectionObserver for scroll reveal animations
       var reveals = document.querySelectorAll('.reveal');
-      if (reveals.length > 0 && 'IntersectionObserver' in window) {
-        // Check if animations are effectively disabled
-        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reveals.length === 0) return;
 
-        var observer = new IntersectionObserver(function(entries) {
-          entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-              // Support staggered reveal via data-reveal-delay attribute
-              var delay = parseInt(entry.target.getAttribute('data-reveal-delay'), 10) || 0;
-              var delayMs = delay * 80; // 80ms stagger per step
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reducedMotion) return;
 
-              if (delayMs > 0) {
-                setTimeout(function() {
-                  entry.target.classList.add('is-transitioning');
-                  entry.target.classList.add('revealed');
-                }, delayMs);
-              } else {
-                entry.target.classList.add('is-transitioning');
-                entry.target.classList.add('revealed');
-              }
-              observer.unobserve(entry.target);
+      var isMobile = window.matchMedia('(max-width: 767px)').matches;
 
-              // If reduced motion is active, skip will-change cleanup wait
-              if (reducedMotion) {
-                entry.target.classList.remove('is-transitioning');
-              }
-            }
-          });
-        }, {
-          threshold: 0.08,
-          rootMargin: '0px 0px -40px 0px'
-        });
-        reveals.forEach(function(el) { observer.observe(el); });
-
-        // Remove will-change after transition ends to free GPU layers
-        if (!reducedMotion) {
-          reveals.forEach(function(el) {
-            el.addEventListener('transitionend', function() {
-              el.classList.remove('is-transitioning');
-            }, { once: true });
-          });
-        }
-      } else if (reveals.length > 0) {
+      // Desktop-only: bail out early if IntersectionObserver is unsupported
+      if (!isMobile && !('IntersectionObserver' in window)) {
         reveals.forEach(function(el) { el.classList.add('revealed'); });
+        return;
+      }
+
+      var threshold = isMobile ? 0.05 : 0.08;
+      var rootMargin = isMobile ? '0px 0px -20px 0px' : '0px 0px -40px 0px';
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (!entry.isIntersecting) return;
+
+          if (isMobile) {
+            // Mobile: subtle fade-in after paint (content already visible)
+            entry.target.classList.add('is-fading-in');
+          } else {
+            // Desktop: slide-up reveal with optional stagger
+            var delay = parseInt(entry.target.getAttribute('data-reveal-delay'), 10) || 0;
+            var delayMs = delay * 80;
+            var reveal = function() {
+              entry.target.classList.add('is-transitioning');
+              entry.target.classList.add('revealed');
+            };
+            if (delayMs > 0) {
+              setTimeout(reveal, delayMs);
+            } else {
+              reveal();
+            }
+          }
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: threshold, rootMargin: rootMargin });
+
+      reveals.forEach(function(el) { observer.observe(el); });
+
+      // Desktop: clean up will-change GPU layer after transition ends
+      if (!isMobile) {
+        reveals.forEach(function(el) {
+          el.addEventListener('transitionend', function() {
+            el.classList.remove('is-transitioning');
+          }, { once: true });
+        });
       }
     })();
   </script>
