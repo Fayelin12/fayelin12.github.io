@@ -487,14 +487,14 @@ img {
    Cards must have break-inside: avoid and margin-bottom for column-gap spacing. */
 .post-grid {
   column-count: 2;
-  column-gap: 0.75rem;
+  column-gap: 1.5rem;
   column-fill: balance;
-  margin-top: 0.75rem;
+  margin-top: 1.5rem;
 }
 
 .post-grid .post-card {
   break-inside: avoid;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .post-grid.is-single {
@@ -1209,7 +1209,7 @@ img {
   }
   .post-grid.is-single {
     column-count: 1;
-    margin-top: 0; /* no extra gap in single-column (filtering) mode */
+    margin-top: 1.5rem; /* unified spacing: same as multi-column */
   }
   .post-card {
     margin-bottom: 0;
@@ -1246,7 +1246,7 @@ img {
   }
   .post-card--featured,
   .post-grid.is-single .post-card {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
   }
   .post-card--featured .post-card-link,
   .post-grid.is-single .post-card .post-card-link {
