@@ -8,7 +8,6 @@
   <meta property="og:url" content="https://fayelin12.github.io/blog/2026/05/22/21%E4%B8%96%E7%BA%AA%E7%9A%84%E5%AE%9A%E4%BD%8D.html" />
   <meta property="og:image" content="https://fayelin12.github.io/blog/assets/images/og-image.png" />
   <meta property="og:site_name" content="我的博客" />
-  <meta property="og:locale" content="zh_CN" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:title" content="用品类思考，用品牌表达 | 《21世纪的定位》" />
   <meta property="twitter:image" content="https://fayelin12.github.io/blog/assets/images/og-image.png" /><meta name="description" content="这周在读《21世纪的定位》。相比1981年出版、风靡全球的《定位》，这本书显得颇为低调——2019年问世，彼时“定位之父”艾·里斯已95岁高龄，他与女儿劳拉·里斯以及张云（现任里斯战略定位咨询全球CEO）合著，算是老爷子的封笔之作。" />
@@ -90,7 +89,6 @@
   </footer>
 </article>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
   (function() {
     var progressBar = document.getElementById('reading-progress');
@@ -118,30 +116,47 @@
     updateProgress();
   })();
 
-  // WeChat share QR code (desktop only)
+  // WeChat share QR code (desktop only) — qrcodejs loaded on demand
   (function() {
     var btn = document.getElementById('wechat-share-btn');
     var qrContainer = document.getElementById('share-qrcode');
     if (!btn || !qrContainer) return;
 
     var qrGenerated = false;
+    var qrScriptLoaded = false;
+
+    function generateQR() {
+      if (qrGenerated) return;
+      if (typeof QRCode === 'undefined') return;
+      var url = window.location.href.split('?')[0];
+      new QRCode(qrContainer, {
+        text: url,
+        width: 180,
+        height: 180,
+        colorDark: '#1e293b',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+      qrGenerated = true;
+    }
+
     btn.addEventListener('click', function() {
       var isOpen = qrContainer.classList.contains('is-open');
       if (isOpen) {
         qrContainer.classList.remove('is-open');
         btn.classList.remove('is-active');
       } else {
-        if (!qrGenerated && typeof QRCode !== 'undefined') {
-          var url = window.location.href.split('?')[0];
-          new QRCode(qrContainer, {
-            text: url,
-            width: 180,
-            height: 180,
-            colorDark: '#1e293b',
-            colorLight: '#ffffff',
-            correctLevel: QRCode.CorrectLevel.M
-          });
-          qrGenerated = true;
+        if (!qrScriptLoaded) {
+          // Lazy-load qrcodejs only when user first clicks the share button
+          var s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js';
+          s.integrity = 'sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU';
+          s.crossOrigin = 'anonymous';
+          s.onload = function() { generateQR(); };
+          document.head.appendChild(s);
+          qrScriptLoaded = true;
+        } else {
+          generateQR();
         }
         qrContainer.classList.add('is-open');
         btn.classList.add('is-active');

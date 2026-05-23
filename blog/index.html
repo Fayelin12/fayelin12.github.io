@@ -2,14 +2,12 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="description" content="记录技术学习、产品思考与生活随笔的独立博客。">
-  <meta property="og:description" content="记录技术学习、产品思考与生活随笔的独立博客。">
-  <!-- Begin Jekyll SEO tag v2.9.0 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><!-- Begin Jekyll SEO tag v2.9.0 -->
 <title>我的博客</title>
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="我的博客" />
 <meta name="author" content="南飞" />
-<meta property="og:locale" content="en_US" />
+<meta property="og:locale" content="zh_CN" />
 <link rel="canonical" href="https://fayelin12.github.io/blog/" />
 <meta property="og:url" content="https://fayelin12.github.io/blog/" />
 <meta property="og:site_name" content="我的博客" />
@@ -47,47 +45,25 @@
     <div class="tag-filter-inner" id="tag-filter-inner">
       <button class="tag-filter-btn is-active" data-tag="all">全部<span class="tag-count">14</span></button>
       
-      
-      
       <button class="tag-filter-btn" data-tag="AI">AI<span class="tag-count">1</span></button>
-      
-      
       
       <button class="tag-filter-btn" data-tag="互联网">互联网<span class="tag-count">4</span></button>
       
-      
-      
       <button class="tag-filter-btn" data-tag="创业">创业<span class="tag-count">1</span></button>
-      
-      
       
       <button class="tag-filter-btn" data-tag="品牌">品牌<span class="tag-count">1</span></button>
       
-      
-      
       <button class="tag-filter-btn" data-tag="基金">基金<span class="tag-count">1</span></button>
-      
-      
       
       <button class="tag-filter-btn" data-tag="增长黑客">增长黑客<span class="tag-count">1</span></button>
       
-      
-      
       <button class="tag-filter-btn" data-tag="心理学">心理学<span class="tag-count">3</span></button>
-      
-      
       
       <button class="tag-filter-btn" data-tag="投资">投资<span class="tag-count">1</span></button>
       
-      
-      
       <button class="tag-filter-btn" data-tag="支付">支付<span class="tag-count">1</span></button>
       
-      
-      
       <button class="tag-filter-btn" data-tag="硅谷">硅谷<span class="tag-count">1</span></button>
-      
-      
       
       <button class="tag-filter-btn" data-tag="社会学">社会学<span class="tag-count">5</span></button>
       
@@ -637,6 +613,8 @@
 
     // Tag filtering
     var grid = document.querySelector('.post-grid');
+    // Record original featured card BEFORE any mutations
+    var originalFeatured = document.querySelector('.post-card--featured');
 
     buttons.forEach(function(btn) {
       btn.addEventListener('click', function() {
@@ -663,15 +641,13 @@
 
         // Toggle layout mode
         if (isAll) {
-          // Restore: only original featured card keeps --featured, grid back to 2-col
+          // Restore: remove --featured from all cards first, then re-apply to original
           cards.forEach(function(card) {
             card.classList.remove('post-card--featured');
           });
-          // Re-add featured to the real first card
-          var first = document.querySelector('.post-card--featured');
-          if (!first) {
-            var c0 = document.querySelector('.post-card');
-            if (c0) c0.classList.add('post-card--featured');
+          // Re-add featured to the original first card (captured before any mutation)
+          if (originalFeatured) {
+            originalFeatured.classList.add('post-card--featured');
           }
           if (grid) grid.classList.remove('is-single');
         } else {

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /**
  * Reset some basic elements
  */
@@ -732,6 +733,7 @@ img {
   pointer-events: none;
   z-index: 0;
   will-change: transform;
+  /* Animation disabled by default — enabled below only on capable devices */
 }
 
 .bg-shape-1 {
@@ -742,7 +744,6 @@ img {
   background: radial-gradient(circle, var(--color-primary-light) 0%, transparent 70%);
   top: -10%;
   right: -15%;
-  animation: float 18s ease-in-out infinite;
 }
 
 .bg-shape-2 {
@@ -753,9 +754,17 @@ img {
   background: radial-gradient(circle, var(--color-accent-light) 0%, transparent 70%);
   bottom: 5%;
   left: -10%;
-  animation: float 22s ease-in-out infinite reverse;
 }
 
+/* Only animate on tablet+ AND only when user hasn't opted for reduced motion */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .bg-shape-1 {
+    animation: float 18s ease-in-out infinite;
+  }
+  .bg-shape-2 {
+    animation: float 22s ease-in-out infinite reverse;
+  }
+}
 /* ---------- Keyframes ---------- */
 @keyframes fadeInUp {
   from {

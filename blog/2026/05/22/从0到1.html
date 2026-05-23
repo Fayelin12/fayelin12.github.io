@@ -8,7 +8,6 @@
   <meta property="og:url" content="https://fayelin12.github.io/blog/2026/05/22/%E4%BB%8E0%E5%88%B01.html" />
   <meta property="og:image" content="https://fayelin12.github.io/blog/assets/images/og-image.png" />
   <meta property="og:site_name" content="我的博客" />
-  <meta property="og:locale" content="zh_CN" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:title" content="成为棋手，而非棋子 | 《从0到1》" />
   <meta property="twitter:image" content="https://fayelin12.github.io/blog/assets/images/og-image.png" /><meta name="description" content="最近在听一档视频播客时，看到了对袁岚峰的采访。他是一位拥有”神童”背景、在科研一线深耕后投身科普的学者，也是科普节目《科技袁人》的主讲人，算过气网红了吧。采访中他提出，在科学研究领域，很多发表成果都是外国人创造的，国人更多是在后面追赶。大概意思是，中国搞科研的，其 idea 大多是在外国人的基础上再做改进，很少从..." />
@@ -102,7 +101,6 @@
   </footer>
 </article>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
   (function() {
     var progressBar = document.getElementById('reading-progress');
@@ -130,30 +128,47 @@
     updateProgress();
   })();
 
-  // WeChat share QR code (desktop only)
+  // WeChat share QR code (desktop only) — qrcodejs loaded on demand
   (function() {
     var btn = document.getElementById('wechat-share-btn');
     var qrContainer = document.getElementById('share-qrcode');
     if (!btn || !qrContainer) return;
 
     var qrGenerated = false;
+    var qrScriptLoaded = false;
+
+    function generateQR() {
+      if (qrGenerated) return;
+      if (typeof QRCode === 'undefined') return;
+      var url = window.location.href.split('?')[0];
+      new QRCode(qrContainer, {
+        text: url,
+        width: 180,
+        height: 180,
+        colorDark: '#1e293b',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+      qrGenerated = true;
+    }
+
     btn.addEventListener('click', function() {
       var isOpen = qrContainer.classList.contains('is-open');
       if (isOpen) {
         qrContainer.classList.remove('is-open');
         btn.classList.remove('is-active');
       } else {
-        if (!qrGenerated && typeof QRCode !== 'undefined') {
-          var url = window.location.href.split('?')[0];
-          new QRCode(qrContainer, {
-            text: url,
-            width: 180,
-            height: 180,
-            colorDark: '#1e293b',
-            colorLight: '#ffffff',
-            correctLevel: QRCode.CorrectLevel.M
-          });
-          qrGenerated = true;
+        if (!qrScriptLoaded) {
+          // Lazy-load qrcodejs only when user first clicks the share button
+          var s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js';
+          s.integrity = 'sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU';
+          s.crossOrigin = 'anonymous';
+          s.onload = function() { generateQR(); };
+          document.head.appendChild(s);
+          qrScriptLoaded = true;
+        } else {
+          generateQR();
         }
         qrContainer.classList.add('is-open');
         btn.classList.add('is-active');

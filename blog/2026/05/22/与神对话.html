@@ -8,7 +8,6 @@
   <meta property="og:url" content="https://fayelin12.github.io/blog/2026/05/22/%E4%B8%8E%E7%A5%9E%E5%AF%B9%E8%AF%9D.html" />
   <meta property="og:image" content="https://fayelin12.github.io/blog/assets/images/og-image.png" />
   <meta property="og:site_name" content="我的博客" />
-  <meta property="og:locale" content="zh_CN" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:title" content="生活是体验 | 《与神对话》" />
   <meta property="twitter:image" content="https://fayelin12.github.io/blog/assets/images/og-image.png" /><meta name="description" content="尼尔・唐纳德・沃尔什是具有争议性的畅销书作家（即深度共情泛群体的口水话作家），作品被誉为“新纪元运动”的代表作（大概是因为他的叙事框架让信教者与不信教者都无法选中攻击），改变了数百万读者的世界观，但也常被传统宗教人士质疑。 沃尔什1943年生于美国密尔沃基。17岁考入威斯康星大学，但大二因厌倦教育体系而辍学，此后..." />
@@ -174,7 +173,6 @@
   </footer>
 </article>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
   (function() {
     var progressBar = document.getElementById('reading-progress');
@@ -202,30 +200,47 @@
     updateProgress();
   })();
 
-  // WeChat share QR code (desktop only)
+  // WeChat share QR code (desktop only) — qrcodejs loaded on demand
   (function() {
     var btn = document.getElementById('wechat-share-btn');
     var qrContainer = document.getElementById('share-qrcode');
     if (!btn || !qrContainer) return;
 
     var qrGenerated = false;
+    var qrScriptLoaded = false;
+
+    function generateQR() {
+      if (qrGenerated) return;
+      if (typeof QRCode === 'undefined') return;
+      var url = window.location.href.split('?')[0];
+      new QRCode(qrContainer, {
+        text: url,
+        width: 180,
+        height: 180,
+        colorDark: '#1e293b',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+      qrGenerated = true;
+    }
+
     btn.addEventListener('click', function() {
       var isOpen = qrContainer.classList.contains('is-open');
       if (isOpen) {
         qrContainer.classList.remove('is-open');
         btn.classList.remove('is-active');
       } else {
-        if (!qrGenerated && typeof QRCode !== 'undefined') {
-          var url = window.location.href.split('?')[0];
-          new QRCode(qrContainer, {
-            text: url,
-            width: 180,
-            height: 180,
-            colorDark: '#1e293b',
-            colorLight: '#ffffff',
-            correctLevel: QRCode.CorrectLevel.M
-          });
-          qrGenerated = true;
+        if (!qrScriptLoaded) {
+          // Lazy-load qrcodejs only when user first clicks the share button
+          var s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js';
+          s.integrity = 'sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU';
+          s.crossOrigin = 'anonymous';
+          s.onload = function() { generateQR(); };
+          document.head.appendChild(s);
+          qrScriptLoaded = true;
+        } else {
+          generateQR();
         }
         qrContainer.classList.add('is-open');
         btn.classList.add('is-active');

@@ -8,7 +8,6 @@
   <meta property="og:url" content="https://fayelin12.github.io/blog/2026/05/22/%E6%94%AF%E4%BB%98%E6%88%98%E4%BA%89.html" />
   <meta property="og:image" content="https://fayelin12.github.io/blog/assets/images/og-image.png" />
   <meta property="og:site_name" content="我的博客" />
-  <meta property="og:locale" content="zh_CN" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:title" content="增长黑客实战 | 《支付战争》" />
   <meta property="twitter:image" content="https://fayelin12.github.io/blog/assets/images/og-image.png" /><meta name="description" content="《支付战争》由PayPal早期营销总监埃里克·杰克逊所著，是豆瓣8分的商业经典，被《追求卓越》作者汤姆·彼得斯评价为“让人彻夜不寐”，更被誉为每一所商学院都该列入必读书目。这本书的价值在于用内部人视角还原了PayPal从康菲尼迪到上市出售的全过程。" />
@@ -104,7 +103,6 @@
   </footer>
 </article>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
   (function() {
     var progressBar = document.getElementById('reading-progress');
@@ -132,30 +130,47 @@
     updateProgress();
   })();
 
-  // WeChat share QR code (desktop only)
+  // WeChat share QR code (desktop only) — qrcodejs loaded on demand
   (function() {
     var btn = document.getElementById('wechat-share-btn');
     var qrContainer = document.getElementById('share-qrcode');
     if (!btn || !qrContainer) return;
 
     var qrGenerated = false;
+    var qrScriptLoaded = false;
+
+    function generateQR() {
+      if (qrGenerated) return;
+      if (typeof QRCode === 'undefined') return;
+      var url = window.location.href.split('?')[0];
+      new QRCode(qrContainer, {
+        text: url,
+        width: 180,
+        height: 180,
+        colorDark: '#1e293b',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+      qrGenerated = true;
+    }
+
     btn.addEventListener('click', function() {
       var isOpen = qrContainer.classList.contains('is-open');
       if (isOpen) {
         qrContainer.classList.remove('is-open');
         btn.classList.remove('is-active');
       } else {
-        if (!qrGenerated && typeof QRCode !== 'undefined') {
-          var url = window.location.href.split('?')[0];
-          new QRCode(qrContainer, {
-            text: url,
-            width: 180,
-            height: 180,
-            colorDark: '#1e293b',
-            colorLight: '#ffffff',
-            correctLevel: QRCode.CorrectLevel.M
-          });
-          qrGenerated = true;
+        if (!qrScriptLoaded) {
+          // Lazy-load qrcodejs only when user first clicks the share button
+          var s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js';
+          s.integrity = 'sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU';
+          s.crossOrigin = 'anonymous';
+          s.onload = function() { generateQR(); };
+          document.head.appendChild(s);
+          qrScriptLoaded = true;
+        } else {
+          generateQR();
         }
         qrContainer.classList.add('is-open');
         btn.classList.add('is-active');

@@ -8,7 +8,6 @@
   <meta property="og:url" content="https://fayelin12.github.io/blog/2026/05/22/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9F%E5%A4%A7%E4%B8%8D%E8%83%BD%E8%A2%AB%E8%AE%A1%E5%88%92.html" />
   <meta property="og:image" content="https://fayelin12.github.io/blog/assets/images/og-image.png" />
   <meta property="og:site_name" content="我的博客" />
-  <meta property="og:locale" content="zh_CN" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:title" content="最好的点子往往都是偶然所得 | 《为什么伟大不能被计划》" />
   <meta property="twitter:image" content="https://fayelin12.github.io/blog/assets/images/og-image.png" /><meta name="description" content="这周想找关于OpenAI的书来研究（八卦），却发现市面上不少作品都流于表面，像是公司的软文或从资本视角出发的蹭热度，缺乏深度。偶然看到这本由两位前OpenAI研究员撰写的《伟大不能被计划》，作者肯尼斯·斯坦利和乔尔·雷曼，是人工智能领域的知名科学家，曾是Uber AI实验室的创始成员，后来加入了OpenAI。" />
@@ -144,7 +143,6 @@
   </footer>
 </article>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
   (function() {
     var progressBar = document.getElementById('reading-progress');
@@ -172,30 +170,47 @@
     updateProgress();
   })();
 
-  // WeChat share QR code (desktop only)
+  // WeChat share QR code (desktop only) — qrcodejs loaded on demand
   (function() {
     var btn = document.getElementById('wechat-share-btn');
     var qrContainer = document.getElementById('share-qrcode');
     if (!btn || !qrContainer) return;
 
     var qrGenerated = false;
+    var qrScriptLoaded = false;
+
+    function generateQR() {
+      if (qrGenerated) return;
+      if (typeof QRCode === 'undefined') return;
+      var url = window.location.href.split('?')[0];
+      new QRCode(qrContainer, {
+        text: url,
+        width: 180,
+        height: 180,
+        colorDark: '#1e293b',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+      qrGenerated = true;
+    }
+
     btn.addEventListener('click', function() {
       var isOpen = qrContainer.classList.contains('is-open');
       if (isOpen) {
         qrContainer.classList.remove('is-open');
         btn.classList.remove('is-active');
       } else {
-        if (!qrGenerated && typeof QRCode !== 'undefined') {
-          var url = window.location.href.split('?')[0];
-          new QRCode(qrContainer, {
-            text: url,
-            width: 180,
-            height: 180,
-            colorDark: '#1e293b',
-            colorLight: '#ffffff',
-            correctLevel: QRCode.CorrectLevel.M
-          });
-          qrGenerated = true;
+        if (!qrScriptLoaded) {
+          // Lazy-load qrcodejs only when user first clicks the share button
+          var s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js';
+          s.integrity = 'sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU';
+          s.crossOrigin = 'anonymous';
+          s.onload = function() { generateQR(); };
+          document.head.appendChild(s);
+          qrScriptLoaded = true;
+        } else {
+          generateQR();
         }
         qrContainer.classList.add('is-open');
         btn.classList.add('is-active');
