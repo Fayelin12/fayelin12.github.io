@@ -43,7 +43,7 @@
     </div>
   </header>
 
-  <div class="post-content reveal">
+  <div class="post-content reveal" data-reveal-delay="1">
     <p>《小镇喧嚣》并非小说，但有着小说该有的戏剧张力和趣味性。它是一份严肃而生动的社会学田野调查笔记。作者吴毅教授（华中科技大学）在2003年至2004年间，隐身于华中地区一个普通乡镇（书中为学术伦理使用化名），进行了长达一年半的沉浸式观察。他没有挂任职务，只作为一个纯粹的记录者，用笔和纸捕捉下了中国基层政治在剧烈转型期最原汁原味的日常。</p>
 
 <p>本书围绕农村税费改革和土地开发背景展开，2003年的农业税改革我是有印象的，在此之前，沉重的税负让村里的年轻劳动力“落广州”、“落深圳”进城务工，当年广州也在悄然进行着土改和土开的大规模工程，房价在今天看低到离谱。所以，我记忆中生活变迁与书中的乡镇故事，其实共享着同一个宏大的时代叙事。</p>
@@ -97,7 +97,7 @@
 
   </div>
 
-  <footer class="post-footer reveal">
+  <footer class="post-footer reveal" data-reveal-delay="2">
     <div class="post-divider"></div>
 
     <div class="share-section">
@@ -120,18 +120,37 @@
     var progressBar = document.getElementById('reading-progress');
     if (!progressBar) return;
 
+    // Cache layout values to avoid forced synchronous layout on every frame
+    var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     var ticking = false;
+    var isScrolling = false;
+    var scrollEndTimer = null;
+
     function updateProgress() {
-      var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      var scrollTop = window.pageYOffset;
       if (docHeight <= 0) return;
       var progress = scrollTop / docHeight;
-      // Use scaleX instead of width — avoids layout recalculation, only triggers composite
       progressBar.style.transform = 'scaleX(' + progress + ')';
       progressBar.style.opacity = scrollTop > 10 ? '1' : '0';
     }
 
+    // Temporarily add will-change during scroll, remove after scroll ends
+    function onScrollStart() {
+      if (!isScrolling) {
+        isScrolling = true;
+        progressBar.classList.add('is-scrolling');
+      }
+      clearTimeout(scrollEndTimer);
+      scrollEndTimer = setTimeout(function() {
+        isScrolling = false;
+        progressBar.classList.remove('is-scrolling');
+      }, 150);
+    }
+
+    // passive: true — tells browser we won't call preventDefault,
+    // so it can start scroll compositing immediately without waiting for JS
     window.addEventListener('scroll', function() {
+      onScrollStart();
       if (!ticking) {
         window.requestAnimationFrame(function() {
           updateProgress();
@@ -139,7 +158,13 @@
         });
         ticking = true;
       }
-    });
+    }, { passive: true });
+
+    // Recalculate docHeight on resize (rare event, safe to recalc)
+    window.addEventListener('resize', function() {
+      docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    }, { passive: true });
+
     updateProgress();
   })();
 
@@ -148,6 +173,10 @@
     var btn = document.getElementById('wechat-share-btn');
     var qrContainer = document.getElementById('share-qrcode');
     if (!btn || !qrContainer) return;
+
+    // Skip binding on mobile — .share-section is display:none,
+    // no point setting up click handlers that can never fire
+    if (window.getComputedStyle(btn.parentElement).display === 'none') return;
 
     var qrGenerated = false;
     var qrScriptLoaded = false;
@@ -174,7 +203,6 @@
         btn.classList.remove('is-active');
       } else {
         if (!qrScriptLoaded) {
-          // Lazy-load qrcodejs only when user first clicks the share button
           var s = document.createElement('script');
           s.src = 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js';
           s.integrity = 'sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU';
@@ -206,13 +234,31 @@
       // IntersectionObserver for scroll reveal animations
       var reveals = document.querySelectorAll('.reveal');
       if (reveals.length > 0 && 'IntersectionObserver' in window) {
+        // Check if animations are effectively disabled
+        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
         var observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
             if (entry.isIntersecting) {
-              // Temporarily add will-change during transition for GPU acceleration
-              entry.target.classList.add('is-transitioning');
-              entry.target.classList.add('revealed');
+              // Support staggered reveal via data-reveal-delay attribute
+              var delay = parseInt(entry.target.getAttribute('data-reveal-delay'), 10) || 0;
+              var delayMs = delay * 80; // 80ms stagger per step
+
+              if (delayMs > 0) {
+                setTimeout(function() {
+                  entry.target.classList.add('is-transitioning');
+                  entry.target.classList.add('revealed');
+                }, delayMs);
+              } else {
+                entry.target.classList.add('is-transitioning');
+                entry.target.classList.add('revealed');
+              }
               observer.unobserve(entry.target);
+
+              // If reduced motion is active, skip will-change cleanup wait
+              if (reducedMotion) {
+                entry.target.classList.remove('is-transitioning');
+              }
             }
           });
         }, {
@@ -222,11 +268,13 @@
         reveals.forEach(function(el) { observer.observe(el); });
 
         // Remove will-change after transition ends to free GPU layers
-        reveals.forEach(function(el) {
-          el.addEventListener('transitionend', function() {
-            el.classList.remove('is-transitioning');
-          }, { once: true });
-        });
+        if (!reducedMotion) {
+          reveals.forEach(function(el) {
+            el.addEventListener('transitionend', function() {
+              el.classList.remove('is-transitioning');
+            }, { once: true });
+          });
+        }
       } else if (reveals.length > 0) {
         reveals.forEach(function(el) { el.classList.add('revealed'); });
       }

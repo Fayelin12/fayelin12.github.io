@@ -43,7 +43,7 @@
     </div>
   </header>
 
-  <div class="post-content reveal">
+  <div class="post-content reveal" data-reveal-delay="1">
     <p>尼尔・唐纳德・沃尔什是具有争议性的畅销书作家（即深度共情泛群体的口水话作家），作品被誉为“新纪元运动”的代表作（大概是因为他的叙事框架让信教者与不信教者都无法选中攻击），改变了数百万读者的世界观，但也常被传统宗教人士质疑。 沃尔什1943年生于美国密尔沃基。17岁考入威斯康星大学，但大二因厌倦教育体系而辍学，此后未获得正式大学学位。辍学后，他从事过电台导播、报社记者、主编、公关公司老板等多种职业。人生曾大起大落，经历四次婚姻失败、一场严重车祸、公司破产，甚至一度无家可归，在公园露宿。</p>
 
 <p>1992年的某个深夜，49岁的沃尔什在极度的痛苦和挫败感中，用便笺簿写下了一连串对生活、对神的愤怒质问：“到底要怎样，我的人生才能顺利？”、“为什么我不能快乐？我做了什么要承受这种持续不断的挣扎？” 据他回忆，在他写下问题后，他“听到”了一个从未听过的、来自他右方的声音。这个声音回应了他的问题，在他的脑海中涌现出答案。于是，他开始了持续的“问答”记录，这些手稿最终成为了《与神对话》第一卷。</p>
@@ -155,7 +155,7 @@
 
   </div>
 
-  <footer class="post-footer reveal">
+  <footer class="post-footer reveal" data-reveal-delay="2">
     <div class="post-divider"></div>
 
     <div class="share-section">
@@ -178,18 +178,37 @@
     var progressBar = document.getElementById('reading-progress');
     if (!progressBar) return;
 
+    // Cache layout values to avoid forced synchronous layout on every frame
+    var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     var ticking = false;
+    var isScrolling = false;
+    var scrollEndTimer = null;
+
     function updateProgress() {
-      var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      var scrollTop = window.pageYOffset;
       if (docHeight <= 0) return;
       var progress = scrollTop / docHeight;
-      // Use scaleX instead of width — avoids layout recalculation, only triggers composite
       progressBar.style.transform = 'scaleX(' + progress + ')';
       progressBar.style.opacity = scrollTop > 10 ? '1' : '0';
     }
 
+    // Temporarily add will-change during scroll, remove after scroll ends
+    function onScrollStart() {
+      if (!isScrolling) {
+        isScrolling = true;
+        progressBar.classList.add('is-scrolling');
+      }
+      clearTimeout(scrollEndTimer);
+      scrollEndTimer = setTimeout(function() {
+        isScrolling = false;
+        progressBar.classList.remove('is-scrolling');
+      }, 150);
+    }
+
+    // passive: true — tells browser we won't call preventDefault,
+    // so it can start scroll compositing immediately without waiting for JS
     window.addEventListener('scroll', function() {
+      onScrollStart();
       if (!ticking) {
         window.requestAnimationFrame(function() {
           updateProgress();
@@ -197,7 +216,13 @@
         });
         ticking = true;
       }
-    });
+    }, { passive: true });
+
+    // Recalculate docHeight on resize (rare event, safe to recalc)
+    window.addEventListener('resize', function() {
+      docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    }, { passive: true });
+
     updateProgress();
   })();
 
@@ -206,6 +231,10 @@
     var btn = document.getElementById('wechat-share-btn');
     var qrContainer = document.getElementById('share-qrcode');
     if (!btn || !qrContainer) return;
+
+    // Skip binding on mobile — .share-section is display:none,
+    // no point setting up click handlers that can never fire
+    if (window.getComputedStyle(btn.parentElement).display === 'none') return;
 
     var qrGenerated = false;
     var qrScriptLoaded = false;
@@ -232,7 +261,6 @@
         btn.classList.remove('is-active');
       } else {
         if (!qrScriptLoaded) {
-          // Lazy-load qrcodejs only when user first clicks the share button
           var s = document.createElement('script');
           s.src = 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js';
           s.integrity = 'sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU';
@@ -264,13 +292,31 @@
       // IntersectionObserver for scroll reveal animations
       var reveals = document.querySelectorAll('.reveal');
       if (reveals.length > 0 && 'IntersectionObserver' in window) {
+        // Check if animations are effectively disabled
+        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
         var observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
             if (entry.isIntersecting) {
-              // Temporarily add will-change during transition for GPU acceleration
-              entry.target.classList.add('is-transitioning');
-              entry.target.classList.add('revealed');
+              // Support staggered reveal via data-reveal-delay attribute
+              var delay = parseInt(entry.target.getAttribute('data-reveal-delay'), 10) || 0;
+              var delayMs = delay * 80; // 80ms stagger per step
+
+              if (delayMs > 0) {
+                setTimeout(function() {
+                  entry.target.classList.add('is-transitioning');
+                  entry.target.classList.add('revealed');
+                }, delayMs);
+              } else {
+                entry.target.classList.add('is-transitioning');
+                entry.target.classList.add('revealed');
+              }
               observer.unobserve(entry.target);
+
+              // If reduced motion is active, skip will-change cleanup wait
+              if (reducedMotion) {
+                entry.target.classList.remove('is-transitioning');
+              }
             }
           });
         }, {
@@ -280,11 +326,13 @@
         reveals.forEach(function(el) { observer.observe(el); });
 
         // Remove will-change after transition ends to free GPU layers
-        reveals.forEach(function(el) {
-          el.addEventListener('transitionend', function() {
-            el.classList.remove('is-transitioning');
-          }, { once: true });
-        });
+        if (!reducedMotion) {
+          reveals.forEach(function(el) {
+            el.addEventListener('transitionend', function() {
+              el.classList.remove('is-transitioning');
+            }, { once: true });
+          });
+        }
       } else if (reveals.length > 0) {
         reveals.forEach(function(el) { el.classList.add('revealed'); });
       }

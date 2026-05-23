@@ -81,13 +81,31 @@
       // IntersectionObserver for scroll reveal animations
       var reveals = document.querySelectorAll('.reveal');
       if (reveals.length > 0 && 'IntersectionObserver' in window) {
+        // Check if animations are effectively disabled
+        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
         var observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
             if (entry.isIntersecting) {
-              // Temporarily add will-change during transition for GPU acceleration
-              entry.target.classList.add('is-transitioning');
-              entry.target.classList.add('revealed');
+              // Support staggered reveal via data-reveal-delay attribute
+              var delay = parseInt(entry.target.getAttribute('data-reveal-delay'), 10) || 0;
+              var delayMs = delay * 80; // 80ms stagger per step
+
+              if (delayMs > 0) {
+                setTimeout(function() {
+                  entry.target.classList.add('is-transitioning');
+                  entry.target.classList.add('revealed');
+                }, delayMs);
+              } else {
+                entry.target.classList.add('is-transitioning');
+                entry.target.classList.add('revealed');
+              }
               observer.unobserve(entry.target);
+
+              // If reduced motion is active, skip will-change cleanup wait
+              if (reducedMotion) {
+                entry.target.classList.remove('is-transitioning');
+              }
             }
           });
         }, {
@@ -97,11 +115,13 @@
         reveals.forEach(function(el) { observer.observe(el); });
 
         // Remove will-change after transition ends to free GPU layers
-        reveals.forEach(function(el) {
-          el.addEventListener('transitionend', function() {
-            el.classList.remove('is-transitioning');
-          }, { once: true });
-        });
+        if (!reducedMotion) {
+          reveals.forEach(function(el) {
+            el.addEventListener('transitionend', function() {
+              el.classList.remove('is-transitioning');
+            }, { once: true });
+          });
+        }
       } else if (reveals.length > 0) {
         reveals.forEach(function(el) { el.classList.add('revealed'); });
       }

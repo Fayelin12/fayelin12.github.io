@@ -43,7 +43,7 @@
     </div>
   </header>
 
-  <div class="post-content reveal">
+  <div class="post-content reveal" data-reveal-delay="1">
     <p>这周想找关于OpenAI的书来研究（八卦），却发现市面上不少作品都流于表面，像是公司的软文或从资本视角出发的蹭热度，缺乏深度。偶然看到这本由两位前OpenAI研究员撰写的《伟大不能被计划》，作者肯尼斯·斯坦利和乔尔·雷曼，是人工智能领域的知名科学家，曾是Uber AI实验室的创始成员，后来加入了OpenAI。</p>
 
 <p>带着了解OpenAI幕后故事的期待，我翻开了这本书，第一遍粗读的时候大失所望，我期待看到前沿的AI研究洞见或鲜为人知的内部故事，但作者却用了大量“成功学”式的经典案例——比如马车与汽车、莱特兄弟造飞机来阐述观点。这些被无数书籍反复引用的例子，让我瞬间怀疑自己是否选错了书。</p>
@@ -125,7 +125,7 @@
 
   </div>
 
-  <footer class="post-footer reveal">
+  <footer class="post-footer reveal" data-reveal-delay="2">
     <div class="post-divider"></div>
 
     <div class="share-section">
@@ -148,18 +148,37 @@
     var progressBar = document.getElementById('reading-progress');
     if (!progressBar) return;
 
+    // Cache layout values to avoid forced synchronous layout on every frame
+    var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     var ticking = false;
+    var isScrolling = false;
+    var scrollEndTimer = null;
+
     function updateProgress() {
-      var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      var scrollTop = window.pageYOffset;
       if (docHeight <= 0) return;
       var progress = scrollTop / docHeight;
-      // Use scaleX instead of width — avoids layout recalculation, only triggers composite
       progressBar.style.transform = 'scaleX(' + progress + ')';
       progressBar.style.opacity = scrollTop > 10 ? '1' : '0';
     }
 
+    // Temporarily add will-change during scroll, remove after scroll ends
+    function onScrollStart() {
+      if (!isScrolling) {
+        isScrolling = true;
+        progressBar.classList.add('is-scrolling');
+      }
+      clearTimeout(scrollEndTimer);
+      scrollEndTimer = setTimeout(function() {
+        isScrolling = false;
+        progressBar.classList.remove('is-scrolling');
+      }, 150);
+    }
+
+    // passive: true — tells browser we won't call preventDefault,
+    // so it can start scroll compositing immediately without waiting for JS
     window.addEventListener('scroll', function() {
+      onScrollStart();
       if (!ticking) {
         window.requestAnimationFrame(function() {
           updateProgress();
@@ -167,7 +186,13 @@
         });
         ticking = true;
       }
-    });
+    }, { passive: true });
+
+    // Recalculate docHeight on resize (rare event, safe to recalc)
+    window.addEventListener('resize', function() {
+      docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    }, { passive: true });
+
     updateProgress();
   })();
 
@@ -176,6 +201,10 @@
     var btn = document.getElementById('wechat-share-btn');
     var qrContainer = document.getElementById('share-qrcode');
     if (!btn || !qrContainer) return;
+
+    // Skip binding on mobile — .share-section is display:none,
+    // no point setting up click handlers that can never fire
+    if (window.getComputedStyle(btn.parentElement).display === 'none') return;
 
     var qrGenerated = false;
     var qrScriptLoaded = false;
@@ -202,7 +231,6 @@
         btn.classList.remove('is-active');
       } else {
         if (!qrScriptLoaded) {
-          // Lazy-load qrcodejs only when user first clicks the share button
           var s = document.createElement('script');
           s.src = 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js';
           s.integrity = 'sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU';
@@ -234,13 +262,31 @@
       // IntersectionObserver for scroll reveal animations
       var reveals = document.querySelectorAll('.reveal');
       if (reveals.length > 0 && 'IntersectionObserver' in window) {
+        // Check if animations are effectively disabled
+        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
         var observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
             if (entry.isIntersecting) {
-              // Temporarily add will-change during transition for GPU acceleration
-              entry.target.classList.add('is-transitioning');
-              entry.target.classList.add('revealed');
+              // Support staggered reveal via data-reveal-delay attribute
+              var delay = parseInt(entry.target.getAttribute('data-reveal-delay'), 10) || 0;
+              var delayMs = delay * 80; // 80ms stagger per step
+
+              if (delayMs > 0) {
+                setTimeout(function() {
+                  entry.target.classList.add('is-transitioning');
+                  entry.target.classList.add('revealed');
+                }, delayMs);
+              } else {
+                entry.target.classList.add('is-transitioning');
+                entry.target.classList.add('revealed');
+              }
               observer.unobserve(entry.target);
+
+              // If reduced motion is active, skip will-change cleanup wait
+              if (reducedMotion) {
+                entry.target.classList.remove('is-transitioning');
+              }
             }
           });
         }, {
@@ -250,11 +296,13 @@
         reveals.forEach(function(el) { observer.observe(el); });
 
         // Remove will-change after transition ends to free GPU layers
-        reveals.forEach(function(el) {
-          el.addEventListener('transitionend', function() {
-            el.classList.remove('is-transitioning');
-          }, { once: true });
-        });
+        if (!reducedMotion) {
+          reveals.forEach(function(el) {
+            el.addEventListener('transitionend', function() {
+              el.classList.remove('is-transitioning');
+            }, { once: true });
+          });
+        }
       } else if (reveals.length > 0) {
         reveals.forEach(function(el) { el.classList.add('revealed'); });
       }

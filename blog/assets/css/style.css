@@ -829,14 +829,28 @@ img {
   /* No will-change here — added via JS only during transition to avoid persistent compositing layers */
 }
 
+/* Inside multi-column layout, transform changes trigger column rebalancing (layout thrashing).
+   Only use opacity fade — it doesn't affect box model so columns stay stable. */
+.post-grid .reveal {
+  transform: none;
+}
+
 .reveal.is-transitioning {
   will-change: opacity, transform;
+}
+
+.post-grid .reveal.is-transitioning {
+  will-change: opacity;
 }
 
 .revealed {
   opacity: 1;
   transform: translateY(0);
   will-change: auto;
+}
+
+.post-grid .revealed {
+  transform: none;
 }
 
 /* ---------- Footer ---------- */
@@ -1591,6 +1605,10 @@ img {
   border-radius: 0 2px 2px 0;
   transform-origin: left center;
   transform: scaleX(0);
+  /* No will-change here — added via JS only during scroll to avoid persistent compositing layer */
+}
+
+.reading-progress-bar.is-scrolling {
   will-change: transform;
 }
 

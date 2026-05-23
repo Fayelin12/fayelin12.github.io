@@ -45,7 +45,7 @@
     </div>
   </header>
 
-  <div class="post-content reveal">
+  <div class="post-content reveal" data-reveal-delay="1">
     <p>最近在听一档视频播客时，看到了对袁岚峰的采访。他是一位拥有”神童”背景、在科研一线深耕后投身科普的学者，也是科普节目《科技袁人》的主讲人，算过气网红了吧。采访中他提出，在科学研究领域，很多发表成果都是外国人创造的，国人更多是在后面追赶。大概意思是，中国搞科研的，其 idea 大多是在外国人的基础上再做改进，很少从零开始产生原创想法。</p>
 
 <p>他最著名的例子就是：美国造出原子弹后，大家就知道了”核武器是可以造出来的”，这就是最重要的信息。苏联、中国等后来者不需要从头摸索，这就是”追赶型创新”</p>
@@ -83,7 +83,7 @@
 
   </div>
 
-  <footer class="post-footer reveal">
+  <footer class="post-footer reveal" data-reveal-delay="2">
     <div class="post-divider"></div>
 
     <div class="share-section">
@@ -106,18 +106,37 @@
     var progressBar = document.getElementById('reading-progress');
     if (!progressBar) return;
 
+    // Cache layout values to avoid forced synchronous layout on every frame
+    var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     var ticking = false;
+    var isScrolling = false;
+    var scrollEndTimer = null;
+
     function updateProgress() {
-      var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      var scrollTop = window.pageYOffset;
       if (docHeight <= 0) return;
       var progress = scrollTop / docHeight;
-      // Use scaleX instead of width — avoids layout recalculation, only triggers composite
       progressBar.style.transform = 'scaleX(' + progress + ')';
       progressBar.style.opacity = scrollTop > 10 ? '1' : '0';
     }
 
+    // Temporarily add will-change during scroll, remove after scroll ends
+    function onScrollStart() {
+      if (!isScrolling) {
+        isScrolling = true;
+        progressBar.classList.add('is-scrolling');
+      }
+      clearTimeout(scrollEndTimer);
+      scrollEndTimer = setTimeout(function() {
+        isScrolling = false;
+        progressBar.classList.remove('is-scrolling');
+      }, 150);
+    }
+
+    // passive: true — tells browser we won't call preventDefault,
+    // so it can start scroll compositing immediately without waiting for JS
     window.addEventListener('scroll', function() {
+      onScrollStart();
       if (!ticking) {
         window.requestAnimationFrame(function() {
           updateProgress();
@@ -125,7 +144,13 @@
         });
         ticking = true;
       }
-    });
+    }, { passive: true });
+
+    // Recalculate docHeight on resize (rare event, safe to recalc)
+    window.addEventListener('resize', function() {
+      docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    }, { passive: true });
+
     updateProgress();
   })();
 
@@ -134,6 +159,10 @@
     var btn = document.getElementById('wechat-share-btn');
     var qrContainer = document.getElementById('share-qrcode');
     if (!btn || !qrContainer) return;
+
+    // Skip binding on mobile — .share-section is display:none,
+    // no point setting up click handlers that can never fire
+    if (window.getComputedStyle(btn.parentElement).display === 'none') return;
 
     var qrGenerated = false;
     var qrScriptLoaded = false;
@@ -160,7 +189,6 @@
         btn.classList.remove('is-active');
       } else {
         if (!qrScriptLoaded) {
-          // Lazy-load qrcodejs only when user first clicks the share button
           var s = document.createElement('script');
           s.src = 'https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js';
           s.integrity = 'sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU';
@@ -192,13 +220,31 @@
       // IntersectionObserver for scroll reveal animations
       var reveals = document.querySelectorAll('.reveal');
       if (reveals.length > 0 && 'IntersectionObserver' in window) {
+        // Check if animations are effectively disabled
+        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
         var observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
             if (entry.isIntersecting) {
-              // Temporarily add will-change during transition for GPU acceleration
-              entry.target.classList.add('is-transitioning');
-              entry.target.classList.add('revealed');
+              // Support staggered reveal via data-reveal-delay attribute
+              var delay = parseInt(entry.target.getAttribute('data-reveal-delay'), 10) || 0;
+              var delayMs = delay * 80; // 80ms stagger per step
+
+              if (delayMs > 0) {
+                setTimeout(function() {
+                  entry.target.classList.add('is-transitioning');
+                  entry.target.classList.add('revealed');
+                }, delayMs);
+              } else {
+                entry.target.classList.add('is-transitioning');
+                entry.target.classList.add('revealed');
+              }
               observer.unobserve(entry.target);
+
+              // If reduced motion is active, skip will-change cleanup wait
+              if (reducedMotion) {
+                entry.target.classList.remove('is-transitioning');
+              }
             }
           });
         }, {
@@ -208,11 +254,13 @@
         reveals.forEach(function(el) { observer.observe(el); });
 
         // Remove will-change after transition ends to free GPU layers
-        reveals.forEach(function(el) {
-          el.addEventListener('transitionend', function() {
-            el.classList.remove('is-transitioning');
-          }, { once: true });
-        });
+        if (!reducedMotion) {
+          reveals.forEach(function(el) {
+            el.addEventListener('transitionend', function() {
+              el.classList.remove('is-transitioning');
+            }, { once: true });
+          });
+        }
       } else if (reveals.length > 0) {
         reveals.forEach(function(el) { el.classList.add('revealed'); });
       }
