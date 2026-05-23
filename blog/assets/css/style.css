@@ -496,15 +496,10 @@ img {
 }
 
 .post-grid .post-card {
-  display: inline-block; /* atomic block: prevents column splitting in all browsers (incl. WeChat X5) */
-  width: 100%;
+  -webkit-column-break-inside: avoid;
+  break-inside: avoid;
+  page-break-inside: avoid;
   margin-bottom: 1.5rem;
-}
-
-/* Prevent single orphan card from spanning full width */
-.post-grid .post-card:only-child {
-  -webkit-column-span: none;
-  column-span: none;
 }
 
 .post-grid.is-single {
@@ -1238,8 +1233,9 @@ img {
     margin-top: 1.5rem;
   }
   .post-grid .post-card {
-    display: inline-block;
-    width: 100%;
+    -webkit-column-break-inside: avoid;
+    break-inside: avoid;
+    page-break-inside: avoid;
     margin-bottom: 1.5rem;
   }
   .post-grid.is-single {
