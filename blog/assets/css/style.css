@@ -483,19 +483,33 @@ img {
 }
 
 /* ---------- Post Columns & Cards ---------- */
+/* Multi-column waterfall layout.  -webkit- prefixed props for WeChat /
+   older WebKit browsers (iOS WKWebView, Android X5). */
 .post-grid {
+  -webkit-column-count: 2;
   column-count: 2;
+  -webkit-column-gap: 0.75rem;
   column-gap: 0.75rem;
+  -webkit-column-fill: balance;
   column-fill: balance;
   margin-top: 0.75rem;
 }
 
 .post-grid .post-card {
+  -webkit-column-break-inside: avoid;
   break-inside: avoid;
+  page-break-inside: avoid; /* older WebKit fallback */
   margin-bottom: 1.5rem;
 }
 
+/* Prevent single orphan card from spanning full width */
+.post-grid .post-card:only-child {
+  -webkit-column-span: none;
+  column-span: none;
+}
+
 .post-grid.is-single {
+  -webkit-column-count: 1;
   column-count: 1;
 }
 
@@ -1216,16 +1230,22 @@ img {
      mean smaller height variance between cards. */
   .post-grid {
     display: block;
+    -webkit-column-count: 2;
     column-count: 2;
+    -webkit-column-gap: 1.5rem;
     column-gap: 1.5rem;
+    -webkit-column-fill: balance;
     column-fill: balance;
     margin-top: 1.5rem;
   }
   .post-grid .post-card {
+    -webkit-column-break-inside: avoid;
     break-inside: avoid;
+    page-break-inside: avoid;
     margin-bottom: 1.5rem;
   }
   .post-grid.is-single {
+    -webkit-column-count: 1;
     column-count: 1;
     margin-top: 1.5rem; /* unified spacing: same as multi-column */
   }
@@ -1360,6 +1380,7 @@ img {
     font-size: 1.25rem;
   }
   .post-grid {
+    -webkit-column-gap: 2rem;
     column-gap: 2rem;
     margin-top: 2rem;
   }
