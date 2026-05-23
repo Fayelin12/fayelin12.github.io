@@ -534,6 +534,7 @@
       <div class="stats-header">
         <div class="stats-total">
           <span class="stats-number">14</span>
+          <span class="stats-label">篇</span>
         </div>
       </div>
       <div class="heatmap-wrapper">
@@ -690,6 +691,7 @@
 
     // Tag filtering
     var grid = document.querySelector('.post-grid');
+    var stats = document.querySelector('.stats-section');
 
     buttons.forEach(function(btn) {
       btn.addEventListener('click', function() {
@@ -717,6 +719,11 @@
         // Toggle grid layout: single column when filtering, default otherwise.
         if (grid) {
           grid.classList.toggle('is-single', !isAll);
+        }
+
+        // Show stats section only for "all" tag
+        if (stats) {
+          stats.style.display = isAll ? '' : 'none';
         }
 
         // Collapse after selecting
