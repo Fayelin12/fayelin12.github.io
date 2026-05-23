@@ -4,24 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <!-- Begin Jekyll SEO tag v2.9.0 -->
-<title>我的博客</title>
+<title>南飞 | 记录思考，分享生活，探索技术的无限可能</title>
 <meta name="generator" content="Jekyll v4.4.1" />
-<meta property="og:title" content="我的博客" />
+<meta property="og:title" content="南飞" />
 <meta name="author" content="南飞" />
 <meta property="og:locale" content="zh_CN" />
+<meta name="description" content="记录思考，分享生活，探索技术的无限可能" />
+<meta name="twitter:description" property="og:description" content="记录思考，分享生活，探索技术的无限可能" />
 <link rel="canonical" href="https://fayelin12.github.io/blog/" />
 <meta property="og:url" content="https://fayelin12.github.io/blog/" />
-<meta property="og:site_name" content="我的博客" />
+<meta property="og:site_name" content="南飞" />
 <meta property="og:image" content="https://fayelin12.github.io/blog/assets/images/og-image.webp" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://fayelin12.github.io/blog/assets/images/og-image.webp" />
-<meta name="twitter:title" content="我的博客" />
+<meta name="twitter:title" content="南飞" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","author":{"@type":"Person","name":"南飞"},"headline":"我的博客","image":"https://fayelin12.github.io/blog/assets/images/og-image.webp","name":"我的博客","url":"https://fayelin12.github.io/blog/"}</script>
+{"@context":"https://schema.org","@type":"WebSite","author":{"@type":"Person","name":"南飞"},"description":"记录思考，分享生活，探索技术的无限可能","headline":"南飞","image":"https://fayelin12.github.io/blog/assets/images/og-image.webp","name":"南飞","url":"https://fayelin12.github.io/blog/"}</script>
 <!-- End Jekyll SEO tag -->
 
-  <link type="application/atom+xml" rel="alternate" href="https://fayelin12.github.io/blog/feed.xml" title="我的博客" />
+  <link type="application/atom+xml" rel="alternate" href="https://fayelin12.github.io/blog/feed.xml" title="南飞" />
   <link rel="stylesheet" href="/blog/assets/css/style.css">
 </head>
 <body>
@@ -694,13 +696,6 @@
         var tag = this.getAttribute('data-tag');
         var isAll = (tag === 'all');
 
-        // Snapshot the grid's viewport position BEFORE any DOM mutation.
-        // When cards are hidden/shown, page height changes and the browser
-        // auto-adjusts scroll.  By recording the grid offset here and
-        // compensating with a single instant scrollBy after, we eliminate
-        // the conflict that causes jitter.  No RAFs, no timing hacks.
-        var gridRectBefore = grid ? grid.getBoundingClientRect() : null;
-
         // Update active state
         buttons.forEach(function(b) { b.classList.remove('is-active'); });
         this.classList.add('is-active');
@@ -720,7 +715,6 @@
         });
 
         // Toggle grid layout: single column when filtering, default otherwise.
-        // CSS handles the visual styling via .post-grid.is-single .post-card.
         if (grid) {
           grid.classList.toggle('is-single', !isAll);
         }
@@ -728,17 +722,6 @@
         // Collapse after selecting
         if (bar.classList.contains('is-expanded')) {
           bar.classList.remove('is-expanded');
-        }
-
-        // Compensate viewport shift caused by browser auto-scroll
-        // when page height SHRINKS (filtering).  Skip compensation for
-        // "all": the featured card (outside .post-grid) reappears and
-        // pushes the grid down — compensating that shift scrolls the
-        // user past the featured card, on both mobile and desktop.
-        if (grid && gridRectBefore && !isAll) {
-          var gridRectAfter = grid.getBoundingClientRect();
-          var delta = gridRectAfter.top - gridRectBefore.top;
-          window.scrollBy(0, delta);
         }
       });
     });
@@ -756,7 +739,7 @@
         <a href="/blog/about/">关于</a>
       </div>
       
-      <p class="footer-copy">&copy; 2026 我的博客. All rights reserved.</p>
+      <p class="footer-copy">&copy; 2026 南飞. All rights reserved.</p>
     </div>
   </footer>
 

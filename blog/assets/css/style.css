@@ -1224,7 +1224,7 @@ img {
     column-count: 2;
     column-gap: 1.5rem;
     column-fill: balance;
-    margin-top: 1.5rem;
+    margin-top: 0.75rem;
     gap: normal;
   }
   .post-grid .post-card {
@@ -1233,7 +1233,7 @@ img {
   }
   .post-grid.is-single {
     column-count: 1;
-    margin-top: 1.5rem; /* unified spacing: same as multi-column */
+    margin-top: 0.75rem; /* unified spacing: same as multi-column */
   }
   .post-card {
     margin-bottom: 0;
@@ -1269,8 +1269,8 @@ img {
     -webkit-line-clamp: 3;
   }
   .post-card--featured {
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
   }
   .post-grid.is-single .post-card {
     margin-bottom: 1.5rem;
