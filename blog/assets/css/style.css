@@ -482,6 +482,7 @@ img {
   gap: 0.75rem;
   margin-top: 0.75rem;
   min-width: 0;
+  align-items: start;
 }
 
 .post-grid .post-card {
@@ -643,8 +644,6 @@ img {
 .post-card--featured,
 .post-grid.is-single .post-card {
   margin: 0 0 0.75rem;
-  border-left: 3px solid var(--color-primary);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
 }
 .post-card--featured .post-card-link,
 .post-grid.is-single .post-card .post-card-link {
@@ -1239,7 +1238,6 @@ img {
   .post-card--featured,
   .post-grid.is-single .post-card {
     margin-bottom: 1rem;
-    border-left-width: 4px;
   }
   .post-card--featured .post-card-link,
   .post-grid.is-single .post-card .post-card-link {
