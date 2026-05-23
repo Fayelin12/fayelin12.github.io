@@ -483,12 +483,15 @@ img {
 }
 
 /* ---------- Post Columns & Cards ---------- */
-/* Both mobile and desktop use CSS multi-column layout for true waterfall/masonry.
-   Cards must have break-inside: avoid and margin-bottom for column-gap spacing. */
+/* ---------- Post Columns & Cards ---------- */
+/* Mobile: column-fill defaults to auto — natural fill without balancing.
+   column-fill: balance causes the browser to factor margin-bottom into
+   column height calculations, which on narrow mobile columns can push
+   the right column's first card down and create phantom spacing at its top.
+   Desktop uses explicit column-fill: balance (wider columns = safer). */
 .post-grid {
   column-count: 2;
   column-gap: 1.5rem;
-  column-fill: balance;
   margin-top: 1.5rem;
 }
 
@@ -570,7 +573,7 @@ img {
 .post-card-divider {
   border: none;
   height: 1px;
-  background: linear-gradient(90deg, rgba(2, 135, 96, 0.2), transparent 90%);
+  background: linear-gradient(90deg, transparent 0%, rgba(2, 135, 96, 0.2) 20%, rgba(2, 135, 96, 0.2) 60%, transparent 100%);
   margin: 0 0 1rem;
 }
 
@@ -1193,8 +1196,8 @@ img {
   .expand-arrow {
     font-size: 0.625rem;
   }
-  /* Desktop: switch to column-count masonry for true waterfall layout.
-     Mobile uses CSS Grid which doesn't recalculate during scroll. */
+  /* Desktop: column-fill: balance works well here because wider columns
+     mean smaller height variance between cards. */
   .post-grid {
     display: block;
     column-count: 2;
