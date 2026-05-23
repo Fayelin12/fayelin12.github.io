@@ -474,23 +474,22 @@ img {
   transform: rotate(180deg);
 }
 
-/* ---------- Post Columns & Cards (Mobile: Grid, Desktop: Masonry) ---------- */
-/* Mobile: CSS Grid 2-col — zero layout recalculation during scroll (column-count forces continuous rebalancing) */
+/* ---------- Post Columns & Cards ---------- */
+/* Both mobile and desktop use CSS multi-column layout for true waterfall/masonry.
+   Cards must have break-inside: avoid and margin-bottom for column-gap spacing. */
 .post-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
+  column-count: 2;
+  column-gap: 0.75rem;
   margin-top: 0.75rem;
-  min-width: 0;
-  align-items: start;
 }
 
 .post-grid .post-card {
-  margin-bottom: 0;
+  break-inside: avoid;
+  margin-bottom: 0.75rem;
 }
 
 .post-grid.is-single {
-  grid-template-columns: 1fr;
+  column-count: 1;
 }
 
 .post-card {
@@ -1192,7 +1191,7 @@ img {
     column-count: 2;
     column-gap: 1.5rem;
     column-fill: balance;
-    margin-top: 1.5rem;
+    margin-top: 0;
     gap: normal;
   }
   .post-grid .post-card {
@@ -1265,6 +1264,12 @@ img {
   .post-grid.is-single .post-card .tag-pill {
     font-size: 0.75rem;
     padding: 0.25rem 0.625rem;
+  }
+  /* Override: larger bottom margin on the standalone featured card,
+     replacing the margin-top that was on .post-grid (now removed).
+     This keeps card-to-card spacing consistent without margin-collapse surprises. */
+  .post-card--featured {
+    margin-bottom: 1.5rem;
   }
   .site-footer {
     margin-top: 4rem;

@@ -723,8 +723,11 @@
           bar.classList.remove('is-expanded');
         }
 
-        // Scroll active button into view
-        this.scrollIntoView({ behavior: scrollBehavior, block: 'nearest', inline: 'center' });
+        // Defer scroll to next frame so the collapse layout settles first,
+        // avoiding visual jitter on the first card (especially on mobile).
+        requestAnimationFrame(function() {
+          this.scrollIntoView({ behavior: scrollBehavior, block: 'nearest', inline: 'center' });
+        }.bind(this));
       });
     });
   })();
