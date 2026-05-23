@@ -352,7 +352,7 @@ img {
   display: flex;
   align-items: center;
   gap: 0;
-  margin: 0.75rem 0;
+  margin: 0.75rem 0 0; /* bottom margin removed: spacing below is handled by post cards & grid */
   position: relative;
   max-width: 100%;
   overflow: hidden;
@@ -491,7 +491,7 @@ img {
    Desktop uses explicit column-fill: balance (wider columns = safer). */
 .post-grid {
   column-count: 2;
-  column-gap: 1.5rem;
+  column-gap: 0.75rem;
   margin-top: 1.5rem;
 }
 
@@ -651,34 +651,54 @@ img {
 }
 
 /* ---------- Featured Post Card ---------- */
-/* Applied to: the standalone first card, and all grid cards in single-column mode */
-.post-card--featured,
-.post-grid.is-single .post-card {
-  margin: 0 0 0.75rem;
+/* Standalone first card: margin-top handles spacing from tag bar (tag bar mb is 0) */
+.post-card--featured {
+  margin: 1.5rem 0 1.5rem;
 }
-.post-card--featured .post-card-link,
+.post-card--featured .post-card-link {
+  padding: 1.125rem 1rem;
+}
+.post-card--featured .post-card-title {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.post-card--featured .post-card-divider {
+  margin-bottom: 1rem;
+}
+.post-card--featured .post-card-excerpt {
+  font-size: 0.8125rem;
+  -webkit-line-clamp: 4;
+}
+.post-card--featured .post-card-meta {
+  margin-bottom: 0.625rem;
+}
+.post-card--featured .tag-pill {
+  font-size: 0.625rem;
+  padding: 0.125rem 0.375rem;
+}
+
+/* Single-column grid cards: same visual styling, but margin-top is 0 because
+   .post-grid already provides the gap from tag bar */
+.post-grid.is-single .post-card {
+  margin: 0 0 1.5rem;
+}
 .post-grid.is-single .post-card .post-card-link {
   padding: 1.125rem 1rem;
 }
-.post-card--featured .post-card-title,
 .post-grid.is-single .post-card .post-card-title {
   font-size: 1rem;
   margin-bottom: 0.5rem;
 }
-.post-card--featured .post-card-divider,
 .post-grid.is-single .post-card .post-card-divider {
   margin-bottom: 1rem;
 }
-.post-card--featured .post-card-excerpt,
 .post-grid.is-single .post-card .post-card-excerpt {
   font-size: 0.8125rem;
   -webkit-line-clamp: 4;
 }
-.post-card--featured .post-card-meta,
 .post-grid.is-single .post-card .post-card-meta {
   margin-bottom: 0.625rem;
 }
-.post-card--featured .tag-pill,
 .post-grid.is-single .post-card .tag-pill {
   font-size: 0.625rem;
   padding: 0.125rem 0.375rem;
