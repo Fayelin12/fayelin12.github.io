@@ -694,6 +694,13 @@
         var tag = this.getAttribute('data-tag');
         var isAll = (tag === 'all');
 
+        // Snapshot the grid's viewport position BEFORE any DOM mutation.
+        // When cards are hidden/shown, page height changes and the browser
+        // auto-adjusts scroll.  By recording the grid offset here and
+        // compensating with a single instant scrollBy after, we eliminate
+        // the conflict that causes jitter.  No RAFs, no timing hacks.
+        var gridRectBefore = grid ? grid.getBoundingClientRect() : null;
+
         // Update active state
         buttons.forEach(function(b) { b.classList.remove('is-active'); });
         this.classList.add('is-active');
@@ -723,16 +730,15 @@
           bar.classList.remove('is-expanded');
         }
 
-        // Double-RAF: wait two frames so the browser completes reflow,
-        // auto-scroll adjustment (from page height change), and paint
-        // before we fire our own scrollIntoView.
-        // Single RAF was not enough for short cards (e.g. 增长黑客)
-        // where the grid height drops dramatically.
-        requestAnimationFrame(function() {
-          requestAnimationFrame(function() {
-            this.scrollIntoView({ behavior: scrollBehavior, block: 'nearest', inline: 'center' });
-          }.bind(this));
-        }.bind(this));
+        // Compensate viewport shift caused by the browser's auto-scroll.
+        // getBoundingClientRect() forces a synchronous reflow, giving us
+        // the real post-mutation position.  A single scrollBy undoes the
+        // shift instantly — no animation, no jitter.
+        if (grid && gridRectBefore) {
+          var gridRectAfter = grid.getBoundingClientRect();
+          var delta = gridRectAfter.top - gridRectBefore.top;
+          window.scrollBy(0, delta);
+        }
       });
     });
   })();
