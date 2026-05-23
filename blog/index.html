@@ -730,11 +730,14 @@
           bar.classList.remove('is-expanded');
         }
 
-        // Compensate viewport shift caused by the browser's auto-scroll.
-        // getBoundingClientRect() forces a synchronous reflow, giving us
-        // the real post-mutation position.  A single scrollBy undoes the
-        // shift instantly — no animation, no jitter.
-        if (grid && gridRectBefore) {
+        // Compensate viewport shift caused by the browser's auto-scroll
+        // when page height SHRINKS (filtering).  No compensation for
+        // "all" on mobile: the featured card (outside .post-grid) becomes
+        // visible and pushes the grid down; compensating that shift would
+        // scroll the user away from the newly-visible featured card.
+        // On expanding content the browser auto-scroll is minimal anyway,
+        // so skipping compensation is safe and feels natural.
+        if (grid && gridRectBefore && !(isAll && isMobile)) {
           var gridRectAfter = grid.getBoundingClientRect();
           var delta = gridRectAfter.top - gridRectBefore.top;
           window.scrollBy(0, delta);
