@@ -723,10 +723,15 @@
           bar.classList.remove('is-expanded');
         }
 
-        // Defer scroll to next frame so the collapse layout settles first,
-        // avoiding visual jitter on the first card (especially on mobile).
+        // Double-RAF: wait two frames so the browser completes reflow,
+        // auto-scroll adjustment (from page height change), and paint
+        // before we fire our own scrollIntoView.
+        // Single RAF was not enough for short cards (e.g. 增长黑客)
+        // where the grid height drops dramatically.
         requestAnimationFrame(function() {
-          this.scrollIntoView({ behavior: scrollBehavior, block: 'nearest', inline: 'center' });
+          requestAnimationFrame(function() {
+            this.scrollIntoView({ behavior: scrollBehavior, block: 'nearest', inline: 'center' });
+          }.bind(this));
         }.bind(this));
       });
     });
