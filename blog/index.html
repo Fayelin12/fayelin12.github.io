@@ -29,7 +29,7 @@
   <main class="page-content">
     <div class="home">
   <section class="hero reveal">
-    <img class="hero-illustration" src="/blog/assets/images/hero.svg" alt="灵感流动">
+    <img class="hero-illustration" src="/blog/assets/images/hero.svg" alt="灵感流动" decoding="async">
     <div class="hero-content">
       <h1 class="hero-title">南飞</h1>
       <p class="hero-desc">记录思考，分享生活，探索技术的无限可能</p>
@@ -690,11 +690,13 @@
   <script>
     (function() {
       // IntersectionObserver for scroll reveal animations
-      const reveals = document.querySelectorAll('.reveal');
+      var reveals = document.querySelectorAll('.reveal');
       if (reveals.length > 0 && 'IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(function(entries) {
+        var observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
             if (entry.isIntersecting) {
+              // Temporarily add will-change during transition for GPU acceleration
+              entry.target.classList.add('is-transitioning');
               entry.target.classList.add('revealed');
               observer.unobserve(entry.target);
             }
@@ -704,6 +706,13 @@
           rootMargin: '0px 0px -40px 0px'
         });
         reveals.forEach(function(el) { observer.observe(el); });
+
+        // Remove will-change after transition ends to free GPU layers
+        reveals.forEach(function(el) {
+          el.addEventListener('transitionend', function() {
+            el.classList.remove('is-transitioning');
+          }, { once: true });
+        });
       } else if (reveals.length > 0) {
         reveals.forEach(function(el) { el.classList.add('revealed'); });
       }
