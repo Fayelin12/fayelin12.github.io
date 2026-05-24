@@ -1,0 +1,1973 @@
+@charset "UTF-8";
+/* minima CSS fully removed — @import and async <link> both dropped.
+   Syntax highlighting (.highlight) rules are now inlined at the bottom of this file.
+   This eliminates the need for any external minima CSS dependency. */
+/* <span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span>===
+   Theme: Modern Minimalist Blog
+   Palette: Emerald Green
+   Mobile First
+   <span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span>=== */
+/* ---------- CSS Variables ---------- */
+:root {
+  --color-primary: #028760;
+  --color-primary-light: #34d399;
+  --color-primary-dark: #047857;
+  --color-accent: #10b981;
+  --color-accent-light: #6ee7b7;
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f1f5f9;
+  --color-text: #1e293b;
+  --color-text-secondary: #334155;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+  --color-border-light: #f1f5f9;
+  --color-code-bg: #1e1e2e;
+  --color-code-red: #ff5f56;
+  --color-code-yellow: #ffbd2e;
+  --color-code-green: #27c93f;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.06), 0 2px 4px -2px rgb(0 0 0 / 0.04);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.04);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --content-max-width: 720px;
+  --page-padding: 1rem;
+}
+
+/* ---------- Base & Reset ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  /* overflow-x: hidden REMOVED — on mobile, this breaks the compositor's fast
+     scrolling path by forcing the main thread to check overflow clipping on every
+     touch-move event, causing "scroll not keeping up with finger" lag.
+     Instead, we prevent horizontal overflow at the body level with clip. */
+  /* scroll-behavior: smooth moved to desktop-only — on mobile it forces
+     the main thread to compute smooth scroll positions during touch-driven scrolling */
+}
+
+@media (min-width: 768px) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent horizontal overflow without breaking fast scroll path.
+     clip creates a clip region but does NOT create a new scroll container,
+     so the compositor thread can still handle scrolling autonomously. */
+  overflow-x: clip;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ---------- Background Decorative Shapes ---------- */
+.bg-shape {
+  position: fixed;
+  border-radius: 50%;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+  /* Mobile: no blur, no will-change — zero GPU overhead */
+}
+
+.bg-shape-1 {
+  width: 50vw;
+  height: 50vw;
+  max-width: 500px;
+  max-height: 500px;
+  background: var(--color-primary-light);
+  top: -10%;
+  right: -15%;
+  /* Mobile fallback: low-opacity solid color, no blur */
+  opacity: 0.08;
+}
+
+.bg-shape-2 {
+  width: 40vw;
+  height: 40vw;
+  max-width: 400px;
+  max-height: 400px;
+  background: var(--color-accent-light);
+  bottom: 5%;
+  left: -10%;
+  /* Mobile fallback: low-opacity solid color, no blur */
+  opacity: 0.08;
+}
+
+/* Desktop+: upgrade to blur + gradient + will-change */
+@media (min-width: 768px) {
+  .bg-shape {
+    filter: blur(40px);
+    will-change: transform;
+    opacity: 0.35;
+  }
+  .bg-shape-1 {
+    background: radial-gradient(circle, var(--color-primary-light) 0%, transparent 70%);
+    opacity: 0.35;
+  }
+  .bg-shape-2 {
+    background: radial-gradient(circle, var(--color-accent-light) 0%, transparent 70%);
+    opacity: 0.35;
+  }
+}
+/* Only animate on tablet+ AND only when user hasn't opted for reduced motion */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .bg-shape-1 {
+    animation: float 18s ease-in-out infinite;
+  }
+  .bg-shape-2 {
+    animation: float 22s ease-in-out infinite reverse;
+  }
+}
+/* ---------- Keyframes ---------- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(20px, -30px) scale(1.05);
+  }
+  66% {
+    transform: translate(-15px, 15px) scale(0.95);
+  }
+}
+@keyframes arrow-bounce {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+/* ---------- Scroll Reveal Utilities ----------
+   Mobile strategy: content is immediately visible (opacity:1), no transform, no transition.
+   This prevents the "white screen" where the browser finishes Layout+Paint but content
+   is hidden behind opacity:0, waiting for IntersectionObserver to fire — the #1 cause
+   of perceived lag on first load. A subtle fade-in is applied via JS after initial paint.
+   Desktop: full reveal animation with translateY slide. */
+.reveal {
+  /* Mobile-first: content visible immediately, zero transition cost on first paint */
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+/* Desktop+: enable slide-up reveal animation */
+@media (min-width: 768px) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.55s var(--transition-base), transform 0.55s var(--transition-base);
+  }
+  /* Desktop masonry (column-count): transform triggers column rebalancing, so use opacity-only fade */
+  .post-grid .reveal {
+    transform: none;
+  }
+}
+.reveal.is-transitioning {
+  will-change: opacity, transform;
+}
+
+@media (min-width: 768px) {
+  .post-grid .reveal.is-transitioning {
+    will-change: opacity;
+  }
+}
+.revealed {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* Mobile fade-in class: applied by JS after first paint for subtle entrance.
+   Uses opacity-only (no transform) to avoid any layout recalculation. */
+.reveal.is-fading-in {
+  animation: revealFadeIn 0.4s ease-out both;
+}
+
+@keyframes revealFadeIn {
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* ---------- Footer ---------- */
+.site-footer {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.25rem;
+  padding: 1rem var(--page-padding) !important;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.footer-content {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.footer-links a {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.footer-links a:hover {
+  color: var(--color-primary);
+}
+
+.footer-dot {
+  font-size: 0.875rem;
+  color: var(--color-border);
+  user-select: none;
+}
+
+.footer-copy {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* ---------- Page Content Wrapper ---------- */
+.page-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 1rem var(--page-padding) 0.5rem !important;
+  /* overflow-x: hidden REPLACED with clip — hidden creates a scroll container
+     which breaks the compositor's fast scrolling path on mobile, causing
+     touch-driven scrolling to go through the main thread (laggy, not keeping up).
+     clip clips overflow content but does NOT create a scroll container,
+     so the compositor can still handle scrolling autonomously on its own thread. */
+  overflow-x: clip;
+}
+
+/* ---------- Hero Section ---------- */
+.hero {
+  padding: 1rem 0 0.5rem;
+  text-align: center;
+  /* No animation on mobile — deferred to desktop to reduce first-paint cost */
+}
+
+@media (min-width: 768px) {
+  .hero {
+    animation: fadeInUp 0.7s ease-out both;
+  }
+}
+.hero-illustration {
+  display: block;
+  max-width: 160px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 0.75rem;
+}
+
+.hero-title {
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+  background: linear-gradient(135deg, var(--color-text), var(--color-primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-desc {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.hero-divider {
+  width: 40px;
+  height: 3px;
+  margin: 0.75rem auto 0;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  opacity: 0.6;
+}
+
+/* ---------- Tag Filter Bar ---------- */
+.tag-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 0.75rem 0 0; /* bottom margin removed: spacing below is handled by post cards & grid */
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Gradient fade on right edge (hints more content) */
+.tag-filter-bar::before {
+  content: "";
+  position: absolute;
+  right: 1.75rem;
+  top: 0;
+  bottom: 0;
+  width: 1.5rem;
+  background: linear-gradient(90deg, transparent, var(--color-bg));
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity var(--transition-fast);
+}
+
+.tag-filter-bar.is-expanded::before {
+  opacity: 0;
+}
+
+.tag-filter-inner {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.375rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  flex: 1;
+  padding: 0.125rem 2rem 0.125rem 0;
+  overscroll-behavior-x: contain; /* prevent pull-to-refresh from inner scroll */
+}
+
+.tag-filter-inner::-webkit-scrollbar {
+  display: none;
+}
+
+/* Expanded: show all tags wrapped */
+.tag-filter-bar.is-expanded .tag-filter-inner {
+  flex-wrap: wrap;
+  overflow-x: visible;
+  padding-right: 0;
+}
+
+.tag-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1875rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.625rem;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  line-height: 1.5;
+  flex-shrink: 0;
+}
+
+.tag-filter-btn:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+}
+
+.tag-filter-btn.is-active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.tag-filter-btn.is-active .tag-count {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.tag-count {
+  font-size: 0.625rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+.tag-filter-expand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  z-index: 2;
+  margin-left: -0.25rem;
+}
+
+.tag-filter-expand:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-primary);
+}
+
+.tag-filter-bar.is-expanded .tag-filter-expand {
+  background: var(--color-surface-alt);
+}
+
+.expand-arrow {
+  font-size: 0.5625rem;
+  transition: transform var(--transition-base);
+  line-height: 1;
+}
+
+.tag-filter-bar.is-expanded .expand-arrow {
+  transform: rotate(180deg);
+}
+
+/* ---------- Post List Wrapper ---------- */
+/* Creates a new Block Formatting Context — prevents child margins from
+   collapsing with the tag-filter-bar margin above, so the spacing between
+   tag bar and post list stays consistent regardless of which cards are hidden. */
+.post-list {
+  overflow: hidden;
+}
+
+/* ---------- Post Columns & Cards ---------- */
+/* Multi-column waterfall layout.  -webkit- prefixed props for WeChat /
+   older WebKit browsers (iOS WKWebView, Android X5). */
+.post-grid {
+  -webkit-column-count: 2;
+  column-count: 2;
+  -webkit-column-gap: 0.75rem;
+  column-gap: 0.75rem;
+  -webkit-column-fill: balance;
+  column-fill: balance;
+  margin-top: 0.75rem;
+}
+
+.post-grid .post-card {
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+  -webkit-column-break-inside: avoid;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin-bottom: 0.7rem;
+}
+
+.post-grid.is-single {
+  -webkit-column-count: 1;
+  column-count: 1;
+}
+
+.post-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  min-width: 0;
+  margin: 0;
+  /* No transition on mobile — transform/box-shadow only useful on hover (desktop) */
+}
+
+@media (min-width: 768px) {
+  .post-card {
+    transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+  }
+  .post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: rgba(2, 135, 96, 0.15);
+  }
+}
+/* active feedback on desktop only — on mobile, transform on active
+   causes layout recalculation during touch-driven scroll */
+@media (min-width: 768px) {
+  .post-card:active {
+    transform: translateY(-2px) scale(0.995);
+  }
+}
+.post-card-link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: inherit;
+  padding: 0.875rem;
+}
+
+.post-card-link:hover {
+  color: inherit;
+}
+
+.post-card-body {
+  flex: 1;
+}
+
+.post-card-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0 0 0.5rem;
+  color: var(--color-text);
+  transition: color var(--transition-fast);
+}
+
+.post-card:hover .post-card-title {
+  color: var(--color-primary-dark);
+}
+
+.post-card:hover .post-card-title .title-sub {
+  color: var(--color-primary-dark);
+}
+
+.title-sub {
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.post-card-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(2, 135, 96, 0.2) 20%, rgba(2, 135, 96, 0.2) 60%, transparent 100%);
+  margin: 0 0 1rem;
+}
+
+.post-card-meta {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.375rem;
+  margin-bottom: 0.625rem;
+  overflow: hidden;
+}
+
+.post-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.meta-icon {
+  font-size: 0.75rem;
+  opacity: 0.9;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.1875rem;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.tag-pill {
+  display: inline-block;
+  font-size: 0.5625rem;
+  font-weight: 600;
+  padding: 0.0625rem 0.3125rem;
+  border-radius: var(--radius-full);
+  background: rgba(2, 135, 96, 0.08);
+  color: var(--color-primary-dark);
+  border: 1px solid rgba(2, 135, 96, 0.12);
+  white-space: nowrap;
+  transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.tag-pill:hover {
+  background: var(--color-primary);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.tag-pill--subtle {
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}
+
+.tag-pill--subtle:hover {
+  background: var(--color-text-muted);
+  color: #fff;
+}
+
+.post-card-excerpt {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- Featured Post Card ---------- */
+/* Standalone first card: margin-top handles spacing from tag bar (tag bar mb is 0) */
+.post-card--featured {
+  margin: 0.75rem 0 0.75rem;
+}
+.post-card--featured .post-card-link {
+  padding: 1.125rem 1rem;
+}
+.post-card--featured .post-card-title {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.post-card--featured .post-card-divider {
+  margin-bottom: 1rem;
+}
+.post-card--featured .post-card-excerpt {
+  font-size: 0.8125rem;
+  -webkit-line-clamp: 4;
+}
+.post-card--featured .post-card-meta {
+  margin-bottom: 0.625rem;
+}
+.post-card--featured .tag-pill {
+  font-size: 0.625rem;
+  padding: 0.125rem 0.375rem;
+}
+
+/* Single-column grid cards: same visual styling, but margin-top is 0 because
+   .post-grid already provides the gap from tag bar */
+.post-grid.is-single .post-card {
+  margin: 0 0 0.75rem;
+}
+.post-grid.is-single .post-card .post-card-link {
+  padding: 1.125rem 1rem;
+}
+.post-grid.is-single .post-card .post-card-title {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+.post-grid.is-single .post-card .post-card-divider {
+  margin-bottom: 1rem;
+}
+.post-grid.is-single .post-card .post-card-excerpt {
+  font-size: 0.8125rem;
+  -webkit-line-clamp: 4;
+}
+.post-grid.is-single .post-card .post-card-meta {
+  margin-bottom: 0.625rem;
+}
+.post-grid.is-single .post-card .tag-pill {
+  font-size: 0.625rem;
+  padding: 0.125rem 0.375rem;
+}
+
+.post-card-footer {
+  display: none;
+}
+
+.read-more {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: gap var(--transition-fast);
+}
+
+.post-card:hover .read-more {
+  gap: 0.5rem;
+}
+
+.post-card:hover .arrow {
+  animation: arrow-bounce 0.8s ease-in-out infinite;
+}
+
+/* ---------- Empty State ---------- */
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1.25rem;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 2px dashed var(--color-border);
+  margin-top: 0.5rem;
+}
+
+.empty-illustration {
+  display: block;
+  max-width: 180px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 1rem;
+  opacity: 0.9;
+}
+
+.empty-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin: 0 0 0.375rem;
+}
+
+.empty-desc {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.empty-desc code {
+  background: var(--color-surface-alt);
+  padding: 0.15rem 0.4rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  color: var(--color-primary-dark);
+}
+
+/* ---------- Post Article ---------- */
+.post {
+  position: relative;
+}
+
+.post-header {
+  padding: 0.5rem 0 0.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.post-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+  color: var(--color-text);
+}
+
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem 1rem;
+}
+
+/* ---------- Post Content Typography ---------- */
+.post-content {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+  /* CSS Containment: tells the browser this element's contents are independent
+     of the rest of the page, so it can skip style/layout recalculation for
+     outside elements when scrolling. Reduces per-frame work significantly
+     on long article pages. */
+  contain: content;
+}
+
+.post-content > *:first-child {
+  margin-top: 0;
+}
+
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+  color: var(--color-text);
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 2.25rem 0 1rem;
+  letter-spacing: -0.01em;
+}
+
+.post-content h1 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid var(--color-border-light);
+  padding-bottom: 0.5rem;
+}
+
+.post-content h2 {
+  font-size: 1.375rem;
+  position: relative;
+  padding-left: 0.875rem;
+}
+
+.post-content h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.35rem;
+  bottom: 0.35rem;
+  width: 4px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(180deg, var(--color-primary), var(--color-accent));
+}
+
+.post-content h3 {
+  font-size: 1.125rem;
+}
+
+.post-content h4 {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+}
+
+.post-content p {
+  margin: 1.25rem 0;
+}
+
+.post-content blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--color-primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: rgba(2, 135, 96, 0.04);
+  color: var(--color-text-secondary);
+  font-style: italic;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+.post-content blockquote p:first-child {
+  margin-top: 0;
+}
+
+.post-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.post-content ul,
+.post-content ol {
+  margin: 1.25rem 0;
+  padding-left: 1.5rem;
+}
+
+.post-content li {
+  margin: 0.375rem 0;
+}
+
+.post-content li::marker {
+  color: var(--color-primary);
+}
+
+.post-content img {
+  border-radius: var(--radius-md);
+  margin: 1.5rem auto;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border-light);
+}
+
+.post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9375rem;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+}
+
+.post-content thead {
+  background: var(--color-surface-alt);
+}
+
+.post-content th,
+.post-content td {
+  padding: 0.625rem 0.875rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.post-content th {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.post-content tbody tr:nth-child(even) {
+  background: rgba(241, 245, 249, 0.5);
+}
+
+.post-content tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.post-content code {
+  font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+  font-size: 0.875em;
+  background: var(--color-surface-alt);
+  color: var(--color-primary-dark);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-light);
+  word-break: break-word;
+}
+
+.post-content pre,
+.post-content .highlight {
+  position: relative;
+  background: var(--color-code-bg);
+  border-radius: var(--radius-md);
+  padding: 2.5rem 1.25rem 1.25rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  box-shadow: var(--shadow-lg);
+}
+
+.post-content .highlight::before {
+  content: "";
+  position: absolute;
+  top: 0.875rem;
+  left: 1.25rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--color-code-red);
+  box-shadow: 1rem 0 0 var(--color-code-yellow), 2rem 0 0 var(--color-code-green);
+}
+
+.post-content pre code,
+.post-content .highlight code {
+  background: transparent;
+  color: #e2e8f0;
+  padding: 0;
+  border: none;
+  word-break: normal;
+}
+
+.post-content hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+  margin: 2.5rem 0;
+}
+
+.post-content a {
+  font-weight: 500;
+  border-bottom: 1px solid rgba(2, 135, 96, 0.25);
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.post-content a:hover {
+  border-bottom-color: var(--color-primary);
+}
+
+.post-content mark,
+.post-content .post-highlight {
+  background: linear-gradient(180deg, rgba(2, 135, 96, 0.15) 0%, rgba(2, 135, 96, 0.1) 100%);
+  color: var(--color-text);
+  padding: 0.125em 0.25em;
+  border-radius: 2px;
+  font-style: normal;
+}
+
+/* ---------- Reading Progress Bar ---------- */
+.reading-progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  z-index: 101;
+  background: transparent;
+  /* contain: strict — this element has no visible content and no children
+     that affect layout outside. Tells the browser it can skip all
+     style/layout recalculation for this subtree during scroll. */
+  contain: strict;
+}
+
+.reading-progress-bar {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  /* Removed box-shadow on mobile — fixed element + box-shadow forces
+     per-frame Paint on scroll, which is expensive on low-end GPUs */
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  border-radius: 0 2px 2px 0;
+  transform-origin: left center;
+  transform: scaleX(0);
+  /* No will-change here — added via JS only during scroll to avoid persistent compositing layer */
+}
+
+/* Desktop+: add subtle glow (affordable on desktop GPU) */
+@media (min-width: 768px) {
+  .reading-progress-bar {
+    box-shadow: 0 0 8px rgba(2, 135, 96, 0.35);
+  }
+}
+.reading-progress-bar.is-scrolling {
+  will-change: transform;
+}
+
+/* ---------- Post Footer ---------- */
+.post-footer {
+  margin-top: 1rem;
+  padding-bottom: 0;
+}
+
+.post-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+  margin-bottom: 0.75rem;
+}
+
+/* ---------- WeChat Share ---------- */
+.share-section {
+  display: none;
+  margin-bottom: 1.25rem;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: rgba(2, 135, 96, 0.08);
+  border: 1px solid rgba(2, 135, 96, 0.2);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.share-btn:hover {
+  background: rgba(2, 135, 96, 0.14);
+  box-shadow: var(--shadow-sm);
+}
+
+.share-btn.is-active {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.share-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.share-qrcode {
+  display: none;
+  margin-top: 1rem;
+  padding: 1.25rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  animation: fadeInUp 0.3s ease-out both;
+}
+
+.share-qrcode.is-open {
+  display: inline-block;
+}
+
+.share-qrcode canvas,
+.share-qrcode img {
+  display: block;
+  margin: 0 auto;
+  border-radius: 6px;
+}
+
+.share-qrcode-hint {
+  margin: 0 0 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .share-section {
+    display: block;
+  }
+}
+.back-link,
+.back-link:link,
+.back-link:visited,
+.back-link:hover,
+.back-link:active,
+.back-link:focus {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  padding: 0.5rem 0;
+  text-decoration: none !important;
+  border-bottom: none !important;
+  box-shadow: none;
+  transition: color var(--transition-fast), gap var(--transition-fast);
+}
+
+.back-link:hover,
+.back-link:active,
+.back-link:focus {
+  color: var(--color-primary);
+  gap: 0.625rem;
+}
+
+.back-arrow {
+  transition: transform var(--transition-fast);
+}
+
+.back-link:hover .back-arrow {
+  transform: translateX(-3px);
+}
+
+/* <span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span>===
+   Responsive: Tablet (>= 768px)
+   <span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span>=== */
+@media (min-width: 768px) {
+  :root {
+    --page-padding: 2rem;
+    --content-max-width: 960px;
+  }
+  .page-content {
+    padding: 2rem var(--page-padding) 2.5rem !important;
+  }
+  .hero {
+    padding: 3.5rem 0 2.5rem;
+  }
+  .hero-illustration {
+    max-width: 360px;
+    margin-bottom: 2rem;
+  }
+  .hero-title {
+    font-size: 2.75rem;
+  }
+  .hero-desc {
+    font-size: 1.125rem;
+  }
+  .hero-divider {
+    width: 48px;
+    height: 4px;
+    margin-top: 1.5rem;
+  }
+  .tag-filter-bar {
+    margin-top: 1rem;
+    margin-bottom: 0; /* zero out mobile 0.75rem; spacing below is handled by .post-card--featured / .post-grid */
+  }
+  .tag-filter-bar::before {
+    right: 2.25rem;
+    width: 2rem;
+  }
+  .tag-filter-inner {
+    gap: 0.5rem;
+    padding-right: 2.5rem;
+  }
+  .tag-filter-btn {
+    font-size: 0.8125rem;
+    padding: 0.3125rem 0.75rem;
+  }
+  .tag-count {
+    font-size: 0.6875rem;
+  }
+  .tag-filter-expand {
+    width: 2rem;
+    height: 2rem;
+  }
+  .expand-arrow {
+    font-size: 0.625rem;
+  }
+  /* Desktop: column-fill: balance works well here because wider columns
+     mean smaller height variance between cards. */
+  .post-grid {
+    display: block;
+    -webkit-column-count: 2;
+    column-count: 2;
+    -webkit-column-gap: 1.5rem;
+    column-gap: 1.5rem;
+    -webkit-column-fill: balance;
+    column-fill: balance;
+    margin-top: 1.5rem;
+  }
+  .post-grid .post-card {
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    -webkit-column-break-inside: avoid;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+  .post-grid.is-single {
+    -webkit-column-count: 1;
+    column-count: 1;
+    margin-top: 1.5rem; /* unified spacing: same as multi-column */
+  }
+  .post-card {
+    margin-bottom: 0;
+    border-radius: var(--radius-lg);
+  }
+  .post-card-link {
+    padding: 1.75rem;
+  }
+  .post-card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+  .post-card-meta {
+    gap: 0.5rem 0.75rem;
+    margin-bottom: 0.625rem;
+  }
+  .post-card-divider {
+    margin: 0 0 1rem;
+  }
+  .post-date {
+    font-size: 0.8125rem;
+  }
+  .meta-icon {
+    font-size: 0.875rem;
+  }
+  .tag-pill {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.625rem;
+  }
+  .post-card-excerpt {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    -webkit-line-clamp: 3;
+  }
+  .post-card--featured {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .post-grid.is-single .post-card {
+    margin-bottom: 1.5rem;
+  }
+  .post-card--featured .post-card-link,
+  .post-grid.is-single .post-card .post-card-link {
+    padding: 2rem;
+  }
+  .post-card--featured .post-card-title,
+  .post-grid.is-single .post-card .post-card-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .post-card--featured .post-card-divider,
+  .post-grid.is-single .post-card .post-card-divider {
+    margin-bottom: 1rem;
+  }
+  .post-card--featured .post-card-excerpt,
+  .post-grid.is-single .post-card .post-card-excerpt {
+    font-size: 0.9375rem;
+    -webkit-line-clamp: 4;
+  }
+  .post-card--featured .post-card-meta,
+  .post-grid.is-single .post-card .post-card-meta {
+    margin-bottom: 0.625rem;
+  }
+  .post-card--featured .tag-pill,
+  .post-grid.is-single .post-card .tag-pill {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.625rem;
+  }
+  .site-footer {
+    margin-top: 4rem;
+    padding: 2.5rem var(--page-padding) !important;
+  }
+  .post-header {
+    padding: 0.75rem 0 1rem;
+    margin-bottom: 1rem;
+  }
+  .post-title {
+    font-size: 1.75rem;
+  }
+  .post-content {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+  .post-content blockquote {
+    font-size: 0.875rem;
+  }
+  .post-content h1 {
+    font-size: 1.75rem;
+  }
+  .post-content h2 {
+    font-size: 1.5rem;
+  }
+  .post-content h3 {
+    font-size: 1.25rem;
+  }
+  .post-content pre,
+  .post-content .highlight {
+    padding: 2.75rem 1.5rem 1.5rem;
+    font-size: 0.9375rem;
+  }
+  .post-content .highlight::before {
+    top: 1rem;
+    left: 1.5rem;
+  }
+  .empty-state {
+    padding: 5rem 2rem;
+  }
+  .empty-illustration {
+    max-width: 340px;
+  }
+}
+/* <span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span>===
+   Responsive: Desktop (>= 1024px)
+   <span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span><span class="post-highlight">=</span>=== */
+@media (min-width: 1024px) {
+  :root {
+    --page-padding: 2.5rem;
+    --content-max-width: 960px;
+  }
+  .page-content {
+    padding: 2.5rem var(--page-padding) 3rem !important;
+  }
+  .hero {
+    padding: 4rem 0 3rem;
+  }
+  .hero-title {
+    font-size: 3rem;
+  }
+  .hero-desc {
+    font-size: 1.25rem;
+  }
+  .post-grid {
+    -webkit-column-gap: 2rem;
+    column-gap: 2rem;
+    margin-top: 2rem;
+  }
+  .post-grid .post-card {
+    margin-bottom: 1rem;
+  }
+  .post-card-link {
+    padding: 2rem;
+  }
+  .post-card-title {
+    font-size: 1.375rem;
+  }
+  .post-header {
+    padding: 1rem 0 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  .post-title {
+    font-size: 2rem;
+    margin-bottom: 1.25rem;
+  }
+  .post-content {
+    font-size: 1.0625rem;
+    line-height: 1.85;
+  }
+  .post-content blockquote {
+    font-size: 0.9375rem;
+  }
+  .post-content h1 {
+    font-size: 2rem;
+  }
+  .post-content h2 {
+    font-size: 1.625rem;
+  }
+  .post-content h3 {
+    font-size: 1.375rem;
+  }
+  .post-content pre,
+  .post-content .highlight {
+    padding: 3rem 1.75rem 1.75rem;
+    font-size: 1rem;
+  }
+  .post-content .highlight::before {
+    top: 1.125rem;
+    left: 1.75rem;
+  }
+}
+/* ---------- Page Layout ---------- */
+.page-header {
+  padding: 1.5rem 0 1.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.about-illustration {
+  display: block;
+  max-width: 240px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 2rem;
+}
+
+.page-footer {
+  margin-top: 3rem;
+  padding-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .page-header {
+    padding: 2rem 0 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .page-title {
+    font-size: 2.25rem;
+  }
+  .about-illustration {
+    max-width: 320px;
+  }
+}
+@media (min-width: 1024px) {
+  .page-header {
+    padding: 2.5rem 0 1.75rem;
+    margin-bottom: 2.5rem;
+  }
+  .page-title {
+    font-size: 2.5rem;
+  }
+}
+/* ---------- Stats Section ---------- */
+.stats-section {
+  margin-top: 1rem;
+  max-width: 100%;
+}
+
+.stats-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-md);
+  padding: 0.75rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  min-width: 0;
+}
+
+.stats-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.stats-header {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.stats-total {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.stats-number {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stats-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.heatmap-wrapper {
+  margin-top: 0;
+}
+
+.heatmap-title {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin: 0 0 0.375rem;
+  text-align: left;
+}
+
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 0.2rem;
+}
+
+.heatmap-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.heatmap-block {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 2px;
+  min-height: 10px;
+  transition: transform var(--transition-fast);
+}
+
+.heatmap-cell:hover .heatmap-block {
+  transform: scale(1.15);
+}
+
+.heatmap-label {
+  font-size: 0.5rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  line-height: 1;
+}
+
+.intensity-0 {
+  background: var(--color-border-light);
+}
+
+.intensity-1 {
+  background: rgba(2, 135, 96, 0.3);
+}
+
+.intensity-2 {
+  background: rgba(2, 135, 96, 0.6);
+}
+
+.intensity-3 {
+  background: rgba(2, 135, 96, 0.9);
+}
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.1875rem;
+  margin-top: 0.375rem;
+}
+
+.legend-label {
+  font-size: 0.5625rem;
+  color: var(--color-text-muted);
+}
+
+.legend-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 2px;
+}
+
+@media (min-width: 768px) {
+  .stats-card {
+    padding: 2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+  }
+  .stats-header {
+    text-align: center;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+  .stats-total {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .stats-number {
+    font-size: 2rem;
+  }
+  .stats-label {
+    font-size: 1rem;
+  }
+  .heatmap-title {
+    text-align: center;
+    font-size: 0.875rem;
+    margin: 0 0 0.875rem;
+  }
+  .heatmap-grid {
+    grid-template-columns: repeat(12, 1fr);
+    gap: 0.625rem;
+  }
+  .heatmap-block {
+    min-height: 40px;
+    border-radius: var(--radius-sm);
+  }
+  .heatmap-cell {
+    gap: 0.375rem;
+  }
+  .heatmap-label {
+    font-size: 0.75rem;
+  }
+  .heatmap-legend {
+    justify-content: center;
+  }
+  .legend-label {
+    font-size: 0.75rem;
+  }
+  .legend-dot {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+}
+@media (min-width: 1024px) {
+  .stats-section {
+    margin-top: 4rem;
+  }
+  .stats-card {
+    padding: 2.5rem;
+  }
+}
+/* ---------- Mobile: Disable Hover Transitions ----------
+   Mobile has no true hover — :hover fires on touch with 300ms delay.
+   These transitions waste style-recalc time on every tap and add
+   unnecessary paint overhead. Keep transitions only on desktop. */
+@media (max-width: 767px) {
+  a,
+  .tag-pill,
+  .tag-filter-btn,
+  .tag-filter-expand,
+  .back-link,
+  .back-arrow,
+  .post-card,
+  .stats-card,
+  .heatmap-block,
+  .tag-filter-bar::before,
+  .reading-progress-bar {
+    transition: none !important;
+  }
+}
+/* ---------- Reduced Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* ---------- Syntax Highlighting (from minima/Rouge) ----------
+   Extracted from minima's main.css so we can drop the theme dependency entirely.
+   These rules style code blocks generated by Jekyll's Rouge highlighter.
+   Original minima base styles (wrapper, site-nav, footer-col, etc.) are NOT
+   included — they are fully overridden by our custom theme above. */
+.highlight {
+  background: #fff;
+}
+
+.highlighter-rouge .highlight {
+  background: #eef;
+}
+
+.highlight .c {
+  color: #998;
+  font-style: italic;
+}
+
+.highlight .err {
+  color: #a61717;
+  background-color: #e3d2d2;
+}
+
+.highlight .k {
+  font-weight: bold;
+}
+
+.highlight .o {
+  font-weight: bold;
+}
+
+.highlight .cm {
+  color: #998;
+  font-style: italic;
+}
+
+.highlight .cp {
+  color: #999;
+  font-weight: bold;
+}
+
+.highlight .c1 {
+  color: #998;
+  font-style: italic;
+}
+
+.highlight .cs {
+  color: #999;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.highlight .gd {
+  color: #000;
+  background-color: #fdd;
+}
+
+.highlight .gd .x {
+  color: #000;
+  background-color: #faa;
+}
+
+.highlight .ge {
+  font-style: italic;
+}
+
+.highlight .gr {
+  color: #a00;
+}
+
+.highlight .gh {
+  color: #999;
+}
+
+.highlight .gi {
+  color: #000;
+  background-color: #dfd;
+}
+
+.highlight .gi .x {
+  color: #000;
+  background-color: #afa;
+}
+
+.highlight .go {
+  color: #888;
+}
+
+.highlight .gp {
+  color: #555;
+}
+
+.highlight .gs {
+  font-weight: bold;
+}
+
+.highlight .gu {
+  color: #aaa;
+}
+
+.highlight .gt {
+  color: #a00;
+}
+
+.highlight .kc {
+  font-weight: bold;
+}
+
+.highlight .kd {
+  font-weight: bold;
+}
+
+.highlight .kp {
+  font-weight: bold;
+}
+
+.highlight .kr {
+  font-weight: bold;
+}
+
+.highlight .kt {
+  color: #458;
+  font-weight: bold;
+}
+
+.highlight .m {
+  color: #099;
+}
+
+.highlight .s {
+  color: #d14;
+}
+
+.highlight .na {
+  color: #008080;
+}
+
+.highlight .nb {
+  color: #0086B3;
+}
+
+.highlight .nc {
+  color: #458;
+  font-weight: bold;
+}
+
+.highlight .no {
+  color: #008080;
+}
+
+.highlight .ni {
+  color: #800080;
+}
+
+.highlight .ne {
+  color: #900;
+  font-weight: bold;
+}
+
+.highlight .nf {
+  color: #900;
+  font-weight: bold;
+}
+
+.highlight .nn {
+  color: #555;
+}
+
+.highlight .nt {
+  color: #000080;
+}
+
+.highlight .nv {
+  color: #008080;
+}
+
+.highlight .ow {
+  font-weight: bold;
+}
+
+.highlight .w {
+  color: #bbb;
+}
+
+.highlight .mf {
+  color: #099;
+}
+
+.highlight .mh {
+  color: #099;
+}
+
+.highlight .mi {
+  color: #099;
+}
+
+.highlight .mo {
+  color: #099;
+}
+
+.highlight .sb {
+  color: #d14;
+}
+
+.highlight .sc {
+  color: #d14;
+}
+
+.highlight .sd {
+  color: #d14;
+}
+
+.highlight .s2 {
+  color: #d14;
+}
+
+.highlight .se {
+  color: #d14;
+}
+
+.highlight .sh {
+  color: #d14;
+}
+
+.highlight .si {
+  color: #d14;
+}
+
+.highlight .sx {
+  color: #d14;
+}
+
+.highlight .sr {
+  color: #009926;
+}
+
+.highlight .s1 {
+  color: #d14;
+}
+
+.highlight .ss {
+  color: #990073;
+}
+
+.highlight .bp {
+  color: #999;
+}
+
+.highlight .vc {
+  color: #008080;
+}
+
+.highlight .vg {
+  color: #008080;
+}
+
+.highlight .vi {
+  color: #008080;
+}
+
+.highlight .il {
+  color: #099;
+}
+
+/*# sourceMappingURL=style.css.map */
