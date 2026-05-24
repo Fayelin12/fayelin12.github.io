@@ -49,7 +49,6 @@
 }
 
 html {
-  -webkit-text-size-adjust: 100%;
   /* overflow-x: hidden REMOVED — on mobile, this breaks the compositor's fast
      scrolling path by forcing the main thread to check overflow clipping on every
      touch-move event, causing "scroll not keeping up with finger" lag.
@@ -801,7 +800,7 @@ img {
 
 /* ---------- Post Content Typography ---------- */
 .post-content {
-  font-size: 1rem;
+  font-size: 1.0625rem;
   line-height: 1.8;
   color: var(--color-text-secondary);
   /* CSS Containment: tells the browser this element's contents are independent
@@ -1328,7 +1327,7 @@ img {
     font-size: 1.75rem;
   }
   .post-content {
-    font-size: 1rem;
+    font-size: 1.125rem;
     line-height: 1.8;
   }
   .post-content blockquote {
@@ -1402,7 +1401,7 @@ img {
     margin-bottom: 1.25rem;
   }
   .post-content {
-    font-size: 1.0625rem;
+    font-size: 1.125rem;
     line-height: 1.85;
   }
   .post-content blockquote {
