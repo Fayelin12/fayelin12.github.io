@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI大模型产业链 · 阀论图谱</title>
+<style>
+/* ══════════════════════════════════════════════════════════════
+   AI大模型产业链图谱 — Dark Glassmorphism Layout (Pure Static)
+   ══════════════════════════════════════════════════════════════ */
+:root {
+  --bg: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-card: rgba(30, 41, 59, 0.55);
+  --bg-surface: rgba(51, 65, 85, 0.3);
+  --bg-surface-hover: rgba(51, 65, 85, 0.5);
+  --fg: #e2e8f0;
+  --fg2: #b8c5d4;
+  --fg3: #64748b;
+  --fg4: #475569;
+  --border: rgba(255, 255, 255, 0.06);
+  --border-active: rgba(255, 255, 255, 0.12);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-xs: 5px;
+  --gap-section: 16px;
+  --gap-module: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-size: 13px;
+  overflow-x: auto;
+}
+
+.root {
+  min-width: max-content;
+  padding: 28px 32px 40px;
+  position: relative;
+}
+
+/* Background grid overlay */
+.root::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ambient glow orbs */
+.root::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse at 12% 40%, rgba(59, 130, 246, 0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 88% 18%, rgba(157, 113, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 88%, rgba(16, 185, 129, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ═══════ Header ═══════ */
+.hdr {
+  text-align: center;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+
+.hdr-title {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hdr-sub {
+  font-size: 14px;
+  color: var(--fg2);
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.hdr-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.lg-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.lg-item:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.lg-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.lg-arrow {
+  color: var(--fg4);
+  font-size: 10px;
+}
+
+/* ═══════ Grid Layout ═══════ */
+.grid {
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════ Column (Glassmorphism Card) ═══════ */
+.col {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  z-index: 1;
+  transition: border-color 0.3s;
+}
+
+.col:hover {
+  border-color: var(--border-active);
+}
+
+/* Gradient top accent line */
+.col::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--lc), var(--lc)66);
+  z-index: 2;
+}
+
+/* Subtle card glow */
+.col::after {
+  content: '';
+  position: absolute;
+  top: -1px; left: -1px; right: -1px; bottom: -1px;
+  border-radius: var(--radius);
+  box-shadow: 0 0 24px -6px var(--lc)22, inset 0 1px 0 rgba(255,255,255,0.04);
+  pointer-events: none;
+  z-index: -1;
+  transition: box-shadow 0.3s;
+}
+
+.col:hover::after {
+  box-shadow: 0 0 32px -4px var(--lc)30, inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+/* ── Column header ── */
+.col-hd {
+  padding: 14px 16px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--border);
+}
+
+.col-lvl {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border: 1px solid;
+  flex-shrink: 0;
+}
+
+.col-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.col-sub-hd {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 16px 0;
+  text-align: center;
+}
+
+.col-tagline {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 16px 6px;
+  text-align: center;
+}
+
+.col-body {
+  flex: 1;
+  padding: 12px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-section);
+}
+
+/* ═══════ Section Labels ═══════ */
+.cl-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg3);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cl-section-label .sec-icon {
+  opacity: 0.6;
+}
+
+.cl-section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border-active), transparent);
+}
+
+/* ═══════ Core Power ═══════ */
+.cl-core {
+  font-size: 12px;
+  color: var(--fg2);
+  line-height: 1.6;
+  padding: 10px 12px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid;
+  transition: background 0.2s;
+}
+
+.cl-core:hover {
+  background: var(--bg-surface-hover);
+}
+
+/* ═══════ Module Cards (subtitle style) ═══════ */
+.cl-mods {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-module);
+}
+
+.cl-mods--cards {
+  flex-direction: row;
+  gap: var(--gap-module);
+}
+
+.mod-card {
+  flex: 1 1 0;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: var(--bg-surface);
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.mod-card:hover {
+  background: var(--bg-surface-hover);
+  border-color: var(--border-active);
+  transform: translateY(-1px);
+}
+
+.mod-card-name {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+}
+
+.mod-card-sub {
+  font-size: 10px;
+  color: var(--fg3);
+  margin-top: 2px;
+}
+
+.mod-card-items {
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  gap: 3px;
+  width: 100%;
+  padding: 0 2px;
+}
+
+.mod-card-item {
+  font-size: 10px;
+  color: var(--fg2);
+  line-height: 1.4;
+  padding: 3px 4px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+  width: 100%;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.mod-card-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ═══════ Module Rows (non-card style) ═══════ */
+.cl-mod {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 4px 0 4px 8px;
+  border-left: 2px solid;
+  flex-wrap: wrap;
+  transition: background 0.2s;
+}
+
+.cl-mod:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.cl-mod-hd {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.cl-mod-name {
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cl-mod-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 4px;
+  min-width: 0;
+}
+
+.cl-mod-item {
+  font-size: 11px;
+  color: var(--fg3);
+  white-space: nowrap;
+}
+
+.cl-mod-item::after {
+  content: '·';
+  margin-left: 4px;
+  color: var(--fg4);
+}
+
+.cl-mod-item:last-child::after {
+  content: none;
+}
+
+/* ═══════ Insights ═══════ */
+.cl-ins-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 8px;
+}
+
+.cl-ins {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--fg2);
+  min-width: 0;
+  width: calc(33.333% - 6px);
+}
+
+.cl-ins-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border: 1px solid;
+  white-space: nowrap;
+  line-height: 1.5;
+  width: fit-content;
+}
+
+.cl-ins-txt {
+  min-width: 0;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* ═══════ Flow Connector ═══════ */
+.flow-conn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 80px;
+  align-self: center;
+  gap: 4px;
+}
+
+.flow-label {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+  opacity: 0.7;
+  text-align: center;
+  max-height: 160px;
+  overflow: hidden;
+}
+
+.flow-conn svg {
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+/* ═══════ Footer ═══════ */
+.ftr {
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 10px;
+  color: var(--fg3);
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.02em;
+}
+
+/* ═══════ Animations ═══════ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.col { animation: fadeInUp 0.5s ease-out both; }
+.col:nth-child(1) { animation-delay: 0s; }
+.col:nth-child(3) { animation-delay: 0.08s; }
+.col:nth-child(5) { animation-delay: 0.16s; }
+.col:nth-child(7) { animation-delay: 0.24s; }
+.col:nth-child(9) { animation-delay: 0.32s; }
+
+/* ═══════ Responsive ═══════ */
+@media (max-width: 600px) {
+  .col { width: 280px !important; }
+  .cl-mod { flex-direction: column; gap: 2px; }
+  .flow-conn { width: 50px; }
+  .flow-conn svg { width: 18px; }
+  .flow-label { font-size: 7px; }
+}
+</style>
+</head>
+<body>
+<div class="root">
+
+  <!-- Header -->
+  <header class="hdr">
+    <h1 class="hdr-title">AI大模型产业链 · 阀论图谱</h1>
+    <p class="hdr-sub">从算力地租到智能税收：五层权力结构与价值流向</p>
+    <div class="hdr-legend">
+      <span class="lg-item" style="color:#3b82f6"><span class="lg-dot" style="background:#3b82f6"></span>基础层</span>
+      <span class="lg-arrow">›</span>
+      <span class="lg-item" style="color:#06b6d4"><span class="lg-dot" style="background:#06b6d4"></span>模型层</span>
+      <span class="lg-arrow">›</span>
+      <span class="lg-item" style="color:#10b981"><span class="lg-dot" style="background:#10b981"></span>中间调度与编排层</span>
+      <span class="lg-arrow">›</span>
+      <span class="lg-item" style="color:#f59e0b"><span class="lg-dot" style="background:#f59e0b"></span>应用层</span>
+      <span class="lg-arrow">›</span>
+      <span class="lg-item" style="color:#9d71ff"><span class="lg-dot" style="background:#9d71ff"></span>终端价值出口</span>
+    </div>
+  </header>
+
+  <!-- 5-Column grid with flow connectors -->
+  <div class="grid">
+
+    <!-- ═══════ L1 基础层 ═══════ -->
+    <div class="col" style="--lc:#3b82f6;width:685px">
+      <div class="col-hd" style="border-bottom-color:#3b82f620">
+        <span class="col-lvl" style="background:#3b82f618;color:#3b82f6;border-color:#3b82f635">L1</span>
+        <span class="col-title" style="color:#3b82f6">基础层</span>
+      </div>
+      <div class="col-sub-hd" style="color:#3b82f6cc">算力的'物理阀'</div>
+      <div class="col-tagline" style="color:#3b82f688">地租/能源税征收者 【终极物质约束】</div>
+      <div class="col-body">
+        <div data-section="core">
+          <div class="cl-section-label"><span class="sec-icon">⚡</span>核心权力</div>
+          <div class="cl-core" style="border-left-color:#3b82f650">掌握先进芯片的制造与供给，决定了底层所有智力活动的物理极限。</div>
+        </div>
+        <div data-section="mods">
+          <div class="cl-section-label"><span class="sec-icon">📚</span>模块构成</div>
+          <div class="cl-mods cl-mods--cards">
+            <div class="mod-card" style="border-color:#3b82f618">
+              <div class="mod-card-name" style="color:#3b82f6">AI芯片</div>
+              <div class="mod-card-sub">（核心引擎）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· 设计：英伟达</div>
+                <div class="mod-card-item">· 制造：台积电</div>
+                <div class="mod-card-item">· 地缘：出口管制</div>
+              </div>
+            </div>
+            <div class="mod-card" style="border-color:#3b82f618">
+              <div class="mod-card-name" style="color:#3b82f6">算力集群</div>
+              <div class="mod-card-sub">（物理承载）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· 智算中心</div>
+                <div class="mod-card-item">· 光模块</div>
+                <div class="mod-card-item">· 交换机</div>
+              </div>
+            </div>
+            <div class="mod-card" style="border-color:#3b82f618">
+              <div class="mod-card-name" style="color:#3b82f6">数据资源</div>
+              <div class="mod-card-sub">（核心燃料）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· 公开数据集</div>
+                <div class="mod-card-item">· 行业私有数据</div>
+                <div class="mod-card-item">· 合成数据</div>
+              </div>
+            </div>
+            <div class="mod-card" style="border-color:#3b82f618">
+              <div class="mod-card-name" style="color:#3b82f6">能源与散热</div>
+              <div class="mod-card-sub">（新约束）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· 稳定廉价电力</div>
+                <div class="mod-card-item">· 液冷技术</div>
+                <div class="mod-card-item">· 核能/绿电</div>
+              </div>
+            </div>
+            <div class="mod-card" style="border-color:#3b82f618">
+              <div class="mod-card-name" style="color:#3b82f6">人才基础</div>
+              <div class="mod-card-sub">（核心源泉）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· 顶尖研究员</div>
+                <div class="mod-card-item">· 系统工程师</div>
+                <div class="mod-card-item">· AI素养教育</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-section="ins">
+          <div class="cl-section-label"><span class="sec-icon">💎</span>洞察分析</div>
+          <div class="cl-ins-grid">
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#3b82f60c;color:#3b82f6bb;border-color:#3b82f618">💎 稀缺</span>
+              <span class="cl-ins-txt">先进制程产能、高带宽内存(HBM)、合规算力获取渠道、稳定清洁能源</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#3b82f60c;color:#3b82f6bb;border-color:#3b82f618">🚪 阀门</span>
+              <span class="cl-ins-txt">英伟达的芯片供应合同、美国的出口许可证、电网的供电配额</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#3b82f60c;color:#3b82f6bb;border-color:#3b82f618">🔒 排他</span>
+              <span class="cl-ins-txt">CUDA生态锁定、实体清单、数十亿美元预付订单</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#3b82f60c;color:#3b82f6bb;border-color:#3b82f618">💰 寻租</span>
+              <span class="cl-ins-txt">收取'地租/能源税'，将芯片以数倍成本卖出，毛利率超70%</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#3b82f60c;color:#3b82f6bb;border-color:#3b82f618">📈 马太效应</span>
+              <span class="cl-ins-txt">英伟达成为整个AI产业的'心率调节器'，其产品节奏定义行业迭代速度。</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#3b82f60c;color:#3b82f6bb;border-color:#3b82f618">📜 合法性包装</span>
+              <span class="cl-ins-txt">'加速人类创新'、'维护全球供应链安全'</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow: L1 → L2 -->
+    <div class="flow-conn">
+      <span class="flow-label" style="color:#3b82f6aa">输出算力、数据与工程能力</span>
+      <svg width="24" height="40" viewBox="0 0 48 40">
+        <defs><linearGradient id="fg0" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#3b82f6" stop-opacity="0.45"/><stop offset="100%" stop-color="#06b6d4" stop-opacity="0.45"/></linearGradient></defs>
+        <line x1="2" y1="20" x2="34" y2="20" stroke="url(#fg0)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <path d="M31 14 L39 20 L31 26" fill="none" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+        <circle r="2.5" fill="#06b6d4" opacity="0.9"><animateMotion dur="2s" repeatCount="indefinite" path="M2,20 L34,20"/></circle>
+        <circle r="1.8" fill="#3b82f6" opacity="0.6"><animateMotion dur="2s" repeatCount="indefinite" path="M2,20 L34,20" begin="0.8s"/></circle>
+      </svg>
+    </div>
+
+    <!-- ═══════ L2 模型层 ═══════ -->
+    <div class="col" style="--lc:#06b6d4;width:463px">
+      <div class="col-hd" style="border-bottom-color:#06b6d420">
+        <span class="col-lvl" style="background:#06b6d418;color:#06b6d4;border-color:#06b6d435">L2</span>
+        <span class="col-title" style="color:#06b6d4">模型层</span>
+      </div>
+      <div class="col-sub-hd" style="color:#06b6d4cc">智力的'中枢阀'</div>
+      <div class="col-tagline" style="color:#06b6d488">智能税征收者 【寡头化重资产】</div>
+      <div class="col-body">
+        <div data-section="core">
+          <div class="cl-section-label"><span class="sec-icon">⚡</span>核心权力</div>
+          <div class="cl-core" style="border-left-color:#06b6d450">将海量算力与数据，转化为极度稀缺的'顶级智力'，并通过API阀门分发。</div>
+        </div>
+        <div data-section="mods">
+          <div class="cl-section-label"><span class="sec-icon">📚</span>模块构成</div>
+          <div class="cl-mods cl-mods--cards">
+            <div class="mod-card" style="border-color:#06b6d418">
+              <div class="mod-card-name" style="color:#06b6d4">通用基础大模型</div>
+              <div class="mod-card-sub">（智力底座）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· 语言、视觉、多模态巨头</div>
+                <div class="mod-card-item">· 代表: 闭源寡头 + 顶级开源</div>
+                <div class="mod-card-item">· 开源与闭源的持续博弈</div>
+              </div>
+            </div>
+            <div class="mod-card" style="border-color:#06b6d418">
+              <div class="mod-card-name" style="color:#06b6d4">行业/场景微调模型</div>
+              <div class="mod-card-sub">（场景适配）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· 基于基础模型的专用版本</div>
+                <div class="mod-card-item">· 多由巨头或其核心伙伴控制</div>
+                <div class="mod-card-item">· 护城河=私有数据+专家反馈</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-section="ins">
+          <div class="cl-section-label"><span class="sec-icon">💎</span>洞察分析</div>
+          <div class="cl-ins-grid">
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#06b6d40c;color:#06b6d4bb;border-color:#06b6d418">💎 稀缺</span>
+              <span class="cl-ins-txt">顶尖研究团队、训练资金（百亿美元级）、高质量交互数据</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#06b6d40c;color:#06b6d4bb;border-color:#06b6d418">🚪 阀门</span>
+              <span class="cl-ins-txt">唯一的API调用入口，黑箱模型，按Token计费的定价权</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#06b6d40c;color:#06b6d4bb;border-color:#06b6d418">🔒 排他</span>
+              <span class="cl-ins-txt">技术黑箱、资本天堑、开发者生态锁定</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#06b6d40c;color:#06b6d4bb;border-color:#06b6d418">💰 寻租</span>
+              <span class="cl-ins-txt">收取'智能税'，所有上层应用按调用量付费</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#06b6d40c;color:#06b6d4bb;border-color:#06b6d418">📈 马太效应</span>
+              <span class="cl-ins-txt">最终收敛于2-3家全球性'智力寡头'，成为所有智能应用的'源头'。</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#06b6d40c;color:#06b6d4bb;border-color:#06b6d418">📜 合法性包装</span>
+              <span class="cl-ins-txt">'为了AI安全，尖端模型不宜开源'</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow: L2 → L3 -->
+    <div class="flow-conn">
+      <span class="flow-label" style="color:#06b6d4aa">输出标准化的基础模型能力</span>
+      <svg width="24" height="40" viewBox="0 0 48 40">
+        <defs><linearGradient id="fg1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#06b6d4" stop-opacity="0.45"/><stop offset="100%" stop-color="#10b981" stop-opacity="0.45"/></linearGradient></defs>
+        <line x1="2" y1="20" x2="34" y2="20" stroke="url(#fg1)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <path d="M31 14 L39 20 L31 26" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+        <circle r="2.5" fill="#10b981" opacity="0.9"><animateMotion dur="2s" repeatCount="indefinite" path="M2,20 L34,20"/></circle>
+        <circle r="1.8" fill="#06b6d4" opacity="0.6"><animateMotion dur="2s" repeatCount="indefinite" path="M2,20 L34,20" begin="0.8s"/></circle>
+      </svg>
+    </div>
+
+    <!-- ═══════ L3 中间调度与编排层 ═══════ -->
+    <div class="col" style="--lc:#10b981;width:510px">
+      <div class="col-hd" style="border-bottom-color:#10b98120">
+        <span class="col-lvl" style="background:#10b98118;color:#10b981;border-color:#10b98135">L3</span>
+        <span class="col-title" style="color:#10b981">中间调度与编排层</span>
+      </div>
+      <div class="col-sub-hd" style="color:#10b981cc">信息流的'信任阀'</div>
+      <div class="col-tagline" style="color:#10b98188">决策效率税征收者 【结构性蓝海】</div>
+      <div class="col-body">
+        <div data-section="core">
+          <div class="cl-section-label"><span class="sec-icon">⚡</span>核心权力</div>
+          <div class="cl-core" style="border-left-color:#10b98150">在多个上层模型寡头之间，构建多元的、中立的决策与信任代理。</div>
+        </div>
+        <div data-section="mods">
+          <div class="cl-section-label"><span class="sec-icon">📚</span>模块构成</div>
+          <div class="cl-mods cl-mods--cards">
+            <div class="mod-card" style="border-color:#10b98118">
+              <div class="mod-card-name" style="color:#10b981">统一接入与路由网关</div>
+              <div class="mod-card-sub">（流量入口）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· Model Hub</div>
+                <div class="mod-card-item">· 屏蔽底层模型差异</div>
+                <div class="mod-card-item">· 模型热切换</div>
+              </div>
+            </div>
+            <div class="mod-card" style="border-color:#10b98118">
+              <div class="mod-card-name" style="color:#10b981">智能编排与决策引擎</div>
+              <div class="mod-card-sub">（调度中枢）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· Orchestrator</div>
+                <div class="mod-card-item">· 成本/质量/区域路由</div>
+                <div class="mod-card-item">· 复杂任务拆解与分配</div>
+              </div>
+            </div>
+            <div class="mod-card" style="border-color:#10b98118">
+              <div class="mod-card-name" style="color:#10b981">信任与合规网关</div>
+              <div class="mod-card-sub">（安全屏障）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· Trust Gateway</div>
+                <div class="mod-card-item">· 数据脱敏/合规审查</div>
+                <div class="mod-card-item">· 内容安全过滤</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-section="ins">
+          <div class="cl-section-label"><span class="sec-icon">💎</span>洞察分析</div>
+          <div class="cl-ins-grid">
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#10b9810c;color:#10b981bb;border-color:#10b98118">💎 稀缺</span>
+              <span class="cl-ins-txt">在信息爆炸环境下的决断力、中立性、全局数据视图</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#10b9810c;color:#10b981bb;border-color:#10b98118">🚪 阀门</span>
+              <span class="cl-ins-txt">应用调用的'唯一入口'，掌握了智能供应链的分配权</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#10b9810c;color:#10b981bb;border-color:#10b98118">🔒 排他</span>
+              <span class="cl-ins-txt">基于长期、透明、正确决策的信用资产，金钱无法速成</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#10b9810c;color:#10b981bb;border-color:#10b98118">💰 寻租</span>
+              <span class="cl-ins-txt">收取'决策效率税'，从为用户节省的成本和创造的价值中分成</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#10b9810c;color:#10b981bb;border-color:#10b98118">📈 马太效应</span>
+              <span class="cl-ins-txt">信任和数据的飞轮将催生1-2家顶级的'信任代理'，形成新的信息流垄断。</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#10b9810c;color:#10b981bb;border-color:#10b98118">📜 合法性包装</span>
+              <span class="cl-ins-txt">'打破智能垄断，构建开放公平的AI算力市场'</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow: L3 → L4 -->
+    <div class="flow-conn">
+      <span class="flow-label" style="color:#10b981aa">输出封装好的、可信赖的智能接口与决策流</span>
+      <svg width="24" height="40" viewBox="0 0 48 40">
+        <defs><linearGradient id="fg2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#10b981" stop-opacity="0.45"/><stop offset="100%" stop-color="#f59e0b" stop-opacity="0.45"/></linearGradient></defs>
+        <line x1="2" y1="20" x2="34" y2="20" stroke="url(#fg2)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <path d="M31 14 L39 20 L31 26" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+        <circle r="2.5" fill="#f59e0b" opacity="0.9"><animateMotion dur="2s" repeatCount="indefinite" path="M2,20 L34,20"/></circle>
+        <circle r="1.8" fill="#10b981" opacity="0.6"><animateMotion dur="2s" repeatCount="indefinite" path="M2,20 L34,20" begin="0.8s"/></circle>
+      </svg>
+    </div>
+
+    <!-- ═══════ L4 应用层 ═══════ -->
+    <div class="col" style="--lc:#f59e0b;width:473px">
+      <div class="col-hd" style="border-bottom-color:#f59e0b20">
+        <span class="col-lvl" style="background:#f59e0b18;color:#f59e0b;border-color:#f59e0b35">L4</span>
+        <span class="col-title" style="color:#f59e0b">应用层</span>
+      </div>
+      <div class="col-sub-hd" style="color:#f59e0bcc">场景的'收口阀'</div>
+      <div class="col-tagline" style="color:#f59e0b88">效率税征收者</div>
+      <div class="col-body">
+        <div data-section="core">
+          <div class="cl-section-label"><span class="sec-icon">⚡</span>核心权力</div>
+          <div class="cl-core" style="border-left-color:#f59e0b50">嵌入客户核心工作流的能力，掌握'最后一公里'的交付阀门。</div>
+        </div>
+        <div data-section="mods">
+          <div class="cl-section-label"><span class="sec-icon">📚</span>模块构成</div>
+          <div class="cl-mods cl-mods--cards">
+            <div class="mod-card" style="border-color:#f59e0b18">
+              <div class="mod-card-name" style="color:#f59e0b">工作流嵌入型应用</div>
+              <div class="mod-card-sub">（效率提升）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· 协同办公AI</div>
+                <div class="mod-card-item">· 代码助手</div>
+                <div class="mod-card-item">· 营销自动化</div>
+              </div>
+            </div>
+            <div class="mod-card" style="border-color:#f59e0b18">
+              <div class="mod-card-name" style="color:#f59e0b">行业深度应用</div>
+              <div class="mod-card-sub">（垂直深耕）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· 医疗影像诊断</div>
+                <div class="mod-card-item">· 法律文书审查</div>
+                <div class="mod-card-item">· 金融风控建模</div>
+              </div>
+            </div>
+            <div class="mod-card" style="border-color:#f59e0b18">
+              <div class="mod-card-name" style="color:#f59e0b">具身智能/硬件</div>
+              <div class="mod-card-sub">（物理延伸）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· 自动驾驶</div>
+                <div class="mod-card-item">· 工业机器人</div>
+                <div class="mod-card-item">· 家庭服务机器人</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-section="ins">
+          <div class="cl-section-label"><span class="sec-icon">💎</span>洞察分析</div>
+          <div class="cl-ins-grid">
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#f59e0b0c;color:#f59e0bbb;border-color:#f59e0b18">💎 稀缺</span>
+              <span class="cl-ins-txt">客户注意力/预算 + 行业Know-How</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#f59e0b0c;color:#f59e0bbb;border-color:#f59e0b18">🚪 阀门</span>
+              <span class="cl-ins-txt">SaaS/API订阅账号、工作流中不可跳过的一环、私有数据沉淀</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#f59e0b0c;color:#f59e0bbb;border-color:#f59e0b18">🔒 排他</span>
+              <span class="cl-ins-txt">品牌信任、客户关系、数据飞轮、合规资质</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#f59e0b0c;color:#f59e0bbb;border-color:#f59e0b18">💰 寻租</span>
+              <span class="cl-ins-txt">收取'效率税'——为客户节省的成本/创造的新收入中分成</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#f59e0b0c;color:#f59e0bbb;border-color:#f59e0b18">📈 马太效应</span>
+              <span class="cl-ins-txt">每个垂直行业将出现1-2个AI赋能的新型巨头，形成场景垄断。</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#f59e0b0c;color:#f59e0bbb;border-color:#f59e0b18">📜 合法性包装</span>
+              <span class="cl-ins-txt">以'AI赋能千行百业'、'技术普惠'的进步叙事，软化其替代人工、收窄行业利润池的恐惧。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow: L4 → L5 -->
+    <div class="flow-conn">
+      <span class="flow-label" style="color:#f59e0baa">输出'开箱即用'的AI服务</span>
+      <svg width="24" height="40" viewBox="0 0 48 40">
+        <defs><linearGradient id="fg3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#f59e0b" stop-opacity="0.45"/><stop offset="100%" stop-color="#9d71ff" stop-opacity="0.45"/></linearGradient></defs>
+        <line x1="2" y1="20" x2="34" y2="20" stroke="url(#fg3)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <path d="M31 14 L39 20 L31 26" fill="none" stroke="#9d71ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+        <circle r="2.5" fill="#9d71ff" opacity="0.9"><animateMotion dur="2s" repeatCount="indefinite" path="M2,20 L34,20"/></circle>
+        <circle r="1.8" fill="#f59e0b" opacity="0.6"><animateMotion dur="2s" repeatCount="indefinite" path="M2,20 L34,20" begin="0.8s"/></circle>
+      </svg>
+    </div>
+
+    <!-- ═══════ L5 终端价值出口 ═══════ -->
+    <div class="col" style="--lc:#9d71ff;width:562px">
+      <div class="col-hd" style="border-bottom-color:#9d71ff20">
+        <span class="col-lvl" style="background:#9d71ff18;color:#9d71ff;border-color:#9d71ff35">L5</span>
+        <span class="col-title" style="color:#9d71ff">终端价值出口</span>
+      </div>
+      <div class="col-sub-hd" style="color:#9d71ffcc">最终'寻租'来源</div>
+      <div class="col-tagline" style="color:#9d71ff88">被动寻租贡献者</div>
+      <div class="col-body">
+        <div data-section="core">
+          <div class="cl-section-label"><span class="sec-icon">⚡</span>核心权力</div>
+          <div class="cl-core" style="border-left-color:#9d71ff50">算力税、智能税、决策效率税的终极贡献者。</div>
+        </div>
+        <div data-section="mods">
+          <div class="cl-section-label"><span class="sec-icon">📚</span>模块构成</div>
+          <div class="cl-mods cl-mods--cards">
+            <div class="mod-card" style="border-color:#9d71ff18">
+              <div class="mod-card-name" style="color:#9d71ff">C端消费者</div>
+              <div class="mod-card-sub">（大众市场）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· 个人订阅</div>
+                <div class="mod-card-item">· 内容消费</div>
+                <div class="mod-card-item">· 智能助手用户</div>
+              </div>
+            </div>
+            <div class="mod-card" style="border-color:#9d71ff18">
+              <div class="mod-card-name" style="color:#9d71ff">B端企业客户</div>
+              <div class="mod-card-sub">（商业主力）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· SaaS采购</div>
+                <div class="mod-card-item">· 定制化方案</div>
+                <div class="mod-card-item">· 数字化升级</div>
+              </div>
+            </div>
+            <div class="mod-card" style="border-color:#9d71ff18">
+              <div class="mod-card-name" style="color:#9d71ff">G端政府机构</div>
+              <div class="mod-card-sub">（公共治理）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· 智慧城市</div>
+                <div class="mod-card-item">· 公共治理</div>
+                <div class="mod-card-item">· 国防安全</div>
+              </div>
+            </div>
+            <div class="mod-card" style="border-color:#9d71ff18">
+              <div class="mod-card-name" style="color:#9d71ff">开发者/极客社群</div>
+              <div class="mod-card-sub">（生态建设）</div>
+              <div class="mod-card-items">
+                <div class="mod-card-item">· API调用</div>
+                <div class="mod-card-item">· 开源贡献</div>
+                <div class="mod-card-item">· 生态建设</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-section="ins">
+          <div class="cl-section-label"><span class="sec-icon">💎</span>洞察分析</div>
+          <div class="cl-ins-grid">
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#9d71ff0c;color:#9d71ffbb;border-color:#9d71ff18">💎 稀缺</span>
+              <span class="cl-ins-txt">支付能力、数据贡献、使用粘性</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#9d71ff0c;color:#9d71ffbb;border-color:#9d71ff18">🚪 阀门</span>
+              <span class="cl-ins-txt">使用许可、订阅关系、平台依赖</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#9d71ff0c;color:#9d71ffbb;border-color:#9d71ff18">🔒 排他</span>
+              <span class="cl-ins-txt">切换成本、数据锁定、生态绑定</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#9d71ff0c;color:#9d71ffbb;border-color:#9d71ff18">💰 寻租</span>
+              <span class="cl-ins-txt">终端用户为上层所有'税收'买单——算力溢价、API费用、SaaS订阅</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#9d71ff0c;color:#9d71ffbb;border-color:#9d71ff18">📈 马太效应</span>
+              <span class="cl-ins-txt">越依赖AI的用户/企业，被抽取的'租金'越多，形成反向马太效应。</span>
+            </div>
+            <div class="cl-ins">
+              <span class="cl-ins-tag" style="background:#9d71ff0c;color:#9d71ffbb;border-color:#9d71ff18">📜 合法性包装</span>
+              <span class="cl-ins-txt">上游各层共同将层层抽租的分配事实，包装为终端用户'为便捷付费、向未来投资'的自主选择叙事。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <!-- Footer -->
+  <footer class="ftr"></footer>
+
+</div><!-- /root -->
+
+<script>
+// Height equalization (same logic as React version)
+(function() {
+  function equalize() {
+    var grid = document.querySelector('.grid');
+    if (!grid) return;
+    var cols = grid.querySelectorAll('.col');
+    ['core', 'mods', 'ins'].forEach(function(section) {
+      var els = [];
+      cols.forEach(function(col) {
+        var el = col.querySelector('[data-section="' + section + '"]');
+        if (el) { el.style.minHeight = ''; els.push(el); }
+      });
+      var maxH = 0;
+      els.forEach(function(el) { maxH = Math.max(maxH, el.offsetHeight); });
+      if (maxH > 0) els.forEach(function(el) { el.style.minHeight = maxH + 'px'; });
+    });
+  }
+  requestAnimationFrame(function() { requestAnimationFrame(equalize); });
+  window.addEventListener('resize', equalize);
+})();
+</script>
+</body>
+</html>
