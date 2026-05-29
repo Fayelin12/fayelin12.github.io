@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fayelin12.github.io/blog/sitemap.xml
