@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI助手使用成熟度评估</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style type="text/tailwindcss">
+        @layer base {
+            :root {
+                --color-warm-cream: #FDF8F3;
+                --color-soft-blush: #F5E6E0;
+                --color-dusty-rose: #D4A5A5;
+                --color-sage-green: #A8B5A0;
+                --color-deep-forest: #4A5D4E;
+                --color-warm-charcoal: #3D3D3D;
+                --color-golden-hour: #E8D4B8;
+                --color-lavender-mist: #E6E0EC;
+            }
+            body {
+                font-family: 'Noto Sans SC', sans-serif;
+                background: linear-gradient(135deg, var(--color-warm-cream) 0%, var(--color-soft-blush) 50%, var(--color-golden-hour) 100%);
+                min-height: 100vh;
+            }
+            h1, h2, h3, .serif {
+                font-family: 'Noto Serif SC', serif;
+            }
+        }
+        @layer components {
+            .level-card {
+                @apply relative overflow-hidden rounded-2xl p-8 transition-all duration-500 cursor-pointer;
+                background: rgba(255, 255, 255, 0.7);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.5);
+            }
+            .level-card:hover {
+                @apply transform -translate-y-2;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            }
+            .level-card.active {
+                background: rgba(255, 255, 255, 0.95);
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            }
+            .assessment-btn {
+                @apply px-6 py-3 rounded-full font-medium transition-all duration-300;
+                background: linear-gradient(135deg, var(--color-dusty-rose), #C99595);
+                color: white;
+            }
+            .assessment-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 30px -10px rgba(212, 165, 165, 0.5);
+            }
+            .option-btn {
+                @apply w-full text-left p-4 rounded-xl transition-all duration-300 border-2;
+                background: rgba(255, 255, 255, 0.5);
+                border-color: transparent;
+            }
+            .option-btn:hover {
+                background: rgba(255, 255, 255, 0.8);
+                border-color: var(--color-dusty-rose);
+            }
+            .option-btn.selected {
+                background: rgba(212, 165, 165, 0.15);
+                border-color: var(--color-dusty-rose);
+            }
+            .progress-dot {
+                @apply w-3 h-3 rounded-full transition-all duration-300;
+                background: rgba(212, 165, 165, 0.3);
+            }
+            .progress-dot.active {
+                background: var(--color-dusty-rose);
+                transform: scale(1.3);
+            }
+            .progress-dot.completed {
+                background: var(--color-sage-green);
+            }
+            .floating-shape {
+                position: absolute;
+                border-radius: 50%;
+                filter: blur(60px);
+                opacity: 0.4;
+                animation: float 20s infinite ease-in-out;
+            }
+            @keyframes float {
+                0%, 100% { transform: translate(0, 0) scale(1); }
+                33% { transform: translate(30px, -30px) scale(1.1); }
+                66% { transform: translate(-20px, 20px) scale(0.9); }
+            }
+            .grain-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                opacity: 0.03;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            }
+            .level-badge {
+                @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium;
+            }
+            .level-l1 { background: rgba(232, 212, 184, 0.5); color: #8B7355; }
+            .level-l2 { background: rgba(212, 165, 165, 0.3); color: #9B6B6B; }
+            .level-l3 { background: rgba(168, 181, 160, 0.3); color: #5A6B52; }
+            .level-l4 { background: rgba(230, 224, 236, 0.5); color: #7A6B8A; }
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+    <div class="grain-overlay"></div>
+    
+    <!-- Floating Background Shapes -->
+    <div class="floating-shape w-96 h-96 bg-gradient-to-br from-rose-200 to-orange-200 top-0 left-0" style="animation-delay: 0s;"></div>
+    <div class="floating-shape w-80 h-80 bg-gradient-to-br from-green-200 to-teal-200 top-1/3 right-0" style="animation-delay: -7s;"></div>
+    <div class="floating-shape w-72 h-72 bg-gradient-to-br from-purple-200 to-pink-200 bottom-0 left-1/3" style="animation-delay: -14s;"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 px-6 py-12 text-center">
+        <div class="max-w-4xl mx-auto">
+            <p class="text-sm tracking-widest text-gray-500 mb-4 uppercase">AI Assistant Maturity Assessment</p>
+            <h1 class="text-5xl md:text-6xl font-bold text-gray-800 mb-6 leading-tight">
+                AI助手<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-orange-400">使用成熟度评估</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                探索你与AI协作的深度，发现提升空间。无论你是初次接触还是深度用户，都能找到属于自己的成长路径。
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10 px-6 pb-20">
+        <div class="max-w-6xl mx-auto">
+            
+            <!-- Assessment Section -->
+            <section id="assessment" class="mb-20">
+                <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-xl">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-3">开始评估</h2>
+                        <p class="text-gray-600">回答以下7个问题，了解你当前的AI助手使用层级</p>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="flex justify-center gap-3 mb-10">
+                        <div class="progress-dot active" data-question="0"></div>
+                        <div class="progress-dot" data-question="1"></div>
+                        <div class="progress-dot" data-question="2"></div>
+                        <div class="progress-dot" data-question="3"></div>
+                        <div class="progress-dot" data-question="4"></div>
+                        <div class="progress-dot" data-question="5"></div>
+                        <div class="progress-dot" data-question="6"></div>
+                    </div>
+
+                    <!-- Question Container -->
+                    <div id="question-container" class="max-w-3xl mx-auto">
+                        <!-- Questions will be injected here -->
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="flex justify-between mt-10 max-w-3xl mx-auto">
+                        <button id="prev-btn" class="px-6 py-3 rounded-full text-gray-500 hover:text-gray-700 transition-colors opacity-0 pointer-events-none">
+                            ← 上一题
+                        </button>
+                        <button id="next-btn" class="assessment-btn opacity-50 pointer-events-none">
+                            下一题 →
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Result Section (Hidden by default) -->
+            <section id="result" class="hidden mb-20">
+                <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-2xl">
+                    <div class="text-center mb-10">
+                        <p class="text-sm tracking-widest text-gray-500 mb-4 uppercase">Your Assessment Result</p>
+                        <h2 class="text-4xl font-bold text-gray-800 mb-4">你的AI协作层级</h2>
+                        <div id="result-badge" class="level-badge text-lg px-6 py-2">
+                            <!-- Result badge will be injected here -->
+                        </div>
+                    </div>
+
+                    <div id="result-content" class="max-w-3xl mx-auto">
+                        <!-- Result content will be injected here -->
+                    </div>
+
+                    <div class="text-center mt-10">
+                        <button onclick="restartAssessment()" class="assessment-btn">
+                            重新评估
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Four Levels Overview -->
+            <section class="mb-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">四个成长层级</h2>
+                    <p class="text-gray-600">从初次探索到深度协作，每个层级都有其独特的价值</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- L1 -->
+                    <div class="level-card" onclick="showLevelDetail('l1')">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-200/30 to-orange-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="level-badge level-l1 mb-4">
+                                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                                L1 探索期
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">初次接触</h3>
+                    <p class="text-gray-600 mb-4">像使用搜索引擎一样使用AI，每次问一个独立的问题，获得即时答案。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm">单次问答</span>
+                                <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm">简单任务</span>
+                                <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm">快速获取</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- L2 -->
+                    <div class="level-card" onclick="showLevelDetail('l2')">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-rose-200/30 to-pink-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="level-badge level-l2 mb-4">
+                                <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+                                L2 协作期
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">深度对话</h3>
+                    <p class="text-gray-600 mb-4">在一个会话中持续交流，让AI了解上下文，迭代优化结果。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-sm">多轮对话</span>
+                                <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-sm">上下文理解</span>
+                                <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-sm">迭代优化</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- L3 -->
+                    <div class="level-card" onclick="showLevelDetail('l3')">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-200/30 to-teal-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="level-badge level-l3 mb-4">
+                                <span class="w-2 h-2 rounded-full bg-green-400"></span>
+                                L3 代理期
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">任务委托</h3>
+                    <p class="text-gray-600 mb-4">让AI自主完成复杂的多步骤任务，只需在关键节点确认方向。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">复杂任务</span>
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">自主执行</span>
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">工具调用</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- L4 -->
+                    <div class="level-card" onclick="showLevelDetail('l4')">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-200/30 to-indigo-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="level-badge level-l4 mb-4">
+                                <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+                                L4 自治期
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">智能伙伴</h3>
+                    <p class="text-gray-600 mb-4">AI成为真正的协作伙伴，能够处理系统性工作，持续学习和优化。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">系统思维</span>
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">持续学习</span>
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">创新协作</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Level Detail Modal -->
+            <div id="level-modal" class="fixed inset-0 z-50 hidden">
+                <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" onclick="closeLevelDetail()"></div>
+                <div class="absolute inset-x-4 top-20 md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[600px] max-h-[80vh] overflow-y-auto">
+                    <div class="bg-white rounded-3xl p-8 shadow-2xl">
+                        <button onclick="closeLevelDetail()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors">
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                        <div id="modal-content">
+                            <!-- Modal content will be injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 px-6 py-12 text-center border-t border-gray-200/50">
+        <p class="text-gray-500 text-sm">基于 Microsoft Agentic AI Maturity Model 和 Bessemer AI Agent Autonomy Scale 设计</p>
+    </footer>
+
+    <script>
+        // Assessment Questions
+        const questions = [
+            {
+                id: 1,
+                text: "你通常如何与AI助手交流？",
+                options: [
+                    { text: "每次问一个独立的问题，不问后续", level: "l1" },
+                    { text: "会追问几个问题，但经常开启新对话", level: "l2" },
+                    { text: "在一个长对话中持续迭代优化", level: "l3" },
+                    { text: "让AI自主完成多步骤任务，我只看结果", level: "l4" }
+                ]
+            },
+            {
+                id: 2,
+                text: "你交给AI处理的任务通常有多复杂？",
+                options: [
+                    { text: "简单查询，比如查资料、写短文案", level: "l1" },
+                    { text: "中等任务，比如写一份报告、分析数据", level: "l2" },
+                    { text: "复杂项目，涉及多个文件和步骤", level: "l3" },
+                    { text: "系统性工作，需要规划和持续跟进", level: "l4" }
+                ]
+            },
+            {
+                id: 3,
+                text: "你会给AI提供多少背景信息？",
+                options: [
+                    { text: "几乎不提供，直接问问题", level: "l1" },
+                    { text: "会提供相关文档或上下文", level: "l2" },
+                    { text: "建立了固定的知识库和规则", level: "l3" },
+                    { text: "AI已经深度理解我的工作方式和偏好", level: "l4" }
+                ]
+            },
+            {
+                id: 4,
+                text: "你使用AI工具的频率如何？",
+                options: [
+                    { text: "偶尔使用，想起来才用", level: "l1" },
+                    { text: "经常使用，每周几次", level: "l2" },
+                    { text: "每天使用，已经成为习惯", level: "l3" },
+                    { text: "深度集成到工作流程中", level: "l4" }
+                ]
+            },
+            {
+                id: 5,
+                text: "AI执行任务时，你的参与程度如何？",
+                options: [
+                    { text: "全程盯着，每一步都要确认", level: "l1" },
+                    { text: "经常检查进度和中间结果", level: "l2" },
+                    { text: "只在关键节点确认方向", level: "l3" },
+                    { text: "只看最终结果，过程完全信任", level: "l4" }
+                ]
+            },
+            {
+                id: 6,
+                text: "你是否会让AI调用外部工具（如搜索、发送邮件、操作文件）？",
+                options: [
+                    { text: "从不，只用文字对话功能", level: "l1" },
+                    { text: "偶尔，比如让它搜索信息", level: "l2" },
+                    { text: "经常，会用它执行各种任务", level: "l3" },
+                    { text: "完全自动化，工具链深度集成", level: "l4" }
+                ]
+            },
+            {
+                id: 7,
+                text: "你的AI协作流程是否标准化？",
+                options: [
+                    { text: "没有固定流程，每次随意使用", level: "l1" },
+                    { text: "有一些个人习惯和偏好", level: "l2" },
+                    { text: "建立了标准化的工作流程", level: "l3" },
+                    { text: "流程自适应优化，持续改进", level: "l4" }
+                ]
+            }
+        ];
+
+        // Level Details
+        const levelDetails = {
+            l1: {
+                title: "L1 探索期 - 初次接触",
+                badge: "level-l1",
+                color: "amber",
+                description: "你正在探索AI助手的基本功能，像使用搜索引擎一样获取即时答案。",
+                characteristics: [
+                    "主要使用单次问答模式",
+                    "处理简单、独立的任务",
+                    "不提供项目背景信息",
+                    "仅使用基础对话功能",
+                    "直接采用AI的回答，较少修改"
+                ],
+                examples: [
+                    "帮我查一下这个产品的价格",
+                    "写一段200字的产品介绍",
+                    "解释一下什么是区块链技术"
+                ],
+                value: [
+                    "✓ 快速获取信息和灵感",
+                    "✓ 解决简单的写作和查询需求",
+                    "✗ 无法处理复杂或连续性任务",
+                    "✗ 结果质量不稳定"
+                ],
+                nextSteps: [
+                    "尝试在一个对话中多问几个问题",
+                    "给AI提供更多背景信息",
+                    "开始关注AI的推理过程",
+                    "尝试让AI帮你修改和完善内容"
+                ]
+            },
+            l2: {
+                title: "L2 协作期 - 深度对话",
+                badge: "level-l2",
+                color: "rose",
+                description: "你已经掌握了多轮对话的技巧，能够在一个会话中与AI持续协作，迭代优化结果。",
+                characteristics: [
+                    "使用多轮对话，持续迭代",
+                    "处理中等复杂度任务",
+                    "会提供相关背景信息",
+                    "主动使用多种功能",
+                    "会审查和修改AI的输出"
+                ],
+                examples: [
+                    "基于刚才的讨论，把第三点改得更具体一些",
+                    "这份报告还需要补充市场分析部分",
+                    "按照我们公司的风格重新调整这段话"
+                ],
+                value: [
+                    "✓ 能完成更复杂的写作和分析任务",
+                    "✓ 输出质量明显提升",
+                    "✓ 开始建立个人协作模式",
+                    "✗ 仍需要较多人工干预"
+                ],
+                nextSteps: [
+                    "学习使用Agent/自动模式",
+                    "建立个人提示词模板",
+                    "尝试让AI执行多步骤任务",
+                    "开始探索工具调用功能"
+                ]
+            },
+            l3: {
+                title: "L3 代理期 - 任务委托",
+                badge: "level-l3",
+                color: "green",
+                description: "你已经能够委托AI自主完成复杂的多步骤任务，只需在关键节点把控方向。",
+                characteristics: [
+                    "使用Agent模式，AI自主执行",
+                    "处理复杂的多步骤任务",
+                    "建立了个人知识库和规则",
+                    "熟练调用各种工具",
+                    "形成了标准化工作流程"
+                ],
+                examples: [
+                    "帮我整理这周的会议纪要并发送给团队",
+                    "分析这份销售数据，找出趋势并制作图表",
+                    "根据项目需求，制定一个详细的执行计划"
+                ],
+                value: [
+                    "✓ 能独立完成复杂工作",
+                    "✓ 显著减少工作时间",
+                    "✓ 建立了可复用的工作流",
+                    "✗ 仍需要人工监督和质量把关"
+                ],
+                nextSteps: [
+                    "建立个人技能库和模板",
+                    "学习多Agent协作模式",
+                    "探索自动化和集成功能",
+                    "关注AI的可靠性边界"
+                ]
+            },
+            l4: {
+                title: "L4 自治期 - 智能伙伴",
+                badge: "level-l4",
+                color: "purple",
+                description: "AI已经成为你真正的智能伙伴，能够处理系统性工作，持续学习和优化协作方式。",
+                characteristics: [
+                    "多Agent协作，端到端任务",
+                    "处理系统性、战略性工作",
+                    "完整的知识图谱和自动化",
+                    "工具链完全自动化",
+                    "自适应、自优化的流程"
+                ],
+                examples: [
+                    "基于公司战略，制定下季度的完整营销方案",
+                    "监控项目进度，发现问题自动预警并给出建议",
+                    "分析市场趋势，预测业务机会并生成报告"
+                ],
+                value: [
+                    "✓ AI成为真正的协作伙伴",
+                    "✓ 工作效率提升数倍",
+                    "✓ 能处理以前无法想象的复杂任务",
+                    "✓ 持续学习和自我改进"
+                ],
+                nextSteps: [
+                    "探索创新的AI使用模式",
+                    "建立团队或组织的AI协作标准",
+                    "分享最佳实践，帮助他人成长",
+                    "关注AI伦理和负责任使用"
+                ]
+            }
+        };
+
+        // State
+        let currentQuestion = 0;
+        let answers = new Array(questions.length).fill(null);
+
+        // Initialize
+        function init() {
+            renderQuestion();
+            updateNavigation();
+        }
+
+        // Render Question
+        function renderQuestion() {
+            const container = document.getElementById('question-container');
+            const question = questions[currentQuestion];
+            
+            container.innerHTML = `
+                <div class="text-center mb-8">
+                    <span class="text-sm text-gray-400">问题 ${currentQuestion + 1} / ${questions.length}</span>
+                    <h3 class="text-2xl font-bold text-gray-800 mt-2">${question.text}</h3>
+                </div>
+                <div class="space-y-3">
+                    ${question.options.map((option, index) => `
+                        <button class="option-btn ${answers[currentQuestion] === index ? 'selected' : ''}" 
+                                onclick="selectOption(${index})" data-level="${option.level}">
+                            <div class="flex items-center gap-4">
+                                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm font-medium text-gray-600">
+                                    ${String.fromCharCode(65 + index)}
+                                </div>
+                                <span class="text-gray-700">${option.text}</span>
+                            </div>
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+            
+            updateProgress();
+        }
+
+        // Select Option
+        function selectOption(index) {
+            answers[currentQuestion] = index;
+            renderQuestion();
+            updateNavigation();
+            
+            // Auto advance after selection
+            setTimeout(() => {
+                if (currentQuestion < questions.length - 1) {
+                    nextQuestion();
+                } else {
+                    showResult();
+                }
+            }, 500);
+        }
+
+        // Update Progress
+        function updateProgress() {
+            document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+                dot.classList.remove('active', 'completed');
+                if (index < currentQuestion) {
+                    dot.classList.add('completed');
+                } else if (index === currentQuestion) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        // Update Navigation
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            prevBtn.style.opacity = currentQuestion > 0 ? '1' : '0';
+            prevBtn.style.pointerEvents = currentQuestion > 0 ? 'auto' : 'none';
+            
+            const hasAnswer = answers[currentQuestion] !== null;
+            nextBtn.style.opacity = hasAnswer ? '1' : '0.5';
+            nextBtn.style.pointerEvents = hasAnswer ? 'auto' : 'none';
+            
+            if (currentQuestion === questions.length - 1) {
+                nextBtn.textContent = '查看结果 →';
+            } else {
+                nextBtn.textContent = '下一题 →';
+            }
+        }
+
+        // Navigation
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+                updateNavigation();
+            }
+        });
+
+        document.getElementById('next-btn').addEventListener('click', nextQuestion);
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+                updateNavigation();
+            } else {
+                showResult();
+            }
+        }
+
+        // Show Result
+        function showResult() {
+            // Calculate result
+            const levelCounts = { l1: 0, l2: 0, l3: 0, l4: 0 };
+            answers.forEach(answerIndex => {
+                const level = questions[answers.indexOf(answerIndex)].options[answerIndex].level;
+                levelCounts[level]++;
+            });
+            
+            // Find dominant level
+            let resultLevel = 'l1';
+            let maxCount = 0;
+            Object.entries(levelCounts).forEach(([level, count]) => {
+                if (count > maxCount) {
+                    maxCount = count;
+                    resultLevel = level;
+                }
+            });
+            
+            const detail = levelDetails[resultLevel];
+            
+            // Render result
+            document.getElementById('result-badge').className = `level-badge ${detail.badge} text-lg px-6 py-2`;
+            document.getElementById('result-badge').innerHTML = `
+                <span class="w-2 h-2 rounded-full bg-${detail.color}-400"></span>
+                ${detail.title}
+            `;
+            
+            document.getElementById('result-content').innerHTML = `
+                <div class="space-y-8">
+                    <p class="text-lg text-gray-600 leading-relaxed">${detail.description}</p>
+                    
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-${detail.color}-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            你的典型表现
+                        </h4>
+                        <ul class="space-y-2">
+                            ${detail.characteristics.map(c => `
+                                <li class="flex items-start gap-3 text-gray-600">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-${detail.color}-400 mt-2 flex-shrink-0"></span>
+                                    <span>${c}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-${detail.color}-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            使用场景示例
+                        </h4>
+                        <div class="bg-${detail.color}-50 rounded-xl p-4 space-y-2">
+                            ${detail.examples.map(e => `
+                                <p class="text-gray-600 italic">"${e}"</p>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3">价值与局限</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${detail.value.map(v => `
+                                <div class="flex items-start gap-2 ${v.startsWith('✓') ? 'text-green-600' : 'text-gray-400'}">
+                                    <span class="text-lg">${v.startsWith('✓') ? '✓' : '✗'}</span>
+                                    <span>${v.substring(2)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-${detail.color}-50 to-${detail.color === 'amber' ? 'orange' : detail.color === 'rose' ? 'pink' : detail.color === 'green' ? 'teal' : 'indigo'}-50 rounded-xl p-6">
+                        <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-${detail.color}-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                            </svg>
+                            进阶建议
+                        </h4>
+                        <ul class="space-y-2">
+                            ${detail.nextSteps.map(s => `
+                                <li class="flex items-start gap-3 text-gray-600">
+                                    <span class="text-${detail.color}-500 font-bold">→</span>
+                                    <span>${s}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+            
+            // Show result section
+            document.getElementById('assessment').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Restart Assessment
+        function restartAssessment() {
+            currentQuestion = 0;
+            answers = new Array(questions.length).fill(null);
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('assessment').classList.remove('hidden');
+            renderQuestion();
+            updateNavigation();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Show Level Detail
+        function showLevelDetail(level) {
+            const detail = levelDetails[level];
+            document.getElementById('modal-content').innerHTML = `
+                <div class="level-badge ${detail.badge} mb-4">
+                    <span class="w-2 h-2 rounded-full bg-${detail.color}-400"></span>
+                    ${detail.title}
+                </div>
+                <p class="text-gray-600 mb-6">${detail.description}</p>
+                
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3">核心特征</h4>
+                        <ul class="space-y-2">
+                            ${detail.characteristics.map(c => `
+                                <li class="flex items-start gap-3 text-gray-600 text-sm">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-${detail.color}-400 mt-1.5 flex-shrink-0"></span>
+                                    <span>${c}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3">典型场景</h4>
+                        <div class="bg-gray-50 rounded-xl p-4 space-y-2">
+                            ${detail.examples.map(e => `
+                                <p class="text-gray-600 text-sm italic">"${e}"</p>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('level-modal').classList.remove('hidden');
+        }
+
+        // Close Level Detail
+        function closeLevelDetail() {
+            document.getElementById('level-modal').classList.add('hidden');
+        }
+
+        // Initialize on load
+        init();
+    </script>
+</body>
+</html>
