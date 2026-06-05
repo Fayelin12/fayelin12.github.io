@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI协作成熟度评估 - 基于AI Fluency Framework</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style type="text/tailwindcss">
+        @layer base {
+            :root {
+                --color-warm-cream: #FDF8F3;
+                --color-soft-blush: #F5E6E0;
+                --color-dusty-rose: #D4A5A5;
+                --color-sage-green: #A8B5A0;
+                --color-deep-forest: #4A5D4E;
+                --color-warm-charcoal: #3D3D3D;
+                --color-golden-hour: #E8D4B8;
+                --color-lavender-mist: #E6E0EC;
+            }
+            body {
+                font-family: 'Noto Sans SC', sans-serif;
+                background: linear-gradient(135deg, var(--color-warm-cream) 0%, var(--color-soft-blush) 50%, var(--color-golden-hour) 100%);
+                min-height: 100vh;
+            }
+            h1, h2, h3, .serif {
+                font-family: 'Noto Serif SC', serif;
+            }
+        }
+        @layer components {
+            .level-card {
+                @apply relative overflow-hidden rounded-2xl p-8 transition-all duration-500 cursor-pointer;
+                background: rgba(255, 255, 255, 0.7);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.5);
+            }
+            .level-card:hover {
+                @apply transform -translate-y-2;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            }
+            .level-card.active {
+                background: rgba(255, 255, 255, 0.95);
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            }
+            .assessment-btn {
+                @apply px-6 py-3 rounded-full font-medium transition-all duration-300;
+                background: linear-gradient(135deg, var(--color-dusty-rose), #C99595);
+                color: white;
+            }
+            .assessment-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 30px -10px rgba(212, 165, 165, 0.5);
+            }
+            .option-btn {
+                @apply w-full text-left p-4 rounded-xl transition-all duration-300 border-2;
+                background: rgba(255, 255, 255, 0.5);
+                border-color: transparent;
+            }
+            .option-btn:hover {
+                background: rgba(255, 255, 255, 0.8);
+                border-color: var(--color-dusty-rose);
+            }
+            .option-btn.selected {
+                background: rgba(212, 165, 165, 0.15);
+                border-color: var(--color-dusty-rose);
+            }
+            .progress-dot {
+                @apply w-3 h-3 rounded-full transition-all duration-300;
+                background: rgba(212, 165, 165, 0.3);
+            }
+            .progress-dot.active {
+                background: var(--color-dusty-rose);
+                transform: scale(1.3);
+            }
+            .progress-dot.completed {
+                background: var(--color-sage-green);
+            }
+            .floating-shape {
+                position: absolute;
+                border-radius: 50%;
+                filter: blur(60px);
+                opacity: 0.4;
+                animation: float 20s infinite ease-in-out;
+            }
+            @keyframes float {
+                0%, 100% { transform: translate(0, 0) scale(1); }
+                33% { transform: translate(30px, -30px) scale(1.1); }
+                66% { transform: translate(-20px, 20px) scale(0.9); }
+            }
+            .grain-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                opacity: 0.03;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            }
+            .level-badge {
+                @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium;
+            }
+            .level-l1 { background: rgba(232, 212, 184, 0.5); color: #8B7355; }
+            .level-l2 { background: rgba(212, 165, 165, 0.3); color: #9B6B6B; }
+            .level-l3 { background: rgba(168, 181, 160, 0.3); color: #5A6B52; }
+            .level-l4 { background: rgba(230, 224, 236, 0.5); color: #7A6B8A; }
+            .dimension-badge {
+                @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+            }
+            .dim-delegation { background: rgba(232, 212, 184, 0.4); color: #8B7355; }
+            .dim-description { background: rgba(212, 165, 165, 0.3); color: #9B6B6B; }
+            .dim-discernment { background: rgba(168, 181, 160, 0.3); color: #5A6B52; }
+            .dim-diligence { background: rgba(230, 224, 236, 0.4); color: #7A6B8A; }
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+    <div class="grain-overlay"></div>
+    
+    <!-- Floating Background Shapes -->
+    <div class="floating-shape w-96 h-96 bg-gradient-to-br from-rose-200 to-orange-200 top-0 left-0" style="animation-delay: 0s;"></div>
+    <div class="floating-shape w-80 h-80 bg-gradient-to-br from-green-200 to-teal-200 top-1/3 right-0" style="animation-delay: -7s;"></div>
+    <div class="floating-shape w-72 h-72 bg-gradient-to-br from-purple-200 to-pink-200 bottom-0 left-1/3" style="animation-delay: -14s;"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 px-6 py-12 text-center">
+        <div class="max-w-4xl mx-auto">
+            <p class="text-sm tracking-widest text-gray-500 mb-4 uppercase">Based on AI Fluency Framework</p>
+            <h1 class="text-5xl md:text-6xl font-bold text-gray-800 mb-6 leading-tight">
+                AI协作<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-orange-400">成熟度评估</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                基于Anthropic的AI Fluency Framework（4D框架），从委托、描述、辨别、审慎四个维度全面评估你与AI的协作能力。
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10 px-6 pb-20">
+        <div class="max-w-6xl mx-auto">
+            
+            <!-- Assessment Section -->
+            <section id="assessment" class="mb-20">
+                <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-xl">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-3">开始评估</h2>
+                        <p class="text-gray-600">16个问题，覆盖4D框架的四个核心维度</p>
+                        <div class="flex justify-center gap-3 mt-4 flex-wrap">
+                            <span class="dimension-badge dim-delegation">委托 Delegation</span>
+                            <span class="dimension-badge dim-description">描述 Description</span>
+                            <span class="dimension-badge dim-discernment">辨别 Discernment</span>
+                            <span class="dimension-badge dim-diligence">审慎 Diligence</span>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="flex justify-center gap-2 mb-10 flex-wrap" id="progress-container">
+                        <!-- Progress dots will be injected here -->
+                    </div>
+
+                    <!-- Question Container -->
+                    <div id="question-container" class="max-w-3xl mx-auto">
+                        <!-- Questions will be injected here -->
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="flex justify-between mt-10 max-w-3xl mx-auto">
+                        <button id="prev-btn" class="px-6 py-3 rounded-full text-gray-500 hover:text-gray-700 transition-colors opacity-0 pointer-events-none">
+                            ← 上一题
+                        </button>
+                        <button id="next-btn" class="assessment-btn opacity-50 pointer-events-none">
+                            下一题 →
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Result Section (Hidden by default) -->
+            <section id="result" class="hidden mb-20">
+                <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-2xl">
+                    <div class="text-center mb-10">
+                        <p class="text-sm tracking-widest text-gray-500 mb-4 uppercase">Your Assessment Result</p>
+                        <h2 class="text-4xl font-bold text-gray-800 mb-4">你的AI协作层级</h2>
+                        <div id="result-badge" class="level-badge text-lg px-6 py-2">
+                            <!-- Result badge will be injected here -->
+                        </div>
+                    </div>
+
+                    <!-- 4D Scores -->
+                    <div class="max-w-3xl mx-auto mb-10">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">四维能力雷达</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="bg-amber-50 rounded-xl p-4 text-center">
+                                <div class="text-2xl font-bold text-amber-600" id="score-delegation">-</div>
+                                <div class="text-sm text-gray-600">委托</div>
+                            </div>
+                            <div class="bg-rose-50 rounded-xl p-4 text-center">
+                                <div class="text-2xl font-bold text-rose-600" id="score-description">-</div>
+                                <div class="text-sm text-gray-600">描述</div>
+                            </div>
+                            <div class="bg-green-50 rounded-xl p-4 text-center">
+                                <div class="text-2xl font-bold text-green-600" id="score-discernment">-</div>
+                                <div class="text-sm text-gray-600">辨别</div>
+                            </div>
+                            <div class="bg-purple-50 rounded-xl p-4 text-center">
+                                <div class="text-2xl font-bold text-purple-600" id="score-diligence">-</div>
+                                <div class="text-sm text-gray-600">审慎</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="result-content" class="max-w-3xl mx-auto">
+                        <!-- Result content will be injected here -->
+                    </div>
+
+                    <div class="text-center mt-10">
+                        <button onclick="restartAssessment()" class="assessment-btn">
+                            重新评估
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Framework Explanation -->
+            <section class="mb-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">AI Fluency Framework</h2>
+                    <p class="text-gray-600">Anthropic提出的4D框架，定义了与AI有效协作的四个核心能力</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Delegation -->
+                    <div class="level-card">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-200/30 to-orange-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="dimension-badge dim-delegation mb-4">D1 · 委托</div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Delegation</h3>
+                            <p class="text-gray-600 mb-4">决定人机分工的能力。知道什么任务适合交给AI，什么需要人工处理。</p>
+                            <div class="space-y-2 text-sm text-gray-500">
+                                <p>• 明确任务目标和边界</p>
+                                <p>• 了解AI的能力和局限</p>
+                                <p>• 合理分配人机职责</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="level-card">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-rose-200/30 to-pink-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="dimension-badge dim-description mb-4">D2 · 描述</div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Description</h3>
+                            <p class="text-gray-600 mb-4">与AI清晰沟通的能力。能够准确表达需求、提供上下文、设定输出标准。</p>
+                            <div class="space-y-2 text-sm text-gray-500">
+                                <p>• 提供充分的背景信息</p>
+                                <p>• 明确输出格式和要求</p>
+                                <p>• 使用有效的沟通策略</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Discernment -->
+                    <div class="level-card">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-200/30 to-teal-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="dimension-badge dim-discernment mb-4">D3 · 辨别</div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Discernment</h3>
+                            <p class="text-gray-600 mb-4">批判评估输出的能力。能够识别AI回答中的错误、偏见和不准确之处。</p>
+                            <div class="space-y-2 text-sm text-gray-500">
+                                <p>• 验证信息的准确性</p>
+                                <p>• 识别逻辑漏洞和偏见</p>
+                                <p>• 评估输出的适用性</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Diligence -->
+                    <div class="level-card">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-200/30 to-indigo-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="dimension-badge dim-diligence mb-4">D4 · 审慎</div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Diligence</h3>
+                            <p class="text-gray-600 mb-4">承担最终责任的能力。理解AI使用的伦理边界，对输出结果负责。</p>
+                            <div class="space-y-2 text-sm text-gray-500">
+                                <p>• 遵守伦理和合规要求</p>
+                                <p>• 透明披露AI使用情况</p>
+                                <p>• 对最终成果完全负责</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Four Levels Overview -->
+            <section class="mb-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">四个成长层级</h2>
+                    <p class="text-gray-600">从初次探索到深度协作，每个层级都有其独特的价值</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- L1 -->
+                    <div class="level-card" onclick="showLevelDetail('l1')">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-200/30 to-orange-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="level-badge level-l1 mb-4">
+                                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                                L1 探索期
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">初次接触</h3>
+                            <p class="text-gray-600 mb-4">像使用搜索引擎一样使用AI，每次问一个独立的问题，获得即时答案。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm">单次问答</span>
+                                <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm">简单任务</span>
+                                <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm">快速获取</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- L2 -->
+                    <div class="level-card" onclick="showLevelDetail('l2')">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-rose-200/30 to-pink-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="level-badge level-l2 mb-4">
+                                <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+                                L2 协作期
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">深度对话</h3>
+                            <p class="text-gray-600 mb-4">在一个会话中持续交流，让AI了解上下文，迭代优化结果。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-sm">多轮对话</span>
+                                <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-sm">上下文理解</span>
+                                <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-sm">迭代优化</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- L3 -->
+                    <div class="level-card" onclick="showLevelDetail('l3')">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-200/30 to-teal-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="level-badge level-l3 mb-4">
+                                <span class="w-2 h-2 rounded-full bg-green-400"></span>
+                                L3 代理期
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">任务委托</h3>
+                            <p class="text-gray-600 mb-4">让AI自主完成复杂的多步骤任务，只需在关键节点确认方向。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">复杂任务</span>
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">自主执行</span>
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">工具调用</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- L4 -->
+                    <div class="level-card" onclick="showLevelDetail('l4')">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-200/30 to-indigo-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="level-badge level-l4 mb-4">
+                                <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+                                L4 自治期
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">智能伙伴</h3>
+                            <p class="text-gray-600 mb-4">AI成为真正的协作伙伴，能够处理系统性工作，持续学习和优化。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">系统思维</span>
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">持续学习</span>
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">创新协作</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Level Detail Modal -->
+            <div id="level-modal" class="fixed inset-0 z-50 hidden">
+                <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" onclick="closeLevelDetail()"></div>
+                <div class="absolute inset-x-4 top-20 md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[600px] max-h-[80vh] overflow-y-auto">
+                    <div class="bg-white rounded-3xl p-8 shadow-2xl">
+                        <button onclick="closeLevelDetail()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors">
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                        <div id="modal-content">
+                            <!-- Modal content will be injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 px-6 py-12 text-center border-t border-gray-200/50">
+        <p class="text-gray-500 text-sm mb-2">基于 Anthropic AI Fluency Framework (4D框架) 设计</p>
+        <p class="text-gray-400 text-xs">参考：Microsoft Agentic AI Maturity Model、Bessemer AI Agent Autonomy Scale</p>
+    </footer>
+
+    <script>
+        // Assessment Questions - Based on 4D Framework
+        const questions = [
+            // Delegation (委托) - 4 questions
+            {
+                id: 1,
+                dimension: "delegation",
+                text: "在开始使用AI之前，你通常会怎么做？",
+                options: [
+                    { text: "直接提问，边用边想", score: 1 },
+                    { text: "大概想一下要做什么", score: 2 },
+                    { text: "明确任务目标后再开始", score: 3 },
+                    { text: "先分析任务复杂度，决定人机分工", score: 4 }
+                ]
+            },
+            {
+                id: 2,
+                dimension: "delegation",
+                text: "面对一个复杂项目，你如何分配AI和人工的工作？",
+                options: [
+                    { text: "全部交给AI试试", score: 1 },
+                    { text: "简单的给AI，复杂的自己做", score: 2 },
+                    { text: "根据任务类型分配，AI做初稿人工打磨", score: 3 },
+                    { text: "精细分工，让AI做擅长的事，关键环节人工把控", score: 4 }
+                ]
+            },
+            {
+                id: 3,
+                dimension: "delegation",
+                text: "你了解当前AI助手的能力和局限吗？",
+                options: [
+                    { text: "不太清楚，遇到问题再试", score: 1 },
+                    { text: "知道一些基本功能", score: 2 },
+                    { text: "比较了解，知道什么适合什么不适合", score: 3 },
+                    { text: "非常了解，能预判AI的表现并调整策略", score: 4 }
+                ]
+            },
+            {
+                id: 4,
+                dimension: "delegation",
+                text: "当AI无法完成某个任务时，你会？",
+                options: [
+                    { text: "放弃使用AI，全部自己做", score: 1 },
+                    { text: "换种说法再试一次", score: 2 },
+                    { text: "拆解任务，让AI做能做的部分", score: 3 },
+                    { text: "分析失败原因，调整分工策略", score: 4 }
+                ]
+            },
+            // Description (描述) - 4 questions
+            {
+                id: 5,
+                dimension: "description",
+                text: "你向AI提问时，通常提供多少背景信息？",
+                options: [
+                    { text: "很少，直接问问题", score: 1 },
+                    { text: "提供一些基本信息", score: 2 },
+                    { text: "会说明上下文和需求背景", score: 3 },
+                    { text: "提供全面的背景、约束和期望输出", score: 4 }
+                ]
+            },
+            {
+                id: 6,
+                dimension: "description",
+                text: "你对AI输出的格式和风格有明确要求吗？",
+                options: [
+                    { text: "没有，随便什么格式都行", score: 1 },
+                    { text: "偶尔会说一下格式偏好", score: 2 },
+                    { text: "通常会明确格式要求", score: 3 },
+                    { text: "总是详细说明格式、风格、长度等要求", score: 4 }
+                ]
+            },
+            {
+                id: 7,
+                dimension: "description",
+                text: "当AI没理解你的需求时，你会如何调整？",
+                options: [
+                    { text: "重新问一遍，换几个词", score: 1 },
+                    { text: "补充一些信息", score: 2 },
+                    { text: "重新组织语言，更清晰地表达", score: 3 },
+                    { text: "分析沟通失败原因，系统性地改进描述", score: 4 }
+                ]
+            },
+            {
+                id: 8,
+                dimension: "description",
+                text: "你会使用示例来帮助AI理解你的需求吗？",
+                options: [
+                    { text: "从不", score: 1 },
+                    { text: "偶尔", score: 2 },
+                    { text: "经常", score: 3 },
+                    { text: "总是，这是我最常用的技巧之一", score: 4 }
+                ]
+            },
+            // Discernment (辨别) - 4 questions
+            {
+                id: 9,
+                dimension: "discernment",
+                text: "收到AI的回答后，你通常会？",
+                options: [
+                    { text: "直接采用，很少检查", score: 1 },
+                    { text: "快速浏览一下", score: 2 },
+                    { text: "仔细阅读，检查关键信息", score: 3 },
+                    { text: "系统性验证，特别是重要信息", score: 4 }
+                ]
+            },
+            {
+                id: 10,
+                dimension: "discernment",
+                text: "你发现过AI回答中的错误或幻觉吗？",
+                options: [
+                    { text: "很少注意到", score: 1 },
+                    { text: "偶尔发现明显错误", score: 2 },
+                    { text: "经常发现需要修正的地方", score: 3 },
+                    { text: "能主动识别潜在错误和偏见", score: 4 }
+                ]
+            },
+            {
+                id: 11,
+                dimension: "discernment",
+                text: "对于AI提供的建议或数据，你会？",
+                options: [
+                    { text: "直接相信", score: 1 },
+                    { text: "感觉可疑时会查证", score: 2 },
+                    { text: "重要信息会交叉验证", score: 3 },
+                    { text: "保持健康的怀疑态度，主动验证", score: 4 }
+                ]
+            },
+            {
+                id: 12,
+                dimension: "discernment",
+                text: "你能识别出AI回答中的偏见或立场倾向吗？",
+                options: [
+                    { text: "不太能", score: 1 },
+                    { text: "明显的能看出来", score: 2 },
+                    { text: "比较敏感，能发现潜在偏见", score: 3 },
+                    { text: "能系统分析AI的推理过程和潜在偏见", score: 4 }
+                ]
+            },
+            // Diligence (审慎) - 4 questions
+            {
+                id: 13,
+                dimension: "diligence",
+                text: "在使用AI处理工作成果时，你会？",
+                options: [
+                    { text: "直接提交，不说明使用了AI", score: 1 },
+                    { text: "如果别人问起会承认", score: 2 },
+                    { text: "重要场合会说明使用了AI辅助", score: 3 },
+                    { text: "主动透明披露AI使用情况和程度", score: 4 }
+                ]
+            },
+            {
+                id: 14,
+                dimension: "diligence",
+                text: "对于AI生成的内容，你承担什么责任？",
+                options: [
+                    { text: "AI生成的，责任在AI", score: 1 },
+                    { text: "看情况，我检查过的我负责", score: 2 },
+                    { text: "我使用的内容我负责", score: 3 },
+                    { text: "对AI辅助的所有成果完全负责", score: 4 }
+                ]
+            },
+            {
+                id: 15,
+                dimension: "diligence",
+                text: "你了解使用AI的伦理边界吗（如隐私、版权、安全）？",
+                options: [
+                    { text: "不太了解", score: 1 },
+                    { text: "知道一些基本常识", score: 2 },
+                    { text: "比较了解，会主动避免风险", score: 3 },
+                    { text: "非常了解，能指导他人合规使用", score: 4 }
+                ]
+            },
+            {
+                id: 16,
+                dimension: "diligence",
+                text: "你会反思和总结与AI的协作经验吗？",
+                options: [
+                    { text: "不会", score: 1 },
+                    { text: "偶尔想想", score: 2 },
+                    { text: "会总结经验教训", score: 3 },
+                    { text: "持续反思，不断优化协作方式", score: 4 }
+                ]
+            }
+        ];
+
+        // Level Details
+        const levelDetails = {
+            l1: {
+                title: "L1 探索期 - 初次接触",
+                badge: "level-l1",
+                color: "amber",
+                description: "你正在探索AI助手的基本功能，像使用搜索引擎一样获取即时答案。",
+                characteristics: [
+                    "主要使用单次问答模式",
+                    "处理简单、独立的任务",
+                    "不提供项目背景信息",
+                    "仅使用基础对话功能",
+                    "直接采用AI的回答，较少修改"
+                ],
+                examples: [
+                    "帮我查一下这个产品的价格",
+                    "写一段200字的产品介绍",
+                    "解释一下什么是区块链技术"
+                ],
+                value: [
+                    "✓ 快速获取信息和灵感",
+                    "✓ 解决简单的写作和查询需求",
+                    "✗ 无法处理复杂或连续性任务",
+                    "✗ 结果质量不稳定"
+                ],
+                nextSteps: [
+                    "尝试在一个对话中多问几个问题",
+                    "给AI提供更多背景信息",
+                    "开始关注AI的推理过程",
+                    "尝试让AI帮你修改和完善内容"
+                ]
+            },
+            l2: {
+                title: "L2 协作期 - 深度对话",
+                badge: "level-l2",
+                color: "rose",
+                description: "你已经掌握了多轮对话的技巧，能够在一个会话中与AI持续协作，迭代优化结果。",
+                characteristics: [
+                    "使用多轮对话，持续迭代",
+                    "处理中等复杂度任务",
+                    "会提供相关背景信息",
+                    "主动使用多种功能",
+                    "会审查和修改AI的输出"
+                ],
+                examples: [
+                    "基于刚才的讨论，把第三点改得更具体一些",
+                    "这份报告还需要补充市场分析部分",
+                    "按照我们公司的风格重新调整这段话"
+                ],
+                value: [
+                    "✓ 能完成更复杂的写作和分析任务",
+                    "✓ 输出质量明显提升",
+                    "✓ 开始建立个人协作模式",
+                    "✗ 仍需要较多人工干预"
+                ],
+                nextSteps: [
+                    "学习使用Agent/自动模式",
+                    "建立个人提示词模板",
+                    "尝试让AI执行多步骤任务",
+                    "开始探索工具调用功能"
+                ]
+            },
+            l3: {
+                title: "L3 代理期 - 任务委托",
+                badge: "level-l3",
+                color: "green",
+                description: "你已经能够委托AI自主完成复杂的多步骤任务，只需在关键节点把控方向。",
+                characteristics: [
+                    "使用Agent模式，AI自主执行",
+                    "处理复杂的多步骤任务",
+                    "建立了个人知识库和规则",
+                    "熟练调用各种工具",
+                    "形成了标准化工作流程"
+                ],
+                examples: [
+                    "帮我整理这周的会议纪要并发送给团队",
+                    "分析这份销售数据，找出趋势并制作图表",
+                    "根据项目需求，制定一个详细的执行计划"
+                ],
+                value: [
+                    "✓ 能独立完成复杂工作",
+                    "✓ 显著减少工作时间",
+                    "✓ 建立了可复用的工作流",
+                    "✗ 仍需要人工监督和质量把关"
+                ],
+                nextSteps: [
+                    "建立个人技能库和模板",
+                    "学习多Agent协作模式",
+                    "探索自动化和集成功能",
+                    "关注AI的可靠性边界"
+                ]
+            },
+            l4: {
+                title: "L4 自治期 - 智能伙伴",
+                badge: "level-l4",
+                color: "purple",
+                description: "AI已经成为你真正的智能伙伴，能够处理系统性工作，持续学习和优化协作方式。",
+                characteristics: [
+                    "多Agent协作，端到端任务",
+                    "处理系统性、战略性工作",
+                    "完整的知识图谱和自动化",
+                    "工具链完全自动化",
+                    "自适应、自优化的流程"
+                ],
+                examples: [
+                    "基于公司战略，制定下季度的完整营销方案",
+                    "监控项目进度，发现问题自动预警并给出建议",
+                    "分析市场趋势，预测业务机会并生成报告"
+                ],
+                value: [
+                    "✓ AI成为真正的协作伙伴",
+                    "✓ 工作效率提升数倍",
+                    "✓ 能处理以前无法想象的复杂任务",
+                    "✓ 持续学习和自我改进"
+                ],
+                nextSteps: [
+                    "探索创新的AI使用模式",
+                    "建立团队或组织的AI协作标准",
+                    "分享最佳实践，帮助他人成长",
+                    "关注AI伦理和负责任使用"
+                ]
+            }
+        };
+
+        // State
+        let currentQuestion = 0;
+        let answers = new Array(questions.length).fill(null);
+
+        // Initialize
+        function init() {
+            renderProgress();
+            renderQuestion();
+            updateNavigation();
+        }
+
+        // Render Progress
+        function renderProgress() {
+            const container = document.getElementById('progress-container');
+            container.innerHTML = questions.map((q, index) => `
+                <div class="progress-dot ${index === 0 ? 'active' : ''}" data-question="${index}"></div>
+            `).join('');
+        }
+
+        // Render Question
+        function renderQuestion() {
+            const container = document.getElementById('question-container');
+            const question = questions[currentQuestion];
+            const dimensionLabels = {
+                delegation: '委托',
+                description: '描述',
+                discernment: '辨别',
+                diligence: '审慎'
+            };
+            const dimensionClasses = {
+                delegation: 'dim-delegation',
+                description: 'dim-description',
+                discernment: 'dim-discernment',
+                diligence: 'dim-diligence'
+            };
+            
+            container.innerHTML = `
+                <div class="text-center mb-8">
+                    <div class="flex items-center justify-center gap-2 mb-2">
+                        <span class="dimension-badge ${dimensionClasses[question.dimension]}">${dimensionLabels[question.dimension]}</span>
+                        <span class="text-sm text-gray-400">问题 ${currentQuestion + 1} / ${questions.length}</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mt-2">${question.text}</h3>
+                </div>
+                <div class="space-y-3">
+                    ${question.options.map((option, index) => `
+                        <button class="option-btn ${answers[currentQuestion] === index ? 'selected' : ''}" 
+                                onclick="selectOption(${index})" data-score="${option.score}">
+                            <div class="flex items-center gap-4">
+                                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm font-medium text-gray-600">
+                                    ${String.fromCharCode(65 + index)}
+                                </div>
+                                <span class="text-gray-700">${option.text}</span>
+                            </div>
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Select Option
+        function selectOption(index) {
+            answers[currentQuestion] = index;
+            renderQuestion();
+            updateNavigation();
+            
+            // Auto advance after selection
+            setTimeout(() => {
+                if (currentQuestion < questions.length - 1) {
+                    nextQuestion();
+                } else {
+                    showResult();
+                }
+            }, 500);
+        }
+
+        // Update Progress
+        function updateProgress() {
+            document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+                dot.classList.remove('active', 'completed');
+                if (index < currentQuestion) {
+                    dot.classList.add('completed');
+                } else if (index === currentQuestion) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        // Update Navigation
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            prevBtn.style.opacity = currentQuestion > 0 ? '1' : '0';
+            prevBtn.style.pointerEvents = currentQuestion > 0 ? 'auto' : 'none';
+            
+            const hasAnswer = answers[currentQuestion] !== null;
+            nextBtn.style.opacity = hasAnswer ? '1' : '0.5';
+            nextBtn.style.pointerEvents = hasAnswer ? 'auto' : 'none';
+            
+            if (currentQuestion === questions.length - 1) {
+                nextBtn.textContent = '查看结果 →';
+            } else {
+                nextBtn.textContent = '下一题 →';
+            }
+        }
+
+        // Navigation
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+                updateProgress();
+                updateNavigation();
+            }
+        });
+
+        document.getElementById('next-btn').addEventListener('click', nextQuestion);
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+                updateProgress();
+                updateNavigation();
+            } else {
+                showResult();
+            }
+        }
+
+        // Show Result
+        function showResult() {
+            // Calculate 4D scores
+            const dimensionScores = {
+                delegation: 0,
+                description: 0,
+                discernment: 0,
+                diligence: 0
+            };
+            
+            answers.forEach((answerIndex, questionIndex) => {
+                const question = questions[questionIndex];
+                const score = question.options[answerIndex].score;
+                dimensionScores[question.dimension] += score;
+            });
+            
+            // Calculate overall level
+            const totalScore = Object.values(dimensionScores).reduce((a, b) => a + b, 0);
+            const maxScore = questions.length * 4;
+            const percentage = totalScore / maxScore;
+            
+            let resultLevel;
+            if (percentage < 0.4) {
+                resultLevel = 'l1';
+            } else if (percentage < 0.6) {
+                resultLevel = 'l2';
+            } else if (percentage < 0.8) {
+                resultLevel = 'l3';
+            } else {
+                resultLevel = 'l4';
+            }
+            
+            const detail = levelDetails[resultLevel];
+            
+            // Display 4D scores
+            document.getElementById('score-delegation').textContent = dimensionScores.delegation + '/16';
+            document.getElementById('score-description').textContent = dimensionScores.description + '/16';
+            document.getElementById('score-discernment').textContent = dimensionScores.discernment + '/16';
+            document.getElementById('score-diligence').textContent = dimensionScores.diligence + '/16';
+            
+            // Render result
+            document.getElementById('result-badge').className = `level-badge ${detail.badge} text-lg px-6 py-2`;
+            document.getElementById('result-badge').innerHTML = `
+                <span class="w-2 h-2 rounded-full bg-${detail.color}-400"></span>
+                ${detail.title}
+            `;
+            
+            // Find weakest dimension
+            const weakestDimension = Object.entries(dimensionScores).sort((a, b) => a[1] - b[1])[0];
+            const dimensionNames = {
+                delegation: '委托 (Delegation)',
+                description: '描述 (Description)',
+                discernment: '辨别 (Discernment)',
+                diligence: '审慎 (Diligence)'
+            };
+            
+            document.getElementById('result-content').innerHTML = `
+                <div class="space-y-8">
+                    <p class="text-lg text-gray-600 leading-relaxed">${detail.description}</p>
+                    
+                    <div class="bg-amber-50 rounded-xl p-6">
+                        <h4 class="font-bold text-amber-800 mb-2 flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            提升建议
+                        </h4>
+                        <p class="text-amber-700">你的${dimensionNames[weakestDimension[0]]}维度得分相对较低，建议重点加强这方面的能力。</p>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-${detail.color}-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            你的典型表现
+                        </h4>
+                        <ul class="space-y-2">
+                            ${detail.characteristics.map(c => `
+                                <li class="flex items-start gap-3 text-gray-600">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-${detail.color}-400 mt-2 flex-shrink-0"></span>
+                                    <span>${c}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3">价值与局限</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${detail.value.map(v => `
+                                <div class="flex items-start gap-2 ${v.startsWith('✓') ? 'text-green-600' : 'text-gray-400'}">
+                                    <span class="text-lg">${v.startsWith('✓') ? '✓' : '✗'}</span>
+                                    <span>${v.substring(2)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-${detail.color}-50 to-${detail.color === 'amber' ? 'orange' : detail.color === 'rose' ? 'pink' : detail.color === 'green' ? 'teal' : 'indigo'}-50 rounded-xl p-6">
+                        <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-${detail.color}-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                            </svg>
+                            进阶建议
+                        </h4>
+                        <ul class="space-y-2">
+                            ${detail.nextSteps.map(s => `
+                                <li class="flex items-start gap-3 text-gray-600">
+                                    <span class="text-${detail.color}-500 font-bold">→</span>
+                                    <span>${s}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+            
+            // Show result section
+            document.getElementById('assessment').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Restart Assessment
+        function restartAssessment() {
+            currentQuestion = 0;
+            answers = new Array(questions.length).fill(null);
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('assessment').classList.remove('hidden');
+            renderProgress();
+            renderQuestion();
+            updateNavigation();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Show Level Detail
+        function showLevelDetail(level) {
+            const detail = levelDetails[level];
+            document.getElementById('modal-content').innerHTML = `
+                <div class="level-badge ${detail.badge} mb-4">
+                    <span class="w-2 h-2 rounded-full bg-${detail.color}-400"></span>
+                    ${detail.title}
+                </div>
+                <p class="text-gray-600 mb-6">${detail.description}</p>
+                
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3">核心特征</h4>
+                        <ul class="space-y-2">
+                            ${detail.characteristics.map(c => `
+                                <li class="flex items-start gap-3 text-gray-600 text-sm">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-${detail.color}-400 mt-1.5 flex-shrink-0"></span>
+                                    <span>${c}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3">典型场景</h4>
+                        <div class="bg-gray-50 rounded-xl p-4 space-y-2">
+                            ${detail.examples.map(e => `
+                                <p class="text-gray-600 text-sm italic">"${e}"</p>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('level-modal').classList.remove('hidden');
+        }
+
+        // Close Level Detail
+        function closeLevelDetail() {
+            document.getElementById('level-modal').classList.add('hidden');
+        }
+
+        // Initialize on load
+        init();
+    </script>
+</body>
+</html>
