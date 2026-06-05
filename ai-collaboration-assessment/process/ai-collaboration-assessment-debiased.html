@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI协作成熟度评估 - 基于AI Fluency Framework</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style type="text/tailwindcss">
+        @layer base {
+            :root {
+                --color-warm-cream: #FDF8F3;
+                --color-soft-blush: #F5E6E0;
+                --color-dusty-rose: #D4A5A5;
+                --color-sage-green: #A8B5A0;
+                --color-deep-forest: #4A5D4E;
+                --color-warm-charcoal: #3D3D3D;
+                --color-golden-hour: #E8D4B8;
+                --color-lavender-mist: #E6E0EC;
+            }
+            body {
+                font-family: 'Noto Sans SC', sans-serif;
+                background: linear-gradient(135deg, var(--color-warm-cream) 0%, var(--color-soft-blush) 50%, var(--color-golden-hour) 100%);
+                min-height: 100vh;
+            }
+            h1, h2, h3, .serif {
+                font-family: 'Noto Serif SC', serif;
+            }
+        }
+        @layer components {
+            .level-card {
+                @apply relative overflow-hidden rounded-2xl p-8 transition-all duration-500 cursor-pointer;
+                background: rgba(255, 255, 255, 0.7);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(255, 255, 255, 0.5);
+            }
+            .level-card:hover {
+                @apply transform -translate-y-2;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            }
+            .level-card.active {
+                background: rgba(255, 255, 255, 0.95);
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            }
+            .assessment-btn {
+                @apply px-6 py-3 rounded-full font-medium transition-all duration-300;
+                background: linear-gradient(135deg, var(--color-dusty-rose), #C99595);
+                color: white;
+            }
+            .assessment-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 30px -10px rgba(212, 165, 165, 0.5);
+            }
+            .option-btn {
+                @apply w-full text-left p-5 rounded-xl transition-all duration-300 border-2;
+                background: rgba(255, 255, 255, 0.6);
+                border-color: transparent;
+            }
+            .option-btn:hover {
+                background: rgba(255, 255, 255, 0.9);
+                border-color: var(--color-dusty-rose);
+                transform: translateX(4px);
+            }
+            .option-btn.selected {
+                background: rgba(212, 165, 165, 0.15);
+                border-color: var(--color-dusty-rose);
+            }
+            .progress-dot {
+                @apply w-3 h-3 rounded-full transition-all duration-300;
+                background: rgba(212, 165, 165, 0.3);
+            }
+            .progress-dot.active {
+                background: var(--color-dusty-rose);
+                transform: scale(1.3);
+            }
+            .progress-dot.completed {
+                background: var(--color-sage-green);
+            }
+            .floating-shape {
+                position: absolute;
+                border-radius: 50%;
+                filter: blur(60px);
+                opacity: 0.4;
+                animation: float 20s infinite ease-in-out;
+            }
+            @keyframes float {
+                0%, 100% { transform: translate(0, 0) scale(1); }
+                33% { transform: translate(30px, -30px) scale(1.1); }
+                66% { transform: translate(-20px, 20px) scale(0.9); }
+            }
+            .grain-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                opacity: 0.03;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            }
+            .level-badge {
+                @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium;
+            }
+            .level-l1 { background: rgba(232, 212, 184, 0.5); color: #8B7355; }
+            .level-l2 { background: rgba(212, 165, 165, 0.3); color: #9B6B6B; }
+            .level-l3 { background: rgba(168, 181, 160, 0.3); color: #5A6B52; }
+            .level-l4 { background: rgba(230, 224, 236, 0.5); color: #7A6B8A; }
+            .dimension-badge {
+                @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+            }
+            .dim-delegation { background: rgba(232, 212, 184, 0.4); color: #8B7355; }
+            .dim-description { background: rgba(212, 165, 165, 0.3); color: #9B6B6B; }
+            .dim-discernment { background: rgba(168, 181, 160, 0.3); color: #5A6B52; }
+            .dim-diligence { background: rgba(230, 224, 236, 0.4); color: #7A6B8A; }
+            .option-label {
+                @apply text-xs font-medium mb-2 inline-block px-2 py-1 rounded;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+    <div class="grain-overlay"></div>
+    
+    <!-- Floating Background Shapes -->
+    <div class="floating-shape w-96 h-96 bg-gradient-to-br from-rose-200 to-orange-200 top-0 left-0" style="animation-delay: 0s;"></div>
+    <div class="floating-shape w-80 h-80 bg-gradient-to-br from-green-200 to-teal-200 top-1/3 right-0" style="animation-delay: -7s;"></div>
+    <div class="floating-shape w-72 h-72 bg-gradient-to-br from-purple-200 to-pink-200 bottom-0 left-1/3" style="animation-delay: -14s;"></div>
+
+    <!-- Header -->
+    <header class="relative z-10 px-6 py-12 text-center">
+        <div class="max-w-4xl mx-auto">
+            <p class="text-sm tracking-widest text-gray-500 mb-4 uppercase">Based on AI Fluency Framework</p>
+            <h1 class="text-5xl md:text-6xl font-bold text-gray-800 mb-6 leading-tight">
+                AI协作<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-orange-400">成熟度评估</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                基于Anthropic的AI Fluency Framework，从委托、描述、辨别、审慎四个维度评估你与AI的协作模式。<br>
+                <span class="text-sm text-gray-500">请根据你的实际工作习惯选择，没有标准答案。</span>
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10 px-6 pb-20">
+        <div class="max-w-6xl mx-auto">
+            
+            <!-- Assessment Section -->
+            <section id="assessment" class="mb-20">
+                <div class="bg-white/60 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-xl">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-3">开始评估</h2>
+                        <p class="text-gray-600">16个问题，请选择最符合你日常习惯的选项</p>
+                        <div class="flex justify-center gap-3 mt-4 flex-wrap">
+                            <span class="dimension-badge dim-delegation">委托 Delegation</span>
+                            <span class="dimension-badge dim-description">描述 Description</span>
+                            <span class="dimension-badge dim-discernment">辨别 Discernment</span>
+                            <span class="dimension-badge dim-diligence">审慎 Diligence</span>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="flex justify-center gap-2 mb-10 flex-wrap" id="progress-container">
+                        <!-- Progress dots will be injected here -->
+                    </div>
+
+                    <!-- Question Container -->
+                    <div id="question-container" class="max-w-3xl mx-auto">
+                        <!-- Questions will be injected here -->
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="flex justify-between mt-10 max-w-3xl mx-auto">
+                        <button id="prev-btn" class="px-6 py-3 rounded-full text-gray-500 hover:text-gray-700 transition-colors opacity-0 pointer-events-none">
+                            ← 上一题
+                        </button>
+                        <button id="next-btn" class="assessment-btn opacity-50 pointer-events-none">
+                            下一题 →
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Result Section (Hidden by default) -->
+            <section id="result" class="hidden mb-20">
+                <div class="bg-white/80 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-2xl">
+                    <div class="text-center mb-10">
+                        <p class="text-sm tracking-widest text-gray-500 mb-4 uppercase">Your Assessment Result</p>
+                        <h2 class="text-4xl font-bold text-gray-800 mb-4">你的AI协作模式</h2>
+                        <div id="result-badge" class="level-badge text-lg px-6 py-2">
+                            <!-- Result badge will be injected here -->
+                        </div>
+                    </div>
+
+                    <!-- 4D Scores -->
+                    <div class="max-w-3xl mx-auto mb-10">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4 text-center">四维能力分布</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="bg-amber-50 rounded-xl p-4 text-center">
+                                <div class="text-2xl font-bold text-amber-600" id="score-delegation">-</div>
+                                <div class="text-sm text-gray-600">委托</div>
+                            </div>
+                            <div class="bg-rose-50 rounded-xl p-4 text-center">
+                                <div class="text-2xl font-bold text-rose-600" id="score-description">-</div>
+                                <div class="text-sm text-gray-600">描述</div>
+                            </div>
+                            <div class="bg-green-50 rounded-xl p-4 text-center">
+                                <div class="text-2xl font-bold text-green-600" id="score-discernment">-</div>
+                                <div class="text-sm text-gray-600">辨别</div>
+                            </div>
+                            <div class="bg-purple-50 rounded-xl p-4 text-center">
+                                <div class="text-2xl font-bold text-purple-600" id="score-diligence">-</div>
+                                <div class="text-sm text-gray-600">审慎</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="result-content" class="max-w-3xl mx-auto">
+                        <!-- Result content will be injected here -->
+                    </div>
+
+                    <div class="text-center mt-10">
+                        <button onclick="restartAssessment()" class="assessment-btn">
+                            重新评估
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Framework Explanation -->
+            <section class="mb-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">AI Fluency Framework</h2>
+                    <p class="text-gray-600">Anthropic提出的4D框架，定义了与AI有效协作的四个核心能力</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Delegation -->
+                    <div class="level-card">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-200/30 to-orange-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="dimension-badge dim-delegation mb-4">D1 · 委托</div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Delegation</h3>
+                            <p class="text-gray-600 mb-4">决定人机分工的能力。知道什么任务适合交给AI，什么需要人工处理。</p>
+                            <div class="space-y-2 text-sm text-gray-500">
+                                <p>• 明确任务目标和边界</p>
+                                <p>• 了解AI的能力和局限</p>
+                                <p>• 合理分配人机职责</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="level-card">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-rose-200/30 to-pink-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="dimension-badge dim-description mb-4">D2 · 描述</div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Description</h3>
+                            <p class="text-gray-600 mb-4">与AI清晰沟通的能力。能够准确表达需求、提供上下文、设定输出标准。</p>
+                            <div class="space-y-2 text-sm text-gray-500">
+                                <p>• 提供充分的背景信息</p>
+                                <p>• 明确输出格式和要求</p>
+                                <p>• 使用有效的沟通策略</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Discernment -->
+                    <div class="level-card">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-200/30 to-teal-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="dimension-badge dim-discernment mb-4">D3 · 辨别</div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Discernment</h3>
+                            <p class="text-gray-600 mb-4">批判评估输出的能力。能够识别AI回答中的错误、偏见和不准确之处。</p>
+                            <div class="space-y-2 text-sm text-gray-500">
+                                <p>• 验证信息的准确性</p>
+                                <p>• 识别逻辑漏洞和偏见</p>
+                                <p>• 评估输出的适用性</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Diligence -->
+                    <div class="level-card">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-200/30 to-indigo-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="dimension-badge dim-diligence mb-4">D4 · 审慎</div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Diligence</h3>
+                            <p class="text-gray-600 mb-4">承担最终责任的能力。理解AI使用的伦理边界，对输出结果负责。</p>
+                            <div class="space-y-2 text-sm text-gray-500">
+                                <p>• 遵守伦理和合规要求</p>
+                                <p>• 透明披露AI使用情况</p>
+                                <p>• 对最终成果完全负责</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Four Patterns Overview -->
+            <section class="mb-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">四种协作模式</h2>
+                    <p class="text-gray-600">不同的使用习惯形成不同的协作模式，每种模式都有其适用场景</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Pattern 1 -->
+                    <div class="level-card" onclick="showPatternDetail('explorer')">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-200/30 to-orange-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="level-badge level-l1 mb-4">
+                                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                                探索者模式
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">即问即用型</h3>
+                            <p class="text-gray-600 mb-4">把AI当作智能搜索引擎，快速获取信息和灵感，不追求深度协作。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm">快速查询</span>
+                                <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm">灵感获取</span>
+                                <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm">低认知负荷</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pattern 2 -->
+                    <div class="level-card" onclick="showPatternDetail('collaborator')">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-rose-200/30 to-pink-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="level-badge level-l2 mb-4">
+                                <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+                                协作者模式
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">对话打磨型</h3>
+                            <p class="text-gray-600 mb-4">通过多轮对话与AI共同完善内容，重视互动过程和质量把控。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-sm">迭代优化</span>
+                                <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-sm">质量导向</span>
+                                <span class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-sm">人机共创</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pattern 3 -->
+                    <div class="level-card" onclick="showPatternDetail('delegator')">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-200/30 to-teal-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="level-badge level-l3 mb-4">
+                                <span class="w-2 h-2 rounded-full bg-green-400"></span>
+                                委托者模式
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">任务外包型</h3>
+                            <p class="text-gray-600 mb-4">将完整的任务交给AI执行，自己专注于审核和关键决策。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">效率优先</span>
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">批量处理</span>
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">流程化</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pattern 4 -->
+                    <div class="level-card" onclick="showPatternDetail('orchestrator')">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-200/30 to-indigo-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="relative">
+                            <div class="level-badge level-l4 mb-4">
+                                <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+                                编排者模式
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">系统整合型</h3>
+                            <p class="text-gray-600 mb-4">将AI深度融入工作流，形成自适应的协作系统，持续优化。</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">系统化</span>
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">自动化</span>
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">持续优化</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pattern Detail Modal -->
+            <div id="pattern-modal" class="fixed inset-0 z-50 hidden">
+                <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" onclick="closePatternDetail()"></div>
+                <div class="absolute inset-x-4 top-20 md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[600px] max-h-[80vh] overflow-y-auto">
+                    <div class="bg-white rounded-3xl p-8 shadow-2xl">
+                        <button onclick="closePatternDetail()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors">
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                        <div id="pattern-modal-content">
+                            <!-- Modal content will be injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 px-6 py-12 text-center border-t border-gray-200/50">
+        <p class="text-gray-500 text-sm mb-2">基于 Anthropic AI Fluency Framework (4D框架) 设计</p>
+        <p class="text-gray-400 text-xs">参考：Microsoft Agentic AI Maturity Model、Bessemer AI Agent Autonomy Scale</p>
+    </footer>
+
+    <script>
+        // Assessment Questions - Balanced Design
+        // 设计原则：
+        // 1. 每个选项都是合理的工作方式，没有绝对的好坏
+        // 2. 使用场景化描述，而非能力标签
+        // 3. 每个选项都有隐含的机会成本
+        // 4. 避免使用"总是/从不"等绝对词汇
+        
+        const questions = [
+            // Delegation (委托) - 4 questions
+            {
+                id: 1,
+                dimension: "delegation",
+                text: "周五下午你需要准备下周一的会议材料，你会怎么用AI？",
+                options: [
+                    { 
+                        text: "直接告诉AI会议主题，让它生成完整材料，你快速过一遍就行。这样节省时间，可以早点下班。",
+                        label: "效率优先",
+                        score: 1 
+                    },
+                    { 
+                        text: "先让AI列个大纲，你自己补充关键内容，最后让AI润色语言。这样既有你的思考又省时间。",
+                        label: "人机分工",
+                        score: 2 
+                    },
+                    { 
+                        text: "你先写初稿，让AI帮你检查逻辑漏洞、补充数据支撑，你最后把关核心观点。",
+                        label: "AI辅助",
+                        score: 3 
+                    },
+                    { 
+                        text: "先分析会议目的和参会人关切，决定哪些部分需要深度思考、哪些可以交给AI，再分阶段协作。",
+                        label: "策略规划",
+                        score: 4 
+                    }
+                ]
+            },
+            {
+                id: 2,
+                dimension: "delegation",
+                text: "你让AI整理一份行业报告，但它给的资料有些过时了，你会？",
+                options: [
+                    { 
+                        text: "直接用它给的内容，反正也没人知道是不是最新的，先完成任务再说。",
+                        label: "结果导向",
+                        score: 1 
+                    },
+                    { 
+                        text: "告诉它数据太旧了，让它重新搜索最新资料，你再挑有用的部分。",
+                        label: "迭代修正",
+                        score: 2 
+                    },
+                    { 
+                        text: "你自己去查最新数据，让AI帮你整理格式和撰写分析部分。",
+                        label: "分工明确",
+                        score: 3 
+                    },
+                    { 
+                        text: "分析为什么AI给了过时资料，调整你的指令策略，比如明确要求"只使用2024年后的数据"。",
+                        label: "根因分析",
+                        score: 4 
+                    }
+                ]
+            },
+            {
+                id: 3,
+                dimension: "delegation",
+                text: "你有一个创意策划案要做，但不确定AI能不能帮上忙，你会？",
+                options: [
+                    { 
+                        text: "先让AI试试，能做多少算多少，不行再自己来做。",
+                        label: "尝试探索",
+                        score: 1 
+                    },
+                    { 
+                        text: "把创意部分自己做，让AI帮你做资料搜集和文案撰写。",
+                        label: "能力分界",
+                        score: 2 
+                    },
+                    { 
+                        text: "先和AI脑暴创意方向，有思路后再让它帮你扩展和细化。",
+                        label: "协作共创",
+                        score: 3 
+                    },
+                    { 
+                        text: "分析这个任务的复杂度，拆解成AI能做的（资料整理、竞品分析）和你必须做的（核心创意、策略判断）。",
+                        label: "任务拆解",
+                        score: 4 
+                    }
+                ]
+            },
+            {
+                id: 4,
+                dimension: "delegation",
+                text: "AI连续三次都没理解你的需求，你会怎么想？",
+                options: [
+                    { 
+                        text: "可能这个任务不适合AI做，还是我自己来吧。",
+                        label: "及时止损",
+                        score: 1 
+                    },
+                    { 
+                        text: "换个说法再试一次，或者换个AI工具试试。",
+                        label: "调整尝试",
+                        score: 2 
+                    },
+                    { 
+                        text: "把任务拆成更小的步骤，一步步引导AI完成。",
+                        label: "分步引导",
+                        score: 3 
+                    },
+                    { 
+                        text: "反思是不是我的表达方式有问题，学习更好的提示词技巧，建立更有效的沟通模式。",
+                        label: "反思学习",
+                        score: 4 
+                    }
+                ]
+            },
+            // Description (描述) - 4 questions
+            {
+                id: 5,
+                dimension: "description",
+                text: "你要让AI帮你写一封给客户的邮件，你通常会怎么开始？",
+                options: [
+                    { 
+                        text: "直接说"帮我写封给客户的邮件"，等它写完了再改。",
+                        label: "快速启动",
+                        score: 1 
+                    },
+                    { 
+                        text: "告诉它客户是谁、什么背景、希望达到什么目的。",
+                        label: "基本信息",
+                        score: 2 
+                    },
+                    { 
+                        text: "说明客户背景、邮件目的、语气要求（正式/友好）、字数限制，还会给参考邮件。",
+                        label: "详细要求",
+                        score: 3 
+                    },
+                    { 
+                        text: "先分析客户决策链和关切点，再设计邮件结构，告诉AI每段要传递什么信息、达成什么效果。",
+                        label: "策略设计",
+                        score: 4 
+                    }
+                ]
+            },
+            {
+                id: 6,
+                dimension: "description",
+                text: "AI写的内容风格总是不太对，你会怎么处理？",
+                options: [
+                    { 
+                        text: "自己手动改改措辞，改到满意为止。",
+                        label: "人工调整",
+                        score: 1 
+                    },
+                    { 
+                        text: "告诉它"太正式了，轻松一点"或者"再简洁一些"。",
+                        label: "口头反馈",
+                        score: 2 
+                    },
+                    { 
+                        text: "给它一段你满意的参考文本，说"按照这个风格写"。",
+                        label: "示例引导",
+                        score: 3 
+                    },
+                    { 
+                        text: "建立风格指南文档，定义你们公司的语气、用词偏好、句式特点，让AI按这个标准输出。",
+                        label: "标准化",
+                        score: 4 
+                    }
+                ]
+            },
+            {
+                id: 7,
+                dimension: "description",
+                text: "你让AI分析一份数据，但它理解错了你的分析目的，你会？",
+                options: [
+                    { 
+                        text: "把错的部分指出来，让它重新分析。",
+                        label: "指出错误",
+                        score: 1 
+                    },
+                    { 
+                        text: "重新解释一遍你的分析目的，说得更详细一些。",
+                        label: "补充说明",
+                        score: 2 
+                    },
+                    { 
+                        text: "先确认它理解了数据背景，再明确说"我要的是趋势分析，不是数据汇总"。",
+                        label: "澄清确认",
+                        score: 3 
+                    },
+                    { 
+                        text: "反思是不是一开始就没说清楚，下次会在开头就明确分析目标、输出格式、决策用途。",
+                        label: "流程优化",
+                        score: 4 
+                    }
+                ]
+            },
+            {
+                id: 8,
+                dimension: "description",
+                text: "你发现一个提示词特别好用，你会怎么处理？",
+                options: [
+                    { 
+                        text: "记住大概内容，下次用的时候再调整。",
+                        label: "记忆复用",
+                        score: 1 
+                    },
+                    { 
+                        text: "复制保存到备忘录里，需要时复制粘贴。",
+                        label: "文档保存",
+                        score: 2 
+                    },
+                    { 
+                        text: "整理成模板，标注适用场景和需要替换的变量。",
+                        label: "模板化",
+                        score: 3 
+                    },
+                    { 
+                        text: "建立个人提示词库，分类管理，定期优化迭代，形成自己的提示词体系。",
+                        label: "体系化",
+                        score: 4 
+                    }
+                ]
+            },
+            // Discernment (辨别) - 4 questions
+            {
+                id: 9,
+                dimension: "discernment",
+                text: "AI给了一个看起来很专业的数据分析结论，你会？",
+                options: [
+                    { 
+                        text: "直接采用，看起来很专业，应该没问题。",
+                        label: "信任采用",
+                        score: 1 
+                    },
+                    { 
+                        text: "快速浏览一下，没有明显错误就用了。",
+                        label: "快速检查",
+                        score: 2 
+                    },
+                    { 
+                        text: "检查关键数据点，确认逻辑链条是否合理。",
+                        label: "关键验证",
+                        score: 3 
+                    },
+                    { 
+                        text: "要求AI展示计算过程，抽查原始数据，确认分析方法和结论的可靠性。",
+                        label: "深度验证",
+                        score: 4 
+                    }
+                ]
+            },
+            {
+                id: 10,
+                dimension: "discernment",
+                text: "AI给你的方案中有一个你不太认同的建议，你会？",
+                options: [
+                    { 
+                        text: "既然AI建议了，可能确实有道理，采纳试试。",
+                        label: "开放接受",
+                        score: 1 
+                    },
+                    { 
+                        text: "凭直觉决定要不要采纳，感觉不对就不采纳。",
+                        label: "直觉判断",
+                        score: 2 
+                    },
+                    { 
+                        text: "问AI为什么这么建议，了解背后的逻辑再决定。",
+                        label: "追问逻辑",
+                        score: 3 
+                    },
+                    { 
+                        text: "分析这个建议的前提假设，评估在你具体场景下的适用性，再做判断。",
+                        label: "批判分析",
+                        score: 4 
+                    }
+                ]
+            },
+            {
+                id: 11,
+                dimension: "discernment",
+                text: "你发现AI给的两个回答有矛盾，你会？",
+                options: [
+                    { 
+                        text: "选最新的那个，或者看起来更详细的那个。",
+                        label: "简单选择",
+                        score: 1 
+                    },
+                    { 
+                        text: "再问一遍AI，看它这次怎么说。",
+                        label: "重复确认",
+                        score: 2 
+                    },
+                    { 
+                        text: "对比两个回答的差异，判断哪个更符合事实。",
+                        label: "对比分析",
+                        score: 3 
+                    },
+                    { 
+                        text: "分析矛盾产生的原因（是前提不同？信息更新？还是AI幻觉？），必要时查证原始资料。",
+                        label: "根因探究",
+                        score: 4 
+                    }
+                ]
+            },
+            {
+                id: 12,
+                dimension: "discernment",
+                text: "AI给你的行业趋势分析，你觉得可能是基于什么时期的资料？",
+                options: [
+                    { 
+                        text: "没考虑过这个问题，AI应该知道最新的情况。",
+                        label: "默认信任",
+                        score: 1 
+                    },
+                    { 
+                        text: "偶尔会想是不是过时了，但一般不会去验证。",
+                        label: "偶尔疑虑",
+                        score: 2 
+                    },
+                    { 
+                        text: "会留意AI提到的数据时间，太旧的内容会要求更新。",
+                        label: "时间敏感",
+                        score: 3 
+                    },
+                    { 
+                        text: "会主动询问AI的知识截止日期，对时效性强的信息会交叉验证最新来源。",
+                        label: "时效把控",
+                        score: 4 
+                    }
+                ]
+            },
+            // Diligence (审慎) - 4 questions
+            {
+                id: 13,
+                dimension: "diligence",
+                text: "你用AI辅助完成的报告要提交给领导，你会？",
+                options: [
+                    { 
+                        text: "直接提交，反正内容是我审核过的。",
+                        label: "直接提交",
+                        score: 1 
+                    },
+                    { 
+                        text: "如果有人问起，我会说是用AI辅助的。",
+                        label: "被动披露",
+                        score: 2 
+                    },
+                    { 
+                        text: "在报告末尾注明"本报告使用AI辅助生成"。",
+                        label: "主动标注",
+                        score: 3 
+                    },
+                    { 
+                        text: "根据公司政策和行业规范，明确标注AI使用范围和人工审核责任，确保合规。",
+                        label: "规范披露",
+                        score: 4 
+                    }
+                ]
+            },
+            {
+                id: 14,
+                dimension: "diligence",
+                text: "如果AI生成的内容里有错误，导致你做了错误决策，你觉得责任在谁？",
+                options: [
+                    { 
+                        text: "AI给的错误信息，责任在AI。",
+                        label: "归因外部",
+                        score: 1 
+                    },
+                    { 
+                        text: "都有责任，AI有错，我也应该检查一下。",
+                        label: "责任共担",
+                        score: 2 
+                    },
+                    { 
+                        text: "主要责任在我，我应该验证关键信息。",
+                        label: "主动担责",
+                        score: 3 
+                    },
+                    { 
+                        text: "我完全负责。使用AI是我的选择，审核不严是我的失误，我会承担后果并改进流程。",
+                        label: "完全负责",
+                        score: 4 
+                    }
+                ]
+            },
+            {
+                id: 15,
+                dimension: "diligence",
+                text: "你要用AI处理包含客户隐私数据的文档，你会？",
+                options: [
+                    { 
+                        text: "直接上传，应该没问题，大家都这么用。",
+                        label: "默认安全",
+                        score: 1 
+                    },
+                    { 
+                        text: "先去掉敏感信息再上传，或者只用脱敏数据。",
+                        label: "简单脱敏",
+                        score: 2 
+                    },
+                    { 
+                        text: "确认公司政策允许，使用企业版AI工具，不上传原始敏感数据。",
+                        label: "合规使用",
+                        score: 3 
+                    },
+                    { 
+                        text: "了解AI工具的数据处理政策，评估隐私风险，必要时使用本地部署或匿名化处理，确保符合数据保护法规。",
+                        label: "风险管控",
+                        score: 4 
+                    }
+                ]
+            },
+            {
+                id: 16,
+                dimension: "diligence",
+                text: "使用AI一段时间后，你会怎么对待这段经历？",
+                options: [
+                    { 
+                        text: "能用就用，不好用就换别的工具，不会特别思考。",
+                        label: "实用主义",
+                        score: 1 
+                    },
+                    { 
+                        text: "会记住哪些场景好用，下次类似情况再用。",
+                        label: "经验积累",
+                        score: 2 
+                    },
+                    { 
+                        text: "会总结成功和失败的案例，调整使用策略。",
+                        label: "反思总结",
+                        score: 3 
+                    },
+                    { 
+                        text: "持续记录使用心得，优化提示词库，形成个人最佳实践，并分享给团队。",
+                        label: "持续优化",
+                        score: 4 
+                    }
+                ]
+            }
+        ];
+
+        // Pattern Details
+        const patternDetails = {
+            explorer: {
+                title: "探索者模式 · 即问即用型",
+                badge: "level-l1",
+                color: "amber",
+                description: "你把AI当作一个更智能的搜索引擎，需要信息时快速提问，得到答案后直接使用。不追求深度协作，重视即时性和便利性。",
+                strengths: [
+                    "快速获取信息和灵感",
+                    "低认知负荷，无需学习复杂技巧",
+                    "适合碎片化、临时性的需求"
+                ],
+                limitations: [
+                    "难以处理复杂或连续性任务",
+                    "结果质量不稳定",
+                    "无法建立深度协作关系"
+                ],
+                suitable: [
+                    "快速查询事实性信息",
+                    "获取写作灵感和开头",
+                    "简单文案的初步草稿",
+                    "学习新概念的基础解释"
+                ],
+                upgrade: [
+                    "尝试在同一个对话中多问几个相关问题",
+                    "给AI一点上下文，看看回答质量是否提升",
+                    "保存几个特别好用的提示词"
+                ]
+            },
+            collaborator: {
+                title: "协作者模式 · 对话打磨型",
+                badge: "level-l2",
+                color: "rose",
+                description: "你把AI当作一个协作伙伴，通过多轮对话共同打磨内容。你重视互动过程，愿意投入时间获得更好的结果。",
+                strengths: [
+                    "能完成更复杂的写作和分析任务",
+                    "输出质量明显提升",
+                    "在互动中产生新的想法"
+                ],
+                limitations: [
+                    "需要投入较多时间",
+                    "效率还有提升空间",
+                    "依赖个人的提示词技巧"
+                ],
+                suitable: [
+                    "需要反复打磨的重要文档",
+                    "创意策划和头脑风暴",
+                    "复杂问题的分析讨论",
+                    "学习新技能的互动教学"
+                ],
+                upgrade: [
+                    "建立个人提示词模板库",
+                    "学习如何让AI一次性做更多事情",
+                    "总结有效的沟通模式"
+                ]
+            },
+            delegator: {
+                title: "委托者模式 · 任务外包型",
+                badge: "level-l3",
+                color: "green",
+                description: "你把AI当作一个可靠的助手，能够委托完整的任务给它执行。你专注于审核和决策，把执行工作交给AI。",
+                strengths: [
+                    "显著节省时间，提升效率",
+                    "能批量处理重复性工作",
+                    "建立了可复用的工作流程"
+                ],
+                limitations: [
+                    "仍需要人工审核关键环节",
+                    "对AI的能力边界需要清晰认知",
+                    "复杂任务仍需人工介入"
+                ],
+                suitable: [
+                    "数据整理和格式化",
+                    "批量文档处理",
+                    "标准化报告生成",
+                    "初步研究和资料搜集"
+                ],
+                upgrade: [
+                    "建立更完善的审核机制",
+                    "探索多AI协作的可能性",
+                    "将流程进一步自动化"
+                ]
+            },
+            orchestrator: {
+                title: "编排者模式 · 系统整合型",
+                badge: "level-l4",
+                color: "purple",
+                description: "你把AI深度融入工作系统，形成了自适应的协作生态。AI不仅是工具，更是你的智能伙伴，持续学习和优化。",
+                strengths: [
+                    "AI成为真正的协作伙伴",
+                    "能处理系统性、战略性工作",
+                    "持续自我优化和改进"
+                ],
+                limitations: [
+                    "需要前期投入建立系统",
+                    "对技术理解要求较高",
+                    "需要持续关注AI发展"
+                ],
+                suitable: [
+                    "战略性规划和决策支持",
+                    "复杂项目的全流程管理",
+                    "知识管理和经验沉淀",
+                    "创新和探索性工作"
+                ],
+                upgrade: [
+                    "探索多Agent协作",
+                    "建立团队或组织的AI协作标准",
+                    "分享最佳实践，推动AI文化建设"
+                ]
+            }
+        };
+
+        // State
+        let currentQuestion = 0;
+        let answers = new Array(questions.length).fill(null);
+
+        // Initialize
+        function init() {
+            renderProgress();
+            renderQuestion();
+            updateNavigation();
+        }
+
+        // Render Progress
+        function renderProgress() {
+            const container = document.getElementById('progress-container');
+            container.innerHTML = questions.map((q, index) => `
+                <div class="progress-dot ${index === 0 ? 'active' : ''}" data-question="${index}"></div>
+            `).join('');
+        }
+
+        // Render Question
+        function renderQuestion() {
+            const container = document.getElementById('question-container');
+            const question = questions[currentQuestion];
+            const dimensionLabels = {
+                delegation: '委托',
+                description: '描述',
+                discernment: '辨别',
+                diligence: '审慎'
+            };
+            const dimensionClasses = {
+                delegation: 'dim-delegation',
+                description: 'dim-description',
+                discernment: 'dim-discernment',
+                diligence: 'dim-diligence'
+            };
+            
+            container.innerHTML = `
+                <div class="text-center mb-8">
+                    <div class="flex items-center justify-center gap-2 mb-2">
+                        <span class="dimension-badge ${dimensionClasses[question.dimension]}">${dimensionLabels[question.dimension]}</span>
+                        <span class="text-sm text-gray-400">问题 ${currentQuestion + 1} / ${questions.length}</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mt-2">${question.text}</h3>
+                </div>
+                <div class="space-y-3">
+                    ${question.options.map((option, index) => `
+                        <button class="option-btn ${answers[currentQuestion] === index ? 'selected' : ''}" 
+                                onclick="selectOption(${index})" data-score="${option.score}">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-shrink-0 mt-1">
+                                    <span class="option-label bg-gray-100 text-gray-600">${option.label}</span>
+                                </div>
+                                <span class="text-gray-700 text-left">${option.text}</span>
+                            </div>
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Select Option
+        function selectOption(index) {
+            answers[currentQuestion] = index;
+            renderQuestion();
+            updateNavigation();
+            
+            // Auto advance after selection
+            setTimeout(() => {
+                if (currentQuestion < questions.length - 1) {
+                    nextQuestion();
+                } else {
+                    showResult();
+                }
+            }, 500);
+        }
+
+        // Update Progress
+        function updateProgress() {
+            document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+                dot.classList.remove('active', 'completed');
+                if (index < currentQuestion) {
+                    dot.classList.add('completed');
+                } else if (index === currentQuestion) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        // Update Navigation
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            prevBtn.style.opacity = currentQuestion > 0 ? '1' : '0';
+            prevBtn.style.pointerEvents = currentQuestion > 0 ? 'auto' : 'none';
+            
+            const hasAnswer = answers[currentQuestion] !== null;
+            nextBtn.style.opacity = hasAnswer ? '1' : '0.5';
+            nextBtn.style.pointerEvents = hasAnswer ? 'auto' : 'none';
+            
+            if (currentQuestion === questions.length - 1) {
+                nextBtn.textContent = '查看结果 →';
+            } else {
+                nextBtn.textContent = '下一题 →';
+            }
+        }
+
+        // Navigation
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+                updateProgress();
+                updateNavigation();
+            }
+        });
+
+        document.getElementById('next-btn').addEventListener('click', nextQuestion);
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+                updateProgress();
+                updateNavigation();
+            } else {
+                showResult();
+            }
+        }
+
+        // Show Result
+        function showResult() {
+            // Calculate 4D scores
+            const dimensionScores = {
+                delegation: 0,
+                description: 0,
+                discernment: 0,
+                diligence: 0
+            };
+            
+            answers.forEach((answerIndex, questionIndex) => {
+                const question = questions[questionIndex];
+                const score = question.options[answerIndex].score;
+                dimensionScores[question.dimension] += score;
+            });
+            
+            // Calculate overall level
+            const totalScore = Object.values(dimensionScores).reduce((a, b) => a + b, 0);
+            const maxScore = questions.length * 4;
+            const percentage = totalScore / maxScore;
+            
+            // Determine pattern
+            let resultPattern;
+            if (percentage < 0.4) {
+                resultPattern = 'explorer';
+            } else if (percentage < 0.6) {
+                resultPattern = 'collaborator';
+            } else if (percentage < 0.8) {
+                resultPattern = 'delegator';
+            } else {
+                resultPattern = 'orchestrator';
+            }
+            
+            const detail = patternDetails[resultPattern];
+            
+            // Display 4D scores
+            document.getElementById('score-delegation').textContent = dimensionScores.delegation + '/16';
+            document.getElementById('score-description').textContent = dimensionScores.description + '/16';
+            document.getElementById('score-discernment').textContent = dimensionScores.discernment + '/16';
+            document.getElementById('score-diligence').textContent = dimensionScores.diligence + '/16';
+            
+            // Render result
+            document.getElementById('result-badge').className = `level-badge ${detail.badge} text-lg px-6 py-2`;
+            document.getElementById('result-badge').innerHTML = `
+                <span class="w-2 h-2 rounded-full bg-${detail.color}-400"></span>
+                ${detail.title}
+            `;
+            
+            // Find weakest dimension
+            const weakestDimension = Object.entries(dimensionScores).sort((a, b) => a[1] - b[1])[0];
+            const dimensionNames = {
+                delegation: '委托 (Delegation)',
+                description: '描述 (Description)',
+                discernment: '辨别 (Discernment)',
+                diligence: '审慎 (Diligence)'
+            };
+            
+            document.getElementById('result-content').innerHTML = `
+                <div class="space-y-8">
+                    <p class="text-lg text-gray-600 leading-relaxed">${detail.description}</p>
+                    
+                    <div class="bg-amber-50 rounded-xl p-6">
+                        <h4 class="font-bold text-amber-800 mb-2 flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            提升空间
+                        </h4>
+                        <p class="text-amber-700">你的${dimensionNames[weakestDimension[0]]}维度得分相对较低，这可能是你提升AI协作效率的关键突破口。</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                这种模式适合
+                            </h4>
+                            <ul class="space-y-2">
+                                ${detail.suitable.map(s => `
+                                    <li class="flex items-start gap-3 text-gray-600 text-sm">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-green-400 mt-1.5 flex-shrink-0"></span>
+                                        <span>${s}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-${detail.color}-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                </svg>
+                                进阶建议
+                            </h4>
+                            <ul class="space-y-2">
+                                ${detail.upgrade.map(s => `
+                                    <li class="flex items-start gap-3 text-gray-600 text-sm">
+                                        <span class="text-${detail.color}-500 font-bold">→</span>
+                                        <span>${s}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-xl p-6">
+                        <h4 class="font-bold text-gray-800 mb-4">你的协作特征</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-medium text-green-700 mb-2">优势</h5>
+                                <ul class="space-y-1">
+                                    ${detail.strengths.map(s => `
+                                        <li class="text-gray-600 text-sm flex items-start gap-2">
+                                            <span class="text-green-500">✓</span>
+                                            <span>${s}</span>
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-medium text-gray-500 mb-2">局限</h5>
+                                <ul class="space-y-1">
+                                    ${detail.limitations.map(l => `
+                                        <li class="text-gray-500 text-sm flex items-start gap-2">
+                                            <span>•</span>
+                                            <span>${l}</span>
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Show result section
+            document.getElementById('assessment').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Restart Assessment
+        function restartAssessment() {
+            currentQuestion = 0;
+            answers = new Array(questions.length).fill(null);
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('assessment').classList.remove('hidden');
+            renderProgress();
+            renderQuestion();
+            updateNavigation();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Show Pattern Detail
+        function showPatternDetail(pattern) {
+            const detail = patternDetails[pattern];
+            document.getElementById('pattern-modal-content').innerHTML = `
+                <div class="level-badge ${detail.badge} mb-4">
+                    <span class="w-2 h-2 rounded-full bg-${detail.color}-400"></span>
+                    ${detail.title}
+                </div>
+                <p class="text-gray-600 mb-6">${detail.description}</p>
+                
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3">适合场景</h4>
+                        <ul class="space-y-2">
+                            ${detail.suitable.map(s => `
+                                <li class="flex items-start gap-3 text-gray-600 text-sm">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-${detail.color}-400 mt-1.5 flex-shrink-0"></span>
+                                    <span>${s}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-3">进阶路径</h4>
+                        <ul class="space-y-2">
+                            ${detail.upgrade.map(u => `
+                                <li class="flex items-start gap-3 text-gray-600 text-sm">
+                                    <span class="text-${detail.color}-500 font-bold">→</span>
+                                    <span>${u}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+            document.getElementById('pattern-modal').classList.remove('hidden');
+        }
+
+        // Close Pattern Detail
+        function closePatternDetail() {
+            document.getElementById('pattern-modal').classList.add('hidden');
+        }
+
+        // Initialize on load
+        init();
+    </script>
+</body>
+</html>
