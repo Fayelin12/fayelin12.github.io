@@ -4,282 +4,351 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>南飞 (Fayelin12) - 产品经理</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ===== CSS Reset & Base ===== */
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* ===== Reset & Variables ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            /* Light mode (fallback) */
-            --bg-primary: #f8f9fb;
-            --bg-secondary: #ffffff;
+            --bg: #f4f3ee;
             --bg-card: #ffffff;
-            --bg-tag: #f0f2f5;
-            --text-primary: #1a1d23;
-            --text-secondary: #5a6270;
-            --text-muted: #8a93a3;
-            --border-color: #e4e7ec;
-            --accent-color: #2563eb;
-            --accent-hover: #1d4ed8;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
-            --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --text: #1c1917;
+            --text-2: #57534e;
+            --text-3: #a8a29e;
+            --border: #e7e5e0;
+            --accent: #4f46e5;
+            --accent-soft: rgba(79, 70, 229, 0.08);
+            --accent-hover: #4338ca;
+            --radius: 14px;
+            --ease: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-primary: #0f1117;
-                --bg-secondary: #161922;
-                --bg-card: #1a1f2e;
-                --bg-tag: #252b3b;
-                --text-primary: #f0f2f5;
-                --text-secondary: #b0b8c8;
-                --text-muted: #6b7486;
-                --border-color: #2a3040;
-                --accent-color: #60a5fa;
-                --accent-hover: #93c5fd;
-                --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
-                --shadow-md: 0 4px 20px rgba(0,0,0,0.4);
-                --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+                --bg: #0c0a09;
+                --bg-card: #1c1917;
+                --text: #fafaf9;
+                --text-2: #a8a29e;
+                --text-3: #78716c;
+                --border: #292524;
+                --accent: #818cf8;
+                --accent-soft: rgba(129, 140, 248, 0.1);
+                --accent-hover: #a5b4fc;
             }
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.7;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* ===== Container ===== */
-        .container {
-            max-width: 900px;
+        /* ===== Dot Pattern Background ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+            background-size: 28px 28px;
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body::before { opacity: 0.15; }
+        }
+
+        /* ===== Layout ===== */
+        .wrap {
+            position: relative;
+            z-index: 1;
+            max-width: 840px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
-        /* ===== Header / Hero ===== */
+        /* ===== Hero ===== */
         .hero {
-            padding: 80px 0 48px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+            padding: 72px 0 36px;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 20%, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 80%, rgba(37, 99, 235, 0.05) 0%, transparent 40%);
-            pointer-events: none;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            .hero::before {
-                background: radial-gradient(circle at 30% 20%, rgba(96, 165, 250, 0.1) 0%, transparent 50%),
-                            radial-gradient(circle at 70% 80%, rgba(96, 165, 250, 0.05) 0%, transparent 40%);
-            }
+        .hero-bar {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 28px;
         }
 
         .avatar {
-            width: 96px;
-            height: 96px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-color), #7c3aed);
-            display: inline-flex;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--accent), #7c3aed);
+            display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 36px;
+            font-size: 20px;
             font-weight: 700;
             color: #fff;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero h1 {
-            font-size: 2.25rem;
-            font-weight: 700;
-            margin-bottom: 8px;
+            flex-shrink: 0;
             letter-spacing: -0.02em;
-            position: relative;
-            z-index: 1;
         }
 
-        .hero .username {
-            font-size: 1.1rem;
-            color: var(--text-muted);
+        .hero-identity h1 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-identity .meta {
+            font-size: 0.88rem;
+            color: var(--text-3);
             font-weight: 400;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
         }
 
-        .hero .tagline {
+        .hero-identity .meta a {
+            color: var(--text-3);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .hero-identity .meta a:hover {
+            color: var(--accent);
+        }
+
+        .hero-statement {
+            font-size: 2.6rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.04em;
+            max-width: 520px;
+        }
+
+        .hero-statement .accent {
+            color: var(--accent);
+        }
+
+        .hero-sub {
             font-size: 1rem;
-            color: var(--text-secondary);
-            max-width: 500px;
-            margin: 0 auto 28px;
-            position: relative;
-            z-index: 1;
+            color: var(--text-2);
+            margin-top: 16px;
+            max-width: 480px;
         }
 
-        /* ===== Buttons ===== */
+        .hero-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 28px;
+        }
+
         .btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 12px 28px;
-            border-radius: var(--radius-md);
-            font-size: 0.95rem;
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-size: 0.88rem;
             font-weight: 500;
             text-decoration: none;
-            transition: var(--transition);
+            transition: all 0.2s var(--ease);
             cursor: pointer;
             border: none;
-            position: relative;
-            z-index: 1;
         }
 
         .btn-primary {
-            background: var(--accent-color);
+            background: var(--accent);
             color: #fff;
         }
 
         .btn-primary:hover {
             background: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+            transform: translateY(-1px);
         }
 
-        .btn-outline {
+        .btn-ghost {
             background: transparent;
-            color: var(--text-secondary);
-            border: 1.5px solid var(--border-color);
+            color: var(--text-2);
+            border: 1.5px solid var(--border);
         }
 
-        .btn-outline:hover {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-            transform: translateY(-2px);
+        .btn-ghost:hover {
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
-        .btn-group {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
+        /* ===== Tabs ===== */
+        .tabs-section {
+            padding-top: 12px;
+            padding-bottom: 80px;
         }
 
-        /* ===== Section ===== */
-        .section {
-            padding: 24px 0 48px;
-        }
-
-        .section-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 24px;
+        .tab-bar {
             display: flex;
             align-items: center;
-            gap: 10px;
-            color: var(--text-primary);
+            gap: 4px;
+            position: relative;
+            padding-bottom: 2px;
+            margin-bottom: 36px;
+            border-bottom: 1.5px solid var(--border);
         }
 
-        .section-title .icon {
-            font-size: 1.2rem;
-            opacity: 0.8;
+        .tab-btn {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-3);
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s var(--ease);
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-2);
+        }
+
+        .tab-btn.active {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .tab-count {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-3);
+            background: var(--border);
+            padding: 1px 7px;
+            border-radius: 100px;
+            margin-left: 6px;
+            vertical-align: middle;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active .tab-count {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .tab-indicator {
+            position: absolute;
+            bottom: -1.5px;
+            height: 2.5px;
+            background: var(--accent);
+            border-radius: 2px 2px 0 0;
+            transition: left 0.35s var(--ease), width 0.35s var(--ease);
+        }
+
+        /* ===== Tab Content ===== */
+        .tab-panel {
+            display: none;
+            animation: panelIn 0.35s var(--ease);
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes panelIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* ===== Cards ===== */
         .cards {
             display: grid;
-            gap: 20px;
+            gap: 18px;
         }
 
         .card {
             background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 28px;
-            transition: var(--transition);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 26px 28px;
+            transition: all 0.3s var(--ease);
             position: relative;
-            overflow: hidden;
         }
 
-        .card::before {
+        .card::after {
             content: '';
             position: absolute;
-            top: 0;
             left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-color), #7c3aed);
+            top: 20px;
+            bottom: 20px;
+            width: 3px;
+            border-radius: 0 3px 3px 0;
+            background: var(--accent);
             opacity: 0;
-            transition: var(--transition);
+            transition: opacity 0.3s var(--ease);
         }
 
         .card:hover {
+            border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
             transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
-            border-color: rgba(37, 99, 235, 0.2);
         }
 
-        .card:hover::before {
+        .card:hover::after {
             opacity: 1;
         }
 
-        .card-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            margin-bottom: 14px;
-        }
-
-        .card-title {
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            text-decoration: none;
+        .card-head {
             display: flex;
             align-items: center;
-            gap: 10px;
-            transition: var(--transition);
+            gap: 14px;
+            margin-bottom: 12px;
         }
 
-        .card-title:hover {
-            color: var(--accent-color);
-        }
-
-        .card-title .repo-icon {
-            font-size: 1.3rem;
+        .card-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
             flex-shrink: 0;
+            background: var(--accent-soft);
+        }
+
+        .card-name {
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .card-name a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .card-name a:hover {
+            color: var(--accent);
+        }
+
+        .card-sub {
+            font-size: 0.78rem;
+            color: var(--text-3);
+            margin-top: 1px;
         }
 
         .card-desc {
-            color: var(--text-secondary);
-            font-size: 0.92rem;
-            line-height: 1.7;
-            margin-bottom: 18px;
+            font-size: 0.9rem;
+            color: var(--text-2);
+            line-height: 1.75;
+            margin-bottom: 16px;
         }
 
         .card-tags {
@@ -289,302 +358,366 @@
         }
 
         .tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 12px;
-            background: var(--bg-tag);
+            padding: 4px 13px;
+            border: 1px solid var(--border);
             border-radius: 100px;
-            font-size: 0.8rem;
+            font-size: 0.76rem;
             font-weight: 500;
-            color: var(--text-secondary);
-            transition: var(--transition);
+            color: var(--text-3);
+            transition: all 0.2s;
         }
 
         .tag:hover {
-            background: var(--accent-color);
-            color: #fff;
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-soft);
         }
 
-        .card-arrow {
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            transition: var(--transition);
-            flex-shrink: 0;
-            margin-left: 8px;
-        }
-
-        .card:hover .card-arrow {
-            color: var(--accent-color);
-            transform: translateX(4px);
-        }
-
-        /* Blog card special style */
-        .card--blog {
-            background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+        /* ===== Knowledge Card Variant ===== */
+        .card--knowledge {
             border-style: dashed;
-            opacity: 0.85;
         }
 
-        .card--blog:hover {
+        .card--knowledge:hover {
+            border-style: solid;
+        }
+
+        /* ===== External Arrow ===== */
+        .ext-arrow {
+            color: var(--text-3);
+            font-size: 0.9rem;
+            margin-left: auto;
+            flex-shrink: 0;
+            transition: all 0.25s var(--ease);
+            opacity: 0.5;
+        }
+
+        .card:hover .ext-arrow {
             opacity: 1;
+            color: var(--accent);
+            transform: translate(2px, -2px);
         }
 
-        .card--blog .badge-coming {
+        /* ===== Empty State ===== */
+        .empty-state {
+            text-align: center;
+            padding: 72px 24px;
+            color: var(--text-3);
+        }
+
+        .empty-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 2px dashed var(--border);
             display: inline-flex;
             align-items: center;
-            padding: 3px 10px;
-            background: rgba(37, 99, 235, 0.1);
-            color: var(--accent-color);
-            border-radius: 100px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 10px;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
         }
 
-        .card--blog .card-title {
+        .empty-state h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-2);
             margin-bottom: 8px;
         }
 
-        @media (prefers-color-scheme: dark) {
-            .card--blog .badge-coming {
-                background: rgba(96, 165, 250, 0.15);
-            }
+        .empty-state p {
+            font-size: 0.88rem;
+            max-width: 280px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ===== Section Intro ===== */
+        .section-intro {
+            font-size: 0.92rem;
+            color: var(--text-3);
+            margin-bottom: 24px;
+            padding-left: 2px;
         }
 
         /* ===== Footer ===== */
         .footer {
-            padding: 32px 0 48px;
+            padding: 28px 0 48px;
             text-align: center;
-            border-top: 1px solid var(--border-color);
-            margin-top: 16px;
-        }
-
-        .footer p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
             gap: 20px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
+            margin-bottom: 14px;
         }
 
         .footer-links a {
-            color: var(--text-secondary);
+            color: var(--text-3);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
-            transition: var(--transition);
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            transition: color 0.2s;
         }
 
         .footer-links a:hover {
-            color: var(--accent-color);
+            color: var(--accent);
         }
 
-        /* ===== Animations ===== */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .footer p {
+            font-size: 0.8rem;
+            color: var(--text-3);
         }
 
-        .animate-in {
-            animation: fadeInUp 0.6s ease-out both;
+        /* ===== Load Animation ===== */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeUp 0.5s var(--ease) forwards;
         }
 
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
-        .delay-5 { animation-delay: 0.5s; }
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .d1 { animation-delay: 0.05s; }
+        .d2 { animation-delay: 0.1s; }
+        .d3 { animation-delay: 0.15s; }
+        .d4 { animation-delay: 0.2s; }
+        .d5 { animation-delay: 0.25s; }
 
         /* ===== Responsive ===== */
         @media (max-width: 640px) {
-            .hero {
-                padding: 48px 0 36px;
-            }
-
-            .hero h1 {
-                font-size: 1.75rem;
-            }
-
-            .hero .tagline {
-                font-size: 0.9rem;
-            }
-
-            .card {
-                padding: 22px;
-            }
-
-            .card-header {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .card-arrow {
-                display: none;
-            }
-
-            .btn {
-                padding: 10px 22px;
-                font-size: 0.9rem;
-            }
+            .hero { padding: 48px 0 28px; }
+            .hero-statement { font-size: 1.85rem; }
+            .hero-bar { gap: 14px; }
+            .avatar { width: 46px; height: 46px; font-size: 18px; border-radius: 12px; }
+            .hero-identity h1 { font-size: 1.15rem; }
+            .card { padding: 20px 22px; }
+            .card::after { top: 16px; bottom: 16px; }
+            .tab-btn { padding: 8px 14px; font-size: 0.84rem; }
+            .tab-count { font-size: 0.68rem; padding: 1px 5px; }
+            .btn { padding: 9px 18px; font-size: 0.84rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Hero Section -->
-    <header class="hero">
-        <div class="container">
-            <div class="avatar">南</div>
-            <h1>南飞</h1>
-            <p class="username">@Fayelin12</p>
-            <p class="tagline">产品经理 | 热爱开源工具开发 | 创建了 OpenClaw Launcher</p>
-            <div class="btn-group">
-                <a href="https://github.com/Fayelin12" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0">
+    <div class="wrap">
+
+        <!-- Hero -->
+        <header class="hero">
+            <div class="hero-bar fade-up d1">
+                <div class="avatar">南</div>
+                <div class="hero-identity">
+                    <h1>南飞</h1>
+                    <p class="meta">@Fayelin12 · <a href="https://github.com/Fayelin12" target="_blank" rel="noopener">GitHub</a></p>
+                </div>
+            </div>
+            <p class="hero-statement fade-up d2">用产品思维<br><span class="accent">构建工具。</span></p>
+            <div class="hero-actions fade-up d4">
+                <a href="https://github.com/Fayelin12" target="_blank" rel="noopener" class="btn btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0">
                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                     </svg>
                     GitHub 主页
                 </a>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <!-- Projects Section -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title animate-in">
-                <span class="icon">&#128187;</span>
-                开源项目
-            </h2>
+        <!-- Tabs Section -->
+        <section class="tabs-section">
+            <nav class="tab-bar fade-up d4" id="tabBar">
+                <button class="tab-btn active" data-tab="opensource">开源项目<span class="tab-count">2</span></button>
+                <button class="tab-btn" data-tab="private">私有项目<span class="tab-count">0</span></button>
+                <button class="tab-btn" data-tab="knowledge">知识体系<span class="tab-count">3</span></button>
+                <div class="tab-indicator" id="tabIndicator"></div>
+            </nav>
 
-            <div class="cards">
-                <!-- Project 1 -->
-                <article class="card animate-in delay-1">
-                    <div class="card-header">
-                        <a href="/ai-collaboration-assessment/" class="card-title">
-                            <span class="repo-icon">&#127919;</span>
-                            测一测你和 AI 的默契度
-                        </a>
-                        <span class="card-arrow">&#8599;</span>
-                    </div>
-                    <p class="card-desc">
-                        你真的会用 AI 吗？16 道场景题，从「即问即用」到「系统整合」，看看你在哪个段位。
-                    </p>
-                    <div class="card-tags">
-                        <span class="tag">&#127919; 趣味测评</span>
-                        <span class="tag">&#129504; AI 协作</span>
-                        <span class="tag">&#127760; 在线体验</span>
-                    </div>
-                </article>
+            <!-- ====== 开源项目 ====== -->
+            <div class="tab-panel active" id="panel-opensource">
+                <p class="section-intro">可公开访问的开源项目，欢迎 Star 和贡献。</p>
+                <div class="cards">
+                    <article class="card">
+                        <div class="card-head">
+                            <div class="card-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent)"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                            </div>
+                            <div>
+                                <div class="card-name"><a href="https://github.com/Fayelin12/OpenClaw-Launcher" target="_blank" rel="noopener">OpenClaw-Launcher</a></div>
+                                <div class="card-sub">C# · Windows 桌面应用</div>
+                            </div>
+                            <span class="ext-arrow">&#8599;</span>
+                        </div>
+                        <p class="card-desc">OpenClaw 本地网关服务管理器。一键启动/停止服务，实时状态监控，现代深色渐变 UI，让 AI 网关管理变得直观简单。</p>
+                        <div class="card-tags">
+                            <span class="tag">C#</span>
+                            <span class="tag">Windows</span>
+                            <span class="tag">网关管理</span>
+                        </div>
+                    </article>
 
-                <!-- Project 2 -->
-                <article class="card animate-in delay-2">
-                    <div class="card-header">
-                        <a href="https://github.com/Fayelin12/OpenClaw-Launcher" target="_blank" rel="noopener noreferrer" class="card-title">
-                            <span class="repo-icon">&#128736;</span>
-                            OpenClaw-Launcher
-                        </a>
-                        <span class="card-arrow">&#8599;</span>
-                    </div>
-                    <p class="card-desc">
-                        OpenClaw 本地网关服务管理器，Windows 桌面应用程序。使用 C# 开发，提供直观的图形界面来管理本地 AI 网关服务。
-                    </p>
-                    <div class="card-tags">
-                        <span class="tag">&#127774; C#</span>
-                        <span class="tag">&#128187; Windows 桌面</span>
-                        <span class="tag">&#128268; 网关管理</span>
-                    </div>
-                </article>
-
-                <!-- Project 3 -->
-                <article class="card animate-in delay-3">
-                    <div class="card-header">
-                        <a href="https://github.com/Fayelin12/life-rpg-system" target="_blank" rel="noopener noreferrer" class="card-title">
-                            <span class="repo-icon">&#127918;</span>
-                            life-rpg-system
-                        </a>
-                        <span class="card-arrow">&#8599;</span>
-                    </div>
-                    <p class="card-desc">
-                        人生开放系统，把生活当成 RPG 游戏来经营。包含任务管理、等级成长、日历视图和 Obsidian 同步等模块，纯前端实现。
-                    </p>
-                    <div class="card-tags">
-                        <span class="tag">&#127760; Web 应用</span>
-                        <span class="tag">&#128221; 任务管理</span>
-                        <span class="tag">&#128198; 日历同步</span>
-                    </div>
-                </article>
-
-                <!-- Project 4: AI Model Chain -->
-                <article class="card animate-in delay-4">
-                    <div class="card-header">
-                        <a href="/ai-model-chain/" class="card-title">
-                            <span class="repo-icon">&#128300;</span>
-                            AI大模型产业链图谱
-                        </a>
-                        <span class="card-arrow">&#8599;</span>
-                    </div>
-                    <p class="card-desc">
-                        从算力地租到智能税收：五层权力结构与价值流向。以"阀论"视角拆解 AI 产业链的基础层、模型层、调度编排层、应用层与终端价值出口。
-                    </p>
-                    <div class="card-tags">
-                        <span class="tag">&#129302; AI 产业</span>
-                        <span class="tag">&#128202; 数据可视化</span>
-                        <span class="tag">&#127760; 静态页面</span>
-                    </div>
-                </article>
-
-                <!-- Blog Card -->
-                <article class="card animate-in delay-5">
-                    <div class="card-header">
-                        <a href="/blog/" class="card-title">
-                            <span class="repo-icon">&#128214;</span>
-                            个人博客
-                        </a>
-                        <span class="card-arrow">&#8599;</span>
-                    </div>
-                    <p class="card-desc">
-                        基于 Jekyll 构建的个人博客，部署在 /blog/ 子目录下。分享产品思考、开源工具开发经验与技术实践笔记。
-                    </p>
-                    <div class="card-tags">
-                        <span class="tag">&#128221; Jekyll</span>
-                        <span class="tag">&#127760; GitHub Pages</span>
-                        <span class="tag">&#128395; 产品 & 技术</span>
-                    </div>
-                </article>
+                    <article class="card">
+                        <div class="card-head">
+                            <div class="card-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent)"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                            </div>
+                            <div>
+                                <div class="card-name"><a href="https://github.com/Fayelin12/life-rpg-system" target="_blank" rel="noopener">life-rpg-system</a></div>
+                                <div class="card-sub">Web 应用 · 纯前端</div>
+                            </div>
+                            <span class="ext-arrow">&#8599;</span>
+                        </div>
+                        <p class="card-desc">人生开放系统，把生活当成 RPG 游戏来经营。包含任务管理、等级成长、日历视图和 Obsidian 同步等模块，纯前端实现。</p>
+                        <div class="card-tags">
+                            <span class="tag">Web 应用</span>
+                            <span class="tag">任务管理</span>
+                            <span class="tag">日历同步</span>
+                        </div>
+                    </article>
+                </div>
             </div>
-        </div>
-    </section>
+
+            <!-- ====== 私有项目 ====== -->
+            <div class="tab-panel" id="panel-private">
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-3)"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                    <h3>私有项目</h3>
+                    <p>这里将展示内部项目和实验性作品，敬请期待。</p>
+                </div>
+            </div>
+
+            <!-- ====== 知识体系 ====== -->
+            <div class="tab-panel" id="panel-knowledge">
+                <p class="section-intro">知识沉淀与思维工具，记录产品思考与技术实践。</p>
+                <div class="cards">
+                    <article class="card card--knowledge">
+                        <div class="card-head">
+                            <div class="card-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent)"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                            </div>
+                            <div>
+                                <div class="card-name"><a href="/ai-collaboration-assessment/">AI 协作成熟度评估</a></div>
+                                <div class="card-sub">评估工具 · 基于 Anthropic Framework</div>
+                            </div>
+                            <span class="ext-arrow">&#8599;</span>
+                        </div>
+                        <p class="card-desc">AI 协作成熟度评估工具，基于 Anthropic AI Fluency Framework 构建，帮助团队系统化地评估和提升 AI 协作能力。</p>
+                        <div class="card-tags">
+                            <span class="tag">AI</span>
+                            <span class="tag">评估工具</span>
+                            <span class="tag">Web 应用</span>
+                        </div>
+                    </article>
+
+                    <article class="card card--knowledge">
+                        <div class="card-head">
+                            <div class="card-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent)"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            </div>
+                            <div>
+                                <div class="card-name"><a href="/ai-model-chain/">AI 大模型产业链图谱</a></div>
+                                <div class="card-sub">数据可视化 · 静态页面</div>
+                            </div>
+                            <span class="ext-arrow">&#8599;</span>
+                        </div>
+                        <p class="card-desc">从算力地租到智能税收：五层权力结构与价值流向。以"阀论"视角拆解 AI 产业链的基础层、模型层、调度编排层、应用层与终端价值出口。</p>
+                        <div class="card-tags">
+                            <span class="tag">AI 产业</span>
+                            <span class="tag">数据可视化</span>
+                            <span class="tag">静态页面</span>
+                        </div>
+                    </article>
+
+                    <article class="card card--knowledge">
+                        <div class="card-head">
+                            <div class="card-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent)"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                            </div>
+                            <div>
+                                <div class="card-name"><a href="/blog/">个人博客</a></div>
+                                <div class="card-sub">Jekyll · GitHub Pages</div>
+                            </div>
+                            <span class="ext-arrow">&#8599;</span>
+                        </div>
+                        <p class="card-desc">基于 Jekyll 构建的个人博客。分享产品思考、开源工具开发经验与技术实践笔记。</p>
+                        <div class="card-tags">
+                            <span class="tag">Jekyll</span>
+                            <span class="tag">GitHub Pages</span>
+                            <span class="tag">产品 & 技术</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+
+        </section>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
+        <div class="wrap">
             <div class="footer-links">
-                <a href="https://github.com/Fayelin12" target="_blank" rel="noopener noreferrer">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0">
+                <a href="https://github.com/Fayelin12" target="_blank" rel="noopener">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0">
                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                     </svg>
                     GitHub
                 </a>
             </div>
-            <p> 南飞 (Fayelin12). 用产品思维构建工具。</p>
+            <p>&copy; 南飞 (Fayelin12). 用产品思维构建工具。</p>
         </div>
     </footer>
+
+    <script>
+        /* ===== Tab Switching with Animated Indicator ===== */
+        const tabBar  = document.getElementById('tabBar');
+        const btns    = tabBar.querySelectorAll('.tab-btn');
+        const indicator = document.getElementById('tabIndicator');
+        const panels  = document.querySelectorAll('.tab-panel');
+
+        function moveIndicator(btn) {
+            indicator.style.left  = btn.offsetLeft + 'px';
+            indicator.style.width = btn.offsetWidth + 'px';
+        }
+
+        function activateTab(btn) {
+            const tab = btn.dataset.tab;
+
+            btns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            panels.forEach(p => {
+                p.classList.remove('active');
+                if (p.id === 'panel-' + tab) {
+                    p.classList.add('active');
+                }
+            });
+
+            moveIndicator(btn);
+        }
+
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => activateTab(btn));
+        });
+
+        // Position indicator on load
+        const activeBtn = tabBar.querySelector('.tab-btn.active');
+        if (activeBtn) moveIndicator(activeBtn);
+
+        // Reposition on resize
+        window.addEventListener('resize', () => {
+            const active = tabBar.querySelector('.tab-btn.active');
+            if (active) moveIndicator(active);
+        });
+    </script>
 
 </body>
 </html>
