@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>任务管理 | LIFE RPG</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📜</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;600;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="common.css">
+    <script src="common.js"></script>
+    <style>
+        /* 页面特有样式 */
+        .quest-management-area {
+            display: none;
+        }
+
+        .quest-management-area.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-texture"></div>
+
+    <header class="temple-header">
+        <div class="temple-brand">
+            <div class="temple-seal">⚔️</div>
+            <div class="temple-title">LIFE RPG</div>
+        </div>
+        <nav class="temple-nav">
+            <a href="index.html" class="nav-rune">世界地图</a>
+            <a href="admin.html" class="nav-rune">命名管理</a>
+            <a href="quest-admin.html" class="nav-rune active">任务管理</a>
+            <a href="level-admin.html" class="nav-rune">关卡管理</a>
+            <a href="calendar.html" class="nav-rune">日历视图</a>
+        </nav>
+    </header>
+
+    <!-- 主内容 -->
+    <main class="main-container">
+        <div class="page-header">
+            <h1>任务管理系统</h1>
+            <p>管理各地标的任务和奖励</p>
+        </div>
+
+        <div class="panels-grid">
+            <!-- 任务管理面板 -->
+            <div class="panel panel-full-width">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <span class="panel-title-icon">📜</span>
+                        地标任务管理
+                    </div>
+                    <span class="panel-count" id="questCount">选择地标查看任务</span>
+                </div>
+                <div class="panel-body">
+                    <!-- 地标选择器 -->
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>选择地标</label>
+                                <select id="selectedLandmarkForQuest" onchange="onLandmarkSelect()">
+                                    <option value="">-- 请选择要管理的地标 --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 任务管理区域（默认隐藏） -->
+                    <div id="questManagementArea" class="quest-management-area">
+                        <!-- 添加任务表单 -->
+                        <div class="form-section" style="background: var(--bg-panel);">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>任务名称</label>
+                                    <input type="text" id="newQuestName" placeholder="例如：探索城堡外围">
+                                </div>
+                                <div class="form-group" style="flex: 0 0 150px;">
+                                    <label>任务类型</label>
+                                    <select id="newQuestType">
+                                        <!-- 动态生成 -->
+                                    </select>
+                                </div>
+                                <div class="form-group" style="flex: 0 0 150px;">
+                                    <label>奖励类型</label>
+                                    <select id="newQuestRewardType">
+                                        <!-- 动态生成 -->
+                                    </select>
+                                </div>
+                                <div class="form-group" style="flex: 0 0 100px;">
+                                    <label>奖励数量</label>
+                                    <input type="number" id="newQuestRewardAmount" value="100" min="1">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>任务描述（可选）</label>
+                                    <input type="text" id="newQuestDesc" placeholder="描述这个任务的内容和目标...">
+                                </div>
+                                <div class="form-group" style="flex: 0 0 120px; display: flex; align-items: flex-end;">
+                                    <button class="btn btn-primary" onclick="addQuest()" style="width: 100%;">添加任务</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 任务列表 -->
+                        <div class="item-list" id="questList">
+                            <!-- 动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 提示消息 -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">✓</span>
+        <span class="toast-message">操作成功</span>
+    </div>
+
+    <script>
+        // 数据存储
+        let adminData = {
+            tags: [
+                { id: 1, name: '城堡', icon: '🏰', desc: '古老的防御工事，通常由贵族统治' },
+                { id: 2, name: '洞窟', icon: '🕳️', desc: '地下洞穴，常有怪物栖息' },
+                { id: 3, name: '废墟', icon: '🗿', desc: '曾经繁荣的城市遗迹' },
+                { id: 4, name: '魔法学院', icon: '🔮', desc: '魔法师学习和研究的地方' },
+                { id: 5, name: '森林', icon: '🌲', desc: '茂密的树林，充满神秘' },
+                { id: 6, name: '山脉', icon: '⛰️', desc: '高耸入云的山峰' }
+            ],
+            landmarks: [
+                { id: 1, name: '史东薇尔城', icon: '🏰', type: '城堡', desc: '一座被战争摧毁的古老城堡，隐藏着无数秘密', boss: '接肢贵族' },
+                { id: 2, name: '摩恩城', icon: '🗿', type: '废墟', desc: '曾经繁荣的城市，如今只剩下断壁残垣', boss: '狮子混种' },
+                { id: 3, name: '求学洞窟', icon: '🕳️', type: '洞窟', desc: '魔法师们曾经的修行之地', boss: '魔像守卫' },
+                { id: 4, name: '雷亚卢卡利亚', icon: '🔮', type: '魔法学院', desc: '辉石魔法师的最高学府', boss: '满月女王' },
+                { id: 5, name: '希芙拉河', icon: '🕳️', type: '洞窟', desc: '地下河流，永恒之城的一部分', boss: '祖灵' },
+                { id: 6, name: '盖利德要塞', icon: '🏰', type: '城堡', desc: '被猩红腐败侵蚀的堡垒', boss: '熔炉骑士' }
+            ],
+            landmarkQuests: {
+                1: [
+                    { id: 101, name: '探索城堡外围', type: 'main', rewardType: 'exp', rewardAmount: 100, desc: '初步探索区域' },
+                    { id: 102, name: '寻找隐藏的密室', type: 'side', rewardType: 'fragment', rewardAmount: 1, desc: '发现秘密区域' },
+                    { id: 103, name: '击败守卫队长', type: 'main', rewardType: 'exp', rewardAmount: 200, desc: '战胜强敌' },
+                    { id: 104, name: '收集古代符文', type: 'side', rewardType: 'fragment', rewardAmount: 1, desc: '收集稀有物品' }
+                ],
+                2: [
+                    { id: 201, name: '调查废墟', type: 'main', rewardType: 'exp', rewardAmount: 150, desc: '探索废弃区域' },
+                    { id: 202, name: '寻找幸存者', type: 'side', rewardType: 'fragment', rewardAmount: 1, desc: '救援任务' }
+                ],
+                3: [
+                    { id: 301, name: '学习基础魔法', type: 'main', rewardType: 'exp', rewardAmount: 100, desc: '掌握新技能' },
+                    { id: 302, name: '收集魔法材料', type: 'side', rewardType: 'fragment', rewardAmount: 1, desc: '采集资源' }
+                ],
+                4: [
+                    { id: 401, name: '通过入学考试', type: 'main', rewardType: 'exp', rewardAmount: 300, desc: '证明你的魔法天赋' },
+                    { id: 402, name: '借阅禁书', type: 'side', rewardType: 'fragment', rewardAmount: 1, desc: '获取禁忌知识' }
+                ],
+                5: [
+                    { id: 501, name: '点燃八座火盆', type: 'main', rewardType: 'exp', rewardAmount: 200, desc: '照亮地下世界' }
+                ],
+                6: [
+                    { id: 601, name: '清除腐败', type: 'main', rewardType: 'exp', rewardAmount: 250, desc: '净化被侵蚀的区域' }
+                ]
+            }
+        };
+
+        // 当前选中的地标ID
+        let currentLandmarkIdForQuest = null;
+
+        /**
+         * 初始化
+         */
+        /**
+         * 生成唯一ID
+         */
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+        }
+
+        function init() {
+            try {
+                loadData();
+                initSelects();
+                updateLandmarkSelect();
+            } catch (error) {
+                console.error('初始化失败:', error);
+                showToast('初始化失败，请刷新页面重试', '⚠️');
+            }
+        }
+
+        /**
+         * 初始化选择器
+         */
+        function initSelects() {
+            const questTypeSelect = document.getElementById('newQuestType');
+            const rewardTypeSelect = document.getElementById('newQuestRewardType');
+
+            // 任务类型
+            const questTypes = LifeRPG.constants.QUEST_TYPES;
+            if (questTypeSelect) {
+                questTypeSelect.innerHTML = Object.entries(questTypes).map(([key, config]) =>
+                    `<option value="${key}">${config.icon} ${config.label}</option>`
+                ).join('');
+            }
+
+            // 奖励类型
+            const rewardTypes = LifeRPG.constants.REWARD_TYPES;
+            if (rewardTypeSelect) {
+                rewardTypeSelect.innerHTML = Object.entries(rewardTypes).map(([key, config]) =>
+                    `<option value="${key}">${config.icon} ${config.label}</option>`
+                ).join('');
+            }
+        }
+
+        /**
+         * 从localStorage加载数据
+         */
+        function loadData() {
+            try {
+                const savedData = LifeRPG.data.load();
+                if (savedData) {
+                    adminData = {
+                        ...adminData,
+                        ...savedData,
+                        landmarkQuests: savedData.landmarkQuests || adminData.landmarkQuests || {}
+                    };
+                    // 为没有任务的地标初始化空数组
+                    adminData.landmarks.forEach(lm => {
+                        if (!adminData.landmarkQuests[lm.id]) {
+                            adminData.landmarkQuests[lm.id] = [];
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('加载数据失败:', error);
+            }
+        }
+
+        /**
+         * 保存数据到localStorage
+         */
+        function saveData() {
+            try {
+                LifeRPG.data.save(adminData);
+            } catch (error) {
+                console.error('保存数据失败:', error);
+                showToast('保存失败', '⚠️');
+            }
+        }
+
+        /**
+         * 显示提示
+         */
+        function showToast(message, icon = '✓') {
+            try {
+                const toast = document.getElementById('toast');
+                if (!toast) return;
+                toast.querySelector('.toast-icon').textContent = icon;
+                toast.querySelector('.toast-message').textContent = message;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3000);
+            } catch (error) {
+                console.error('显示提示失败:', error);
+            }
+        }
+
+        // ========== 地标任务管理 ==========
+
+        /**
+         * 更新地标选择器
+         */
+        function updateLandmarkSelect() {
+            try {
+                const select = document.getElementById('selectedLandmarkForQuest');
+                if (!select) return;
+
+                select.innerHTML = '<option value="">-- 请选择要管理的地标 --</option>' +
+                    adminData.landmarks.map(lm =>
+                        `<option value="${lm.id}">${lm.icon} ${LifeRPG.security.escapeHtml(lm.name)} (${LifeRPG.security.escapeHtml(lm.type)})</option>`
+                    ).join('');
+            } catch (error) {
+                console.error('更新地标选择器失败:', error);
+            }
+        }
+
+        /**
+         * 当地标选择变化时
+         */
+        function onLandmarkSelect() {
+            try {
+                const select = document.getElementById('selectedLandmarkForQuest');
+                currentLandmarkIdForQuest = select.value || null;
+
+                const managementArea = document.getElementById('questManagementArea');
+                const count = document.getElementById('questCount');
+
+                if (currentLandmarkIdForQuest) {
+                    if (!adminData.landmarkQuests) {
+                        adminData.landmarkQuests = {};
+                    }
+                    if (!adminData.landmarkQuests[currentLandmarkIdForQuest]) {
+                        adminData.landmarkQuests[currentLandmarkIdForQuest] = [];
+                    }
+
+                    managementArea.classList.add('active');
+                    const landmark = adminData.landmarks.find(l => l.id === currentLandmarkIdForQuest);
+                    const quests = adminData.landmarkQuests[currentLandmarkIdForQuest];
+                    count.textContent = `${landmark ? landmark.name : '未知地标'} - ${quests.length} 个任务`;
+                    renderQuests();
+                } else {
+                    managementArea.classList.remove('active');
+                    count.textContent = '选择地标查看任务';
+                }
+            } catch (error) {
+                console.error('地标选择变化处理失败:', error);
+            }
+        }
+
+        /**
+         * 渲染任务列表
+         */
+        function renderQuests() {
+            try {
+                const list = document.getElementById('questList');
+                if (!list || !currentLandmarkIdForQuest) return;
+
+                const quests = adminData.landmarkQuests[currentLandmarkIdForQuest] || [];
+
+                if (quests.length === 0) {
+                    list.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📜</div>
+                            <p>该地标暂无任务，请添加</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                list.innerHTML = quests.map(quest => {
+                    const typeConfig = LifeRPG.constants.QUEST_TYPES[quest.type] || { label: quest.type, icon: '📋', color: '#8a8680' };
+                    const rewardConfig = LifeRPG.constants.REWARD_TYPES[quest.rewardType] || { label: quest.rewardType, icon: '🎁' };
+                    return `
+                        <div class="item" id="quest-${quest.id}">
+                            <div class="item-icon" style="border-color: ${typeConfig.color}; color: ${typeConfig.color};">${typeConfig.icon}</div>
+                            <div class="item-content">
+                                <div class="item-name">${LifeRPG.security.escapeHtml(quest.name)}</div>
+                                <div class="item-desc">${LifeRPG.security.escapeHtml(quest.desc || '暂无描述')} | 奖励: ${rewardConfig.icon} ${rewardConfig.label}+${quest.rewardAmount}</div>
+                            </div>
+                            <span class="item-type" style="background: ${typeConfig.color}20; color: ${typeConfig.color};">${typeConfig.label}</span>
+                            <div class="item-actions">
+                                <button class="btn btn-secondary btn-small" onclick="editQuest('${quest.id}')">编辑</button>
+                                <button class="btn btn-danger" onclick="deleteQuest('${quest.id}')">删除</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('渲染任务失败:', error);
+            }
+        }
+
+        /**
+         * 添加任务
+         */
+        function addQuest() {
+            try {
+                if (!currentLandmarkIdForQuest) {
+                    showToast('请先选择地标', '⚠️');
+                    return;
+                }
+
+                const name = document.getElementById('newQuestName').value.trim();
+                const type = document.getElementById('newQuestType').value;
+                const rewardType = document.getElementById('newQuestRewardType').value;
+                const rewardAmount = parseInt(document.getElementById('newQuestRewardAmount').value) || 100;
+                const desc = document.getElementById('newQuestDesc').value.trim();
+
+                if (!name) {
+                    showToast('请输入任务名称', '⚠️');
+                    return;
+                }
+
+                if (!adminData.landmarkQuests) {
+                    adminData.landmarkQuests = {};
+                }
+                if (!adminData.landmarkQuests[currentLandmarkIdForQuest]) {
+                    adminData.landmarkQuests[currentLandmarkIdForQuest] = [];
+                }
+
+                const quests = adminData.landmarkQuests[currentLandmarkIdForQuest];
+
+                if (quests.some(q => q.name === name)) {
+                    showToast('该任务已存在', '⚠️');
+                    return;
+                }
+
+                const newQuest = {
+                    id: generateId(),
+                    name: name,
+                    type: type,
+                    rewardType: rewardType,
+                    rewardAmount: rewardAmount,
+                    desc: desc
+                };
+
+                quests.push(newQuest);
+                saveData();
+                renderQuests();
+                onLandmarkSelect();
+
+                document.getElementById('newQuestName').value = '';
+                document.getElementById('newQuestDesc').value = '';
+                document.getElementById('newQuestRewardAmount').value = '100';
+
+                showToast(`任务「${LifeRPG.security.escapeHtml(name)}」已添加`);
+            } catch (error) {
+                console.error('添加任务失败:', error);
+                showToast('添加失败', '⚠️');
+            }
+        }
+
+        /**
+         * 编辑任务
+         */
+        function editQuest(id) {
+            try {
+                if (!currentLandmarkIdForQuest) return;
+
+                const quests = adminData.landmarkQuests[currentLandmarkIdForQuest] || [];
+                const quest = quests.find(q => q.id == id);
+                if (!quest) return;
+
+                const item = document.getElementById(`quest-${id}`);
+                if (!item) return;
+
+                const questTypes = LifeRPG.constants.QUEST_TYPES;
+                const rewardTypes = LifeRPG.constants.REWARD_TYPES;
+
+                const typeOptions = Object.entries(questTypes).map(([key, config]) =>
+                    `<option value="${key}" ${quest.type === key ? 'selected' : ''}>${config.icon} ${config.label}</option>`
+                ).join('');
+
+                const rewardOptions = Object.entries(rewardTypes).map(([key, config]) =>
+                    `<option value="${key}" ${quest.rewardType === key ? 'selected' : ''}>${config.icon} ${config.label}</option>`
+                ).join('');
+
+                item.classList.add('editing');
+                item.innerHTML = `
+                    <div class="item-content">
+                        <div class="form-group">
+                            <label>任务名称</label>
+                            <input type="text" id="editQuestName-${id}" value="${LifeRPG.security.escapeHtml(quest.name)}">
+                        </div>
+                        <div class="form-group" style="flex: 0 0 150px;">
+                            <label>任务类型</label>
+                            <select id="editQuestType-${id}">${typeOptions}</select>
+                        </div>
+                        <div class="form-group" style="flex: 0 0 150px;">
+                            <label>奖励类型</label>
+                            <select id="editQuestRewardType-${id}">${rewardOptions}</select>
+                        </div>
+                        <div class="form-group" style="flex: 0 0 100px;">
+                            <label>奖励数量</label>
+                            <input type="number" id="editQuestRewardAmount-${id}" value="${quest.rewardAmount}" min="1">
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>任务描述</label>
+                            <input type="text" id="editQuestDesc-${id}" value="${LifeRPG.security.escapeHtml(quest.desc || '')}">
+                        </div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="btn btn-secondary btn-small" onclick="cancelEditQuest('${id}')">取消</button>
+                        <button class="btn btn-primary btn-small" onclick="saveQuest('${id}')">保存</button>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('编辑任务失败:', error);
+            }
+        }
+
+        /**
+         * 取消编辑任务
+         */
+        function cancelEditQuest(id) {
+            renderQuests();
+        }
+
+        /**
+         * 保存任务
+         */
+        function saveQuest(id) {
+            try {
+                if (!currentLandmarkIdForQuest) return;
+
+                const quests = adminData.landmarkQuests[currentLandmarkIdForQuest] || [];
+                const quest = quests.find(q => q.id == id);
+                if (!quest) return;
+
+                const newName = document.getElementById(`editQuestName-${id}`).value.trim();
+                const newType = document.getElementById(`editQuestType-${id}`).value;
+                const newRewardType = document.getElementById(`editQuestRewardType-${id}`).value;
+                const newRewardAmount = parseInt(document.getElementById(`editQuestRewardAmount-${id}`).value) || 100;
+                const newDesc = document.getElementById(`editQuestDesc-${id}`).value.trim();
+
+                if (!newName) {
+                    showToast('请输入任务名称', '⚠️');
+                    return;
+                }
+
+                if (quests.some(q => q.name === newName && q.id != id)) {
+                    showToast('该任务名称已存在', '⚠️');
+                    return;
+                }
+
+                quest.name = newName;
+                quest.type = newType;
+                quest.rewardType = newRewardType;
+                quest.rewardAmount = newRewardAmount;
+                quest.desc = newDesc;
+
+                saveData();
+                renderQuests();
+                showToast('任务已更新');
+            } catch (error) {
+                console.error('保存任务失败:', error);
+                showToast('保存失败', '⚠️');
+            }
+        }
+
+        /**
+         * 删除任务
+         */
+        function deleteQuest(id) {
+            try {
+                if (!currentLandmarkIdForQuest) return;
+
+                const quests = adminData.landmarkQuests[currentLandmarkIdForQuest] || [];
+                const quest = quests.find(q => q.id == id);
+                if (!quest) return;
+
+                if (!confirm(`确定删除任务「${quest.name}」吗？`)) {
+                    return;
+                }
+
+                adminData.landmarkQuests[currentLandmarkIdForQuest] = quests.filter(q => q.id != id);
+                saveData();
+                renderQuests();
+                onLandmarkSelect();
+                showToast(`任务「${LifeRPG.security.escapeHtml(quest.name)}」已删除`);
+            } catch (error) {
+                console.error('删除任务失败:', error);
+                showToast('删除失败', '⚠️');
+            }
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

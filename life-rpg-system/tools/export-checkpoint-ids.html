@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>导出关卡数据</title>
+    <style>
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eae2d6;
+            padding: 40px;
+        }
+        h1 { color: #c9a227; text-align: center; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid #c9a227;
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 13px;
+        }
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(201, 162, 39, 0.15);
+        }
+        th {
+            background: rgba(201, 162, 39, 0.1);
+            color: #c9a227;
+        }
+        tr:hover { background: rgba(201, 162, 39, 0.05); }
+        .btn {
+            background: linear-gradient(135deg, #c9a227 0%, #a88420 100%);
+            color: #1a1a2e; border: none; padding: 12px 30px; border-radius: 6px;
+            cursor: pointer; font-size: 16px; font-weight: bold; margin: 20px auto; display: block;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(201, 162, 39, 0.4); }
+        .string-id { color: #48dbfb; }
+        .number-id { color: #feca57; }
+    </style>
+</head>
+<body>
+    <h1>关卡数据 - 检查项ID对照</h1>
+    <div class="container">
+        <button class="btn" onclick="exportData()">导出CSV</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>地标</th>
+                    <th>任务</th>
+                    <th>关卡</th>
+                    <th>检查项名称</th>
+                    <th>检查项ID</th>
+                    <th>ID类型</th>
+                    <th>日历中是否使用</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'lifeRpgAdminData';
+        let adminData = null;
+
+        function loadData() {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : {};
+        }
+
+        function renderTable() {
+            adminData = loadData();
+            const tbody = document.getElementById('tableBody');
+            let html = '';
+
+            // 收集日历中所有使用过的checkpointId
+            const calendarCheckpointIds = new Set();
+            Object.values(adminData.calendarEntries || {}).forEach(entries => {
+                entries.forEach(entry => {
+                    calendarCheckpointIds.add(String(entry.checkpointId));
+                });
+            });
+
+            // 遍历所有关卡数据
+            const landmarks = adminData.landmarks || [];
+            landmarks.forEach(landmark => {
+                const quests = adminData.landmarkQuests[landmark.id] || [];
+                quests.forEach(quest => {
+                    const levels = adminData.questLevels[quest.id] || [];
+                    levels.forEach(level => {
+                        (level.checkpoints || []).forEach(cp => {
+                            const cpId = String(cp.id);
+                            const isNumberId = /^\d+$/.test(cpId);
+                            const usedInCalendar = calendarCheckpointIds.has(cpId);
+
+                            html += `
+                                <tr>
+                                    <td>${landmark.name}</td>
+                                    <td>${quest.name}</td>
+                                    <td>${level.name}</td>
+                                    <td>${cp.name}</td>
+                                    <td class="${isNumberId ? 'number-id' : 'string-id'}">${cpId}</td>
+                                    <td>${isNumberId ? '数字' : '字符串'}</td>
+                                    <td>${usedInCalendar ? '✓ 是' : '✗ 否'}</td>
+                                </tr>
+                            `;
+                        });
+                    });
+                });
+            });
+
+            tbody.innerHTML = html || '<tr><td colspan="7" style="text-align:center;">无数据</td></tr>';
+        }
+
+        function exportData() {
+            adminData = loadData();
+            let csv = '\uFEFF地标,任务,关卡,检查项名称,检查项ID,ID类型,日历中是否使用\n';
+
+            const calendarCheckpointIds = new Set();
+            Object.values(adminData.calendarEntries || {}).forEach(entries => {
+                entries.forEach(entry => {
+                    calendarCheckpointIds.add(String(entry.checkpointId));
+                });
+            });
+
+            const landmarks = adminData.landmarks || [];
+            landmarks.forEach(landmark => {
+                const quests = adminData.landmarkQuests[landmark.id] || [];
+                quests.forEach(quest => {
+                    const levels = adminData.questLevels[quest.id] || [];
+                    levels.forEach(level => {
+                        (level.checkpoints || []).forEach(cp => {
+                            const cpId = String(cp.id);
+                            const isNumberId = /^\d+$/.test(cpId);
+                            const usedInCalendar = calendarCheckpointIds.has(cpId);
+
+                            csv += `"${landmark.name}","${quest.name}","${level.name}","${cp.name}","${cpId}","${isNumberId ? '数字' : '字符串'}","${usedInCalendar ? '是' : '否'}"\n`;
+                        });
+                    });
+                });
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `checkpoint-ids-${new Date().toISOString().slice(0, 10)}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        window.onload = renderTable;
+    </script>
+</body>
+</html>

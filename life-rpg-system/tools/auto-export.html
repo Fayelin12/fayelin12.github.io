@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>自动备份数据</title>
+    <style>
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: #0a0a0c;
+            color: #eae2d6;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; margin: 0; text-align: center;
+        }
+        .msg { font-size: 18px; line-height: 1.8; }
+        .ok { color: #4a7c59; }
+        .err { color: #d4634e; }
+    </style>
+</head>
+<body>
+    <div id="status" class="msg">正在备份数据…</div>
+
+    <script>
+        const STORAGE_KEY = 'lifeRpgAdminData';
+
+        async function backup() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) {
+                    document.getElementById('status').innerHTML =
+                        '<span class="err">未找到数据。请先在主应用中创建数据后再备份。</span>';
+                    return;
+                }
+
+                const data = JSON.parse(raw);
+                const metadata = {
+                    exportTime: new Date().toISOString(),
+                    tags: (data.tags || []).length,
+                    landmarks: (data.landmarks || []).length,
+                    landmarkQuests: Object.keys(data.landmarkQuests || {}).length,
+                    questLevels: Object.keys(data.questLevels || {}).length,
+                    calendarEntryDates: Object.keys(data.calendarEntries || {}).length,
+                    checkpointCompletions: Object.keys(data.checkpointCompletions || {}).length
+                };
+
+                const exportData = {
+                    _metadata: metadata,
+                    ...data
+                };
+
+                const json = JSON.stringify(exportData, null, 2);
+                const today = new Date().toISOString().slice(0, 10);
+                const filename = `life-rpg-backup-${today}.json`;
+
+                // 方式一：写入剪贴板（供备份脚本读取）
+                await navigator.clipboard.writeText(json);
+
+                // 方式二：触发下载（供手动备份）
+                const blob = new Blob([json], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                document.getElementById('status').innerHTML =
+                    `<span class="ok">数据已就绪</span><br>
+                    标签 ${metadata.tags} · 地标 ${metadata.landmarks}<br>
+                    日历 ${metadata.calendarEntryDates} 天 · 检查点历史 ${metadata.checkpointCompletions} 项<br><br>
+                    <small>数据已写入剪贴板，备份脚本将自动保存<br>同时已触发浏览器下载作为备用</small>`;
+            } catch (e) {
+                document.getElementById('status').innerHTML =
+                    `<span class="err">备份失败：${e.message}</span>`;
+            }
+        }
+
+        backup();
+    </script>
+</body>
+</html>

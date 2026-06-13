@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>导出全部数据</title>
+    <style>
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eae2d6;
+            padding: 40px;
+            min-height: 100vh;
+        }
+        h1 {
+            color: #c9a227;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.3);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #c9a227;
+        }
+        .btn {
+            background: linear-gradient(135deg, #c9a227 0%, #a88420 100%);
+            color: #1a1a2e;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px 5px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(201, 162, 39, 0.4);
+        }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(201, 162, 39, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid #c9a227;
+        }
+        pre {
+            background: #0f0f23;
+            padding: 15px;
+            overflow-x: auto;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>导出全部数据</h1>
+    <div class="container">
+        <div class="section">
+            <h3>数据概览</h3>
+            <div id="summary"></div>
+        </div>
+
+        <div style="text-align: center;">
+            <button class="btn" onclick="exportAll()">导出完整JSON</button>
+            <button class="btn" onclick="exportStructure()">导出结构摘要</button>
+        </div>
+
+        <div id="result" class="section" style="display: none;">
+            <h3>导出数据</h3>
+            <pre id="output"></pre>
+            <button class="btn" onclick="copyToClipboard()" style="margin-top: 10px;">复制到剪贴板</button>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'lifeRpgAdminData';
+
+        function loadData() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : {};
+            } catch (e) {
+                console.error('加载数据失败:', e);
+                return {};
+            }
+        }
+
+        function exportAll() {
+            const data = loadData();
+            const json = JSON.stringify(data, null, 2);
+            document.getElementById('output').textContent = json;
+            document.getElementById('result').style.display = 'block';
+
+            // 同时下载文件
+            downloadJSON(json, 'lifeRpgAdminData_full.json');
+        }
+
+        function exportStructure() {
+            const data = loadData();
+            let summary = {
+                _exportTime: new Date().toISOString(),
+                _summary: {}
+            };
+
+            // 统计 tags
+            summary._summary.tags = {
+                count: (data.tags || []).length,
+                items: (data.tags || []).map(t => ({
+                    id: t.id,
+                    idType: typeof t.id,
+                    name: t.name,
+                    icon: t.icon
+                }))
+            };
+
+            // 统计 landmarks
+            summary._summary.landmarks = {
+                count: (data.landmarks || []).length,
+                items: (data.landmarks || []).map(lm => ({
+                    id: lm.id,
+                    idType: typeof lm.id,
+                    name: lm.name
+                }))
+            };
+
+            // 统计 landmarkQuests
+            summary._summary.landmarkQuests = {
+                keyCount: Object.keys(data.landmarkQuests || {}).length,
+                keys: Object.keys(data.landmarkQuests || {}),
+                items: {}
+            };
+            Object.entries(data.landmarkQuests || {}).forEach(([key, quests]) => {
+                summary._summary.landmarkQuests.items[key] = {
+                    questCount: quests.length,
+                    quests: quests.map(q => ({
+                        id: q.id,
+                        idType: typeof q.id,
+                        name: q.name
+                    }))
+                };
+            });
+
+            // 统计 questLevels
+            summary._summary.questLevels = {
+                keyCount: Object.keys(data.questLevels || {}).length,
+                keys: Object.keys(data.questLevels || {}),
+                items: {}
+            };
+            Object.entries(data.questLevels || {}).forEach(([key, levels]) => {
+                summary._summary.questLevels.items[key] = {
+                    levelCount: levels.length,
+                    levels: levels.map(lv => ({
+                        id: lv.id,
+                        idType: typeof lv.id,
+                        name: lv.name,
+                        checkpointCount: (lv.checkpoints || []).length,
+                        checkpoints: (lv.checkpoints || []).map(cp => ({
+                            id: cp.id,
+                            idType: typeof cp.id,
+                            name: cp.name
+                        }))
+                    }))
+                };
+            });
+
+            // 统计 calendarEntries
+            const calendarEntries = data.calendarEntries || {};
+            let totalEntries = 0;
+            let emptyCheckpointIdCount = 0;
+            Object.entries(calendarEntries).forEach(([date, entries]) => {
+                totalEntries += entries.length;
+                entries.forEach(e => {
+                    if (!e.checkpointId || e.checkpointId === '') {
+                        emptyCheckpointIdCount++;
+                    }
+                });
+            });
+            summary._summary.calendarEntries = {
+                dateCount: Object.keys(calendarEntries).length,
+                totalEntries,
+                emptyCheckpointIdCount
+            };
+
+            // 统计 checkpointCompletions
+            const checkpointCompletions = data.checkpointCompletions || {};
+            let totalCompletions = 0;
+            let archivedCount = 0;
+            Object.entries(checkpointCompletions).forEach(([cpId, records]) => {
+                totalCompletions += records.length;
+                records.forEach(r => {
+                    if (r.archived) archivedCount++;
+                });
+            });
+            summary._summary.checkpointCompletions = {
+                checkpointCount: Object.keys(checkpointCompletions).length,
+                totalCompletions,
+                archivedCount,
+                activeCount: totalCompletions - archivedCount
+            };
+
+            // 完整的 questLevels 数据（方便检查ID匹配）
+            summary.questLevels = data.questLevels || {};
+
+            const json = JSON.stringify(summary, null, 2);
+            document.getElementById('output').textContent = json;
+            document.getElementById('result').style.display = 'block';
+
+            downloadJSON(json, 'lifeRpgAdminData_structure.json');
+        }
+
+        function downloadJSON(content, filename) {
+            const blob = new Blob([content], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function copyToClipboard() {
+            const text = document.getElementById('output').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('已复制到剪贴板');
+            });
+        }
+
+        // 页面加载时显示概览
+        window.addEventListener('load', () => {
+            const data = loadData();
+            let html = '<table style="width: 100%; border-collapse: collapse;">';
+            html += '<tr><th style="text-align:left; padding: 8px;">字段</th><th style="text-align:left; padding: 8px;">数量</th></tr>';
+            html += `<tr><td style="padding: 8px;">tags</td><td style="padding: 8px;">${(data.tags || []).length}</td></tr>`;
+            html += `<tr><td style="padding: 8px;">landmarks</td><td style="padding: 8px;">${(data.landmarks || []).length}</td></tr>`;
+            html += `<tr><td style="padding: 8px;">landmarkQuests keys</td><td style="padding: 8px;">${Object.keys(data.landmarkQuests || {}).length}</td></tr>`;
+            html += `<tr><td style="padding: 8px;">questLevels keys</td><td style="padding: 8px;">${Object.keys(data.questLevels || {}).length}</td></tr>`;
+            html += `<tr><td style="padding: 8px;">calendarEntries dates</td><td style="padding: 8px;">${Object.keys(data.calendarEntries || {}).length}</td></tr>`;
+            html += `<tr><td style="padding: 8px;">checkpointCompletions checkpoints</td><td style="padding: 8px;">${Object.keys(data.checkpointCompletions || {}).length}</td></tr>`;
+            html += '</table>';
+            document.getElementById('summary').innerHTML = html;
+        });
+    </script>
+</body>
+</html>

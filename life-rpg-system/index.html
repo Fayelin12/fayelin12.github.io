@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人生开放世界 | Life Open World</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗺️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;600;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="common.css">
+    <script src="common.js"></script>
+    <style>
+        /* 世界地图视图 - 页面特有样式 */
+        .world-map {
+            padding: 40px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .world-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .world-title h1 {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: 8px;
+            margin-bottom: 15px;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 60px rgba(201, 162, 39, 0.3);
+        }
+
+        .world-title p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        /* 版图容器 */
+        .territories {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .territory {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .territory::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-gold);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .territory:hover::before,
+        .territory.active::before {
+            opacity: 1;
+        }
+
+        .territory.locked {
+            opacity: 0.5;
+            filter: grayscale(0.8);
+        }
+
+        .territory.active {
+            border-color: var(--accent-gold-dim);
+            box-shadow: 0 0 40px rgba(201, 162, 39, 0.1), inset 0 0 60px rgba(201, 162, 39, 0.02);
+        }
+
+        .territory-header {
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: linear-gradient(90deg, transparent 0%, rgba(201, 162, 39, 0.03) 50%, transparent 100%);
+        }
+
+        .territory-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .territory-icon {
+            width: 60px;
+            height: 60px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            background: var(--bg-elevated);
+            transition: all 0.3s ease;
+        }
+
+        .territory.active .territory-icon {
+            border-color: var(--accent-gold);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .territory-name {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .territory-age {
+            font-size: 13px;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+
+        .territory-status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .progress-ring {
+            width: 60px;
+            height: 60px;
+            position: relative;
+        }
+
+        .progress-ring svg {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring-bg {
+            fill: none;
+            stroke: var(--border);
+            stroke-width: 4;
+        }
+
+        .progress-ring-fill {
+            fill: none;
+            stroke: var(--accent-gold);
+            stroke-width: 4;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+
+        .territory-expand {
+            font-size: 20px;
+            color: var(--text-muted);
+            transition: transform 0.3s ease;
+        }
+
+        .territory.expanded .territory-expand {
+            transform: rotate(180deg);
+        }
+
+        /* 地标列表 */
+        .landmarks {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: var(--bg-deep);
+        }
+
+        .territory.expanded .landmarks {
+            max-height: 2000px;
+        }
+
+        .landmarks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+
+        /* 地标卡片 */
+        .landmark-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .landmark-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(201, 162, 39, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .landmark-card:hover {
+            border-color: var(--border-glow);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .landmark-card:hover::after {
+            opacity: 1;
+        }
+
+        .landmark-image {
+            height: 140px;
+            background: linear-gradient(135deg, #1a1a24 0%, #252535 50%, #1a1a24 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .landmark-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(201, 162, 39, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .landmark-content {
+            padding: 20px;
+        }
+
+        .landmark-type {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-ember);
+            margin-bottom: 8px;
+        }
+
+        .landmark-name {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .landmark-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .landmark-stats {
+            display: flex;
+            gap: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .landmark-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .landmark-stat span {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        /* 添加地标按钮 */
+        .add-landmark {
+            border: 2px dashed var(--border);
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 260px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-landmark:hover {
+            border-color: var(--accent-gold);
+            background: rgba(201, 162, 39, 0.03);
+        }
+
+        .add-landmark-icon {
+            width: 60px;
+            height: 60px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .add-landmark:hover .add-landmark-icon {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .add-landmark-text {
+            font-family: var(--font-display);
+            font-size: 14px;
+            letter-spacing: 2px;
+            color: var(--text-secondary);
+        }
+
+        /* 地标详情弹窗 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 10, 12, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow: hidden;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 30px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: linear-gradient(90deg, transparent 0%, rgba(201, 162, 39, 0.03) 50%, transparent 100%);
+        }
+
+        .modal-title-section h2 {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            border-color: var(--accent-ember);
+            color: var(--accent-ember);
+        }
+
+        .modal-body {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: calc(90vh - 140px);
+        }
+
+        /* BOSS区域 */
+        .boss-section {
+            background: linear-gradient(135deg, rgba(212, 99, 78, 0.1) 0%, transparent 100%);
+            border: 1px solid rgba(212, 99, 78, 0.3);
+            border-radius: 4px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .boss-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .boss-avatar {
+            width: 80px;
+            height: 80px;
+            border: 3px solid var(--accent-ember);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            background: radial-gradient(circle at 30% 30%, rgba(212, 99, 78, 0.3), transparent);
+            box-shadow: var(--shadow-ember);
+        }
+
+        .boss-info h3 {
+            font-family: var(--font-display);
+            font-size: 22px;
+            margin-bottom: 5px;
+            color: var(--accent-ember);
+        }
+
+        .boss-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .boss-health {
+            background: var(--bg-deep);
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .boss-health-bar {
+            height: 100%;
+            background: var(--gradient-ember);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .boss-health-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* 任务列表 */
+        .quests-section h3 {
+            font-family: var(--font-display);
+            font-size: 18px;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quest-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .quest-item {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quest-item:hover {
+            border-color: var(--border-glow);
+            background: var(--bg-panel);
+        }
+
+        .quest-item.completed {
+            opacity: 0.6;
+        }
+
+        .quest-item.completed .quest-name {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .quest-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .quest-item:hover .quest-checkbox {
+            border-color: var(--accent-gold);
+        }
+
+        .quest-item.completed .quest-checkbox {
+            background: var(--accent-gold);
+            border-color: var(--accent-gold);
+        }
+
+        .quest-content {
+            flex: 1;
+        }
+
+        .quest-name {
+            font-size: 15px;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .quest-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .quest-type {
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .quest-type.main {
+            background: rgba(201, 162, 39, 0.2);
+            color: var(--accent-gold);
+        }
+
+        .quest-type.side {
+            background: rgba(123, 104, 238, 0.2);
+            color: var(--accent-magic);
+        }
+
+        .quest-reward {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+            color: var(--accent-gold);
+        }
+
+        /* 添加任务按钮 */
+        .add-quest {
+            background: transparent;
+            border: 2px dashed var(--border);
+            border-radius: 4px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-display);
+            font-size: 13px;
+            letter-spacing: 2px;
+            color: var(--text-secondary);
+        }
+
+        .add-quest:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        /* 碎片收集展示 */
+        .fragments-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+        }
+
+        .fragments-section h3 {
+            font-family: var(--font-display);
+            font-size: 16px;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            color: var(--text-secondary);
+        }
+
+        .fragments-grid {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .fragment {
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background: var(--bg-elevated);
+            transition: all 0.3s ease;
+        }
+
+        .fragment.collected {
+            border-color: var(--accent-gold);
+            background: rgba(201, 162, 39, 0.1);
+            box-shadow: 0 0 15px rgba(201, 162, 39, 0.3);
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .world-title h1 {
+                font-size: 32px;
+            }
+
+            .landmarks-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .territory-header {
+                padding: 20px;
+            }
+
+            .territory-name {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-texture"></div>
+
+    <header class="temple-header">
+        <div class="temple-brand">
+            <div class="temple-seal">⚔️</div>
+            <div class="temple-title">LIFE RPG</div>
+        </div>
+        <nav class="temple-nav">
+            <a href="index.html" class="nav-rune active">世界地图</a>
+            <a href="admin.html" class="nav-rune">命名管理</a>
+            <a href="quest-admin.html" class="nav-rune">任务管理</a>
+            <a href="level-admin.html" class="nav-rune">关卡管理</a>
+            <a href="calendar.html" class="nav-rune">日历视图</a>
+        </nav>
+    </header>
+
+    <!-- 主内容 -->
+    <main class="main-container">
+        <div class="world-map">
+            <div class="world-title">
+                <h1>交界之地</h1>
+                <p>"在破碎的世界中寻找属于你的道路"</p>
+            </div>
+
+            <div class="territories" id="territories">
+                <!-- 版图将通过JS动态生成 -->
+            </div>
+        </div>
+    </main>
+
+    <!-- 地标详情弹窗 -->
+    <div class="modal-overlay" id="landmarkModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title-section">
+                    <h2 id="modalLandmarkName">史东薇尔城</h2>
+                    <p class="modal-subtitle" id="modalLandmarkDesc">一座被战争摧毁的古老城堡，隐藏着无数秘密</p>
+                </div>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <!-- BOSS区域 -->
+                <div class="boss-section">
+                    <div class="boss-header">
+                        <div class="boss-avatar">👹</div>
+                        <div class="boss-info">
+                            <h3 id="bossName">接肢贵族</h3>
+                            <p id="bossDesc">这座城堡的统治者，拥有可怕的力量</p>
+                        </div>
+                    </div>
+                    <div class="boss-health">
+                        <div class="boss-health-bar" id="bossHealthBar" style="width: 65%"></div>
+                    </div>
+                </div>
+
+                <!-- 关卡/任务列表 -->
+                <div class="quests-section">
+                    <h3>⚔️ 任务关卡</h3>
+                    <div class="quest-list" id="questList">
+                        <!-- 任务和关卡将通过JS动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 碎片收集 -->
+                <div class="fragments-section">
+                    <h3>🧩 地标碎片收集</h3>
+                    <div class="fragments-grid" id="fragmentsGrid">
+                        <!-- 碎片将通过JS动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 游戏数据
+        const gameData = {
+            currentTerritory: 0,
+            territories: [
+                {
+                    id: 0,
+                    name: "宁姆格福",
+                    age: "30-40岁",
+                    icon: "🏰",
+                    progress: 25,
+                    locked: false,
+                    active: true,
+                    landmarks: [
+                        {
+                            id: 0,
+                            name: "史东薇尔城",
+                            type: "城堡",
+                            icon: "🏰",
+                            desc: "一座被战争摧毁的古老城堡，隐藏着无数秘密。这里是冒险的起点。",
+                            quests: 5,
+                            completed: 2,
+                            boss: {
+                                name: "接肢贵族",
+                                desc: "这座城堡的统治者，拥有可怕的力量",
+                                health: 65,
+                                icon: "👹"
+                            },
+                            fragments: [true, true, false, false],
+                            questList: [
+                                { id: 1, name: "探索城堡外围", type: "main", completed: true, reward: "经验+100" },
+                                { id: 2, name: "寻找隐藏的密室", type: "side", completed: true, reward: "碎片x1" },
+                                { id: 3, name: "击败守卫队长", type: "main", completed: false, reward: "经验+200" },
+                                { id: 4, name: "收集古代符文", type: "side", completed: false, reward: "碎片x1" }
+                            ]
+                        },
+                        {
+                            id: 1,
+                            name: "摩恩城",
+                            type: "废墟",
+                            icon: "🗿",
+                            desc: "曾经繁荣的城市，如今只剩下断壁残垣。传说中埋藏着失落的宝藏。",
+                            quests: 3,
+                            completed: 0,
+                            boss: {
+                                name: "狮子混种",
+                                desc: "被诅咒的野兽，守护着城市的秘密",
+                                health: 100,
+                                icon: "🦁"
+                            },
+                            fragments: [false, false, false],
+                            questList: [
+                                { id: 5, name: "调查废墟", type: "main", completed: false, reward: "经验+150" },
+                                { id: 6, name: "寻找幸存者", type: "side", completed: false, reward: "碎片x1" }
+                            ]
+                        },
+                        {
+                            id: 2,
+                            name: "求学洞窟",
+                            type: "洞窟",
+                            icon: "🕳️",
+                            desc: "魔法师们曾经的修行之地，充满了神秘的魔法能量。",
+                            quests: 4,
+                            completed: 1,
+                            boss: {
+                                name: "魔像守卫",
+                                desc: "由古代魔法创造的石质守卫",
+                                health: 80,
+                                icon: "🗿"
+                            },
+                            fragments: [true, false, false, false],
+                            questList: [
+                                { id: 7, name: "学习基础魔法", type: "main", completed: true, reward: "经验+100" },
+                                { id: 8, name: "收集魔法材料", type: "side", completed: false, reward: "碎片x1" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: 1,
+                    name: "利耶尼亚",
+                    age: "40-50岁",
+                    icon: "🌙",
+                    progress: 0,
+                    locked: false,
+                    active: false,
+                    landmarks: [
+                        {
+                            id: 3,
+                            name: "雷亚卢卡利亚",
+                            type: "魔法学院",
+                            icon: "🔮",
+                            desc: "辉石魔法师的最高学府，高耸入云的尖塔中蕴藏着无尽的知识。",
+                            quests: 8,
+                            completed: 0,
+                            boss: {
+                                name: "满月女王",
+                                desc: "学院的统治者，掌控着满月的力量",
+                                health: 100,
+                                icon: "🌕"
+                            },
+                            fragments: [false, false, false, false, false],
+                            questList: []
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    name: "盖利德",
+                    age: "50-60岁",
+                    icon: "☠️",
+                    progress: 0,
+                    locked: true,
+                    active: false,
+                    landmarks: []
+                },
+                {
+                    id: 3,
+                    name: "亚坛高原",
+                    age: "60-70岁",
+                    icon: "⛰️",
+                    progress: 0,
+                    locked: true,
+                    active: false,
+                    landmarks: []
+                },
+                {
+                    id: 4,
+                    name: "巨人山顶",
+                    age: "70-80岁",
+                    icon: "🗻",
+                    progress: 0,
+                    locked: true,
+                    active: false,
+                    landmarks: []
+                },
+                {
+                    id: 5,
+                    name: "逐渐崩毁的法姆·亚兹拉",
+                    age: "80岁+",
+                    icon: "🌌",
+                    progress: 0,
+                    locked: true,
+                    active: false,
+                    landmarks: []
+                }
+            ]
+        };
+
+        let currentLandmark = null;
+
+        /**
+         * 生成唯一ID
+         */
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+        }
+
+        // 管理数据
+        let adminData = {
+            tags: [],
+            landmarks: [],
+            landmarkQuests: {}
+        };
+
+        /**
+         * 初始化应用
+         */
+        function init() {
+            try {
+                loadAdminData();
+                loadData();
+                syncLandmarksToTerritory();
+                renderTerritories();
+                bindModalEvents();
+            } catch (error) {
+                console.error('初始化失败:', error);
+                showErrorMessage('应用初始化失败，请刷新页面重试');
+            }
+        }
+
+        /**
+         * 绑定弹窗事件
+         */
+        function bindModalEvents() {
+            const modal = document.getElementById('landmarkModal');
+            if (modal) {
+                LifeRPG.events.add(modal, 'click', function(e) {
+                    if (e.target === this) {
+                        closeModal();
+                    }
+                });
+            }
+        }
+
+        /**
+         * 显示错误消息
+         */
+        function showErrorMessage(message) {
+            const container = document.getElementById('territories');
+            if (container) {
+                container.innerHTML = `<div style="text-align: center; padding: 50px; color: var(--accent-ember);">${LifeRPG.security.escapeHtml(message)}</div>`;
+            }
+        }
+
+        /**
+         * 从管理页面加载数据
+         */
+        function loadAdminData() {
+            try {
+                const savedData = LifeRPG.data.load();
+                if (savedData) {
+                    adminData = {
+                        ...adminData,
+                        ...savedData,
+                        landmarkQuests: savedData.landmarkQuests || {}
+                    };
+                }
+            } catch (error) {
+                console.error('加载管理数据失败:', error);
+            }
+        }
+
+        /**
+         * 同步地标到当前版图
+         */
+        function syncLandmarksToTerritory() {
+            try {
+                const activeTerritory = gameData.territories.find(t => t.active);
+                if (!activeTerritory) return;
+
+                const adminLandmarks = adminData.landmarks || [];
+                const adminLandmarkNames = adminLandmarks.map(lm => lm.name);
+
+                // 删除已不在管理列表中的地标
+                activeTerritory.landmarks = activeTerritory.landmarks.filter(lm => {
+                    return adminLandmarkNames.includes(lm.name) || !isPresetLandmark(lm.name);
+                });
+
+                // 为每个管理地标创建/更新游戏地标
+                adminLandmarks.forEach(adminLm => {
+                    const existingLm = activeTerritory.landmarks.find(lm => lm.name === adminLm.name);
+                    const adminQuests = adminData.landmarkQuests && adminData.landmarkQuests[adminLm.id] ? adminData.landmarkQuests[adminLm.id] : [];
+                    const questList = adminQuests.map(q => ({
+                        id: q.id,
+                        name: q.name,
+                        type: q.type,
+                        completed: false,
+                        reward: formatReward(q.rewardType, q.rewardAmount)
+                    }));
+
+                    if (existingLm) {
+                        existingLm.type = adminLm.type;
+                        existingLm.icon = adminLm.icon;
+                        existingLm.desc = adminLm.desc;
+                        existingLm.boss.name = adminLm.boss || '未知BOSS';
+                        existingLm.questList = syncQuestList(existingLm.questList, questList);
+                        existingLm.quests = existingLm.questList.length;
+                        existingLm.completed = existingLm.questList.filter(q => q.completed).length;
+                    } else {
+                        const newLandmark = {
+                            id: generateId(),
+                            name: adminLm.name,
+                            type: adminLm.type,
+                            icon: adminLm.icon,
+                            desc: adminLm.desc,
+                            quests: questList.length,
+                            completed: 0,
+                            boss: {
+                                name: adminLm.boss || '未知BOSS',
+                                desc: '等待挑战者',
+                                health: 100,
+                                icon: '👹'
+                            },
+                            fragments: new Array(Math.max(3, questList.filter(q => q.reward.includes('碎片')).length)).fill(false),
+                            questList: questList
+                        };
+                        activeTerritory.landmarks.push(newLandmark);
+                    }
+                });
+            } catch (error) {
+                console.error('同步地标失败:', error);
+            }
+        }
+
+        /**
+         * 同步任务列表（保留完成状态）
+         */
+        function syncQuestList(oldQuests, newQuests) {
+            return newQuests.map(newQ => {
+                const oldQ = oldQuests.find(oq => oq.name === newQ.name);
+                return {
+                    ...newQ,
+                    completed: oldQ ? oldQ.completed : false
+                };
+            });
+        }
+
+        /**
+         * 格式化奖励显示
+         */
+        function formatReward(type, amount) {
+            const rewardConfig = LifeRPG.constants.REWARD_TYPES;
+            const config = rewardConfig[type];
+            const unit = type === 'fragment' ? 'x' : '+';
+            return `${config ? config.label : type}${unit}${amount}`;
+        }
+
+        /**
+         * 检查是否是预设地标
+         */
+        function isPresetLandmark(name) {
+            const presetNames = ['史东薇尔城', '摩恩城', '求学洞窟', '雷亚卢卡利亚', '希芙拉河', '盖利德要塞'];
+            return presetNames.includes(name);
+        }
+
+        /**
+         * 渲染版图
+         */
+        function renderTerritories() {
+            const container = document.getElementById('territories');
+            if (!container) return;
+
+            container.innerHTML = gameData.territories.map(territory => `
+                <div class="territory ${territory.locked ? 'locked' : ''} ${territory.active ? 'active' : ''} ${territory.active ? 'expanded' : ''}" data-id="${territory.id}">
+                    <div class="territory-header" onclick="toggleTerritory(${territory.id})">
+                        <div class="territory-info">
+                            <div class="territory-icon">${territory.icon}</div>
+                            <div>
+                                <div class="territory-name">${LifeRPG.security.escapeHtml(territory.name)}</div>
+                                <div class="territory-age">${LifeRPG.security.escapeHtml(territory.age)}</div>
+                            </div>
+                        </div>
+                        <div class="territory-status">
+                            ${!territory.locked ? `
+                                <div class="progress-ring">
+                                    <svg width="60" height="60">
+                                        <circle class="progress-ring-bg" cx="30" cy="30" r="26"></circle>
+                                        <circle class="progress-ring-fill" cx="30" cy="30" r="26"
+                                            stroke-dasharray="163.36"
+                                            stroke-dashoffset="${163.36 - (163.36 * territory.progress / 100)}"></circle>
+                                    </svg>
+                                    <div class="progress-text">${territory.progress}%</div>
+                                </div>
+                            ` : '🔒'}
+                            <div class="territory-expand">▼</div>
+                        </div>
+                    </div>
+                    <div class="landmarks">
+                        <div class="landmarks-grid">
+                            ${territory.landmarks.map(landmark => `
+                                <div class="landmark-card" onclick="openLandmark(${territory.id}, ${landmark.id})">
+                                    <div class="landmark-image">${landmark.icon}</div>
+                                    <div class="landmark-content">
+                                        <div class="landmark-type">${LifeRPG.security.escapeHtml(landmark.type)}</div>
+                                        <div class="landmark-name">${LifeRPG.security.escapeHtml(landmark.name)}</div>
+                                        <div class="landmark-desc">${LifeRPG.security.escapeHtml(landmark.desc)}</div>
+                                        <div class="landmark-stats">
+                                            <div class="landmark-stat">📋 <span>${landmark.completed}/${landmark.quests}</span> 任务</div>
+                                            <div class="landmark-stat">🧩 <span>${landmark.fragments.filter(f => f).length}/${landmark.fragments.length}</span> 碎片</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /**
+         * 切换版图展开
+         */
+        function toggleTerritory(id) {
+            try {
+                const territory = document.querySelector(`.territory[data-id="${id}"]`);
+                if (!territory) return;
+                if (territory.classList.contains('locked')) return;
+                territory.classList.toggle('expanded');
+            } catch (error) {
+                console.error('切换版图失败:', error);
+            }
+        }
+
+        /**
+         * 打开地标详情
+         */
+        function openLandmark(territoryId, landmarkId) {
+            try {
+                const territory = gameData.territories.find(t => t.id === territoryId);
+                if (!territory) return;
+
+                currentLandmark = territory.landmarks.find(l => l.id === landmarkId);
+                if (!currentLandmark) return;
+
+                document.getElementById('modalLandmarkName').textContent = currentLandmark.name;
+                document.getElementById('modalLandmarkDesc').textContent = currentLandmark.desc;
+                document.getElementById('bossName').textContent = currentLandmark.boss.name;
+                document.getElementById('bossDesc').textContent = currentLandmark.boss.desc;
+                document.getElementById('bossHealthBar').style.width = currentLandmark.boss.health + '%';
+
+                renderQuests();
+                renderFragments();
+
+                document.getElementById('landmarkModal').classList.add('active');
+            } catch (error) {
+                console.error('打开地标详情失败:', error);
+            }
+        }
+
+        /**
+         * 关闭弹窗
+         */
+        function closeModal() {
+            try {
+                document.getElementById('landmarkModal').classList.remove('active');
+                currentLandmark = null;
+            } catch (error) {
+                console.error('关闭弹窗失败:', error);
+            }
+        }
+
+        /**
+         * 渲染任务和关卡列表
+         */
+        function renderQuests() {
+            const container = document.getElementById('questList');
+            if (!container) return;
+
+            if (!currentLandmark || !currentLandmark.questList.length) {
+                container.innerHTML = '<div style="text-align: center; padding: 30px; color: var(--text-muted);">暂无任务，请在命名管理页面添加</div>';
+                return;
+            }
+
+            container.innerHTML = currentLandmark.questList.map(quest => {
+                const levels = getQuestLevels(quest.id);
+                const levelsHtml = levels.map((level, index) => renderLevelHtml(level, quest.id, index)).join('');
+                return `
+                    <div class="quest-item ${quest.completed ? 'completed' : ''}">
+                        <div class="quest-header" onclick="toggleQuest(${quest.id})" style="display: flex; align-items: center; gap: 15px; cursor: pointer;">
+                            <div class="quest-checkbox">${quest.completed ? '✓' : ''}</div>
+                            <div class="quest-content" style="flex: 1;">
+                                <div class="quest-name">${LifeRPG.security.escapeHtml(quest.name)}</div>
+                                <div class="quest-meta">
+                                    <span class="quest-type ${quest.type}">${quest.type === 'main' ? '主线' : '支线'}</span>
+                                    <span>${LifeRPG.security.escapeHtml(quest.reward)}</span>
+                                    ${levels.length > 0 ? `<span style="color: var(--accent-gold);">🎮 ${levels.length}个关卡</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        ${levelsHtml}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        /**
+         * 获取任务的关卡列表
+         */
+        function getQuestLevels(questId) {
+            return adminData.questLevels && adminData.questLevels[questId] || [];
+        }
+
+        /**
+         * 渲染关卡HTML
+         */
+        function renderLevelHtml(level, questId, levelIndex) {
+            const completedCount = level.checkpoints.filter(cp => cp.completed).length;
+            const totalCount = level.checkpoints.length;
+            const progress = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+            const stars = '⭐'.repeat(level.difficulty);
+
+            return `
+                <div class="level-section" style="margin-top: 15px; padding: 15px; background: var(--bg-deep); border-radius: 4px; border-left: 3px solid var(--accent-gold);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <span style="font-family: var(--font-display); font-size: 14px; color: var(--accent-gold);">${levelIndex + 1}. ${LifeRPG.security.escapeHtml(level.name)}</span>
+                        <span style="font-size: 12px; color: var(--text-secondary);">${stars} 📅 ${level.time}天</span>
+                    </div>
+                    <div style="background: var(--bg-panel); height: 6px; border-radius: 3px; margin-bottom: 10px; overflow: hidden;">
+                        <div style="width: ${progress}%; height: 100%; background: var(--gradient-gold); transition: width 0.3s ease;"></div>
+                    </div>
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;">检查点进度: ${completedCount}/${totalCount}</div>
+                    <div class="checkpoints-list" style="display: flex; flex-direction: column; gap: 8px;">
+                        ${level.checkpoints.map((cp, index) => `
+                            <div class="checkpoint-item ${cp.completed ? 'completed' : ''}"
+                                onclick="toggleCheckpoint(${questId}, ${level.id}, ${index})"
+                                style="display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--bg-panel); border-radius: 4px; cursor: pointer; ${cp.completed ? 'opacity: 0.6;' : ''}">
+                                <div style="width: 20px; height: 20px; border: 2px solid ${cp.completed ? 'var(--accent-gold)' : 'var(--border)'}; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; ${cp.completed ? 'background: var(--accent-gold); color: var(--bg-deep);' : ''}">
+                                    ${cp.completed ? '✓' : ''}
+                                </div>
+                                <span style="flex: 1; ${cp.completed ? 'text-decoration: line-through; color: var(--text-muted);' : ''}">${LifeRPG.security.escapeHtml(cp.name || '未命名检查点')}</span>
+                                <span style="font-size: 11px; color: var(--text-muted);">${cp.time}天</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * 切换检查点完成状态
+         */
+        function toggleCheckpoint(questId, levelId, checkpointIndex) {
+            try {
+                const levels = getQuestLevels(questId);
+                const level = levels.find(l => l.id === levelId);
+                if (!level || !level.checkpoints[checkpointIndex]) return;
+
+                const checkpoint = level.checkpoints[checkpointIndex];
+                const checkpointId = checkpoint.id;
+
+                // 获取该检查点的日历记录
+                const calendarEntries = adminData.calendarEntries || {};
+                const checkpointDates = [];
+                Object.keys(calendarEntries).forEach(dateStr => {
+                    const entries = calendarEntries[dateStr];
+                    if (entries.some(e => e.checkpointId === checkpointId)) {
+                        checkpointDates.push(dateStr);
+                    }
+                });
+
+                // 如果正在勾选完成（不是取消勾选）
+                if (!checkpoint.completed) {
+                    // 情况1：0个日期记录，直接归档
+                    if (checkpointDates.length === 0) {
+                        checkpoint.completed = true;
+                        checkpoint.archived = true;
+                        // 添加到 checkpointCompletions
+                        if (!adminData.checkpointCompletions) {
+                            adminData.checkpointCompletions = {};
+                        }
+                        if (!adminData.checkpointCompletions[checkpointId]) {
+                            adminData.checkpointCompletions[checkpointId] = [];
+                        }
+                        // 检查是否已存在归档记录
+                        const hasArchiveRecord = adminData.checkpointCompletions[checkpointId].some(h => h.archived);
+                        if (!hasArchiveRecord) {
+                            adminData.checkpointCompletions[checkpointId].push({
+                                date: new Date().toISOString().split('T')[0],
+                                entryId: 'archived_' + checkpointId,
+                                archived: true
+                            });
+                        }
+                        showToast('检查项已直接归档（无日历记录）', 'success');
+                    } else {
+                        // 情况2：有日期记录，检查是否有未完成的待办
+                        let hasUncompletedTodos = false;
+                        let totalTodos = 0;
+                        let completedTodos = 0;
+
+                        checkpointDates.forEach(dateStr => {
+                            const entries = calendarEntries[dateStr];
+                            const entry = entries.find(e => e.checkpointId === checkpointId);
+                            if (entry && entry.description) {
+                                const todos = markdownToTodos(entry.description);
+                                todos.forEach(todo => {
+                                    totalTodos++;
+                                    if (todo.completed) {
+                                        completedTodos++;
+                                    } else {
+                                        hasUncompletedTodos = true;
+                                    }
+                                });
+                            }
+                        });
+
+                        // 如果有未完成的待办，拦截并提示
+                        if (hasUncompletedTodos) {
+                            showToast(`该检查项有未完成的待办（${completedTodos}/${totalTodos}），请先完成所有待办`, 'warning');
+                            return;
+                        }
+
+                        // 所有待办已完成，可以勾选
+                        checkpoint.completed = true;
+                        showToast('检查项已完成', 'success');
+                    }
+                } else {
+                    // 取消勾选
+                    checkpoint.completed = false;
+                    checkpoint.archived = false;
+                }
+
+                const allLevelsCompleted = levels.every(l => l.checkpoints.every(cp => cp.completed));
+                const quest = currentLandmark.questList.find(q => q.id === questId);
+
+                if (quest) {
+                    quest.completed = allLevelsCompleted;
+
+                    if (allLevelsCompleted && !quest.wasCompleted) {
+                        quest.wasCompleted = true;
+                        if (quest.reward.includes('碎片')) {
+                            const fragmentIndex = currentLandmark.fragments.findIndex(f => !f);
+                            if (fragmentIndex !== -1) {
+                                currentLandmark.fragments[fragmentIndex] = true;
+                            }
+                        }
+                    } else if (!allLevelsCompleted) {
+                        quest.wasCompleted = false;
+                    }
+                }
+
+                const completedCount = currentLandmark.questList.filter(q => q.completed).length;
+                const totalCount = currentLandmark.questList.length;
+                currentLandmark.boss.health = Math.max(0, 100 - (completedCount / totalCount * 100));
+                currentLandmark.completed = completedCount;
+
+                saveAdminData();
+                renderQuests();
+                renderFragments();
+                document.getElementById('bossHealthBar').style.width = currentLandmark.boss.health + '%';
+                renderTerritories();
+                saveData();
+            } catch (error) {
+                console.error('切换检查点失败:', error);
+            }
+        }
+
+        /**
+         * 从 Markdown 解析待办列表
+         */
+        function markdownToTodos(markdown) {
+            if (!markdown || !markdown.trim()) return [];
+            const lines = markdown.trim().split('\n');
+            return lines.map(line => {
+                const completed = line.trim().startsWith('[x]') || line.trim().startsWith('[X]');
+                const text = line.replace(/^\[[ xX]\]\s*/, '').trim();
+                return { text, completed };
+            }).filter(todo => todo.text);
+        }
+
+        /**
+         * 保存管理数据
+         */
+        function saveAdminData() {
+            try {
+                LifeRPG.data.save(adminData);
+            } catch (error) {
+                console.error('保存管理数据失败:', error);
+            }
+        }
+
+        /**
+         * 渲染碎片
+         */
+        function renderFragments() {
+            const container = document.getElementById('fragmentsGrid');
+            if (!container || !currentLandmark) return;
+
+            container.innerHTML = currentLandmark.fragments.map((collected) => `
+                <div class="fragment ${collected ? 'collected' : ''}">
+                    ${collected ? '🧩' : '◆'}
+                </div>
+            `).join('');
+        }
+
+        /**
+         * 切换任务完成状态
+         */
+        function toggleQuest(questId) {
+            try {
+                if (!currentLandmark) return;
+
+                const levels = getQuestLevels(questId);
+                if (levels.length > 0) return;
+
+                const quest = currentLandmark.questList.find(q => q.id === questId);
+                if (!quest) return;
+
+                quest.completed = !quest.completed;
+
+                if (quest.completed && quest.reward.includes('碎片')) {
+                    const fragmentIndex = currentLandmark.fragments.findIndex(f => !f);
+                    if (fragmentIndex !== -1) {
+                        currentLandmark.fragments[fragmentIndex] = true;
+                    }
+                }
+
+                const completedCount = currentLandmark.questList.filter(q => q.completed).length;
+                const totalCount = currentLandmark.questList.length;
+                currentLandmark.boss.health = Math.max(0, 100 - (completedCount / totalCount * 100));
+                currentLandmark.completed = completedCount;
+
+                renderQuests();
+                renderFragments();
+                document.getElementById('bossHealthBar').style.width = currentLandmark.boss.health + '%';
+                renderTerritories();
+                saveData();
+            } catch (error) {
+                console.error('切换任务状态失败:', error);
+            }
+        }
+
+        /**
+         * 显示 Toast 提示
+         */
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                background: ${type === 'success' ? 'rgba(74, 155, 139, 0.9)' : type === 'warning' ? 'rgba(201, 162, 39, 0.9)' : 'rgba(100, 100, 100, 0.9)'};
+                color: white;
+                border-radius: 4px;
+                font-size: 14px;
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                max-width: 300px;
+                line-height: 1.5;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // 添加动画样式
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        /**
+         * 保存数据到本地存储
+         */
+        function saveData() {
+            try {
+                LifeRPG.storage.save('lifeRpgData', gameData);
+            } catch (error) {
+                console.error('保存数据失败:', error);
+            }
+        }
+
+        /**
+         * 加载数据
+         */
+        function loadData() {
+            try {
+                const saved = LifeRPG.storage.load('lifeRpgData');
+                if (saved) {
+                    Object.assign(gameData, saved);
+                }
+            } catch (error) {
+                console.error('加载数据失败:', error);
+            }
+        }
+
+        // 初始化应用
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

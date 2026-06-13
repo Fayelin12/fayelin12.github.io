@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>导出Excel数据</title>
+    <script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script>
+        // 检查库是否加载成功
+        window.addEventListener('load', function() {
+            if (typeof XLSX === 'undefined') {
+                document.body.innerHTML = '<div style="padding: 40px; text-align: center; color: #ff6b6b;">' +
+                    '<h2>SheetJS库加载失败</h2>' +
+                    '<p>请检查网络连接后刷新页面重试</p>' +
+                    '<p>或者使用备用方案：打开 <a href="export-data.html" style="color: #48dbfb;">export-data.html</a> 导出JSON格式</p>' +
+                    '</div>';
+            }
+        });
+    </script>
+    <style>
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eae2d6;
+            padding: 40px;
+            min-height: 100vh;
+        }
+        h1 {
+            color: #c9a227;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.3);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #c9a227;
+        }
+        .btn {
+            background: linear-gradient(135deg, #c9a227 0%, #a88420 100%);
+            color: #1a1a2e;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(201, 162, 39, 0.4);
+        }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(201, 162, 39, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid #c9a227;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        th {
+            background: rgba(201, 162, 39, 0.2);
+            color: #c9a227;
+        }
+        .success { color: #48dbfb; }
+    </style>
+</head>
+<body>
+    <h1>导出Excel数据</h1>
+    <div class="container">
+        <div class="section">
+            <h3>导出内容</h3>
+            <p>将导出以下工作表：</p>
+            <ul>
+                <li><strong>地标</strong> - 所有地标信息</li>
+                <li><strong>任务</strong> - 所有任务信息</li>
+                <li><strong>关卡</strong> - 所有关卡信息</li>
+                <li><strong>检查项</strong> - 所有检查项信息（含ID）</li>
+                <li><strong>日历记录</strong> - 所有日期的日历条目（含ID关联）</li>
+                <li><strong>完成记录</strong> - 检查项完成历史</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center;">
+            <button class="btn" onclick="exportToExcel()">导出Excel</button>
+        </div>
+
+        <div id="result" class="section" style="display: none;">
+            <h3>导出结果</h3>
+            <div id="summary"></div>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'lifeRpgAdminData';
+
+        function loadData() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : {};
+            } catch (e) {
+                console.error('加载数据失败:', e);
+                return {};
+            }
+        }
+
+        function exportToExcel() {
+            const data = loadData();
+            const wb = XLSX.utils.book_new();
+
+            // 1. 地标工作表
+            const landmarks = (data.landmarks || []).map(lm => ({
+                '地标ID': lm.id,
+                'ID类型': typeof lm.id,
+                '地标名称': lm.name,
+                '图标': lm.icon,
+                '类型': lm.type,
+                '描述': lm.desc || '',
+                'Boss': lm.boss || ''
+            }));
+            if (landmarks.length > 0) {
+                const ws = XLSX.utils.json_to_sheet(landmarks);
+                XLSX.utils.book_append_sheet(wb, ws, '地标');
+            }
+
+            // 2. 任务工作表
+            const quests = [];
+            Object.entries(data.landmarkQuests || {}).forEach(([landmarkId, questList]) => {
+                const landmark = (data.landmarks || []).find(lm => String(lm.id) === String(landmarkId));
+                questList.forEach(q => {
+                    quests.push({
+                        '任务ID': q.id,
+                        'ID类型': typeof q.id,
+                        '任务名称': q.name,
+                        '类型': q.type,
+                        '奖励类型': q.rewardType,
+                        '奖励数量': q.rewardAmount,
+                        '描述': q.desc || '',
+                        '所属地标ID': landmarkId,
+                        '所属地标': landmark ? landmark.name : ''
+                    });
+                });
+            });
+            if (quests.length > 0) {
+                const ws = XLSX.utils.json_to_sheet(quests);
+                XLSX.utils.book_append_sheet(wb, ws, '任务');
+            }
+
+            // 3. 关卡工作表
+            const levels = [];
+            Object.entries(data.questLevels || {}).forEach(([questId, levelList]) => {
+                // 查找任务名称
+                let questName = '';
+                Object.entries(data.landmarkQuests || {}).forEach(([lmId, qList]) => {
+                    const q = qList.find(qq => String(qq.id) === String(questId));
+                    if (q) questName = q.name;
+                });
+
+                levelList.forEach(lv => {
+                    levels.push({
+                        '关卡ID': lv.id,
+                        'ID类型': typeof lv.id,
+                        '关卡名称': lv.name,
+                        '难度': lv.difficulty,
+                        '预计天数': lv.time,
+                        '所属任务ID': questId,
+                        '所属任务': questName,
+                        '检查项数量': (lv.checkpoints || []).length,
+                        '已完成': lv.completed ? '是' : '否'
+                    });
+                });
+            });
+            if (levels.length > 0) {
+                const ws = XLSX.utils.json_to_sheet(levels);
+                XLSX.utils.book_append_sheet(wb, ws, '关卡');
+            }
+
+            // 4. 检查项工作表
+            const checkpoints = [];
+            Object.entries(data.questLevels || {}).forEach(([questId, levelList]) => {
+                let questName = '';
+                let landmarkName = '';
+                Object.entries(data.landmarkQuests || {}).forEach(([lmId, qList]) => {
+                    const q = qList.find(qq => String(qq.id) === String(questId));
+                    if (q) {
+                        questName = q.name;
+                        const lm = (data.landmarks || []).find(l => String(l.id) === String(lmId));
+                        landmarkName = lm ? lm.name : '';
+                    }
+                });
+
+                levelList.forEach(lv => {
+                    (lv.checkpoints || []).forEach((cp, idx) => {
+                        checkpoints.push({
+                            '检查项ID': cp.id,
+                            'ID类型': typeof cp.id,
+                            '检查项名称': cp.name || '',
+                            '预计天数': cp.time || 1,
+                            '已完成': cp.completed ? '是' : '否',
+                            '所属关卡ID': lv.id,
+                            '所属关卡': lv.name,
+                            '所属任务ID': questId,
+                            '所属任务': questName,
+                            '所属地标': landmarkName,
+                            '检查项索引': idx + 1
+                        });
+                    });
+                });
+            });
+            if (checkpoints.length > 0) {
+                const ws = XLSX.utils.json_to_sheet(checkpoints);
+                XLSX.utils.book_append_sheet(wb, ws, '检查项');
+            }
+
+            // 5. 日历记录工作表（所有日期的所有条目）
+            const calendarRecords = [];
+            Object.entries(data.calendarEntries || {}).forEach(([date, entries]) => {
+                entries.forEach(entry => {
+                    calendarRecords.push({
+                        '日期': date,
+                        '条目ID': entry.id,
+                        '检查项ID': entry.checkpointId,
+                        '检查项ID类型': typeof entry.checkpointId,
+                        '检查项名称': entry.checkpointName,
+                        '关卡ID': entry.levelId,
+                        '关卡ID类型': typeof entry.levelId,
+                        '关卡名称': entry.levelName,
+                        '任务ID': entry.questId,
+                        '任务ID类型': typeof entry.questId,
+                        '任务名称': entry.questName,
+                        '地标': entry.landmarkName,
+                        '描述': entry.description || '',
+                        '已完成': entry.completed ? '是' : '否'
+                    });
+                });
+            });
+            // 按日期排序
+            calendarRecords.sort((a, b) => a['日期'].localeCompare(b['日期']));
+            if (calendarRecords.length > 0) {
+                const ws = XLSX.utils.json_to_sheet(calendarRecords);
+                XLSX.utils.book_append_sheet(wb, ws, '日历记录');
+            }
+
+            // 6. 完成记录工作表
+            const completions = [];
+            Object.entries(data.checkpointCompletions || {}).forEach(([checkpointId, records]) => {
+                records.forEach(rec => {
+                    completions.push({
+                        '检查项ID': checkpointId,
+                        '日期': rec.date,
+                        '条目ID': rec.entryId,
+                        '已归档': rec.archived ? '是' : '否'
+                    });
+                });
+            });
+            if (completions.length > 0) {
+                const ws = XLSX.utils.json_to_sheet(completions);
+                XLSX.utils.book_append_sheet(wb, ws, '完成记录');
+            }
+
+            // 导出文件
+            const filename = `人生开放系统数据_${new Date().toISOString().slice(0, 10)}.xlsx`;
+            XLSX.writeFile(wb, filename);
+
+            // 显示摘要
+            document.getElementById('result').style.display = 'block';
+            let html = '<p class="success">导出成功！文件已下载。</p>';
+            html += '<table>';
+            html += '<tr><th>工作表</th><th>记录数</th></tr>';
+            html += `<tr><td>地标</td><td>${landmarks.length}</td></tr>`;
+            html += `<tr><td>任务</td><td>${quests.length}</td></tr>`;
+            html += `<tr><td>关卡</td><td>${levels.length}</td></tr>`;
+            html += `<tr><td>检查项</td><td>${checkpoints.length}</td></tr>`;
+            html += `<tr><td>日历记录</td><td>${calendarRecords.length}</td></tr>`;
+            html += `<tr><td>完成记录</td><td>${completions.length}</td></tr>`;
+            html += '</table>';
+            document.getElementById('summary').innerHTML = html;
+        }
+    </script>
+</body>
+</html>

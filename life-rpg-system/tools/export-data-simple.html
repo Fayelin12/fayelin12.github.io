@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>导出数据</title>
+    <style>
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eae2d6;
+            padding: 40px;
+        }
+        h1 { color: #c9a227; text-align: center; }
+        .container { max-width: 900px; margin: 0 auto; background: rgba(0,0,0,0.3); padding: 30px; border-radius: 12px; border: 1px solid #c9a227; }
+        .btn {
+            background: linear-gradient(135deg, #c9a227 0%, #a88420 100%);
+            color: #1a1a2e; border: none; padding: 12px 30px; border-radius: 6px;
+            cursor: pointer; font-size: 16px; font-weight: bold; margin: 10px;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(201, 162, 39, 0.4); }
+        .section { margin: 20px 0; padding: 20px; background: rgba(201, 162, 39, 0.05); border-radius: 8px; }
+        .success { color: #48dbfb; }
+        pre { background: #0f0f23; padding: 15px; overflow-x: auto; border-radius: 4px; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>导出数据</h1>
+    <div class="container">
+        <div class="section">
+            <h3>导出选项</h3>
+            <button class="btn" onclick="exportJSON()">导出JSON</button>
+            <button class="btn" onclick="exportCSV()">导出CSV</button>
+        </div>
+        <div id="result" class="section" style="display:none;">
+            <h3>数据预览</h3>
+            <pre id="output"></pre>
+            <button class="btn" onclick="copyData()">复制</button>
+            <button class="btn" onclick="downloadFile()">下载</button>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'lifeRpgAdminData';
+        let exportData = null;
+        let exportFilename = '';
+        let exportType = '';
+
+        function loadData() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function exportJSON() {
+            exportData = loadData();
+            exportFilename = 'lifeRpgData.json';
+            exportType = 'json';
+            const json = JSON.stringify(exportData, null, 2);
+            document.getElementById('output').textContent = json.substring(0, 5000) + '\n...(内容过长已截断)';
+            document.getElementById('result').style.display = 'block';
+            downloadBlob(new Blob([json], {type: 'application/json'}), exportFilename);
+        }
+
+        function exportCSV() {
+            const data = loadData();
+            let allCSV = '';
+
+            // 标签CSV
+            allCSV += '=== 标签 ===\n';
+            allCSV += '标签ID,名称,图标,描述\n';
+            (data.tags || []).forEach(t => {
+                allCSV += `"${t.id}","${t.name || ''}","${t.icon || ''}","${(t.desc || '').replace(/"/g, '""')}"\n`;
+            });
+
+            // 地标CSV
+            allCSV += '\n=== 地标 ===\n';
+            allCSV += '地标ID,名称,图标,类型,描述,Boss\n';
+            (data.landmarks || []).forEach(lm => {
+                allCSV += `"${lm.id}","${lm.name || ''}","${lm.icon || ''}","${lm.type || ''}","${(lm.desc || '').replace(/"/g, '""')}","${lm.boss || ''}"\n`;
+            });
+
+            // 检查项CSV
+            allCSV += '\n=== 检查项 ===\n';
+            allCSV += '检查项ID,ID类型,检查项名称,预计天数,已完成,关卡ID,关卡名称,任务ID,任务名称,地标\n';
+            Object.entries(data.questLevels || {}).forEach(([questId, levelList]) => {
+                let questName = '';
+                let landmarkName = '';
+                Object.entries(data.landmarkQuests || {}).forEach(([lmId, qList]) => {
+                    const q = qList.find(qq => String(qq.id) === String(questId));
+                    if (q) {
+                        questName = q.name;
+                        const lm = (data.landmarks || []).find(l => String(l.id) === String(lmId));
+                        landmarkName = lm ? lm.name : '';
+                    }
+                });
+                levelList.forEach(lv => {
+                    (lv.checkpoints || []).forEach(cp => {
+                        allCSV += `"${cp.id}","${typeof cp.id}","${cp.name || ''}",${cp.time || 1},${cp.completed ? '是' : '否'},"${lv.id}","${lv.name}","${questId}","${questName}","${landmarkName}"\n`;
+                    });
+                });
+            });
+
+            // 日历记录CSV（已去掉冗余字段）
+            allCSV += '\n=== 日历记录 ===\n';
+            allCSV += '日期,条目ID,检查项ID,检查项名称,描述,已完成,创建时间\n';
+            Object.entries(data.calendarEntries || {}).forEach(([date, entries]) => {
+                entries.forEach(entry => {
+                    allCSV += `"${date}","${entry.id}","${entry.checkpointId}","${entry.checkpointName}","${(entry.description || '').replace(/"/g, '""')}","${entry.completed ? '是' : '否'}","${entry.createdAt || ''}"\n`;
+                });
+            });
+
+            // 关联关系CSV（从数据结构反推）
+            allCSV += '\n=== 检查项关联关系 ===\n';
+            allCSV += '检查项ID,关卡ID,任务ID,地标ID,关卡名称,任务名称,地标名称\n';
+            Object.entries(data.questLevels || {}).forEach(([questId, levelList]) => {
+                let questName = '';
+                let landmarkId = '';
+                let landmarkName = '';
+                Object.entries(data.landmarkQuests || {}).forEach(([lmId, qList]) => {
+                    const q = qList.find(qq => String(qq.id) === String(questId));
+                    if (q) {
+                        questName = q.name;
+                        landmarkId = lmId;
+                        const lm = (data.landmarks || []).find(l => String(l.id) === String(lmId));
+                        landmarkName = lm ? lm.name : '';
+                    }
+                });
+                levelList.forEach(lv => {
+                    (lv.checkpoints || []).forEach(cp => {
+                        allCSV += `"${cp.id}","${lv.id}","${questId}","${landmarkId}","${lv.name}","${questName}","${landmarkName}"\n`;
+                    });
+                });
+            });
+
+            // 检查点完成历史CSV
+            allCSV += '\n=== 检查点完成历史 ===\n';
+            allCSV += '检查点ID,日期,条目ID,已归档\n';
+            Object.entries(data.checkpointCompletions || {}).forEach(([cpId, records]) => {
+                records.forEach(r => {
+                    allCSV += `"${cpId}","${r.date || ''}","${r.entryId || ''}","${r.archived ? '是' : '否'}"\n`;
+                });
+            });
+
+            exportData = allCSV;
+            exportFilename = 'lifeRpgData.csv';
+            exportType = 'csv';
+            document.getElementById('output').textContent = allCSV.substring(0, 5000) + '\n...(内容过长已截断)';
+            document.getElementById('result').style.display = 'block';
+            downloadBlob(new Blob(['\ufeff' + allCSV], {type: 'text/csv;charset=utf-8'}), exportFilename);
+        }
+
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function copyData() {
+            navigator.clipboard.writeText(exportData).then(() => alert('已复制'));
+        }
+
+        function downloadFile() {
+            const blob = new Blob([exportData], {type: exportType === 'json' ? 'application/json' : 'text/csv'});
+            downloadBlob(blob, exportFilename);
+        }
+    </script>
+</body>
+</html>
