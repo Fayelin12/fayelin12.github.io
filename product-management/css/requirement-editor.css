@@ -1,0 +1,466 @@
+/**
+ * 需求文档编辑器样式
+ */
+
+/* ========== 需求文档查看器 ========== */
+.req-viewer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+.req-viewer-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-text-primary);
+}
+
+/* 编辑按钮 - 固定在右下角 */
+.req-edit-btn {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s;
+    z-index: 10;
+}
+
+.req-edit-btn:hover {
+    background: var(--color-bg-secondary);
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.req-edit-btn span {
+    font-size: 18px;
+}
+
+/* 编辑器操作按钮 - 与编辑按钮统一风格 */
+.req-editor-actions {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+    align-items: center;
+}
+
+.req-action-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s;
+}
+
+.req-action-btn:hover {
+    background: var(--color-bg-secondary);
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.req-action-btn span {
+    font-size: 18px;
+}
+
+.req-viewer-content p {
+    margin: 0 0 8px 0;
+}
+
+.req-viewer-content p:last-child {
+    margin-bottom: 0;
+}
+
+.req-viewer-content h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1677FF;
+    margin: 16px 0 10px 0;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.req-viewer-content h2:first-child {
+    margin-top: 0;
+}
+
+.req-viewer-content h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 14px 0 8px 0;
+}
+
+.req-viewer-content h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin: 12px 0 6px 0;
+}
+
+.req-viewer-content ul {
+    padding-left: 16px;
+    margin: 0 !important;
+    list-style-type: disc;
+}
+
+.req-viewer-content ul ul {
+    margin: 4px 0 4px 8px !important;
+}
+
+.req-viewer-content li {
+    margin: 0 !important;
+    line-height: 1.5;
+    padding: 0 !important;
+    display: list-item;
+}
+
+.req-viewer-content li + li {
+    margin-top: 0 !important;
+}
+
+.req-viewer-content strong {
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+
+/* 需求文档链接 - 基础样式，颜色由 JS 动态生成 */
+.req-link {
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 空状态 */
+.req-viewer-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.req-empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.req-empty-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+}
+
+.req-empty-text {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    margin-bottom: 24px;
+}
+
+/* ========== 编辑器 ========== */
+.req-editor {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--color-bg);
+}
+
+.req-editor-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.req-editor-input-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    overflow: hidden;
+}
+
+.req-editor-textarea {
+    flex: 1;
+    width: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    resize: none;
+    outline: none;
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+}
+
+.req-editor-textarea:focus {
+    border-color: #1677FF;
+    box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.1);
+}
+
+.req-editor-help {
+    width: 240px;
+    border-left: 1px solid var(--color-border-light);
+    padding: 16px;
+    background: var(--color-bg-secondary);
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.req-editor-help h5 {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 16px 0 10px 0;
+}
+
+.req-editor-help h5:first-child {
+    margin-top: 0;
+}
+
+.req-help-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+    font-size: 12px;
+}
+
+.req-help-item code {
+    background: var(--color-bg);
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    color: #1677FF;
+    border: 1px solid var(--color-border);
+    white-space: nowrap;
+}
+
+.req-help-item span {
+    color: var(--color-text-secondary);
+}
+
+/* ========== 按钮样式 ========== */
+.req-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    outline: none;
+}
+
+.req-btn-primary {
+    background: #1677FF;
+    color: white;
+}
+
+.req-btn-primary:hover {
+    background: #4096ff;
+}
+
+.req-btn-secondary {
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+}
+
+.req-btn-secondary:hover {
+    background: var(--color-bg-secondary);
+}
+
+.req-btn-text {
+    background: transparent;
+    color: var(--color-text-secondary);
+    padding: 8px;
+}
+
+.req-btn-text:hover {
+    color: var(--color-text-primary);
+    background: var(--color-bg-secondary);
+}
+
+/* ========== Toast提示 ========== */
+.req-toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+.req-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ========== 高亮链接颜色样式 ========== */
+.req-highlight-yellow {
+    color: #d46b08;
+    background: rgba(255, 193, 7, 0.15);
+    border-bottom: 1px dashed #FFC107;
+    padding: 2px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.req-highlight-green {
+    color: #389e0d;
+    background: rgba(82, 196, 26, 0.1);
+    border-bottom: 1px dashed #52c41a;
+    padding: 2px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.req-highlight-blue {
+    color: #0958d9;
+    background: rgba(22, 119, 255, 0.08);
+    border-bottom: 1px dashed #1677FF;
+    padding: 2px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.req-highlight-red {
+    color: #cf1322;
+    background: rgba(255, 77, 79, 0.08);
+    border-bottom: 1px dashed #ff4d4f;
+    padding: 2px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* ========== 预览区 hover 联动高亮效果 ========== */
+.req-preview-hover-highlight {
+    position: relative;
+}
+
+.req-preview-hover-highlight::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border: 2px solid #ff6b6b;
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* ========== 预览区高亮效果 ========== */
+.req-highlight {
+    animation: req-highlight-pulse 3s ease-in-out;
+    position: relative;
+}
+
+.req-highlight::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border: 2px solid #ff6b6b;
+    border-radius: 8px;
+    animation: req-highlight-border 3s ease-in-out;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+@keyframes req-highlight-pulse {
+    0%, 100% {
+        box-shadow: none;
+    }
+    20%, 80% {
+        box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.3);
+    }
+}
+
+@keyframes req-highlight-border {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    20% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    80% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.05);
+    }
+}
+
+/* ========== 响应式 ========== */
+@media (max-width: 1200px) {
+    .req-editor-help {
+        display: none;
+    }
+}
+
+/* ========== 滚动条美化 ========== */
+.req-viewer-content::-webkit-scrollbar,
+.req-editor-textarea::-webkit-scrollbar,
+.req-editor-help::-webkit-scrollbar {
+    width: 6px;
+}
+
+.req-viewer-content::-webkit-scrollbar-track,
+.req-editor-textarea::-webkit-scrollbar-track,
+.req-editor-help::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.req-viewer-content::-webkit-scrollbar-thumb,
+.req-editor-textarea::-webkit-scrollbar-thumb,
+.req-editor-help::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+}
+
+.req-viewer-content::-webkit-scrollbar-thumb:hover,
+.req-editor-textarea::-webkit-scrollbar-thumb:hover,
+.req-editor-help::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-tertiary);
+}

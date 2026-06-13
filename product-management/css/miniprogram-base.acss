@@ -1,0 +1,462 @@
+/* ============================================================
+   产品管理端 — Design Token 体系 (8px grid)
+   IDE & H5 共享，以 rpx 为单位 (2rpx = 1px)
+   P2 视觉升级同步
+
+   【源文件声明】
+   本文件是 am-* 组件样式的唯一源码，H5 版本由 build-h5-from-acss.js 自动生成。
+   请勿手动编辑 alipay-mini-program.css。
+
+   修改原则：
+   1. 修改本文件后，运行 node css/build-h5-from-acss.js 重新生成 H5 版本。
+   2. 切勿将 H5 特有属性（transition、cursor、:hover）写入本文件。
+   3. 修改后请运行：node css/check-css-build.js 校验生成产物。
+   ============================================================ */
+
+/* ---- 基础重置 ---- */
+page {
+  box-sizing: border-box;
+  background: #F5F5F5;
+  font-family: -apple-system, BlinkMacangFont, 'PingFang SC', sans-serif;
+  color: #1F1F1F;
+}
+
+/* ---- 布局容器 ---- */
+.am-page {
+  min-height: 100vh;
+  background: #F5F5F5;
+  padding: 32rpx;
+}
+.am-page--pb { padding-bottom: 96rpx; }
+
+/* ---- 文本体系 (8px grid: 10/12/14/16) ----
+   P2: 基础色 #333→#1F1F1F，对比度更高
+*/
+.am-text          { font-size: 28rpx; color: #1F1F1F; line-height: 1.5; }
+.am-text--lg      { font-size: 32rpx; letter-spacing: -0.02rpx; }
+.am-text--md      { font-size: 28rpx; }
+.am-text--sm      { font-size: 24rpx; }
+.am-text--xs      { font-size: 20rpx; }
+
+.am-text--bold    { font-weight: 600; }
+.am-text--medium  { font-weight: 500; }
+.am-text--center  { text-align: center; }
+.am-text--right   { text-align: right; }
+.am-text--relaxed { line-height: 1.75; }
+
+/* ---- 色彩 ----
+   P2: secondary #666→#5C5C5C，tertiary #999→#AAAAAA
+*/
+.am-text--primary   { color: #1677FF; }
+.am-text--secondary { color: #5C5C5C; }
+.am-text--tertiary  { color: #AAAAAA; }
+.am-text--warning   { color: #FF8F1F; }
+.am-text--white     { color: #FFF; }
+
+/* ---- 弹性布局 ---- */
+.am-flex          { display: flex; }
+.am-flex-column   { display: flex; flex-direction: column; }
+.am-flex-center   { display: flex; align-items: center; justify-content: center; }
+.am-flex-between  { display: flex; align-items: center; justify-content: space-between; }
+.am-flex-1        { flex: 1; }
+.am-items-center  { align-items: center; }
+
+/* ---- 间距工具 (8px grid: 8/16/24/32/40/48) ---- */
+.am-mt-1 { margin-top: 8rpx; }   .am-mb-1 { margin-bottom: 8rpx; }
+.am-mt-2 { margin-top: 16rpx; }  .am-mb-2 { margin-bottom: 16rpx; }
+.am-mt-3 { margin-top: 24rpx; }  .am-mb-3 { margin-bottom: 24rpx; }
+.am-mt-4 { margin-top: 32rpx; }  .am-mb-4 { margin-bottom: 32rpx; }
+.am-mt-5 { margin-top: 48rpx; }  .am-mb-5 { margin-bottom: 48rpx; }
+.am-mt-6 { margin-top: 48rpx; }  .am-mb-6 { margin-bottom: 48rpx; }
+
+.am-ml-1 { margin-left: 8rpx; }  .am-mr-1 { margin-right: 8rpx; }
+.am-ml-2 { margin-left: 16rpx; } .am-mr-2 { margin-right: 16rpx; }
+.am-ml-3 { margin-left: 24rpx; } .am-mr-3 { margin-right: 24rpx; }
+.am-ml-4 { margin-left: 32rpx; } .am-mr-4 { margin-right: 32rpx; }
+
+.am-p-2  { padding: 16rpx; }
+.am-pt-4  { padding-top: 32rpx; }
+.am-pb-4  { padding-bottom: 32rpx; }
+.am-px-4  { padding-left: 32rpx; padding-right: 32rpx; }
+
+.am-gap-1 { gap: 8rpx; }
+.am-gap-2 { gap: 16rpx; }
+.am-gap-3 { gap: 24rpx; }
+.am-gap-4 { gap: 32rpx; }
+
+.am-w-full { width: 100%; }
+.am-h-full { height: 100%; }
+.am-rounded-md { border-radius: 8rpx; }
+.am-rounded-lg { border-radius: 16rpx; }
+.am-leading-none { line-height: 1; }
+.am-opacity-60 { opacity: 0.6; }
+
+/* ---- 分割线 ---- */
+.am-border-top { border-top: 2rpx solid #F0F0F0; }
+
+/* ============================================================
+   组件样式 — P2 视觉升级
+   ============================================================ */
+
+/* ---- 按钮 ----
+   P2: 圆角 8→16rpx，主按钮渐变，block 模式高度增加
+*/
+.am-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  padding: 0 48rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  border-radius: 16rpx;
+  border: none;
+  box-sizing: border-box;
+  line-height: 1;
+}
+.am-button--block   { display: flex; width: 100%; height: 96rpx; font-size: 32rpx; }
+.am-button--primary  {
+  background: linear-gradient(135deg, #4D94FF 0%, #1677FF 100%);
+  color: #FFF;
+  box-shadow: 0 4rpx 16rpx rgba(22, 119, 255, 0.3);
+}
+.am-button--warning  { background: #FFF7E6; color: #D46B08; }
+.am-button--info     { background: #E6F4FF; color: #0958D9; }
+.am-button--danger   { background: #FFF2F0; color: #FF3141; }
+.am-button--disabled,
+.am-button[disabled] { opacity: 0.4; pointer-events: none; }
+
+/* ---- 输入框 ----
+   P2: 边框色更柔和，内联输入框聚焦底线
+*/
+.am-input {
+  display: block;
+  width: 100%;
+  height: 88rpx;
+  padding: 0 32rpx;
+  font-size: 28rpx;
+  color: #1F1F1F;
+  background: #FFF;
+  border: 2rpx solid #F0F0F0;
+  border-radius: 8rpx;
+  outline: none;
+  box-sizing: border-box;
+}
+.am-input:focus {
+  border-color: #1677FF;
+  box-shadow: 0 0 0 4rpx rgba(22, 119, 255, 0.1);
+}
+.am-input::placeholder { color: #C8C8C8; }
+.am-input--inline { flex: 1; border: none; background: transparent; padding: 0; height: auto; border-bottom: 3rpx solid transparent; border-radius: 0; }
+.am-input--inline:focus { border-bottom-color: #1677FF; box-shadow: none; }
+.am-input--danger { border-color: #FF3141; }
+.am-input--disabled,
+.am-input[disabled] { opacity: 0.4; }
+
+/* ---- 卡片 ----
+   P2: 圆角 16→24rpx，双层阴影+微妙边框，footer 微背景
+*/
+.am-card {
+  background: #FFF;
+  border-radius: 24rpx;
+  margin-bottom: 24rpx;
+  overflow: hidden;
+  border: 2rpx solid rgba(0,0,0,0.04);
+  box-shadow:
+    0 2rpx 6rpx rgba(0,0,0,0.04),
+    0 8rpx 24rpx rgba(0,0,0,0.06);
+}
+.am-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx;
+  border-bottom: 2rpx solid #F0F0F0;
+}
+.am-card__title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #111111;
+  letter-spacing: -0.02rpx;
+}
+.am-card__extra {
+  font-size: 24rpx;
+  color: #AAAAAA;
+}
+.am-card__body {
+  padding: 32rpx;
+}
+.am-card__body--flush {
+  padding: 0;
+}
+.am-card__footer {
+  padding: 24rpx 32rpx;
+  border-top: 2rpx solid #F0F0F0;
+  font-size: 24rpx;
+  color: #AAAAAA;
+  background: rgba(0,0,0,0.01);
+}
+.am-card--no-shadow { box-shadow: none; }
+.am-card--danger {
+  border: 2rpx solid #FFF2F0;
+  background: #FFF2F0;
+}
+
+/* ---- 步骤条 (P3 胶囊徽章重构) ----
+   圆形图标 + 绝对定位线 → 胶囊徽章 + flex 连接线
+*/
+.am-steps {
+  display: flex;
+  align-items: flex-start;
+  padding: 32rpx 40rpx;
+  background: #FFF;
+  border-radius: 24rpx;
+  margin-bottom: 24rpx;
+  overflow: visible;
+}
+.am-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+/* 胶囊徽章 */
+.am-step__badge {
+  min-width: 56rpx;
+  height: 56rpx;
+  padding: 0 16rpx;
+  border-radius: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  font-weight: 600;
+  background: #F5F5F5;
+  color: #AAAAAA;
+  border: 3rpx solid #F0F0F0;
+  line-height: 1;
+}
+.am-step--active .am-step__badge {
+  background: #1677FF;
+  color: #FFF;
+  border-color: #1677FF;
+  box-shadow: 0 4rpx 16rpx rgba(22, 119, 255, 0.35);
+  transform: scale(1.05);
+}
+.am-step--completed .am-step__badge {
+  background: #00B578;
+  color: #FFF;
+  border-color: #00B578;
+}
+/* 标签 */
+.am-step__label {
+  font-size: 22rpx;
+  color: #AAAAAA;
+  margin-top: 12rpx;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+.am-step--active .am-step__label {
+  color: #1677FF;
+  font-weight: 500;
+  font-size: 24rpx;
+}
+.am-step--completed .am-step__label {
+  color: #00B578;
+}
+/* flex 连接线 */
+.am-step__connector {
+  flex: 1;
+  height: 4rpx;
+  margin-top: 26rpx;
+  background: #F0F0F0;
+  border-radius: 2rpx;
+  min-width: 32rpx;
+}
+.am-step__connector--completed {
+  background: #00B578;
+}
+.am-step__connector--active {
+  background: linear-gradient(90deg, #00B578, #1677FF);
+}
+
+/* ---- 列表项 ----
+   P2: 分隔线更精致，标题字重 medium
+*/
+.am-list-item {
+  display: flex;
+  align-items: center;
+  padding: 32rpx;
+  min-height: 96rpx;
+  border-bottom: 2rpx solid rgba(0,0,0,0.04);
+  background: #FFF;
+}
+.am-list-item:last-child { border-bottom: none; }
+.am-list-item__title {
+  font-size: 28rpx;
+  color: #1F1F1F;
+  flex-shrink: 0;
+  margin-right: 24rpx;
+  font-weight: 500;
+}
+.am-list-item__content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.am-list-item__extra {
+  font-size: 28rpx;
+  color: #1F1F1F;
+  text-align: right;
+}
+.am-list-item__arrow {
+  margin-left: 8rpx;
+  color: #C8C8C8;
+}
+
+/* ---- 车牌选择区 (P3 真实车牌视觉) ----
+   蓝牌: #1677FF 蓝底 + 白字
+   新能源绿牌: #00B578 绿底 + 白字
+*/
+.am-license-prefix {
+  width: 96rpx;
+  height: 88rpx;
+  background: #1677FF;
+  border-radius: 8rpx;
+  border: 2rpx solid rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  flex-shrink: 0;
+  box-shadow: 0 2rpx 6rpx rgba(22, 119, 255, 0.2);
+}
+.am-license-newenergy {
+  width: 120rpx;
+  height: 88rpx;
+  background: #00B578;
+  border-radius: 8rpx;
+  border: 2rpx solid rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 20rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  flex-shrink: 0;
+  box-shadow: 0 2rpx 6rpx rgba(0, 181, 120, 0.2);
+  line-height: 1.3;
+}
+/* ---- 车牌输入框组 (P3 蓝色边框) ---- */
+.am-input-group {
+  display: flex;
+  gap: 0;
+  align-items: center;
+  background: #FFFFFF;
+  border: 4rpx solid #1677FF;
+  border-radius: 12rpx;
+  padding: 8rpx;
+  box-shadow: 0 2rpx 8rpx rgba(22, 119, 255, 0.12);
+}
+.am-input-group > .am-license-prefix {
+  margin: 0;
+  border-radius: 6rpx;
+  box-shadow: none;
+}
+.am-input-group > .am-input {
+  flex: 1;
+  border: none !important;
+  background: transparent !important;
+  padding: 0 16rpx;
+  height: auto;
+  font-family: "DIN Alternate", "Helvetica Neue", monospace;
+  font-size: 36rpx;
+  font-weight: 600;
+  letter-spacing: 6rpx;
+  color: #1F1F1F;
+  border-left: 4rpx solid #1677FF !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.am-input-group > .am-license-newenergy {
+  margin: 0;
+  border-radius: 6rpx;
+  box-shadow: none;
+}
+
+/* ---- 协议勾选 ----
+   P2: 复选框 40→44rpx，边框更清晰 4rpx solid #CCCCCC
+*/
+.am-checkbox-row {
+  display: flex;
+  align-items: center;
+  padding: 32rpx;
+  gap: 16rpx;
+}
+.am-checkbox {
+  display: flex;
+  align-items: center;
+}
+.am-checkbox__check {
+  width: 44rpx;
+  height: 44rpx;
+  border: 3rpx solid #CCCCCC;
+  border-radius: 10rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  color: transparent;
+}
+.am-checkbox--checked .am-checkbox__check {
+  background: #1677FF;
+  border-color: #1677FF;
+  color: #FFF;
+}
+
+/* ---- 帮助图标 ----
+   P2: 尺寸 28→32rpx，边框更清晰
+*/
+.am-help-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32rpx;
+  height: 32rpx;
+  border: 2rpx solid #AAAAAA;
+  border-radius: 50%;
+  font-size: 20rpx;
+  color: #AAAAAA;
+  margin-left: 8rpx;
+  vertical-align: middle;
+}
+
+/* ---- 按钮副标题 ---- */
+.am-button__subtitle {
+  color: rgba(255,255,255,0.85);
+  font-size: 22rpx;
+  margin-top: 4rpx;
+}
+
+/* ---- 隐私文字 ----
+   P2: 颜色更柔和，字体小一号
+*/
+.am-text--privacy {
+  display: block;
+  text-align: center;
+  padding: 32rpx 32rpx 48rpx;
+  line-height: 1.6;
+  color: #AAAAAA;
+  font-size: 24rpx;
+}
+
+/* ---- 动画 ---- */
+@keyframes am-spin {
+  to { transform: rotate(360deg); }
+}

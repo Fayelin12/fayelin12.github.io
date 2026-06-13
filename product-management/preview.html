@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>产品预览 - 产品管理端</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📱</text></svg>">
+    <link rel="stylesheet" href="css/common.css">
+    <!-- design-system.css 已移除：其变量与 common.css 冲突（覆盖 --color-primary），组件样式从未被引用 -->
+    <!-- antd-mini H5 样式必须在小程序自定义样式之前加载，确保自定义样式覆盖 antd-mini 默认样式 -->
+    <link rel="stylesheet" href="css/antd-mini-h5.css">
+    <link rel="stylesheet" href="css/alipay-mini-program.css">
+    <link rel="stylesheet" href="css/preview.css">
+    <link rel="stylesheet" href="css/requirement-editor.css">
+    <link rel="stylesheet" href="css/highlight-config.css">
+    <link rel="stylesheet" href="css/text-selection-toolbar.css">
+    <link rel="stylesheet" href="css/interaction-mapper.css">
+</head>
+<body>
+    <!-- 骨架屏 - 导航栏 -->
+    <nav class="main-nav">
+        <div class="nav-brand">产品管理端</div>
+        <ul class="nav-tabs">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="preview.html" class="active">产品预览</a></li>
+            <li><a href="roadmap.html">迭代计划</a></li>
+            <li><a href="guide.html">使用指引</a></li>
+            <li><a href="faq.html">常见问题</a></li>
+        </ul>
+    </nav>
+
+    <!-- 预览页面主体 -->
+    <div class="preview-container">
+        <!-- 左侧：页面列表骨架屏 -->
+        <aside class="page-sidebar">
+            <!-- 版本选择器 -->
+            <div id="versionSelectorContainer">
+                <!-- 由 JS 动态生成 -->
+            </div>
+            <div class="sidebar-header">
+                <h3>页面列表</h3>
+            </div>
+            <ul class="page-list" id="pageList">
+                <!-- 骨架屏 - 页面列表项 -->
+                <li class="page-item skeleton-item">
+                    <div class="skeleton skeleton-avatar"></div>
+                    <div style="flex:1">
+                        <div class="skeleton skeleton-text" style="width:60%"></div>
+                    </div>
+                </li>
+                <li class="page-item skeleton-item">
+                    <div class="skeleton skeleton-avatar"></div>
+                    <div style="flex:1">
+                        <div class="skeleton skeleton-text" style="width:70%"></div>
+                    </div>
+                </li>
+                <li class="page-item skeleton-item">
+                    <div class="skeleton skeleton-avatar"></div>
+                    <div style="flex:1">
+                        <div class="skeleton skeleton-text" style="width:50%"></div>
+                    </div>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- 中间：手机预览区 -->
+        <section class="preview-area">
+            <div class="device-toolbar">
+                <select id="deviceSelect" class="device-selector">
+                    <option value="iphone14">iPhone 14 Pro</option>
+                    <option value="iphoneSE">iPhone SE</option>
+                    <option value="pixel7">Pixel 7</option>
+                </select>
+                <div class="scale-control">
+                    <button class="scale-btn" id="zoomOut">−</button>
+                    <span class="scale-value" id="scaleValue">100%</span>
+                    <button class="scale-btn" id="zoomIn">+</button>
+                </div>
+
+            </div>
+            <div class="phone-mockup" id="phoneMockup">
+                <div class="phone-frame">
+                    <div class="phone-screen" id="phoneScreen">
+                        <!-- 骨架屏 - 手机内容 -->
+                        <div class="prototype-content">
+                            <div class="skeleton" style="height:120px; border-radius:16px; margin-bottom:16px;"></div>
+                            <div class="skeleton" style="height:80px; border-radius:16px; margin-bottom:16px;"></div>
+                            <div class="skeleton" style="height:100px; border-radius:16px;"></div>
+                        </div>
+                        <!-- 手机底部指示条 -->
+                        <div class="phone-home-indicator"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 右侧：功能讲解区 -->
+        <aside class="explanation-panel">
+            <div class="scenario-tabs" id="scenarioTabs">
+                <!-- 场景切换按钮由 JS 动态生成 -->
+            </div>
+            <div class="explanation-content" id="explanationContent">
+                <!-- 骨架屏 - 讲解内容 -->
+                <div class="explanation-header">
+                    <div class="skeleton skeleton-text" style="width:70%; height:1.5rem"></div>
+                    <div class="skeleton skeleton-text mt-sm" style="width:40%"></div>
+                </div>
+                <div class="skeleton skeleton-text" style="width:100%"></div>
+                <div class="skeleton skeleton-text" style="width:90%"></div>
+                <div class="skeleton skeleton-text" style="width:80%"></div>
+                <div class="mt-lg">
+                    <div class="skeleton skeleton-text" style="width:30%; height:0.75rem; margin-bottom:1rem"></div>
+                    <div class="skeleton skeleton-text" style="width:85%"></div>
+                    <div class="skeleton skeleton-text" style="width:75%"></div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- 核心基础设施（必须先加载） -->
+    <script src="js/core-infrastructure.js"></script>
+    
+    <!-- 数据配置 -->
+    <script src="js/data.js"></script>
+    <!-- 新格式：JSON Schema 版本数据 -->
+    <script src="js/versions/v1.0.4.schema.js?v=20260509"></script>
+    
+    <!-- 核心模块 -->
+    <script src="js/markdown-parser.js"></script>
+    <script src="js/requirement-editor.js"></script>
+
+    <!-- 共享模块 -->
+    <script src="js/shared-style-filter.js"></script>
+    <!-- 统一组件注册表（方案 B：合并渲染层，供 H5/AXML 双端共享） -->
+    <script src="js/component-registry.js"></script>
+
+    <!-- 支付宝小程序UI渲染器 -->
+    <script src="js/alipay-ui-renderer.js"></script>
+
+    <!-- JSON Schema → H5 渲染器（新增） -->
+    <script src="js/schema-to-html.js?v=20260509"></script>
+
+    <!-- 其他模块 -->
+    <script src="js/element-picker.js"></script>
+    <!-- 统一关联管理器（替代 interaction-mapper + highlight-system） -->
+    <script src="js/association-manager.js"></script>
+    <script src="js/preview.js?v=20260509"></script>
+    
+    <!-- 数据服务初始化 -->
+    <script>
+        // 动态加载 localStorage 中的额外版本（不修改 data.js）
+        (function loadExtraVersions() {
+            try {
+                const extraVersions = localStorage.getItem('extraVersions');
+                if (extraVersions && typeof versionData !== 'undefined') {
+                    const versions = JSON.parse(extraVersions);
+                    let count = 0;
+                    for (const [versionName, versionData_obj] of Object.entries(versions)) {
+                        if (!versionData[versionName]) {
+                            versionData[versionName] = versionData_obj;
+                            count++;
+                        }
+                    }
+                    if (count > 0) {
+                        console.log(`[preview.html] 已从 localStorage 加载 ${count} 个额外版本:`, Object.keys(versions));
+                    }
+                }
+            } catch (e) {
+                console.error('[preview.html] 加载额外版本失败:', e);
+            }
+        })();
+
+        // 应用删除版本补丁（因为 extraVersions 可能在 data.js 补丁之后加载进来）
+        (function applyDeletedVersionsPatchInPreview() {
+            try {
+                if (typeof localStorage === 'undefined' || typeof versionData === 'undefined') return;
+
+                const deletedVersionsRaw = localStorage.getItem('deletedVersions');
+                if (!deletedVersionsRaw) return;
+
+                let deletedVersions;
+                try {
+                    deletedVersions = JSON.parse(deletedVersionsRaw);
+                } catch (e) {
+                    return;
+                }
+
+                if (!Array.isArray(deletedVersions) || deletedVersions.length === 0) return;
+
+                function isOnlineVersionDesc(version) {
+                    const desc = (versionData[version]?.description || '').toLowerCase();
+                    return desc.includes('线上') || desc.includes('online') || desc.includes('当前');
+                }
+
+                let removedCount = 0;
+                let needsCurrentVersionUpdate = false;
+
+                for (const version of deletedVersions) {
+                    if (isOnlineVersionDesc(version)) continue;
+                    if (versionData[version]) {
+                        delete versionData[version];
+                        removedCount++;
+                        if (typeof currentVersion !== 'undefined' && currentVersion === version) {
+                            needsCurrentVersionUpdate = true;
+                        }
+                    }
+                }
+
+                if (needsCurrentVersionUpdate || (typeof currentVersion !== 'undefined' && !versionData[currentVersion])) {
+                    const remainingVersions = Object.keys(versionData);
+                    if (remainingVersions.length > 0) {
+                        const newVersion = remainingVersions.find(v => {
+                            const desc = (versionData[v]?.description || '').toLowerCase();
+                            return desc.includes('线上') || desc.includes('online') || desc.includes('当前');
+                        }) || remainingVersions[remainingVersions.length - 1];
+                        if (typeof currentVersion !== 'undefined') currentVersion = newVersion;
+                        if (typeof pages !== 'undefined' && versionData[newVersion]) {
+                            pages = versionData[newVersion].pages;
+                        }
+                        console.log('[preview.html] currentVersion 已切换至:', newVersion);
+                    } else {
+                        if (typeof currentVersion !== 'undefined') currentVersion = null;
+                        if (typeof pages !== 'undefined') pages = [];
+                    }
+                }
+
+                if (removedCount > 0) {
+                    console.log('[preview.html] 已应用删除补丁，移除版本数:', removedCount, '剩余版本:', Object.keys(versionData));
+                }
+            } catch (error) {
+                console.error('[preview.html] 应用删除版本补丁失败:', error);
+            }
+        })();
+
+        // 页面加载完成后初始化 DataService
+        window.addEventListener('load', function() {
+            if (typeof DataService !== 'undefined') {
+                DataService.init();
+                console.log('[preview.html] 统一数据服务已初始化');
+            }
+        });
+    </script>
+</body>
+</html>

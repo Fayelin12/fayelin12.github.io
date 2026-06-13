@@ -1,0 +1,153 @@
+/**
+ * 文本选中工具栏样式
+ */
+
+.text-selection-toolbar {
+    position: absolute;
+    z-index: 10001;
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;  /* 默认不拦截鼠标事件 */
+}
+
+.text-selection-toolbar.tst-show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;  /* 显示后才启用鼠标交互 */
+}
+
+/* 箭头 */
+.tst-arrow {
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #1a1a1a;
+}
+
+.tst-below .tst-arrow {
+    top: auto;
+    bottom: -6px;
+    border-bottom: none;
+    border-top: 6px solid #1a1a1a;
+}
+
+/* 内容区 */
+.tst-content {
+    display: flex;
+    align-items: center;
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 6px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* 按钮 */
+.tst-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: none;
+    background: transparent;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.tst-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.tst-btn span:first-child {
+    font-size: 16px;
+}
+
+.tst-label {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* 分隔线 */
+.tst-divider {
+    width: 1px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 4px;
+}
+
+/* 按钮悬停效果 - 统一使用白色半透明 */
+.tst-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* 
+ * 选中时的样式 
+ * 修复：限制选择器范围，避免块级元素继承导致整段高亮
+ */
+
+/* 只在工具栏激活时，对需求文档的具体文本元素应用自定义选中样式 */
+body.has-selection-toolbar .req-viewer-content p::selection,
+body.has-selection-toolbar .req-viewer-content li::selection,
+body.has-selection-toolbar .req-viewer-content h2::selection,
+body.has-selection-toolbar .req-viewer-content h3::selection,
+body.has-selection-toolbar .req-viewer-content h4::selection,
+body.has-selection-toolbar .req-viewer-content span::selection {
+    background-color: rgba(255, 193, 7, 0.3);
+}
+
+/* Firefox 兼容 */
+body.has-selection-toolbar .req-viewer-content p::-moz-selection,
+body.has-selection-toolbar .req-viewer-content li::-moz-selection,
+body.has-selection-toolbar .req-viewer-content h2::-moz-selection,
+body.has-selection-toolbar .req-viewer-content h3::-moz-selection,
+body.has-selection-toolbar .req-viewer-content h4::-moz-selection,
+body.has-selection-toolbar .req-viewer-content span::-moz-selection {
+    background-color: rgba(255, 193, 7, 0.3);
+}
+
+/* 确保嵌套列表的子项也有正确的选中样式 */
+body.has-selection-toolbar .req-viewer-content li li::selection,
+body.has-selection-toolbar .req-viewer-content li li::-moz-selection {
+    background-color: rgba(255, 193, 7, 0.3);
+}
+
+/* 动画 */
+@keyframes tst-pop {
+    0% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.text-selection-toolbar.tst-show {
+    animation: tst-pop 0.2s ease;
+}
+
+/* 响应式 */
+@media (max-width: 480px) {
+    .tst-content {
+        padding: 4px;
+    }
+    
+    .tst-btn {
+        padding: 8px;
+    }
+    
+    .tst-label {
+        display: none;
+    }
+}

@@ -1,0 +1,889 @@
+/* ============================================
+   产品预览页面 - 预览区专用样式
+   风格: Mobbin - 简洁、现代、卡片式
+   ============================================ */
+
+/* 预览页面容器 - 三栏布局
+   布局说明：
+   - 左侧页面列表: 200px (固定)
+   - 中间预览区: minmax(360px, 420px) (自适应，最小360px)
+   - 右侧讲解区: 1fr (剩余全部空间)
+*/
+.preview-container {
+    display: grid;
+    grid-template-columns: 200px minmax(360px, 420px) 1fr;
+    height: calc(100vh - 64px);
+    overflow: hidden;
+}
+
+/* 响应式：小屏幕时调整布局 */
+@media (max-width: 1200px) {
+    .preview-container {
+        grid-template-columns: 180px minmax(320px, 380px) 1fr;
+    }
+}
+
+@media (max-width: 992px) {
+    .preview-container {
+        grid-template-columns: 160px minmax(300px, 340px) 1fr;
+    }
+}
+
+/* ============================================
+   左侧边栏 - 页面列表
+   ============================================ */
+
+.page-sidebar {
+    background: var(--color-bg);
+    border-right: 1px solid var(--color-border-light);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.sidebar-header {
+    padding: var(--space-lg);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.sidebar-header h3 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-tertiary);
+}
+
+.page-list {
+    list-style: none;
+    overflow-y: auto;
+    flex: 1;
+    padding: var(--space-sm);
+}
+
+.page-folder {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-top: 8px;
+}
+
+.page-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    margin-bottom: var(--space-xs);
+}
+
+.page-item:hover {
+    background: var(--color-bg-secondary);
+}
+
+.page-item.active {
+    background: var(--color-bg-secondary);
+}
+
+.page-item-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-md);
+    font-size: 1.125rem;
+}
+
+.page-item.active .page-item-icon {
+    background: var(--color-primary);
+    color: white;
+}
+
+.page-item-name {
+    font-size: 0.9375rem;
+    font-weight: 500;
+}
+
+/* ============================================
+   中间预览区 - 手机展示
+   ============================================
+   布局策略：
+   1. flex-direction: column - 垂直布局
+   2. align-items: center - 水平居中
+   3. justify-content: flex-start - 从顶部开始，避免截断
+   4. overflow: auto - 超出可滚动，确保内容可见
+   5. padding: 20px - 内边距，避免贴边
+   ============================================ */
+.preview-area {
+    background: var(--color-bg-secondary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;  /* 从顶部开始 */
+    padding: 20px;
+    overflow: auto;
+    position: relative;
+}
+
+/* 设备工具栏 */
+.device-toolbar {
+    position: absolute;
+    top: var(--space-lg);
+    right: var(--space-lg);
+    display: flex;
+    gap: var(--space-sm);
+    z-index: 100;
+}
+
+/* ============================================
+   统一控件样式 - 版本选择、设备选择、缩放控制
+   ============================================ */
+
+/* 版本选择器容器 */
+.version-selector-wrapper {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-border-light);
+    background: var(--color-bg-secondary);
+}
+
+/* 版本选择下拉框 - 与设备选择器保持一致 */
+.version-selector {
+    width: 100%;
+    height: 40px;
+    padding: 0 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    background: var(--color-bg);
+    cursor: pointer;
+    outline: none;
+    transition: all var(--transition-fast);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+}
+
+.version-selector:hover {
+    border-color: var(--color-text-secondary);
+}
+
+.version-selector:focus {
+    border-color: var(--color-primary);
+}
+
+/* 设备选择器 - 与版本选择器保持一致 */
+.device-selector {
+    height: 40px;
+    padding: 0 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    background: var(--color-bg);
+    cursor: pointer;
+    outline: none;
+    transition: all var(--transition-fast);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+}
+
+.device-selector:hover {
+    border-color: var(--color-text-secondary);
+}
+
+.device-selector:focus {
+    border-color: var(--color-primary);
+}
+
+/* ============================================
+   手机模型 - 支持缩放
+   ============================================
+   设计要点：
+   1. 默认不缩放，由 JS 根据容器大小动态计算
+   2. transform-origin: center top - 从顶部中心缩放
+   3. margin-top: 50px - 顶部留白，避免被工具栏遮挡
+   ============================================ */
+.phone-mockup {
+    transition: transform var(--transition-base);
+    transform-origin: center top;
+    will-change: transform;
+    margin-top: 60px;  /* 为工具栏留出空间 */
+    /* 初始缩放由 JS 计算，这里不设默认值 */
+}
+
+/* 手机外框 - 黑色边框设计 */
+.phone-frame {
+    background: var(--phone-frame-bg);        /* 深黑色背景 */
+    border-radius: 44px;         /* 圆角，模拟 iPhone */
+    padding: 6px;                /* 内边距，形成窄边框效果（现代手机极窄边框） */
+    box-shadow:
+        0 0 0 2px var(--phone-frame-stroke),          /* 内圈描边 */
+        0 25px 50px -12px rgba(0,0,0,0.25),  /* 外层阴影 */
+        0 50px 100px -24px rgba(0,0,0,0.15); /* 深层阴影 */
+}
+
+/* 手机屏幕 - 内容显示区域
+   尺寸：375px x 700px (iPhone 14 Pro 比例)
+   注意：实际显示大小受 .phone-mockup 的 transform: scale() 影响
+*/
+.phone-screen {
+    background: var(--color-bg);
+    border-radius: 38px;         /* 屏幕圆角（44px - 6px padding，匹配窄边框） */
+    overflow: hidden;            /* 内容裁剪 */
+    width: 375px;                /* 屏幕宽度 */
+    height: 700px;               /* 屏幕高度（从 812px 减小以适配预览区） */
+    position: relative;          /* 用于定位底部指示条 */
+}
+
+/* 缩放控制 - 与版本选择器、设备选择器保持一致 */
+.scale-control {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 40px;
+    padding: 0 12px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+}
+
+.scale-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    transition: all var(--transition-fast);
+}
+
+.scale-btn:hover {
+    background: var(--color-bg-secondary);
+}
+
+.scale-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    min-width: 48px;
+    text-align: center;
+}
+
+/* ============================================
+   手机状态栏 - iOS 风格
+   P2 视觉升级：毛玻璃效果
+   ============================================ */
+.phone-status-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 100;
+}
+
+.status-time {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.status-icons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.status-signal {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+}
+
+.signal-bar {
+    width: 3px;
+    background: var(--color-text);
+    border-radius: 1px;
+}
+
+.signal-bar:nth-child(1) { height: 4px; }
+.signal-bar:nth-child(2) { height: 6px; }
+.signal-bar:nth-child(3) { height: 8px; }
+.signal-bar:nth-child(4) { height: 12px; }
+
+.status-wifi {
+    width: 16px;
+    height: 12px;
+    position: relative;
+}
+
+.status-wifi::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: var(--color-text);
+    border-radius: 50%;
+}
+
+.status-wifi::after {
+    content: '';
+    position: absolute;
+    bottom: 1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 8px;
+    border: 2px solid var(--color-text);
+    border-bottom: none;
+    border-radius: 16px 16px 0 0;
+}
+
+.status-battery {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.battery-body {
+    width: 22px;
+    height: 11px;
+    border: 1px solid var(--color-text);
+    border-radius: 3px;
+    padding: 2px;
+    position: relative;
+}
+
+.battery-body::after {
+    content: '';
+    position: absolute;
+    right: -3px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 5px;
+    background: var(--color-text);
+    border-radius: 0 1px 1px 0;
+}
+
+.battery-level {
+    width: 80%;
+    height: 100%;
+    background: var(--color-text);
+    border-radius: 1px;
+}
+
+/* ============================================
+   手机导航栏 - 通用顶部导航
+   P2 视觉升级：毛玻璃效果 + 更精致的分隔线
+   ============================================ */
+.phone-nav-bar {
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    z-index: 99;
+    border-bottom: 0.5px solid rgba(0,0,0,0.08);
+}
+
+.nav-back {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--app-primary, #1677FF);
+    border-radius: 50%;
+    transition: background 0.15s ease;
+}
+
+.nav-back:active { background: rgba(0,0,0,0.06); }
+
+.nav-title {
+    flex: 1;
+    text-align: center;
+    font-size: var(--app-font-xl, 17px);
+    font-weight: var(--app-font-weight-bold, 600);
+    color: var(--app-text-title, #111111);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nav-action {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--app-primary, #1677FF);
+}
+
+/* 手机底部指示条 */
+.phone-home-indicator {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 134px;
+    height: 5px;
+    background: var(--color-text);
+    border-radius: var(--radius-full);
+    opacity: 0.2;
+}
+
+/* ============================================
+   右侧讲解面板
+   ============================================ */
+
+.explanation-panel {
+    background: var(--color-bg);
+    border-left: 1px solid var(--color-border-light);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 场景标签 */
+.scenario-tabs {
+    display: flex;
+    gap: var(--space-xs);
+    padding: var(--space-lg);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.tab-btn {
+    flex: 1;
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-bg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.tab-btn:hover {
+    border-color: var(--color-text-secondary);
+}
+
+.tab-btn.active {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+}
+
+/* 讲解内容区 */
+.explanation-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+}
+
+/* 需求说明内容区 - 支持滚动 */
+.requirements-content {
+    flex: 1;
+    overflow-y: auto;
+    margin-top: var(--space-md);
+    padding-right: var(--space-sm);
+}
+
+/* 自定义滚动条样式 */
+.requirements-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.requirements-content::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-sm);
+}
+
+.requirements-content::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: var(--radius-sm);
+}
+
+.requirements-content::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-tertiary);
+}
+
+/* 需求说明区块 */
+.requirement-section {
+    margin-bottom: var(--space-lg);
+}
+
+.requirement-section h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-xs);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.requirement-section div {
+    font-size: 13px;
+    line-height: var(--app-line-height-loose);
+    color: var(--color-text);
+}
+
+.explanation-header {
+    margin-bottom: var(--space-lg);
+}
+
+.explanation-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.explanation-subtitle {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}
+
+.explanation-body {
+    color: var(--color-text-secondary);
+    line-height: var(--app-line-height-relaxed);
+    font-size: 0.9375rem;
+}
+
+.explanation-body p {
+    margin-bottom: var(--space-md);
+}
+
+/* 要点列表 */
+.key-points {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border-light);
+}
+
+.key-points-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-md);
+}
+
+.key-points-list {
+    list-style: none;
+}
+
+.key-point {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-sm) 0;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}
+
+.key-point::before {
+    content: '•';
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+/* ============================================
+   原型内容样式 - 手机内部展示
+   ============================================ */
+
+.prototype-content {
+    padding-bottom: 16px;
+    background: var(--app-bg-page);
+    min-height: auto;
+    overflow-y: auto;
+}
+
+/* 重置 .am-page 在手机模型内的 min-height
+   .am-page 默认 min-height:100vh 参照浏览器视口高度，
+   在 phone-screen（700px）内会导致内容溢出，
+   这里重置为 auto 让内容自适应手机屏幕 */
+.phone-screen .am-page {
+    min-height: auto;
+}
+
+/* 原型卡片 */
+.proto-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-md);
+}
+
+.proto-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+}
+
+.proto-text {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+}
+
+.proto-badge {
+    display: inline-flex;
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-sm);
+}
+
+.proto-badge-primary {
+    background: var(--color-primary);
+    color: white;
+}
+
+/* 错误状态 */
+.proto-error {
+    background: var(--app-error-light);
+    border: 1px solid var(--app-error-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2xl);
+    text-align: center;
+}
+
+.proto-error-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-md);
+}
+
+.proto-error-title {
+    font-weight: 600;
+    color: var(--app-error-text);
+    margin-bottom: var(--space-xs);
+}
+
+.proto-error-text {
+    font-size: 0.875rem;
+    color: var(--app-error-text-dark);
+}
+
+/* 按钮 */
+.proto-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-sm) var(--space-lg);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    border-radius: var(--radius-full);
+    border: none;
+    cursor: pointer;
+    margin-top: var(--space-md);
+}
+
+.proto-btn-primary {
+    background: var(--color-primary);
+    color: white;
+}
+
+/* 列表 */
+.proto-list {
+    list-style: none;
+}
+
+.proto-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md) 0;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.proto-list-item:last-child {
+    border-bottom: none;
+}
+
+/* 价格 */
+.proto-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.proto-price-original {
+    font-size: 1rem;
+    text-decoration: line-through;
+    color: var(--color-text-tertiary);
+    margin-left: var(--space-sm);
+}
+
+/* 规格选择 */
+.proto-specs {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.proto-spec {
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    background: var(--color-bg);
+}
+
+.proto-spec.active {
+    border-color: var(--color-primary);
+    background: var(--color-bg-secondary);
+}
+
+/* 统计数字 */
+.proto-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: var(--space-lg) 0;
+    margin-top: var(--space-lg);
+    border-top: 1px solid var(--color-border-light);
+}
+
+.proto-stat {
+    text-align: center;
+}
+
+.proto-stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.proto-stat-label {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    margin-top: var(--space-xs);
+}
+
+/* 标签页 */
+.proto-tabs {
+    display: flex;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+
+.proto-tab {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: var(--radius-full);
+    background: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+}
+
+.proto-tab.active {
+    background: var(--color-primary);
+    color: white;
+}
+
+/* 订单信息 */
+.proto-order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-sm);
+}
+
+.proto-order-id {
+    font-size: 0.8125rem;
+    color: var(--color-text-tertiary);
+}
+
+.proto-order-status {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-primary);
+}
+
+/* 底部结算栏 */
+.proto-checkout {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--color-bg);
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-md);
+}
+
+.proto-checkout-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+}
+
+.proto-checkout-total {
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.proto-checkout-btn {
+    width: 100%;
+    padding: var(--space-md);
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-full);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}

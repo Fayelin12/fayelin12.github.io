@@ -1,0 +1,828 @@
+/* ============================================================
+   产品管理端 — H5 设计体系 (8px grid)
+   【自动生成】请勿直接编辑，修改 miniprogram-base.acss 后重新运行 node css/build-h5-from-acss.js
+   ============================================================ */
+
+/* ---- 基础 ---- */
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--app-font); color: var(--app-text); }
+
+/* ---- 基础重置 ---- */
+/* ---- 布局容器 ---- */
+.am-page {
+  min-height: 100vh;
+  background: var(--app-bg-page);
+  padding: var(--app-space-lg);
+}
+.am-page--pb {
+  padding-bottom: 48px;
+}
+/* ---- 文本体系 (8px grid: 10/12/14/16) ----
+   P2: 基础色 #333→#1F1F1F，对比度更高
+*/
+.am-text {
+  font-size: var(--app-font-md);
+  color: var(--app-text);
+  line-height: 1.5;
+}
+.am-text--lg {
+  font-size: var(--app-font-lg);
+  letter-spacing: -0.01em;
+}
+.am-text--md {
+  font-size: var(--app-font-md);
+}
+.am-text--sm {
+  font-size: var(--app-font-sm);
+}
+.am-text--xs {
+  font-size: var(--app-font-xs);
+}
+.am-text--bold {
+  font-weight: 600;
+}
+.am-text--medium {
+  font-weight: 500;
+}
+.am-text--center {
+  text-align: center;
+}
+.am-text--right {
+  text-align: right;
+}
+.am-text--relaxed {
+  line-height: 1.75;
+}
+/* ---- 色彩 ----
+   P2: secondary #666→#5C5C5C，tertiary #999→#AAAAAA
+*/
+.am-text--primary {
+  color: var(--app-primary);
+}
+.am-text--secondary {
+  color: var(--app-text-secondary);
+}
+.am-text--tertiary {
+  color: var(--app-text-tertiary);
+}
+.am-text--warning {
+  color: var(--app-warning);
+}
+.am-text--white {
+  color: var(--app-white);
+}
+/* ---- 弹性布局 ---- */
+.am-flex {
+  display: flex;
+}
+.am-flex-column {
+  display: flex;
+  flex-direction: column;
+}
+.am-flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.am-flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.am-flex-1 {
+  flex: 1;
+}
+.am-items-center {
+  align-items: center;
+}
+/* ---- 间距工具 (8px grid: 8/16/24/32/40/48) ---- */
+.am-mt-1 {
+  margin-top: var(--app-space-xs);
+}
+.am-mb-1 {
+  margin-bottom: var(--app-space-xs);
+}
+.am-mt-2 {
+  margin-top: var(--app-space-sm);
+}
+.am-mb-2 {
+  margin-bottom: var(--app-space-sm);
+}
+.am-mt-3 {
+  margin-top: var(--app-space-md);
+}
+.am-mb-3 {
+  margin-bottom: var(--app-space-md);
+}
+.am-mt-4 {
+  margin-top: var(--app-space-lg);
+}
+.am-mb-4 {
+  margin-bottom: var(--app-space-lg);
+}
+.am-mt-5 {
+  margin-top: var(--app-space-xl);
+}
+.am-mb-5 {
+  margin-bottom: var(--app-space-xl);
+}
+.am-mt-6 {
+  margin-top: var(--app-space-xl);
+}
+.am-mb-6 {
+  margin-bottom: var(--app-space-xl);
+}
+.am-ml-1 {
+  margin-left: var(--app-space-xs);
+}
+.am-mr-1 {
+  margin-right: var(--app-space-xs);
+}
+.am-ml-2 {
+  margin-left: var(--app-space-sm);
+}
+.am-mr-2 {
+  margin-right: var(--app-space-sm);
+}
+.am-ml-3 {
+  margin-left: var(--app-space-md);
+}
+.am-mr-3 {
+  margin-right: var(--app-space-md);
+}
+.am-ml-4 {
+  margin-left: var(--app-space-lg);
+}
+.am-mr-4 {
+  margin-right: var(--app-space-lg);
+}
+.am-p-2 {
+  padding: var(--app-space-sm);
+}
+.am-pt-4 {
+  padding-top: var(--app-space-lg);
+}
+.am-pb-4 {
+  padding-bottom: var(--app-space-lg);
+}
+.am-px-4 {
+  padding-left: var(--app-space-lg);
+  padding-right: var(--app-space-lg);
+}
+.am-gap-1 {
+  gap: var(--app-space-xs);
+}
+.am-gap-2 {
+  gap: var(--app-space-sm);
+}
+.am-gap-3 {
+  gap: var(--app-space-md);
+}
+.am-gap-4 {
+  gap: var(--app-space-lg);
+}
+.am-w-full {
+  width: 100%;
+}
+.am-h-full {
+  height: 100%;
+}
+.am-rounded-md {
+  border-radius: var(--app-radius-sm);
+}
+.am-rounded-lg {
+  border-radius: var(--app-radius-md);
+}
+.am-leading-none {
+  line-height: 1;
+}
+.am-opacity-60 {
+  opacity: 0.6;
+}
+/* ---- 分割线 ---- */
+.am-border-top {
+  border-top: 1px solid var(--app-border-light);
+}
+/* ---- 按钮 ----
+   P2: 圆角 8→16rpx，主按钮渐变，block 模式高度增加
+*/
+.am-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 24px;
+  font-size: var(--app-font-md);
+  font-weight: 500;
+  border-radius: var(--app-radius-md);
+  border: none;
+  box-sizing: border-box;
+  line-height: 1;
+}
+.am-button--block {
+  display: flex;
+  width: 100%;
+  height: 48px;
+  font-size: var(--app-font-lg);
+}
+.am-button--primary {
+  background: linear-gradient(135deg, #4D94FF 0%, var(--app-primary) 100%);
+  color: var(--app-white);
+  box-shadow: 0 2px 8px rgba(22, 119, 255, 0.3);
+}
+.am-button--warning {
+  background: var(--app-warning-light);
+  color: var(--app-warning-text);
+}
+.am-button--info {
+  background: var(--app-primary-light);
+  color: var(--app-info-text);
+}
+.am-button--danger {
+  background: var(--app-danger-light);
+  color: var(--app-danger);
+}
+.am-button--disabled,
+.am-button[disabled] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+/* ---- 输入框 ----
+   P2: 边框色更柔和，内联输入框聚焦底线
+*/
+.am-input {
+  display: block;
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  font-size: var(--app-font-md);
+  color: var(--app-text);
+  background: var(--app-white);
+  border: 1px solid var(--app-border-light);
+  border-radius: var(--app-radius-sm);
+  outline: none;
+  box-sizing: border-box;
+}
+.am-input:focus {
+  border-color: var(--app-primary);
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.1);
+}
+.am-input::placeholder {
+  color: var(--app-text-placeholder);
+}
+.am-input--inline {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0;
+  height: auto;
+  border-bottom: 1.5px solid transparent;
+  border-radius: 0;
+}
+.am-input--inline:focus {
+  border-bottom-color: var(--app-primary);
+  box-shadow: none;
+}
+.am-input--danger {
+  border-color: var(--app-danger);
+}
+.am-input--disabled,
+.am-input[disabled] {
+  opacity: 0.4;
+}
+/* ---- 卡片 ----
+   P2: 圆角 16→24rpx，双层阴影+微妙边框，footer 微背景
+*/
+.am-card {
+  background: var(--app-white);
+  border-radius: var(--app-radius-lg);
+  margin-bottom: var(--app-space-md);
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.04);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04),
+    0 4px 12px rgba(0,0,0,0.06);
+}
+.am-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--app-space-lg);
+  border-bottom: 1px solid var(--app-border-light);
+}
+.am-card__title {
+  font-size: var(--app-font-lg);
+  font-weight: 600;
+  color: var(--app-text-title);
+  letter-spacing: -0.01em;
+}
+.am-card__extra {
+  font-size: var(--app-font-sm);
+  color: var(--app-text-tertiary);
+}
+.am-card__body {
+  padding: var(--app-space-lg);
+}
+.am-card__body--flush {
+  padding: 0;
+}
+.am-card__footer {
+  padding: 12px 16px;
+  border-top: 1px solid var(--app-border-light);
+  font-size: var(--app-font-sm);
+  color: var(--app-text-tertiary);
+  background: rgba(0,0,0,0.01);
+}
+.am-card--no-shadow {
+  box-shadow: none;
+}
+.am-card--danger {
+  border: 1px solid var(--app-danger-light);
+  background: var(--app-danger-light);
+}
+/* ---- 步骤条 (P3 胶囊徽章重构) ----
+   圆形图标 + 绝对定位线 → 胶囊徽章 + flex 连接线
+*/
+.am-steps {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px 20px;
+  background: var(--app-white);
+  border-radius: var(--app-radius-lg);
+  margin-bottom: var(--app-space-md);
+  overflow: visible;
+}
+.am-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.am-step__badge {
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--app-bg-page);
+  color: var(--app-text-tertiary);
+  border: 1.5px solid var(--app-border-light);
+  line-height: 1;
+}
+.am-step--active .am-step__badge {
+  background: var(--app-primary);
+  color: var(--app-white);
+  border-color: var(--app-primary);
+  box-shadow: 0 2px 8px rgba(22, 119, 255, 0.35);
+  transform: scale(1.05);
+}
+.am-step--completed .am-step__badge {
+  background: var(--app-success);
+  color: var(--app-white);
+  border-color: var(--app-success);
+}
+.am-step__label {
+  font-size: 11px;
+  color: var(--app-text-tertiary);
+  margin-top: 6px;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+.am-step--active .am-step__label {
+  color: var(--app-primary);
+  font-weight: 500;
+  font-size: var(--app-font-sm);
+}
+.am-step--completed .am-step__label {
+  color: var(--app-success);
+}
+.am-step__connector {
+  flex: 1;
+  height: 2px;
+  margin-top: 13px;
+  background: var(--app-border-light);
+  border-radius: 1px;
+  min-width: 16px;
+}
+.am-step__connector--completed {
+  background: var(--app-success);
+}
+.am-step__connector--active {
+  background: linear-gradient(90deg, var(--app-success), var(--app-primary));
+}
+/* ---- 列表项 ----
+   P2: 分隔线更精致，标题字重 medium
+*/
+.am-list-item {
+  display: flex;
+  align-items: center;
+  padding: var(--app-space-lg);
+  min-height: 48px;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  background: var(--app-white);
+}
+.am-list-item:last-child {
+  border-bottom: none;
+}
+.am-list-item__title {
+  font-size: var(--app-font-md);
+  color: var(--app-text);
+  flex-shrink: 0;
+  margin-right: var(--app-space-md);
+  font-weight: 500;
+}
+.am-list-item__content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.am-list-item__extra {
+  font-size: var(--app-font-md);
+  color: var(--app-text);
+  text-align: right;
+}
+.am-list-item__arrow {
+  margin-left: var(--app-space-xs);
+  color: var(--app-text-placeholder);
+}
+/* ---- 车牌选择区 (P3 真实车牌视觉) ----
+   蓝牌: #1677FF 蓝底 + 白字
+   新能源绿牌: #00B578 绿底 + 白字
+*/
+.am-license-prefix {
+  width: 48px;
+  height: 44px;
+  background: var(--app-primary);
+  border-radius: var(--app-radius-sm);
+  border: 1px solid rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--app-white);
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(22, 119, 255, 0.2);
+}
+.am-license-newenergy {
+  width: 60px;
+  height: 44px;
+  background: var(--app-success);
+  border-radius: var(--app-radius-sm);
+  border: 1px solid rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--app-font-xs);
+  font-weight: 600;
+  color: var(--app-white);
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 181, 120, 0.2);
+  line-height: 1.3;
+}
+/* ---- 车牌输入框组 (P3 蓝色边框) ---- */
+.am-input-group {
+  display: flex;
+  gap: 0;
+  align-items: center;
+  background: var(--app-white);
+  border: 2px solid var(--app-primary);
+  border-radius: 6px;
+  padding: var(--app-space-xs);
+  box-shadow: 0 1px 4px rgba(22, 119, 255, 0.12);
+}
+.am-input-group > .am-license-prefix {
+  margin: 0;
+  border-radius: 3px;
+  box-shadow: none;
+}
+.am-input-group > .am-input {
+  flex: 1;
+  border: none !important;
+  background: transparent !important;
+  padding: 0 8px;
+  height: auto;
+  font-family: "DIN Alternate", "Helvetica Neue", monospace;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--app-text);
+  border-left: 2px solid var(--app-primary) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.am-input-group > .am-license-newenergy {
+  margin: 0;
+  border-radius: 3px;
+  box-shadow: none;
+}
+/* ---- 协议勾选 ----
+   P2: 复选框 40→44rpx，边框更清晰 4rpx solid #CCCCCC
+*/
+.am-checkbox-row {
+  display: flex;
+  align-items: center;
+  padding: var(--app-space-lg);
+  gap: var(--app-space-sm);
+}
+.am-checkbox {
+  display: flex;
+  align-items: center;
+}
+.am-checkbox__check {
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--app-border);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: transparent;
+}
+.am-checkbox--checked .am-checkbox__check {
+  background: var(--app-primary);
+  border-color: var(--app-primary);
+  color: var(--app-white);
+}
+/* ---- 帮助图标 ----
+   P2: 尺寸 28→32rpx，边框更清晰
+*/
+.am-help-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--app-text-tertiary);
+  border-radius: 50%;
+  font-size: var(--app-font-xs);
+  color: var(--app-text-tertiary);
+  margin-left: var(--app-space-xs);
+  vertical-align: middle;
+}
+/* ---- 按钮副标题 ---- */
+.am-button__subtitle {
+  color: rgba(255,255,255,0.85);
+  font-size: 11px;
+  margin-top: 2px;
+}
+/* ---- 隐私文字 ----
+   P2: 颜色更柔和，字体小一号
+*/
+.am-text--privacy {
+  display: block;
+  text-align: center;
+  padding: 16px 16px 24px;
+  line-height: 1.6;
+  color: var(--app-text-tertiary);
+  font-size: var(--app-font-sm);
+}
+/* ---- 动画 ---- */
+@keyframes am-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================
+   H5 预览框架样式与基础修正（不影响小程序视觉保真度）
+   本文件仅保留 H5 预览框架样式和不影响保真度的基础修正，
+   所有小程序不支持/表现不一致的视觉增强已移除。
+   ============================================================ */
+
+/* ---- 页面容器 H5 修正 ----
+   保留原因：H5 预览框架需要预留状态栏+导航栏空间（80px），
+   这是预览容器层面的差异，不是小程序内容区样式。
+*/
+.am-page {
+  padding: 80px var(--app-space-lg) var(--app-space-lg);
+  font-family: var(--app-font);
+}
+
+/* ---- 按钮 H5 基础修正 ----
+   保留原因：cursor 仅影响鼠标指针样式，小程序无 cursor 概念，
+   不影响视觉输出；-webkit-tap-highlight-color 消除移动端浏览器
+   点击高亮，更接近小程序原生体验。
+   已移除：transition、transform、filter、box-shadow 等动画/增强效果。
+*/
+.am-button {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---- 卡片 H5 基础修正 ----
+   已移除：transition、hover 时的增强阴影和位移效果。
+   卡片基础 box-shadow 由 miniprogram-base.acss 提供，与小程序一致。
+*/
+/* （无保留的 H5 特有覆盖） */
+
+/* ---- 输入框 H5 基础修正 ----
+   已移除：transition、focus::placeholder 颜色变化等 H5 特有交互效果。
+   输入框基础样式由 miniprogram-base.acss 提供，与小程序一致。
+*/
+/* （无保留的 H5 特有覆盖） */
+
+/* ---- 列表项 H5 基础修正 ----
+   已移除：transition、active 时的半透明背景增强。
+   列表项基础样式由 miniprogram-base.acss 提供，与小程序一致。
+*/
+/* （无保留的 H5 特有覆盖） */
+
+/* ---- 车牌 H5 基础修正 ----
+   保留原因：font-family 为字体回退策略，letter-spacing 为等效渲染。
+   已移除：cursor、transition、active 时的 brightness 滤镜。
+*/
+.am-license-prefix {
+  letter-spacing: 1px;
+  font-family: "DIN Alternate", "Helvetica Neue", sans-serif;
+}
+
+/* ---- 帮助图标 H5 基础修正 ----
+   已移除：transition、cursor、hover 时的颜色/边框变化。
+   帮助图标基础样式由 miniprogram-base.acss 提供，与小程序一致。
+*/
+/* （无保留的 H5 特有覆盖） */
+
+/* ---- 隐私文字 H5 基础修正 ----
+   保留原因：line-height 和链接颜色属于语义正确的基础样式，小程序同样支持。
+*/
+.am-text--privacy {
+  line-height: var(--app-line-height-relaxed);
+}
+.am-text--privacy a,
+.am-text--privacy span[class*="primary"] {
+  color: var(--app-primary);
+  text-decoration: none;
+}
+
+/* ---- 步骤条 H5 基础修正 ----
+   已移除：badge、label、connector 的 transition 动画效果。
+   步骤条基础样式由 miniprogram-base.acss 提供，与小程序一致。
+*/
+/* （无保留的 H5 特有覆盖） */
+
+/* ---- 复选框 H5 基础修正 ----
+   已移除：check 图标的 transition 和 scale(1) transform。
+   复选框基础样式由 miniprogram-base.acss 提供，与小程序一致。
+*/
+/* （无保留的 H5 特有覆盖） */
+
+/* ---- 导航栏（H5 预览专用外壳） ----
+   保留原因：导航栏是 H5 预览框架的外壳，不是小程序代码导出的内容。
+   已移除：backdrop-filter（小程序支持但实现差异大）、
+   back 按钮的 transition 和 active 背景效果。
+*/
+.am-nav-bar {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 24px;
+  left: 0;
+  right: 0;
+  height: 44px;
+  padding: 0 var(--app-space-lg);
+  background: rgba(255, 255, 255, 0.88);
+  z-index: 99;
+  border-bottom: 0.5px solid rgba(0,0,0,0.08);
+}
+.am-nav-bar__back {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--app-primary);
+  cursor: pointer;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.am-nav-bar__title {
+  flex: 1;
+  text-align: center;
+  font-size: var(--app-font-xl);
+  font-weight: var(--app-font-weight-bold);
+  color: var(--app-text-title);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.am-nav-bar__capsule {
+  display: flex;
+  align-items: center;
+  border: 0.5px solid rgba(0,0,0,0.15);
+  border-radius: 16px;
+  overflow: hidden;
+  height: 28px;
+  background: rgba(0,0,0,0.04);
+}
+.am-nav-bar__capsule-left,
+.am-nav-bar__capsule-right {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.am-nav-bar__capsule-left::after {
+  content: '\2026';
+  font-size: 18px;
+  font-weight: 700;
+  color: rgba(0,0,0,0.45);
+  line-height: 1;
+}
+.am-nav-bar__capsule-right::after {
+  content: '\25cb';
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(0,0,0,0.45);
+  line-height: 1;
+}
+.am-nav-bar__capsule-divider {
+  width: 0.5px;
+  height: 16px;
+  background: rgba(0,0,0,0.1);
+}
+
+/* ---- 输入框组 placeholder（H5 特有基础修正） ----
+   保留原因：H5 预览对输入框 placeholder 的基础样式修正，属于等效渲染。
+*/
+.am-input-group > .am-input::placeholder {
+  color: var(--app-text-placeholder);
+  letter-spacing: 1px;
+  font-weight: 400;
+}
+
+/* ---- 输入框组旧结构（H5 预览特有） ----
+   保留原因：H5 预览端旧版输入框组的结构样式，属于预览框架实现细节。
+*/
+.am-input-group__prefix {
+  width: 48px;
+  flex-shrink: 0;
+  text-align: center;
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--app-text);
+  padding: 0;
+  height: auto;
+}
+.am-input-group__input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0 8px;
+  height: auto;
+  font-family: "DIN Alternate", "Helvetica Neue", monospace;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--app-text);
+  border-left: 2px solid #1677FF;
+  border-radius: 0;
+}
+.am-input-group__input::placeholder {
+  color: var(--app-text-placeholder);
+  letter-spacing: 1px;
+  font-weight: 400;
+}
+.am-input-group__suffix {
+  width: 48px;
+  flex-shrink: 0;
+  text-align: center;
+  color: #FFFFFF;
+  border-color: #00B578;
+  background: #00B578;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  height: auto;
+  padding: 4px 0;
+  line-height: 1.3;
+}
+
+/* ---- 表单行变体 ----
+   保留原因：基础样式变体，不影响保真度。
+*/
+.am-list-item--no-border {
+  border-bottom: none;
+}
+
+/* ---- 复选框行 ----
+   保留原因：布局基础样式，cursor 仅影响鼠标交互提示，无视觉差异。
+*/
+.am-checkbox-row-inline {
+  display: flex;
+  gap: var(--app-space-sm);
+  align-items: center;
+  cursor: pointer;
+}

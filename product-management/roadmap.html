@@ -1,0 +1,2016 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>迭代计划 - 产品评审助手</title>
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        /* 迭代计划页面专用样式 */
+        .roadmap-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-2xl) var(--space-xl);
+        }
+
+        .roadmap-header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .roadmap-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--space-sm);
+        }
+
+        .roadmap-header p {
+            color: var(--color-text-secondary);
+            font-size: 1rem;
+        }
+
+        .version-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .version-card {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .version-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .version-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--color-primary);
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+
+        .version-card:hover::before {
+            opacity: 1;
+        }
+
+        .version-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-md);
+        }
+
+        .version-label {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .version-status {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--space-xs) var(--space-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+        }
+
+        .version-status--online {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .version-status--dev {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .version-status--new {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .version-description {
+            color: var(--color-text-secondary);
+            font-size: 0.9375rem;
+            margin-bottom: var(--space-lg);
+            line-height: 1.6;
+        }
+
+        .version-meta {
+            display: flex;
+            gap: var(--space-lg);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--color-border-light);
+        }
+
+        .version-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+
+        .version-meta-label {
+            font-size: 0.75rem;
+            color: var(--color-text-tertiary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .version-meta-value {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .version-arrow {
+            position: absolute;
+            right: var(--space-xl);
+            bottom: var(--space-xl);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-full);
+            font-size: 1.25rem;
+            transition: all var(--transition-fast);
+        }
+
+        .version-card:hover .version-arrow {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .version-empty {
+            text-align: center;
+            padding: var(--space-3xl) 0;
+            color: var(--color-text-tertiary);
+        }
+
+        /* 版本卡片操作区域 */
+        .version-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
+        }
+
+        /* 按钮统一：每行2个 */
+        .version-actions > button {
+            flex: 1 1 calc(50% - 4px);
+            justify-content: center;
+        }
+
+        .version-export-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--color-primary);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .version-export-btn:hover {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .version-export-btn:active {
+            transform: scale(0.96);
+        }
+
+        .version-export-btn.exporting {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* 导出小程序按钮 */
+        .version-axml-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: #059669;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .version-axml-btn:hover {
+            background: #059669;
+            color: white;
+            border-color: #059669;
+        }
+
+        .version-axml-btn:active {
+            transform: scale(0.96);
+        }
+
+        .version-axml-btn.exporting {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* 删除按钮 */
+        .version-delete-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: #dc2626;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .version-delete-btn:hover:not(:disabled) {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
+        }
+
+        .version-delete-btn:active:not(:disabled) {
+            transform: scale(0.96);
+        }
+
+        .version-delete-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #f3f4f6;
+            color: #9ca3af;
+            border-color: #e5e7eb;
+        }
+
+        /* 永久删除按钮 */
+        .version-permanent-delete-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: #dc2626;
+            background: #fef2f2;
+            border: 1.5px solid #dc2626;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .version-permanent-delete-btn:hover:not(:disabled) {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
+        }
+
+        .version-permanent-delete-btn:active:not(:disabled) {
+            transform: scale(0.96);
+        }
+
+        .version-permanent-delete-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #f3f4f6;
+            color: #9ca3af;
+            border-color: #e5e7eb;
+        }
+
+        /* 删除确认弹窗 */
+        .delete-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+
+        .delete-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .delete-modal-card {
+            background: var(--color-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 480px;
+            margin: var(--space-xl);
+            padding: var(--space-xl);
+            transform: scale(0.92);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .delete-modal-overlay.active .delete-modal-card {
+            transform: scale(1);
+        }
+
+        .delete-modal-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
+        }
+
+        .delete-modal-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fef2f2;
+            border-radius: var(--radius-full);
+            font-size: 1.25rem;
+            color: #dc2626;
+            flex-shrink: 0;
+        }
+
+        .delete-modal-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--color-text);
+            line-height: 1.4;
+        }
+
+        .delete-modal-subtitle {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            margin-top: 2px;
+        }
+
+        .delete-modal-body {
+            margin-bottom: var(--space-lg);
+        }
+
+        .delete-modal-info {
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .delete-modal-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-xs) 0;
+            font-size: 0.875rem;
+        }
+
+        .delete-modal-info-label {
+            color: var(--color-text-secondary);
+        }
+
+        .delete-modal-info-value {
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .delete-modal-warning {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+            padding: var(--space-md);
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            color: #c2410c;
+            line-height: 1.5;
+        }
+
+        .delete-modal-warning-icon {
+            flex-shrink: 0;
+            font-size: 1rem;
+            margin-top: 1px;
+        }
+
+        .delete-modal-confirm {
+            margin-top: var(--space-md);
+        }
+
+        .delete-modal-confirm-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text);
+            margin-bottom: var(--space-sm);
+            display: block;
+        }
+
+        .delete-modal-confirm-label code {
+            background: var(--color-bg-secondary);
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            font-family: ui-monospace, monospace;
+            font-size: 0.8125rem;
+            color: #dc2626;
+            font-weight: 700;
+        }
+
+        .delete-modal-input {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 0.9375rem;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background: var(--color-bg);
+            color: var(--color-text);
+            outline: none;
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+            box-sizing: border-box;
+        }
+
+        .delete-modal-input:focus {
+            border-color: #dc2626;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+
+        .delete-modal-input::placeholder {
+            color: var(--color-text-tertiary);
+        }
+
+        .delete-modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+
+        .delete-modal-btn {
+            padding: 10px 20px;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: none;
+            outline: none;
+        }
+
+        .delete-modal-btn:hover {
+            opacity: 0.9;
+        }
+
+        .delete-modal-btn:active {
+            transform: scale(0.97);
+        }
+
+        .delete-modal-btn--cancel {
+            background: var(--color-bg-secondary);
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+        }
+
+        .delete-modal-btn--cancel:hover {
+            background: var(--color-border-light);
+        }
+
+        .delete-modal-btn--confirm {
+            background: #dc2626;
+            color: white;
+        }
+
+        .delete-modal-btn--confirm:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .delete-modal-btn--confirm:not(:disabled):hover {
+            background: #b91c1c;
+        }
+
+        /* 永久删除确认弹窗 - 更强烈的红色警告 */
+        .permanent-delete-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+
+        .permanent-delete-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .permanent-delete-modal-card {
+            background: var(--color-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 520px;
+            margin: var(--space-xl);
+            padding: var(--space-xl);
+            transform: scale(0.92);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid #fecaca;
+        }
+
+        .permanent-delete-modal-overlay.active .permanent-delete-modal-card {
+            transform: scale(1);
+        }
+
+        .permanent-delete-modal-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
+        }
+
+        .permanent-delete-modal-icon {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #dc2626;
+            border-radius: var(--radius-full);
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .permanent-delete-modal-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #991b1b;
+            line-height: 1.4;
+        }
+
+        .permanent-delete-modal-subtitle {
+            font-size: 0.875rem;
+            color: #dc2626;
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        .permanent-delete-modal-body {
+            margin-bottom: var(--space-lg);
+        }
+
+        .permanent-delete-modal-info {
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .permanent-delete-modal-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-xs) 0;
+            font-size: 0.875rem;
+        }
+
+        .permanent-delete-modal-info-label {
+            color: var(--color-text-secondary);
+        }
+
+        .permanent-delete-modal-info-value {
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .permanent-delete-modal-danger-zone {
+            padding: var(--space-md);
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .permanent-delete-modal-danger-title {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #991b1b;
+            margin-bottom: var(--space-sm);
+        }
+
+        .permanent-delete-modal-danger-text {
+            font-size: 0.8125rem;
+            color: #b91c1c;
+            line-height: 1.6;
+        }
+
+        .permanent-delete-modal-confirm {
+            margin-top: var(--space-md);
+        }
+
+        .permanent-delete-modal-confirm-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text);
+            margin-bottom: var(--space-sm);
+            display: block;
+        }
+
+        .permanent-delete-modal-confirm-label code {
+            background: #fef2f2;
+            padding: 2px 6px;
+            border-radius: var(--radius-sm);
+            font-family: ui-monospace, monospace;
+            font-size: 0.8125rem;
+            color: #dc2626;
+            font-weight: 700;
+            border: 1px solid #fecaca;
+        }
+
+        .permanent-delete-modal-input {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 0.9375rem;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background: var(--color-bg);
+            color: var(--color-text);
+            outline: none;
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+            box-sizing: border-box;
+        }
+
+        .permanent-delete-modal-input:focus {
+            border-color: #dc2626;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+        }
+
+        .permanent-delete-modal-input::placeholder {
+            color: var(--color-text-tertiary);
+        }
+
+        .permanent-delete-modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+
+        .permanent-delete-modal-btn {
+            padding: 10px 20px;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: none;
+            outline: none;
+        }
+
+        .permanent-delete-modal-btn:hover {
+            opacity: 0.9;
+        }
+
+        .permanent-delete-modal-btn:active {
+            transform: scale(0.97);
+        }
+
+        .permanent-delete-modal-btn--cancel {
+            background: var(--color-bg-secondary);
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+        }
+
+        .permanent-delete-modal-btn--cancel:hover {
+            background: var(--color-border-light);
+        }
+
+        .permanent-delete-modal-btn--confirm {
+            background: #dc2626;
+            color: white;
+        }
+
+        .permanent-delete-modal-btn--confirm:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .permanent-delete-modal-btn--confirm:not(:disabled):hover {
+            background: #b91c1c;
+        }
+
+        /* 恢复已删除版本按钮 */
+        .restore-versions-bar {
+            margin-top: var(--space-2xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--color-border-light);
+            text-align: center;
+        }
+
+        .restore-versions-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: 10px 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .restore-versions-btn:hover {
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+            background: var(--color-bg);
+        }
+
+        .restore-versions-btn:active {
+            transform: scale(0.97);
+        }
+
+        .restore-versions-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-brand">产品评审助手</div>
+        <ul class="nav-tabs">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="preview.html">产品预览</a></li>
+            <li><a href="roadmap.html" class="active">迭代计划</a></li>
+            <li><a href="guide.html">使用指引</a></li>
+            <li><a href="faq.html">常见问题</a></li>
+        </ul>
+    </nav>
+
+    <main class="roadmap-container">
+        <div class="roadmap-header">
+            <h1>迭代计划</h1>
+            <p>管理产品版本迭代，点击版本卡片即可预览对应版本的产品原型</p>
+        </div>
+
+        <div class="version-grid" id="versionGrid">
+            <!-- 版本卡片和创建卡片由 JS 动态渲染 -->
+            <div class="version-empty">正在加载版本数据...</div>
+        </div>
+
+        <div class="restore-versions-bar" id="restoreVersionsBar" style="display:none;">
+            <button class="restore-versions-btn" id="restoreVersionsBtn" title="清空已删除记录，刷新后所有版本将重新显示">
+                <span>↩️</span>
+                <span>恢复已删除版本</span>
+            </button>
+        </div>
+    </main>
+
+    <!-- 隐藏确认弹窗 -->
+    <div class="delete-modal-overlay" id="deleteModalOverlay">
+        <div class="delete-modal-card" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+            <div class="delete-modal-header">
+                <div class="delete-modal-icon">👁️‍🗨️</div>
+                <div>
+                    <div class="delete-modal-title" id="deleteModalTitle">确认隐藏版本</div>
+                    <div class="delete-modal-subtitle" id="deleteModalSubtitle">隐藏后可通过刷新页面恢复</div>
+                </div>
+            </div>
+            <div class="delete-modal-body">
+                <div class="delete-modal-info" id="deleteModalInfo">
+                    <!-- 动态填充 -->
+                </div>
+                <div class="delete-modal-warning">
+                    <span class="delete-modal-warning-icon">🚨</span>
+                    <span>隐藏后该版本将从当前视图中移除，刷新页面后可恢复显示。</span>
+                </div>
+                <div class="delete-modal-confirm">
+                    <label class="delete-modal-confirm-label" for="deleteConfirmInput">
+                        请输入版本号 <code id="deleteConfirmCode">--</code> 以确认隐藏
+                    </label>
+                    <input type="text" id="deleteConfirmInput" class="delete-modal-input" placeholder="在此输入版本号" autocomplete="off">
+                </div>
+            </div>
+            <div class="delete-modal-footer">
+                <button class="delete-modal-btn delete-modal-btn--cancel" id="deleteModalCancel">取消</button>
+                <button class="delete-modal-btn delete-modal-btn--confirm" id="deleteModalConfirm" disabled>确认隐藏</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 永久删除确认弹窗 -->
+    <div class="permanent-delete-modal-overlay" id="permanentDeleteModalOverlay">
+        <div class="permanent-delete-modal-card" role="dialog" aria-modal="true" aria-labelledby="permanentDeleteModalTitle">
+            <div class="permanent-delete-modal-header">
+                <div class="permanent-delete-modal-icon">⚠️</div>
+                <div>
+                    <div class="permanent-delete-modal-title" id="permanentDeleteModalTitle">确认永久删除版本</div>
+                    <div class="permanent-delete-modal-subtitle" id="permanentDeleteModalSubtitle">此操作将永久删除该版本的所有数据，无法恢复</div>
+                </div>
+            </div>
+            <div class="permanent-delete-modal-body">
+                <div class="permanent-delete-modal-info" id="permanentDeleteModalInfo">
+                    <!-- 动态填充 -->
+                </div>
+                <div class="permanent-delete-modal-danger-zone">
+                    <div class="permanent-delete-modal-danger-title">
+                        <span>🚨</span>
+                        <span>危险操作警告</span>
+                    </div>
+                    <div class="permanent-delete-modal-danger-text">
+                        永久删除将从版本文件中移除该版本定义，同时清理所有关联的本地存储数据。<b>此操作不可撤销。</b>
+                    </div>
+                </div>
+                <div class="permanent-delete-modal-confirm">
+                    <label class="permanent-delete-modal-confirm-label" for="permanentDeleteConfirmInput">
+                        请输入 <code id="permanentDeleteConfirmCode">--</code> 以确认永久删除
+                    </label>
+                    <input type="text" id="permanentDeleteConfirmInput" class="permanent-delete-modal-input" placeholder="在此输入确认文本" autocomplete="off">
+                </div>
+            </div>
+            <div class="permanent-delete-modal-footer">
+                <button class="permanent-delete-modal-btn permanent-delete-modal-btn--cancel" id="permanentDeleteModalCancel">取消</button>
+                <button class="permanent-delete-modal-btn permanent-delete-modal-btn--confirm" id="permanentDeleteModalConfirm" disabled>确认永久删除</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载数据 -->
+    <script src="js/data.js"></script>
+    <script src="js/versions/v1.0.4.schema.js"></script>
+    <script>
+        (function() {
+            const grid = document.getElementById('versionGrid');
+            let pendingDeleteVersion = null;
+
+            // 检查数据
+            if (typeof versionData === 'undefined') {
+                grid.innerHTML = '<div class="version-empty">版本数据加载失败，请检查 data.js 和版本文件是否正确引入</div>';
+                return;
+            }
+
+            // 判断是否为线上版本
+            function isOnlineVersion(version) {
+                const desc = (getVersionDisplayInfo(version).description || '').toLowerCase();
+                return desc.includes('线上') || desc.includes('online') || desc.includes('当前');
+            }
+
+            // 状态映射
+            function getStatusInfo(version, index) {
+                const desc = getVersionDisplayInfo(version).description || '';
+                if (desc.includes('线上') || desc.includes('online') || desc.includes('当前')) {
+                    return { label: '线上', className: 'version-status--online' };
+                }
+                if (desc.includes('开发') || desc.includes('dev') || desc.includes('迭代')) {
+                    return { label: '开发中', className: 'version-status--dev' };
+                }
+                // 默认：最新版本标记为新版本，其余为开发中
+                const versions = Object.keys(versionData);
+                if (index === versions.length - 1) {
+                    return { label: '最新', className: 'version-status--new' };
+                }
+                return { label: '开发中', className: 'version-status--dev' };
+            }
+
+            // 统计页面数量（递归计算）
+            function countPages(pages) {
+                let count = 0;
+                for (const page of pages) {
+                    if (page.isFolder && page.children) {
+                        count += countPages(page.children);
+                    } else {
+                        count++;
+                    }
+                }
+                return count;
+            }
+
+            // 统计场景数量
+            function countScenarios(pages) {
+                let count = 0;
+                for (const page of pages) {
+                    if (page.isFolder && page.children) {
+                        count += countScenarios(page.children);
+                    } else if (page.scenarios) {
+                        count += Object.keys(page.scenarios).length;
+                    }
+                }
+                return count;
+            }
+
+            // 递归收集页面 ID
+            function collectPageIds(pages) {
+                const ids = [];
+                for (const page of (pages || [])) {
+                    if (page.isFolder && page.children) {
+                        ids.push(...collectPageIds(page.children));
+                    } else if (page.id) {
+                        ids.push(page.id);
+                    }
+                }
+                return ids;
+            }
+
+            // 收集所有剩余版本的页面 ID
+            function collectAllRemainingPageIds() {
+                const ids = new Set();
+                for (const [v, data] of Object.entries(versionData)) {
+                    collectPageIds(data.pages).forEach(id => ids.add(id));
+                }
+                return ids;
+            }
+
+            // 生成版本卡片 HTML
+            function renderVersionCard(version, index) {
+                const data = versionData[version];
+                const displayInfo = getVersionDisplayInfo(version);
+                const status = getStatusInfo(version, index);
+                const pageCount = countPages(data.pages || []);
+                const scenarioCount = countScenarios(data.pages || []);
+                const description = displayInfo.description || '暂无描述';
+                const online = isOnlineVersion(version);
+
+                return `
+                    <div class="version-card" data-version="${version}" title="点击预览 ${displayInfo.label}">
+                        <div class="version-card-header">
+                            <div class="version-label">${displayInfo.label}</div>
+                            <span class="version-status ${status.className}">${status.label}</span>
+                        </div>
+                        <div class="version-description">${description}</div>
+                        <div class="version-actions">
+                            <button class="version-export-btn" data-export-version="${version}" title="导出 ${displayInfo.label} JSON 备份">
+                                <span>📤</span>
+                                <span>导出数据</span>
+                            </button>
+                            <button class="version-axml-btn" data-axml-version="${version}" title="导出 ${displayInfo.label} 支付宝小程序工程">
+                                <span>📱</span>
+                                <span>导出小程序</span>
+                            </button>
+                            <button class="version-delete-btn" data-delete-version="${version}" title="${online ? '线上版本不允许隐藏' : '隐藏 ' + displayInfo.label}" ${online ? 'disabled' : ''}>
+                                <span>👁️‍🗨️</span>
+                                <span>隐藏</span>
+                            </button>
+                            <button class="version-permanent-delete-btn" data-permanent-delete-version="${version}" title="${online ? '线上版本不允许永久删除' : '永久删除 ' + displayInfo.label}" ${online ? 'disabled' : ''}>
+                                <span>⚠️</span>
+                                <span>永久删除</span>
+                            </button>
+                        </div>
+                        <div class="version-meta">
+                            <div class="version-meta-item">
+                                <span class="version-meta-label">页面</span>
+                                <span class="version-meta-value">${pageCount} 个</span>
+                            </div>
+                            <div class="version-meta-item">
+                                <span class="version-meta-label">场景</span>
+                                <span class="version-meta-value">${scenarioCount} 个</span>
+                            </div>
+                            <div class="version-meta-item">
+                                <span class="version-meta-label">版本号</span>
+                                <span class="version-meta-value">${version}</span>
+                            </div>
+                        </div>
+                        <div class="version-arrow">→</div>
+                    </div>
+                `;
+            }
+
+            // 生成创建新版本卡片的 HTML
+            function renderCreateCard() {
+                const versions = Object.keys(versionData);
+                const options = versions.map(v => `<option value="${v}">${v}</option>`).join('');
+
+                return `
+                    <div class="version-card create-version-card" id="createVersionCard">
+                        <div class="version-card-header">
+                            <div class="version-label">&#10133; 创建新版本</div>
+                        </div>
+                        <div style="margin-bottom: 12px;">
+                            <label style="font-size: 0.875rem; color: var(--color-text-secondary); display: block; margin-bottom: 4px;">
+                                基础版本
+                            </label>
+                            <select id="base-version-select" style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; font-size: 0.875rem; background: white;">
+                                ${options}
+                            </select>
+                        </div>
+                        <div style="margin-bottom: 12px;">
+                            <label style="font-size: 0.875rem; color: var(--color-text-secondary); display: block; margin-bottom: 4px;">
+                                版本显示名称
+                            </label>
+                            <input type="text" id="new-version-label" placeholder="如：V1.0.6 正式版"
+                                   style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; font-size: 0.875rem;" />
+                        </div>
+                        <div style="margin-bottom: 12px;">
+                            <label style="font-size: 0.875rem; color: var(--color-text-secondary); display: block; margin-bottom: 4px;">
+                                版本描述（可选）
+                            </label>
+                            <input type="text" id="new-version-desc" placeholder="如：基于 v1.0.4 迭代"
+                                   style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; font-size: 0.875rem;" />
+                        </div>
+                        <div style="margin-bottom: 12px; padding: 8px 12px; background: var(--color-bg-secondary, #f5f5f5); border-radius: 6px; border-left: 3px solid var(--color-primary);">
+                            <span style="font-size: 0.875rem; color: var(--color-text-secondary);">
+                                系统将创建版本：<strong id="auto-version-display" style="color: var(--color-primary);">--</strong>（基于当前最新版本自动递增）
+                            </span>
+                        </div>
+                        <button id="create-version-btn" style="width: 100%; padding: 10px; background: var(--color-primary); color: white; border: none; border-radius: 6px; font-size: 0.875rem; font-weight: 500; cursor: pointer;">
+                            创建新版本
+                        </button>
+                        <div id="create-version-info" style="margin-top: 8px; font-size: 0.75rem; color: var(--color-text-secondary); min-height: 20px;"></div>
+                    </div>
+                `;
+            }
+
+            // 渲染所有版本卡片
+            function renderVersions() {
+                const versions = Object.keys(versionData);
+                if (versions.length === 0) {
+                    grid.innerHTML = `
+                        <div class="version-empty">
+                            <div style="font-size: 3rem; margin-bottom: var(--space-md);">📭</div>
+                            <div style="font-size: 1.125rem; font-weight: 600; color: var(--color-text); margin-bottom: var(--space-sm);">暂无版本数据</div>
+                            <div style="font-size: 0.875rem;">所有版本已被删除，刷新页面可从版本文件重新加载</div>
+                        </div>
+                    ` + renderCreateCard();
+                    rebindCreateEvents();
+                    return;
+                }
+
+                grid.innerHTML = versions.map((v, i) => renderVersionCard(v, i)).join('') + renderCreateCard();
+                bindCardEvents();
+                rebindCreateEvents();
+                console.log('[roadmap.html] 版本列表已渲染:', versions);
+            }
+
+            // 绑定卡片相关事件
+            function bindCardEvents() {
+                // 卡片点击跳转
+                document.querySelectorAll('.version-card').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        if (e.target.closest('.version-export-btn') || e.target.closest('.version-axml-btn') || e.target.closest('.version-delete-btn') || e.target.closest('.version-permanent-delete-btn')) return;
+                        const version = card.dataset.version;
+                        if (version) {
+                            window.location.href = `preview.html?version=${encodeURIComponent(version)}`;
+                        }
+                    });
+                });
+
+                // 导出按钮事件
+                document.querySelectorAll('.version-export-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const version = btn.dataset.exportVersion;
+                        if (version) {
+                            exportVersionData(version, btn);
+                        }
+                    });
+                });
+
+                // 导出小程序按钮事件
+                document.querySelectorAll('.version-axml-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const version = btn.dataset.axmlVersion;
+                        if (version) {
+                            exportAxmlVersion(version, btn);
+                        }
+                    });
+                });
+
+                // 隐藏按钮事件
+                document.querySelectorAll('.version-delete-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const version = btn.dataset.deleteVersion;
+                        if (version && !isOnlineVersion(version)) {
+                            openDeleteModal(version);
+                        }
+                    });
+                });
+
+                // 永久删除按钮事件
+                document.querySelectorAll('.version-permanent-delete-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const version = btn.dataset.permanentDeleteVersion;
+                        if (version && !isOnlineVersion(version)) {
+                            openPermanentDeleteModal(version);
+                        }
+                    });
+                });
+            }
+
+            // ============ 删除确认弹窗 ============
+            const deleteModalOverlay = document.getElementById('deleteModalOverlay');
+            const deleteModalInfo = document.getElementById('deleteModalInfo');
+            const deleteConfirmCode = document.getElementById('deleteConfirmCode');
+            const deleteConfirmInput = document.getElementById('deleteConfirmInput');
+            const deleteModalCancel = document.getElementById('deleteModalCancel');
+            const deleteModalConfirm = document.getElementById('deleteModalConfirm');
+
+            function openDeleteModal(version) {
+                pendingDeleteVersion = version;
+                const data = versionData[version];
+                const displayInfo = getVersionDisplayInfo(version);
+                const pageCount = countPages(data?.pages || []);
+                const scenarioCount = countScenarios(data?.pages || []);
+
+                deleteModalInfo.innerHTML = `
+                    <div class="delete-modal-info-row">
+                        <span class="delete-modal-info-label">版本号</span>
+                        <span class="delete-modal-info-value">${version}</span>
+                    </div>
+                    <div class="delete-modal-info-row">
+                        <span class="delete-modal-info-label">版本名称</span>
+                        <span class="delete-modal-info-value">${displayInfo.label}</span>
+                    </div>
+                    <div class="delete-modal-info-row">
+                        <span class="delete-modal-info-label">页面数量</span>
+                        <span class="delete-modal-info-value">${pageCount} 个</span>
+                    </div>
+                    <div class="delete-modal-info-row">
+                        <span class="delete-modal-info-label">场景数量</span>
+                        <span class="delete-modal-info-value">${scenarioCount} 个</span>
+                    </div>
+                `;
+                deleteConfirmCode.textContent = version;
+                deleteConfirmInput.value = '';
+                deleteModalConfirm.disabled = true;
+                deleteModalOverlay.classList.add('active');
+                deleteConfirmInput.focus();
+            }
+
+            function closeDeleteModal() {
+                deleteModalOverlay.classList.remove('active');
+                pendingDeleteVersion = null;
+                deleteConfirmInput.value = '';
+                deleteModalConfirm.disabled = true;
+            }
+
+            deleteConfirmInput.addEventListener('input', () => {
+                deleteModalConfirm.disabled = deleteConfirmInput.value.trim() !== pendingDeleteVersion;
+            });
+
+            deleteConfirmInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && deleteConfirmInput.value.trim() === pendingDeleteVersion) {
+                    executeDelete();
+                }
+                if (e.key === 'Escape') {
+                    closeDeleteModal();
+                }
+            });
+
+            deleteModalCancel.addEventListener('click', closeDeleteModal);
+
+            deleteModalConfirm.addEventListener('click', () => {
+                if (deleteConfirmInput.value.trim() === pendingDeleteVersion) {
+                    executeDelete();
+                }
+            });
+
+            deleteModalOverlay.addEventListener('click', (e) => {
+                if (e.target === deleteModalOverlay) {
+                    closeDeleteModal();
+                }
+            });
+
+            // ============ 删除执行逻辑 ============
+            function executeDelete() {
+                const version = pendingDeleteVersion;
+                if (!version || !versionData[version]) {
+                    closeDeleteModal();
+                    return;
+                }
+
+                try {
+                    console.log('[roadmap.html] 开始删除版本:', version);
+
+                    // 1. 收集被删除版本的页面 ID（删除前获取）
+                    const deletedPageIds = collectPageIds(versionData[version]?.pages);
+                    console.log('[roadmap.html] 待清理页面 ID:', deletedPageIds);
+
+                    // 2. 从内存中删除
+                    delete versionData[version];
+                    console.log('[roadmap.html] 已从 versionData 删除:', version);
+
+                    // 3. 清理 extraVersions
+                    try {
+                        const extraVersions = JSON.parse(localStorage.getItem('extraVersions') || '{}');
+                        if (extraVersions[version]) {
+                            delete extraVersions[version];
+                            localStorage.setItem('extraVersions', JSON.stringify(extraVersions));
+                            console.log('[roadmap.html] 已清理 extraVersions');
+                        }
+                    } catch (e) {
+                        console.error('[roadmap.html] 清理 extraVersions 失败:', e);
+                    }
+
+                    // 4. 清理 unifiedProductData
+                    try {
+                        const unified = JSON.parse(localStorage.getItem('unifiedProductData') || '{}');
+                        if (unified.version === version) {
+                            const remainingVersions = Object.keys(versionData);
+                            const newVersion = remainingVersions.find(v => isOnlineVersion(v)) || remainingVersions[remainingVersions.length - 1];
+                            if (newVersion && versionData[newVersion]) {
+                                unified.version = newVersion;
+                                // 重建 pages 对象为新版本的页面
+                                const newPages = {};
+                                const flattenToObject = (pages) => {
+                                    for (const page of (pages || [])) {
+                                        if (page.isFolder && page.children) {
+                                            flattenToObject(page.children);
+                                        } else if (page.id) {
+                                            newPages[page.id] = { ...page };
+                                        }
+                                    }
+                                };
+                                flattenToObject(versionData[newVersion].pages);
+                                unified.pages = newPages;
+                                console.log('[roadmap.html] unifiedProductData 已切换到版本:', newVersion);
+                            } else {
+                                unified.pages = {};
+                            }
+                            localStorage.setItem('unifiedProductData', JSON.stringify(unified));
+                        }
+                    } catch (e) {
+                        console.error('[roadmap.html] 清理 unifiedProductData 失败:', e);
+                    }
+
+                    // 5. 清理 requirementsData（仅清理被删除版本的页面）
+                    try {
+                        const reqData = JSON.parse(localStorage.getItem('requirementsData') || '{}');
+                        let reqChanged = false;
+                        for (const pageId of deletedPageIds) {
+                            if (reqData[pageId]) {
+                                delete reqData[pageId];
+                                reqChanged = true;
+                            }
+                        }
+                        if (reqChanged) {
+                            localStorage.setItem('requirementsData', JSON.stringify(reqData));
+                            console.log('[roadmap.html] 已清理 requirementsData，移除页面数:', deletedPageIds.length);
+                        }
+                    } catch (e) {
+                        console.error('[roadmap.html] 清理 requirementsData 失败:', e);
+                    }
+
+                    // 6. 清理 interactionMappings（逐页面）
+                    let interactionCleaned = 0;
+                    for (const pageId of deletedPageIds) {
+                        const key = `interactionMappings_${pageId}`;
+                        if (localStorage.getItem(key) !== null) {
+                            localStorage.removeItem(key);
+                            interactionCleaned++;
+                        }
+                    }
+                    if (interactionCleaned > 0) {
+                        console.log('[roadmap.html] 已清理 interactionMappings，移除数量:', interactionCleaned);
+                    }
+
+                    // 7. 清理 elementMappings（高亮元素映射）
+                    try {
+                        const elementMappings = JSON.parse(localStorage.getItem('elementMappings') || '{}');
+                        let emChanged = false;
+                        for (const key of Object.keys(elementMappings)) {
+                            const pageId = key.split(':')[0];
+                            if (deletedPageIds.includes(pageId)) {
+                                delete elementMappings[key];
+                                emChanged = true;
+                            }
+                        }
+                        if (emChanged) {
+                            localStorage.setItem('elementMappings', JSON.stringify(elementMappings));
+                            console.log('[roadmap.html] 已清理 elementMappings');
+                        }
+                    } catch (e) {
+                        console.error('[roadmap.html] 清理 elementMappings 失败:', e);
+                    }
+
+                    // 8. 清理 highlightConfigs（完全清空自定义高亮配置）
+                    try {
+                        const highlightConfigs = JSON.parse(localStorage.getItem('highlightConfigs') || '{}');
+                        if (Object.keys(highlightConfigs).length > 0) {
+                            localStorage.removeItem('highlightConfigs');
+                            console.log('[roadmap.html] 已清理 highlightConfigs');
+                        }
+                    } catch (e) {
+                        console.error('[roadmap.html] 清理 highlightConfigs 失败:', e);
+                    }
+
+                    // 9. 清理补丁和备份数据
+                    localStorage.removeItem('dataJsPatch_' + version);
+                    localStorage.removeItem('versionBackup_' + version);
+                    console.log('[roadmap.html] 已清理补丁和备份数据');
+
+                    // 10. 处理当前版本全局变量
+                    if (typeof currentVersion !== 'undefined' && currentVersion === version) {
+                        const remainingVersions = Object.keys(versionData);
+                        if (remainingVersions.length > 0) {
+                            const newVersion = remainingVersions.find(v => isOnlineVersion(v)) || remainingVersions[remainingVersions.length - 1];
+                            currentVersion = newVersion;
+                            if (typeof pages !== 'undefined' && versionData[newVersion]) {
+                                pages = versionData[newVersion].pages;
+                            }
+                            console.log('[roadmap.html] 当前版本已切换至:', newVersion);
+                        } else {
+                            if (typeof currentVersion !== 'undefined') currentVersion = null;
+                            if (typeof pages !== 'undefined') pages = [];
+                            console.log('[roadmap.html] 无剩余版本，currentVersion 已重置');
+                        }
+                    }
+
+                    // 11. 记录到 deletedVersions（隐藏）
+                    try {
+                        const deletedVersions = JSON.parse(localStorage.getItem('deletedVersions') || '[]');
+                        if (!deletedVersions.includes(version)) {
+                            deletedVersions.push(version);
+                            localStorage.setItem('deletedVersions', JSON.stringify(deletedVersions));
+                            console.log('[roadmap.html] 已记录永久删除版本:', version);
+                        }
+                    } catch (e) {
+                        console.error('[roadmap.html] 记录 deletedVersions 失败:', e);
+                    }
+
+                    // 12. 关闭弹窗并刷新 UI
+                    closeDeleteModal();
+                    renderVersions();
+                    showToast(`✅ 版本 ${version} 已隐藏`, 'success');
+                    console.log('[roadmap.html] 版本隐藏完成:', version);
+
+                } catch (error) {
+                    console.error('[roadmap.html] 删除版本失败:', error);
+                    showToast('❌ 删除失败：' + error.message, 'error');
+                    closeDeleteModal();
+                }
+            }
+
+            // ============ 永久删除确认弹窗 ============
+            let pendingPermanentDeleteVersion = null;
+            const permanentDeleteModalOverlay = document.getElementById('permanentDeleteModalOverlay');
+            const permanentDeleteModalInfo = document.getElementById('permanentDeleteModalInfo');
+            const permanentDeleteConfirmCode = document.getElementById('permanentDeleteConfirmCode');
+            const permanentDeleteConfirmInput = document.getElementById('permanentDeleteConfirmInput');
+            const permanentDeleteModalCancel = document.getElementById('permanentDeleteModalCancel');
+            const permanentDeleteModalConfirm = document.getElementById('permanentDeleteModalConfirm');
+
+            function openPermanentDeleteModal(version) {
+                pendingPermanentDeleteVersion = version;
+                const data = versionData[version];
+                const displayInfo = getVersionDisplayInfo(version);
+                const pageCount = countPages(data?.pages || []);
+                const scenarioCount = countScenarios(data?.pages || []);
+
+                permanentDeleteModalInfo.innerHTML = `
+                    <div class="permanent-delete-modal-info-row">
+                        <span class="permanent-delete-modal-info-label">版本号</span>
+                        <span class="permanent-delete-modal-info-value">${version}</span>
+                    </div>
+                    <div class="permanent-delete-modal-info-row">
+                        <span class="permanent-delete-modal-info-label">版本名称</span>
+                        <span class="permanent-delete-modal-info-value">${displayInfo.label}</span>
+                    </div>
+                    <div class="permanent-delete-modal-info-row">
+                        <span class="permanent-delete-modal-info-label">页面数量</span>
+                        <span class="permanent-delete-modal-info-value">${pageCount} 个</span>
+                    </div>
+                    <div class="permanent-delete-modal-info-row">
+                        <span class="permanent-delete-modal-info-label">场景数量</span>
+                        <span class="permanent-delete-modal-info-value">${scenarioCount} 个</span>
+                    </div>
+                `;
+                const confirmText = `永久删除 ${version}`;
+                permanentDeleteConfirmCode.textContent = confirmText;
+                permanentDeleteConfirmInput.value = '';
+                permanentDeleteModalConfirm.disabled = true;
+                permanentDeleteModalOverlay.classList.add('active');
+                permanentDeleteConfirmInput.focus();
+            }
+
+            function closePermanentDeleteModal() {
+                permanentDeleteModalOverlay.classList.remove('active');
+                pendingPermanentDeleteVersion = null;
+                permanentDeleteConfirmInput.value = '';
+                permanentDeleteModalConfirm.disabled = true;
+            }
+
+            permanentDeleteConfirmInput.addEventListener('input', () => {
+                const expected = `永久删除 ${pendingPermanentDeleteVersion}`;
+                permanentDeleteModalConfirm.disabled = permanentDeleteConfirmInput.value.trim() !== expected;
+            });
+
+            permanentDeleteConfirmInput.addEventListener('keydown', (e) => {
+                const expected = `永久删除 ${pendingPermanentDeleteVersion}`;
+                if (e.key === 'Enter' && permanentDeleteConfirmInput.value.trim() === expected) {
+                    executePermanentDelete();
+                }
+                if (e.key === 'Escape') {
+                    closePermanentDeleteModal();
+                }
+            });
+
+            permanentDeleteModalCancel.addEventListener('click', closePermanentDeleteModal);
+
+            permanentDeleteModalConfirm.addEventListener('click', () => {
+                const expected = `永久删除 ${pendingPermanentDeleteVersion}`;
+                if (permanentDeleteConfirmInput.value.trim() === expected) {
+                    executePermanentDelete();
+                }
+            });
+
+            permanentDeleteModalOverlay.addEventListener('click', (e) => {
+                if (e.target === permanentDeleteModalOverlay) {
+                    closePermanentDeleteModal();
+                }
+            });
+
+            // ============ 永久删除执行逻辑 ============
+            async function executePermanentDelete() {
+                const version = pendingPermanentDeleteVersion;
+                if (!version || !versionData[version]) {
+                    closePermanentDeleteModal();
+                    return;
+                }
+
+                try {
+                    console.log('[roadmap.html] 开始永久删除版本:', version);
+
+                    // 1. 收集被删除版本的页面 ID（删除前获取）
+                    const deletedPageIds = collectPageIds(versionData[version]?.pages);
+                    console.log('[roadmap.html] 待清理页面 ID:', deletedPageIds);
+
+                    // 2. 自动调用服务器删除版本文件
+                    let fileUpdated = false;
+                    try {
+                        const response = await fetch('http://localhost:3456/api/delete-version', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ version: version })
+                        });
+                        const result = await response.json();
+                        if (result.success) {
+                            fileUpdated = true;
+                            console.log('[roadmap.html] 服务器已自动删除版本文件');
+                        } else {
+                            console.warn('[roadmap.html] 服务器删除失败:', result.error);
+                        }
+                    } catch (serverErr) {
+                        console.warn('[roadmap.html] 无法连接本地服务器:', serverErr);
+                    }
+
+                    // 3. 从内存中删除
+                    delete versionData[version];
+                    console.log('[roadmap.html] 已从 versionData 删除:', version);
+
+                    // 4. 清理 extraVersions
+                    try {
+                        const extraVersions = JSON.parse(localStorage.getItem('extraVersions') || '{}');
+                        if (extraVersions[version]) {
+                            delete extraVersions[version];
+                            localStorage.setItem('extraVersions', JSON.stringify(extraVersions));
+                            console.log('[roadmap.html] 已清理 extraVersions');
+                        }
+                    } catch (e) {
+                        console.error('[roadmap.html] 清理 extraVersions 失败:', e);
+                    }
+
+                    // 5. 清理 unifiedProductData
+                    try {
+                        const unified = JSON.parse(localStorage.getItem('unifiedProductData') || '{}');
+                        if (unified.version === version) {
+                            const remainingVersions = Object.keys(versionData);
+                            const newVersion = remainingVersions.find(v => isOnlineVersion(v)) || remainingVersions[remainingVersions.length - 1];
+                            if (newVersion && versionData[newVersion]) {
+                                unified.version = newVersion;
+                                const newPages = {};
+                                const flattenToObject = (pages) => {
+                                    for (const page of (pages || [])) {
+                                        if (page.isFolder && page.children) {
+                                            flattenToObject(page.children);
+                                        } else if (page.id) {
+                                            newPages[page.id] = { ...page };
+                                        }
+                                    }
+                                };
+                                flattenToObject(versionData[newVersion].pages);
+                                unified.pages = newPages;
+                                console.log('[roadmap.html] unifiedProductData 已切换到版本:', newVersion);
+                            } else {
+                                unified.pages = {};
+                            }
+                            localStorage.setItem('unifiedProductData', JSON.stringify(unified));
+                        }
+                    } catch (e) {
+                        console.error('[roadmap.html] 清理 unifiedProductData 失败:', e);
+                    }
+
+                    // 6. 清理 requirementsData
+                    try {
+                        const reqData = JSON.parse(localStorage.getItem('requirementsData') || '{}');
+                        let reqChanged = false;
+                        for (const pageId of deletedPageIds) {
+                            if (reqData[pageId]) {
+                                delete reqData[pageId];
+                                reqChanged = true;
+                            }
+                        }
+                        if (reqChanged) {
+                            localStorage.setItem('requirementsData', JSON.stringify(reqData));
+                            console.log('[roadmap.html] 已清理 requirementsData，移除页面数:', deletedPageIds.length);
+                        }
+                    } catch (e) {
+                        console.error('[roadmap.html] 清理 requirementsData 失败:', e);
+                    }
+
+                    // 7. 清理 interactionMappings
+                    let interactionCleaned = 0;
+                    for (const pageId of deletedPageIds) {
+                        const key = `interactionMappings_${pageId}`;
+                        if (localStorage.getItem(key) !== null) {
+                            localStorage.removeItem(key);
+                            interactionCleaned++;
+                        }
+                    }
+                    if (interactionCleaned > 0) {
+                        console.log('[roadmap.html] 已清理 interactionMappings，移除数量:', interactionCleaned);
+                    }
+
+                    // 8. 清理 elementMappings
+                    try {
+                        const elementMappings = JSON.parse(localStorage.getItem('elementMappings') || '{}');
+                        let emChanged = false;
+                        for (const key of Object.keys(elementMappings)) {
+                            const pageId = key.split(':')[0];
+                            if (deletedPageIds.includes(pageId)) {
+                                delete elementMappings[key];
+                                emChanged = true;
+                            }
+                        }
+                        if (emChanged) {
+                            localStorage.setItem('elementMappings', JSON.stringify(elementMappings));
+                            console.log('[roadmap.html] 已清理 elementMappings');
+                        }
+                    } catch (e) {
+                        console.error('[roadmap.html] 清理 elementMappings 失败:', e);
+                    }
+
+                    // 9. 清理 highlightConfigs
+                    try {
+                        const highlightConfigs = JSON.parse(localStorage.getItem('highlightConfigs') || '{}');
+                        if (Object.keys(highlightConfigs).length > 0) {
+                            localStorage.removeItem('highlightConfigs');
+                            console.log('[roadmap.html] 已清理 highlightConfigs');
+                        }
+                    } catch (e) {
+                        console.error('[roadmap.html] 清理 highlightConfigs 失败:', e);
+                    }
+
+                    // 10. 清理补丁和备份数据
+                    localStorage.removeItem('dataJsPatch_' + version);
+                    localStorage.removeItem('versionBackup_' + version);
+                    console.log('[roadmap.html] 已清理补丁和备份数据');
+
+                    // 11. 处理当前版本全局变量
+                    if (typeof currentVersion !== 'undefined' && currentVersion === version) {
+                        const remainingVersions = Object.keys(versionData);
+                        if (remainingVersions.length > 0) {
+                            const newVersion = remainingVersions.find(v => isOnlineVersion(v)) || remainingVersions[remainingVersions.length - 1];
+                            currentVersion = newVersion;
+                            if (typeof pages !== 'undefined' && versionData[newVersion]) {
+                                pages = versionData[newVersion].pages;
+                            }
+                            console.log('[roadmap.html] 当前版本已切换至:', newVersion);
+                        } else {
+                            if (typeof currentVersion !== 'undefined') currentVersion = null;
+                            if (typeof pages !== 'undefined') pages = [];
+                            console.log('[roadmap.html] 无剩余版本，currentVersion 已重置');
+                        }
+                    }
+
+                    // 12. 从 deletedVersions 中也移除（因为是永久删除，不需要再记录为已隐藏）
+                    try {
+                        const deletedVersions = JSON.parse(localStorage.getItem('deletedVersions') || '[]');
+                        const idx = deletedVersions.indexOf(version);
+                        if (idx !== -1) {
+                            deletedVersions.splice(idx, 1);
+                            localStorage.setItem('deletedVersions', JSON.stringify(deletedVersions));
+                            console.log('[roadmap.html] 已从 deletedVersions 移除:', version);
+                        }
+                    } catch (e) {
+                        console.error('[roadmap.html] 更新 deletedVersions 失败:', e);
+                    }
+
+                    // 13. 关闭弹窗并刷新 UI
+                    closePermanentDeleteModal();
+                    renderVersions();
+                    if (fileUpdated) {
+                        showToast(`✅ 版本 ${version} 已永久删除，版本文件已自动删除`, 'success');
+                    } else {
+                        showToast(`✅ 版本 ${version} 已永久删除（请启动本地服务以自动删除版本文件）`, 'success');
+                    }
+                    console.log('[roadmap.html] 版本永久删除完成:', version);
+
+                } catch (error) {
+                    console.error('[roadmap.html] 永久删除版本失败:', error);
+                    showToast('❌ 永久删除失败：' + error.message, 'error');
+                    closePermanentDeleteModal();
+                }
+            }
+
+            // ============ 导出功能 ============
+            // 扁平化页面数组（递归处理文件夹嵌套）
+            function flattenPagesToObject(pages) {
+                const result = {};
+                for (const page of pages) {
+                    if (page.children) {
+                        Object.assign(result, flattenPagesToObject(page.children));
+                    } else {
+                        result[page.id] = { ...page };
+                    }
+                }
+                return result;
+            }
+
+            // 导出指定版本的数据
+            function exportVersionData(version, btnElement) {
+                try {
+                    const data = versionData[version];
+                    if (!data || !data.pages) {
+                        showToast('❌ 版本数据不存在', 'error');
+                        return;
+                    }
+
+                    // 设置按钮为导出中状态
+                    if (btnElement) {
+                        btnElement.classList.add('exporting');
+                        btnElement.innerHTML = '<span>⏳</span><span>导出中...</span>';
+                    }
+
+                    // 构造导出数据结构（与 DataService 格式兼容）
+                    const exportData = {
+                        version: version,
+                        name: data.name || '货车 ETC 办理',
+                        updatedAt: new Date().toISOString(),
+                        pages: flattenPagesToObject(data.pages)
+                    };
+
+                    // 计算数据大小
+                    const jsonStr = JSON.stringify(exportData, null, 2);
+                    const sizeKB = (new Blob([jsonStr]).size / 1024).toFixed(2);
+                    const pageCount = Object.keys(exportData.pages).length;
+
+                    // 触发下载
+                    const blob = new Blob([jsonStr], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `backup-${version}-${new Date().toISOString().slice(0,10)}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+
+                    // 恢复按钮状态
+                    if (btnElement) {
+                        btnElement.classList.remove('exporting');
+                        btnElement.innerHTML = '<span>📤</span><span>导出数据</span>';
+                    }
+
+                    showToast(`✅ ${version} 导出成功 · ${pageCount} 个页面 · ${sizeKB} KB`, 'success');
+                    console.log('[roadmap.html] 版本导出成功:', version, { pageCount, sizeKB });
+
+                } catch (error) {
+                    console.error('[roadmap.html] 导出失败:', error);
+                    showToast('❌ 导出失败：' + error.message, 'error');
+                    if (btnElement) {
+                        btnElement.classList.remove('exporting');
+                        btnElement.innerHTML = '<span>📤</span><span>导出数据</span>';
+                    }
+                }
+            }
+
+            // 导出支付宝小程序工程
+            function exportAxmlVersion(version, btnElement) {
+                try {
+                    if (btnElement) {
+                        btnElement.classList.add('exporting');
+                        btnElement.innerHTML = '<span>⏳</span><span>编译中...</span>';
+                    }
+
+                    fetch('http://localhost:3456/api/export-miniprogram', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ version: version })
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (btnElement) {
+                            btnElement.classList.remove('exporting');
+                            btnElement.innerHTML = '<span>📱</span><span>导出小程序</span>';
+                        }
+
+                        if (result.success) {
+                            showToast('✅ 小程序工程已导出 · ' + result.filesWritten + ' 个文件 → ' + result.outputDir, 'success');
+                        } else {
+                            showToast('❌ 导出失败：' + result.error, 'error');
+                        }
+                    })
+                    .catch(error => {
+                        if (btnElement) {
+                            btnElement.classList.remove('exporting');
+                            btnElement.innerHTML = '<span>📱</span><span>导出小程序</span>';
+                        }
+                        if (error.message && error.message.includes('Failed to fetch')) {
+                            showToast('❌ 版本服务未启动，请先运行 start-version-server.bat', 'error');
+                        } else {
+                            showToast('❌ 导出失败：' + (error.message || ''), 'error');
+                        }
+                    });
+                } catch (error) {
+                    if (btnElement) {
+                        btnElement.classList.remove('exporting');
+                        btnElement.innerHTML = '<span>📱</span><span>导出小程序</span>';
+                    }
+                    showToast('❌ 导出失败：' + error.message, 'error');
+                }
+            }
+
+            // 显示提示
+            function showToast(message, type) {
+                const existing = document.getElementById('roadmap-toast');
+                if (existing) existing.remove();
+
+                const toast = document.createElement('div');
+                toast.id = 'roadmap-toast';
+                toast.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: ${type === 'success' ? '#52c41a' : type === 'error' ? '#ff4d4f' : '#1677FF'};
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    z-index: 10001;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    white-space: nowrap;
+                `;
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            }
+
+            // ============ 恢复已删除版本功能 ============
+            const restoreVersionsBar = document.getElementById('restoreVersionsBar');
+            const restoreVersionsBtn = document.getElementById('restoreVersionsBtn');
+
+            function updateRestoreButtonVisibility() {
+                try {
+                    const deletedVersions = JSON.parse(localStorage.getItem('deletedVersions') || '[]');
+                    if (deletedVersions.length > 0) {
+                        restoreVersionsBar.style.display = 'block';
+                        restoreVersionsBtn.querySelector('span:last-child').textContent = `恢复已删除版本 (${deletedVersions.length})`;
+                    } else {
+                        restoreVersionsBar.style.display = 'none';
+                    }
+                } catch (e) {
+                    restoreVersionsBar.style.display = 'none';
+                }
+            }
+
+            if (restoreVersionsBtn) {
+                restoreVersionsBtn.addEventListener('click', function() {
+                    try {
+                        const deletedVersions = JSON.parse(localStorage.getItem('deletedVersions') || '[]');
+                        if (deletedVersions.length === 0) {
+                            showToast('没有已删除的版本需要恢复', 'info');
+                            return;
+                        }
+
+                        if (confirm(`确定要恢复 ${deletedVersions.length} 个已删除版本吗？\n\n这将清空删除记录，刷新页面后所有版本将重新显示。`)) {
+                            localStorage.removeItem('deletedVersions');
+                            showToast('已清空删除记录，页面即将刷新...', 'success');
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1200);
+                        }
+                    } catch (e) {
+                        console.error('[roadmap.html] 恢复版本失败:', e);
+                        showToast('恢复失败：' + e.message, 'error');
+                    }
+                });
+            }
+
+            // 在渲染后更新恢复按钮可见性
+            const originalRenderVersions = renderVersions;
+            renderVersions = function() {
+                originalRenderVersions();
+                updateRestoreButtonVisibility();
+            };
+
+            // ============ 创建新版本功能 ============
+
+            // 填充基础版本下拉框
+            function populateBaseVersionSelect() {
+                const select = document.getElementById('base-version-select');
+                if (!select) return;
+
+                // 获取所有版本
+                const versions = Object.keys(versionData).sort((a, b) => {
+                    // 按版本号排序
+                    const parseVersion = v => v.replace('v', '').split('.').map(Number);
+                    const va = parseVersion(a), vb = parseVersion(b);
+                    for (let i = 0; i < 3; i++) {
+                        if (va[i] !== vb[i]) return va[i] - vb[i];
+                    }
+                    return 0;
+                });
+
+                select.innerHTML = versions.map(v =>
+                    `<option value="${v}">${v}</option>`
+                ).join('');
+
+                // 默认选中最新版本
+                if (versions.length > 0) {
+                    select.value = versions[versions.length - 1];
+                }
+            }
+
+            // 自动计算下一个版本号
+            function getNextVersion() {
+                const versions = Object.keys(versionData).filter(v => /^v\d+\.\d+\.\d+$/.test(v));
+                if (versions.length === 0) return 'v1.0.0';
+
+                const parse = v => v.replace('v', '').split('.').map(Number);
+                const sorted = versions.sort((a, b) => {
+                    const va = parse(a), vb = parse(b);
+                    for (let i = 0; i < 3; i++) {
+                        if ((va[i] || 0) !== (vb[i] || 0)) return (va[i] || 0) - (vb[i] || 0);
+                    }
+                    return 0;
+                });
+
+                const latest = sorted[sorted.length - 1];
+                const parts = parse(latest);
+                parts[2]++; // patch 版本 +1
+                return `v${parts.join('.')}`;
+            }
+
+            // 更新自动版本提示文本
+            function updateAutoVersionDisplay() {
+                const display = document.getElementById('auto-version-display');
+                if (display) {
+                    display.textContent = getNextVersion();
+                }
+            }
+
+            // 处理创建版本
+            async function handleCreateVersion() {
+                const btn = document.getElementById('create-version-btn');
+                const infoDiv = document.getElementById('create-version-info');
+                const baseVersionSelect = document.getElementById('base-version-select');
+                const descInput = document.getElementById('new-version-desc');
+
+                const baseVersion = baseVersionSelect.value;
+                const newVersion = getNextVersion();
+                const labelInput = document.getElementById('new-version-label');
+                const label = labelInput ? labelInput.value.trim() : '';
+                const description = descInput.value.trim();
+
+                // 检查是否已存在（自动生成场景下理论上不会触发，保留以防万一）
+                if (versionData[newVersion]) {
+                    infoDiv.innerHTML = `<span style="color: #dc2626;">&#10060; 版本 ${newVersion} 已存在</span>`;
+                    return;
+                }
+
+                // 检查 extraVersions
+                const extraVersions = JSON.parse(localStorage.getItem('extraVersions') || '{}');
+                if (extraVersions[newVersion]) {
+                    infoDiv.innerHTML = `<span style="color: #dc2626;">&#10060; 版本 ${newVersion} 已存在</span>`;
+                    return;
+                }
+
+                // 获取基础版本数据
+                const baseData = versionData[baseVersion];
+                if (!baseData || !baseData.pages) {
+                    infoDiv.innerHTML = `<span style="color: #dc2626;">&#10060; 基础版本 ${baseVersion} 不存在或无数据</span>`;
+                    return;
+                }
+
+                // 深拷贝 pages
+                const pagesCopy = JSON.parse(JSON.stringify(baseData.pages));
+
+                // 发起请求
+                btn.disabled = true;
+                btn.textContent = '创建中...';
+                infoDiv.innerHTML = '<span style="color: #666;">&#9203; 正在创建版本...</span>';
+
+                try {
+                    const requestBody = {
+                        version: newVersion,
+                        label: label || newVersion.toUpperCase(),
+                        description: description || `基于 ${baseVersion} 创建`,
+                        pages: pagesCopy
+                    };
+
+                    const response = await fetch('http://localhost:3456/api/create-version', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(requestBody)
+                    });
+
+                    const result = await response.json();
+
+                    if (!result.success) {
+                        throw new Error(result.error);
+                    }
+
+                    // 成功
+                    showToast(`&#9989; ${newVersion} 创建成功`, 'success');
+                    infoDiv.innerHTML = '<span style="color: #52c41a;">&#9989; 创建成功，页面即将刷新...</span>';
+
+                    // 1.5秒后刷新
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+
+                } catch (error) {
+                    console.error('创建版本失败:', error);
+
+                    if (error.message.includes('Failed to fetch') || error.name === 'TypeError') {
+                        infoDiv.innerHTML = `
+                            <div style="color: #dc2626; background: #fef2f2; padding: 8px; border-radius: 4px; margin-top: 8px;">
+                                &#10060; 无法连接版本管理服务
+                                <br><br>
+                                <small>请先启动服务：双击<br><code>server\\start-version-server.bat</code></small>
+                            </div>
+                        `;
+                    } else {
+                        infoDiv.innerHTML = `<span style="color: #dc2626;">&#10060; ${error.message}</span>`;
+                    }
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = '创建新版本';
+                }
+            }
+
+            // 重新绑定创建新版本相关事件（每次渲染后调用）
+            function rebindCreateEvents() {
+                populateBaseVersionSelect();
+                updateAutoVersionDisplay();
+
+                const createBtn = document.getElementById('create-version-btn');
+                if (createBtn) {
+                    // 移除旧的事件监听器（通过克隆替换）
+                    const newBtn = createBtn.cloneNode(true);
+                    createBtn.parentNode.replaceChild(newBtn, createBtn);
+                    newBtn.addEventListener('click', handleCreateVersion);
+                }
+            }
+
+            // 初始化渲染（已包含创建卡片和事件绑定）
+            renderVersions();
+        })();
+    </script>
+</body>
+</html>
