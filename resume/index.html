@@ -23,8 +23,8 @@
             --accent: #4f46e5;
             --accent-soft: rgba(79, 70, 229, 0.06);
             --accent-hover: #4338ca;
-            --accent-data: #059669;
-            --accent-data-soft: rgba(5, 150, 105, 0.08);
+            --accent-data: #d97706;
+            --accent-data-soft: rgba(217, 119, 6, 0.08);
             --radius-sm: 6px;
             --radius-md: 10px;
             --radius-lg: 14px;
@@ -47,8 +47,8 @@
                 --accent: #818cf8;
                 --accent-soft: rgba(129, 140, 248, 0.1);
                 --accent-hover: #a5b4fc;
-                --accent-data: #34d399;
-                --accent-data-soft: rgba(52, 211, 153, 0.1);
+                --accent-data: #fbbf24;
+                --accent-data-soft: rgba(251, 191, 36, 0.1);
                 --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
                 --shadow-md: 0 2px 8px rgba(0,0,0,0.3);
             }
@@ -102,25 +102,46 @@
 
         /* ===== Header ===== */
         .resume-header {
-            padding: 48px 0 32px;
-            border-bottom: 1px solid var(--border);
-            border-left: 4px solid var(--accent);
-            padding-left: 20px;
+            padding: 56px 0 40px;
             margin-bottom: 48px;
+            position: relative;
+        }
+        .resume-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 64px; height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
         }
         .header-name {
-            font-size: 2.75rem; font-weight: 700; letter-spacing: -0.03em;
-            color: var(--text); line-height: 1.2;
+            font-size: 3.2rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            color: var(--text);
+            line-height: 1.1;
+            margin-bottom: 8px;
         }
         .header-title {
-            font-size: 1.15rem; color: var(--accent); font-weight: 500;
-            margin-top: 6px;
+            font-size: 1.2rem;
+            color: var(--text-2);
+            font-weight: 400;
+            letter-spacing: 0.02em;
         }
-        .header-target {
-            display: inline-block; margin-top: 12px;
-            padding: 4px 14px; border-radius: 20px;
-            background: var(--accent); color: #fff;
-            font-size: 0.85rem; font-weight: 500;
+        .header-divider {
+            display: inline-block;
+            width: 24px;
+            height: 1px;
+            background: var(--text-3);
+            vertical-align: middle;
+            margin: 0 12px;
+        }
+        .header-subtitle {
+            margin-top: 16px;
+            font-size: 0.875rem;
+            color: var(--text-3);
+            letter-spacing: 0.01em;
+            line-height: 1.6;
         }
 
         /* ===== Sections ===== */
@@ -402,12 +423,12 @@
         <header class="resume-header">
             <h1 class="header-name">Faye</h1>
             <div class="header-title">
-                <span data-lang="zh">产品经理</span><span data-lang="en">Product Manager</span>
+                <span data-lang="zh">产品经理</span>
+                <span class="header-divider"></span>
+                <span data-lang="en">Product Manager</span>
             </div>
-            <div class="header-target">
-                <span data-lang="zh">产品经理 · 30~35k</span>
-                <span data-lang="en">Product Manager · 30–35K CNY/month</span>
-            </div>
+            <p class="header-subtitle" data-lang="zh">8年+出行、支付金融与商业化领域经验 · 从0到1产品操盘 · AI原生工作流实践者</p>
+            <p class="header-subtitle" data-lang="en">8+ years in mobility, fintech &amp; commercialization · 0-to-1 product builder · AI-native workflow practitioner</p>
         </header>
 
         <!-- Summary -->
@@ -415,8 +436,8 @@
             <h2 class="section-title">
                 <span data-lang="zh">个人简介</span><span data-lang="en">Summary</span>
             </h2>
-            <p class="summary-text" data-lang="zh">深耕C端增长、支付金融与商业化，兼具AI原生工具应用能力（深度使用开源AI工作流工具、大语言模型等AI工作流）与复杂体系操盘经验。专注于构建以用户价值为核心的服务生态，擅长从0到1打造创新产品并实现规模化商业变现。</p>
-            <p class="summary-text" data-lang="en">Deep expertise in C-end user growth, payment &amp; fintech, and commercialization, combined with native AI tool proficiency (extensive use of open-source AI workflow tools, LLMs, and other AI workflows) and hands-on experience operating complex business systems. Focused on building user-value-centric service ecosystems, skilled at taking innovative products from 0 to 1 and scaling them into commercially viable businesses.</p>
+            <p class="summary-text" data-lang="zh">以用户价值为核心驱动，兼具AI原生工具应用能力（深度使用开源AI工作流工具、大语言模型等）与复杂业务体系操盘经验。擅长从市场调研到规模化变现的全链路产品设计，专注构建可持续增长的服务生态。</p>
+            <p class="summary-text" data-lang="en">User-value-driven product leader with native AI tool proficiency (open-source AI workflows, LLMs) and hands-on experience operating complex business systems. Skilled in full-lifecycle product design from market research to scaled monetization, focused on building sustainable growth ecosystems.</p>
         </section>
 
         <!-- Experience -->
@@ -438,13 +459,13 @@
                     <span data-lang="en">A-Share Listed Tech Company · Mobility Division</span>
                 </div>
                 <div class="exp-desc">
-                    <span data-lang="zh">上市公司旗下消费级科技品牌，主营车载智能硬件与车后服务，品类头部</span>
-                    <span data-lang="en">Consumer tech brand under a listed company, specializing in in-vehicle smart hardware and aftermarket services; category leader</span>
+                    <span data-lang="zh">上市公司旗下消费级科技品牌，主营车载硬件与车后服务，品类头部</span>
+                    <span data-lang="en">Consumer tech brand under a listed company, specializing in in-vehicle hardware and aftermarket services; category leader</span>
                 </div>
                 <ul class="exp-bullets">
                     <li>
-                        <span data-lang="zh">主导智慧通行金融产品从0到1，完成市场调研与商业模式设计，定位货车司机路费融资细分市场，预计每年为公司增收<span class="metric">1千万元</span>。</span>
-                        <span data-lang="en">Led the 0-to-1 development of an smart transit fintech product, completed market research and business model design, targeting the truck driver toll financing segment, projected to generate an incremental <span class="metric">¥10M</span> in annual revenue.</span>
+                        <span data-lang="zh">主导金融产品从0到1，完成市场调研与商业模式设计，定位货车司机路费融资细分市场，预计每年为公司增收<span class="metric">1千万元</span>。</span>
+                        <span data-lang="en">Led the 0-to-1 development of a fintech product, completed market research and business model design, targeting the truck driver toll financing segment, projected to generate an incremental <span class="metric">¥10M</span> in annual revenue.</span>
                     </li>
                     <li>
                         <span data-lang="zh">搭建LTV与成本回收财务模型，规划长期盈利路径，推动业务<span class="metric">18个月</span>实现盈亏平衡。</span>
@@ -478,13 +499,13 @@
                     <span data-lang="en">A Mobility Tech Startup</span>
                 </div>
                 <div class="exp-desc">
-                    <span data-lang="zh">天使轮初创公司，打造高速通行车主会员平台，提供支付结算闭环服务</span>
-                    <span data-lang="en">Angel-round startup building a highway transit driver membership platform with closed-loop payment and settlement services</span>
+                    <span data-lang="zh">天使轮初创公司，打造车主会员平台，提供支付结算闭环服务</span>
+                    <span data-lang="en">Angel-round startup building a driver membership platform with closed-loop payment and settlement services</span>
                 </div>
                 <ul class="exp-bullets">
                     <li>
-                        <span data-lang="zh">主导智慧通行车主产品从0到1，设计高扩展产品架构，实现会员、交易、保险与金融服务的模块化打通与数据闭环。半年内推动5款省级直连产品上线，日GMV突破<span class="metric">9万</span>。</span>
-                        <span data-lang="en">Led the 0-to-1 development of an smart transit driver product with a highly extensible architecture enabling modular integration across membership, transactions, insurance, and financial services. Launched 5 province-level direct-connect products within six months, achieving daily GMV exceeding <span class="metric">¥90K</span>.</span>
+                        <span data-lang="zh">主导车主产品从0到1，设计高扩展产品架构，实现会员、交易、保险与金融服务的模块化打通与数据闭环。半年内推动5款省级直连产品上线，日GMV突破<span class="metric">9万</span>。</span>
+                        <span data-lang="en">Led the 0-to-1 development of a driver product with a highly extensible architecture enabling modular integration across membership, transactions, insurance, and financial services. Launched 5 province-level direct-connect products within six months, achieving daily GMV exceeding <span class="metric">¥90K</span>.</span>
                     </li>
                     <li>
                         <span data-lang="zh">设计并完成了支撑规模化增长的技术基建。上线小程序、支付中台、会员权益与CRM/分销系统，打通"权益–交易–结算–数据"闭环，次月用户留存率达<span class="metric">60%</span>。</span>
@@ -510,13 +531,13 @@
                     <span data-lang="en">A Smart Mobility Tech Company (Tencent-Backed)</span>
                 </div>
                 <div class="exp-desc">
-                    <span data-lang="zh">腾讯投资的智慧交通独角兽，核心产品服务亿级车主，覆盖通行服务及车后生活</span>
-                    <span data-lang="en">Tencent-backed smart mobility unicorn; core products serve 100M+ drivers, covering transit service and automotive aftermarket</span>
+                    <span data-lang="zh">腾讯投资的智慧交通独角兽，核心产品服务亿级车主，覆盖车后生活</span>
+                    <span data-lang="en">Tencent-backed smart mobility unicorn; core products serve 100M+ drivers, covering automotive aftermarket</span>
                 </div>
                 <ul class="exp-bullets">
                     <li>
-                        <span data-lang="zh">从0到1主导智慧通行金融产品，针对货车司机融资慢、抵押难的痛点，协同银行及保理公司共建产品方案，上线1年获客<span class="metric">5万</span>，月交易规模破<span class="metric">1亿</span>。</span>
-                        <span data-lang="en">Led the 0-to-1 development of an smart transit fintech product addressing truck drivers' financing pain points; co-developed solutions with banks and factoring companies, acquiring <span class="metric">50K users</span> within one year and achieving monthly transaction volume exceeding <span class="metric">¥100M</span>.</span>
+                        <span data-lang="zh">从0到1主导金融产品，针对货车司机融资慢、抵押难的痛点，协同银行及保理公司共建产品方案，上线1年获客<span class="metric">5万</span>，月交易规模破<span class="metric">1亿</span>。</span>
+                        <span data-lang="en">Led the 0-to-1 development of a fintech product addressing truck drivers' financing pain points; co-developed solutions with banks and factoring companies, acquiring <span class="metric">50K users</span> within one year and achieving monthly transaction volume exceeding <span class="metric">¥100M</span>.</span>
                     </li>
                     <li>
                         <span data-lang="zh">参与会员体系商业化建设，通过精细化分群、AB实验与智能推荐策略完成付费方案验证。1年内付费会员达<span class="metric">20万</span>，月毛利超<span class="metric">200万元</span>，年度GMV超4000万。</span>
@@ -542,8 +563,8 @@
                     <span data-lang="en">A Provincial State-Owned Transport Enterprise</span>
                 </div>
                 <div class="exp-desc">
-                    <span data-lang="zh">省属交通集团直属国企，主营高速通行服务发行与智慧交通，服务千万级车主</span>
-                    <span data-lang="en">Provincial SOE specializing in highway transit service issuance and smart mobility, serving tens of millions of drivers</span>
+                    <span data-lang="zh">省属交通集团直属国企，主营通行服务发行与智慧交通，服务千万级车主</span>
+                    <span data-lang="en">Provincial SOE specializing in toll pass issuance and smart mobility, serving tens of millions of drivers</span>
                 </div>
                 <div class="exp-collapsible">
                     <ul class="exp-bullets">
@@ -552,8 +573,8 @@
                             <span data-lang="en">Led the 0-to-1 digital transformation of a provincial mini-program platform, driving offline-to-online migration. Leveraged a prepaid card license to launch a "scan-to-pay" cross-scenario feature, accumulating <span class="metric">6M+ users</span> and 100M+ interactions.</span>
                         </li>
                         <li>
-                            <span data-lang="zh">参与通行服务与银行二类户融合结算创新项目，搭建10人以上专项客服团队，联动国有大行在广东省50余家网点异业地推。该方案于2019年被国家主管部门采纳为全国推广标准，累计服务用户规模超<span class="metric">1亿</span>。</span>
-                            <span data-lang="en">Participated in an transit service and bank Tier-II account settlement innovation project, building a 10+ person CS team and coordinating cross-industry promotions across 50+ major state-owned bank branches. The solution was adopted as a national standard in 2019, cumulatively serving <span class="metric">100M+ users</span>.</span>
+                            <span data-lang="zh">参与银行二类户融合结算创新项目，搭建10人以上专项客服团队，联动国有大行在广东省50余家网点异业地推。该方案于2019年被国家主管部门采纳为全国推广标准，累计服务用户规模超<span class="metric">1亿</span>。</span>
+                            <span data-lang="en">Participated in a bank Tier-II account settlement innovation project, building a 10+ person CS team and coordinating cross-industry promotions across 50+ major state-owned bank branches. The solution was adopted as a national standard in 2019, cumulatively serving <span class="metric">100M+ users</span>.</span>
                         </li>
                         <li>
                             <span data-lang="zh">全面负责品牌推广与用户增长，整合新媒体矩阵、品牌广告、行业展会、发布会与协会合作等多类渠道，构建线上线下联动的整合传播体系。</span>
@@ -580,8 +601,8 @@
                     <span data-lang="en">An Internet Mobility Company</span>
                 </div>
                 <div class="exp-desc">
-                    <span data-lang="zh">省属交通集团注资的互联网初创公司，深耕通行服务+互联网创新</span>
-                    <span data-lang="en">Internet startup invested by a provincial transit service operator, focused on transit service + internet innovation</span>
+                    <span data-lang="zh">省属交通集团注资的互联网初创公司，深耕互联网创新</span>
+                    <span data-lang="en">Internet startup invested by a provincial transit operator, focused on internet innovation</span>
                 </div>
                 <div class="exp-collapsible">
                     <ul class="exp-bullets">
@@ -688,11 +709,11 @@
                 </div>
             </div>
 
-            <!-- Project 3: Truck Smart Transit -->
+            <!-- Project 3: Truck Financial Product -->
             <div class="project-card reveal">
                 <div class="project-head">
                     <span class="project-name">
-                        <span data-lang="zh">货车智慧通行金融产品</span><span data-lang="en">Truck Smart Transit Financial Product</span>
+                        <span data-lang="zh">货车金融产品</span><span data-lang="en">Truck Financial Product</span>
                     </span>
                     <span class="project-period">2020 Q2 – 2022 Q1</span>
                 </div>
@@ -703,8 +724,8 @@
                 <p class="project-desc" data-lang="en">In response to slowing hardware growth and a monolithic revenue structure, the company entered the financial services track to strategically transform into a mobility ecosystem provider. Goal: build a truck product system from 0 to 1, validating a "hardware acquisition + long-term monetization" model.</p>
                 <ul class="project-highlights">
                     <li>
-                        <span data-lang="zh">1年内接入4家头部省份，推出带金融属性的货车通行产品（日结卡、周结卡），跑通"硬件获客-服务留存-金融变现"闭环模型，快速拓展50+渠道伙伴。</span>
-                        <span data-lang="en">Onboarded 4 leading provinces within one year, launched truck smart transit products with financial attributes (daily/weekly settlement cards), validating a closed-loop model of "hardware acquisition – service retention – financial monetization" with 50+ channel partners.</span>
+                        <span data-lang="zh">1年内接入4家头部省份，推出带金融属性的货车产品（日结卡、周结卡），跑通"硬件获客-服务留存-金融变现"闭环模型，快速拓展50+渠道伙伴。</span>
+                        <span data-lang="en">Onboarded 4 leading provinces within one year, launched truck products with financial attributes (daily/weekly settlement cards), validating a closed-loop model of "hardware acquisition – service retention – financial monetization" with 50+ channel partners.</span>
                     </li>
                     <li>
                         <span data-lang="zh">设计硬件+增值服务复合产品包，叠加通行折扣、开票&违章提醒、道路救援等权益，将产品价值从通行工具延伸至车后服务生态。</span>
