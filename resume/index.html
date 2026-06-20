@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faye - Product Manager | Resume</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== Reset & Variables ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #f4f3ee;
+            --bg-card: #ffffff;
+            --text: #1c1917;
+            --text-2: #57534e;
+            --text-3: #a8a29e;
+            --border: #e7e5e0;
+            --accent: #4f46e5;
+            --accent-soft: rgba(79, 70, 229, 0.08);
+            --accent-hover: #4338ca;
+            --radius: 12px;
+            --ease: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0c0a09;
+                --bg-card: #1c1917;
+                --text: #fafaf9;
+                --text-2: #a8a29e;
+                --text-3: #78716c;
+                --border: #292524;
+                --accent: #818cf8;
+                --accent-soft: rgba(129, 140, 248, 0.1);
+                --accent-hover: #a5b4fc;
+            }
+        }
+
+        /* ===== Base ===== */
+        html { font-size: 16px; scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== Top Bar ===== */
+        .top-bar {
+            position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            max-width: 780px; margin: 0 auto;
+            padding: 12px 24px;
+            background: color-mix(in srgb, var(--bg) 85%, transparent);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 0.85rem; color: var(--accent);
+            text-decoration: none; transition: opacity 0.2s;
+        }
+        .back-link:hover { opacity: 0.7; }
+        .lang-toggle {
+            display: flex; gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+        }
+        .lang-btn {
+            padding: 5px 14px; font-size: 0.8rem; font-weight: 500;
+            background: transparent; color: var(--text-2);
+            border: none; cursor: pointer; transition: all 0.2s var(--ease);
+            font-family: inherit;
+        }
+        .lang-btn.active {
+            background: var(--accent); color: #fff;
+        }
+        .lang-btn:not(.active):hover { background: var(--accent-soft); }
+
+        /* ===== Container ===== */
+        .container {
+            max-width: 780px; margin: 0 auto;
+            padding: 0 24px 60px;
+        }
+
+        /* ===== Header ===== */
+        .resume-header {
+            padding: 40px 0 32px;
+            border-bottom: 2px solid var(--accent);
+            margin-bottom: 36px;
+        }
+        .header-name {
+            font-size: 2.4rem; font-weight: 700; letter-spacing: -0.02em;
+            color: var(--text); line-height: 1.2;
+        }
+        .header-title {
+            font-size: 1.15rem; color: var(--accent); font-weight: 500;
+            margin-top: 6px;
+        }
+        .header-target {
+            display: inline-block; margin-top: 12px;
+            padding: 4px 14px; border-radius: 20px;
+            background: var(--accent-soft); color: var(--accent);
+            font-size: 0.85rem; font-weight: 500;
+        }
+
+        /* ===== Sections ===== */
+        .section { margin-bottom: 36px; }
+        .section-title {
+            font-size: 1.05rem; font-weight: 600; color: var(--accent);
+            text-transform: uppercase; letter-spacing: 0.06em;
+            padding-bottom: 10px; margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .section-title svg { flex-shrink: 0; }
+
+        /* ===== Summary ===== */
+        .summary-text {
+            font-size: 0.95rem; color: var(--text-2); line-height: 1.8;
+        }
+
+        /* ===== Experience ===== */
+        .exp-item {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 28px;
+        }
+        .exp-item::before {
+            content: '';
+            position: absolute; left: 0; top: 8px;
+            width: 8px; height: 8px;
+            border-radius: 50%; background: var(--accent);
+        }
+        .exp-item::after {
+            content: '';
+            position: absolute; left: 3.5px; top: 20px;
+            width: 1px; height: calc(100% - 12px);
+            background: var(--border);
+        }
+        .exp-item:last-child::after { display: none; }
+        .exp-head {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            flex-wrap: wrap; gap: 4px 16px;
+            margin-bottom: 4px;
+        }
+        .exp-role {
+            font-size: 1rem; font-weight: 600; color: var(--text);
+        }
+        .exp-period {
+            font-size: 0.82rem; color: var(--text-3); font-weight: 500;
+            white-space: nowrap;
+        }
+        .exp-company {
+            font-size: 0.9rem; color: var(--accent); font-weight: 500;
+            margin-bottom: 2px;
+        }
+        .exp-desc {
+            font-size: 0.8rem; color: var(--text-3); margin-bottom: 10px;
+            font-style: italic;
+        }
+        .exp-bullets { list-style: none; }
+        .exp-bullets li {
+            position: relative;
+            padding-left: 16px; margin-bottom: 8px;
+            font-size: 0.88rem; color: var(--text-2); line-height: 1.7;
+        }
+        .exp-bullets li::before {
+            content: '';
+            position: absolute; left: 0; top: 10px;
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: color-mix(in srgb, var(--accent) 40%, transparent);
+        }
+
+        /* ===== Projects ===== */
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: border-color 0.2s var(--ease);
+        }
+        .project-card:hover { border-color: var(--accent); }
+        .project-head {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            flex-wrap: wrap; gap: 4px 16px;
+            margin-bottom: 6px;
+        }
+        .project-name {
+            font-size: 1rem; font-weight: 600; color: var(--text);
+        }
+        .project-period {
+            font-size: 0.82rem; color: var(--text-3); font-weight: 500;
+            white-space: nowrap;
+        }
+        .project-role {
+            font-size: 0.85rem; color: var(--accent); font-weight: 500;
+            margin-bottom: 10px;
+        }
+        .project-desc {
+            font-size: 0.88rem; color: var(--text-2); line-height: 1.7;
+            margin-bottom: 14px;
+        }
+        .project-highlights { list-style: none; margin-bottom: 14px; }
+        .project-highlights li {
+            position: relative;
+            padding-left: 16px; margin-bottom: 8px;
+            font-size: 0.88rem; color: var(--text-2); line-height: 1.7;
+        }
+        .project-highlights li::before {
+            content: '';
+            position: absolute; left: 0; top: 10px;
+            width: 5px; height: 5px; border-radius: 50%;
+            background: color-mix(in srgb, var(--accent) 40%, transparent);
+        }
+        .project-results {
+            padding: 12px 16px;
+            background: var(--accent-soft);
+            border-radius: 8px;
+            font-size: 0.88rem; color: var(--text-2); line-height: 1.7;
+        }
+        .project-results-label {
+            font-weight: 600; color: var(--accent); font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        /* ===== Skills ===== */
+        .skills-grid {
+            display: flex; flex-wrap: wrap; gap: 8px;
+        }
+        .skill-tag {
+            padding: 6px 16px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            border-radius: 20px;
+            font-size: 0.85rem; font-weight: 500;
+            border: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
+        }
+
+        /* ===== Education ===== */
+        .edu-school {
+            font-size: 1rem; font-weight: 600; color: var(--text);
+        }
+        .edu-period {
+            font-size: 0.82rem; color: var(--text-3); font-weight: 500;
+        }
+        .edu-major {
+            font-size: 0.9rem; color: var(--accent); font-weight: 500;
+            margin-top: 2px;
+        }
+        .edu-details {
+            font-size: 0.88rem; color: var(--text-2); line-height: 1.7;
+            margin-top: 8px;
+        }
+
+        /* ===== Footer ===== */
+        .resume-footer {
+            text-align: center; padding: 32px 0 16px;
+            font-size: 0.78rem; color: var(--text-3);
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+        }
+
+        /* ===== Language Toggle Logic ===== */
+        body.lang-en [data-lang="zh"] { display: none !important; }
+        body.lang-zh [data-lang="en"] { display: none !important; }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 600px) {
+            .container { padding: 0 16px 40px; }
+            .top-bar { padding: 10px 16px; }
+            .header-name { font-size: 1.8rem; }
+            .exp-head, .project-head { flex-direction: column; gap: 2px; }
+            .project-card { padding: 18px; }
+        }
+
+        /* ===== Print ===== */
+        @media print {
+            html { font-size: 11pt; }
+            body { background: #fff; color: #000; }
+            .top-bar { display: none; }
+            .container { max-width: 100%; padding: 0; }
+            .resume-header { padding: 0 0 16px; margin-bottom: 20px; }
+            .header-name { font-size: 1.8rem; }
+            .section { margin-bottom: 20px; }
+            .exp-item { margin-bottom: 16px; }
+            .project-card {
+                border: 1px solid #ddd;
+                padding: 14px; margin-bottom: 12px;
+                break-inside: avoid;
+            }
+            .project-card:hover { border-color: #ddd; }
+            .exp-bullets li, .project-highlights li { margin-bottom: 4px; }
+            .resume-footer { display: none; }
+            .skill-tag { border: 1px solid #ccc; background: #f5f5f5; color: #333; }
+            .project-results { background: #f5f5f5; }
+            /* Print only the current language */
+            a { color: #000; text-decoration: none; }
+        }
+
+        @media print and (prefers-color-scheme: dark) {
+            body { background: #fff; color: #000; }
+        }
+
+        /* ===== Reduced motion ===== */
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; }
+        }
+    </style>
+</head>
+<body class="lang-zh">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <a href="/" class="back-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <span data-lang="zh">返回首页</span><span data-lang="en">Home</span>
+        </a>
+        <div class="lang-toggle">
+            <button class="lang-btn active" data-lang-btn="zh" onclick="switchLang('zh')">ZH</button>
+            <button class="lang-btn" data-lang-btn="en" onclick="switchLang('en')">EN</button>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Header -->
+        <header class="resume-header">
+            <h1 class="header-name">Faye</h1>
+            <div class="header-title">
+                <span data-lang="zh">产品经理</span><span data-lang="en">Product Manager</span>
+            </div>
+            <div class="header-target">
+                <span data-lang="zh">产品经理 · 30~35k</span>
+                <span data-lang="en">Product Manager · 30–35K CNY/month</span>
+            </div>
+        </header>
+
+        <!-- Summary -->
+        <section class="section">
+            <h2 class="section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <span data-lang="zh">个人简介</span><span data-lang="en">Summary</span>
+            </h2>
+            <p class="summary-text" data-lang="zh">深耕C端增长、支付金融与商业化，兼具AI原生工具应用能力（深度使用开源AI工作流工具、大语言模型等AI工作流）与复杂体系操盘经验。专注于构建以用户价值为核心的服务生态，擅长从0到1打造创新产品并实现规模化商业变现。</p>
+            <p class="summary-text" data-lang="en">Deep expertise in C-end user growth, payment &amp; fintech, and commercialization, combined with native AI tool proficiency (extensive use of open-source AI workflow tools, LLMs, and other AI workflows) and hands-on experience operating complex business systems. Focused on building user-value-centric service ecosystems, skilled at taking innovative products from 0 to 1 and scaling them into commercially viable businesses.</p>
+        </section>
+
+        <!-- Experience -->
+        <section class="section">
+            <h2 class="section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                <span data-lang="zh">工作经历</span><span data-lang="en">Experience</span>
+            </h2>
+
+            <!-- Company 1 -->
+            <div class="exp-item">
+                <div class="exp-head">
+                    <span class="exp-role">
+                        <span data-lang="zh">支付产品经理</span><span data-lang="en">Payment Product Manager</span>
+                    </span>
+                    <span class="exp-period">2024.9 – <span data-lang="zh">至今</span><span data-lang="en">Present</span></span>
+                </div>
+                <div class="exp-company">
+                    <span data-lang="zh">某A股上市科技企业 · 出行事业部</span>
+                    <span data-lang="en">A-Share Listed Tech Company · Mobility Division</span>
+                </div>
+                <div class="exp-desc">
+                    <span data-lang="zh">上市公司旗下消费级科技品牌，主营ETC车载硬件与车后服务，品类头部</span>
+                    <span data-lang="en">Consumer tech brand under a listed company, specializing in ETC in-vehicle hardware and aftermarket services; category leader</span>
+                </div>
+                <ul class="exp-bullets">
+                    <li>
+                        <span data-lang="zh">主导ETC金融产品从0到1，完成市场调研与商业模式设计，定位货车司机路费融资细分市场，预计每年为公司增收1千万元。</span>
+                        <span data-lang="en">Led the 0-to-1 development of an ETC fintech product, completed market research and business model design, targeting the truck driver toll financing segment, projected to generate an incremental ¥10M in annual revenue.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">搭建LTV与成本回收财务模型，规划长期盈利路径，推动业务18个月实现盈亏平衡。</span>
+                        <span data-lang="en">Built LTV and cost-recovery financial models, mapped out a long-term profitability roadmap, and drove the business to break-even within 18 months.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">设计"传统销售+DTC"混合增长模型，构建APP/小程序/线下网点全渠道网络，配套实施精细化的价格策略和预算计划，核心代理商数量扩张55%。</span>
+                        <span data-lang="en">Designed a hybrid "traditional sales + DTC" growth model, built an omnichannel network spanning app, mini-program, and offline outlets, expanding core distributor count by 55%.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">主导从商务到落地的全流程交付，推动解决跨部门协作阻塞，保障产品关键节点按计划落地。</span>
+                        <span data-lang="en">Led end-to-end delivery from business development to implementation, resolved cross-departmental bottlenecks, and ensured key milestones were delivered on schedule.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">引入AI工具重构内部运营工作流，搭建订单自动化导出、客服监控预警、客诉数据分析等6+个智能Agent，日常数据处理效率提升约60%；独立开发订单漏斗分析与产品评审助手等数据可视化工具。</span>
+                        <span data-lang="en">Introduced AI tools to restructure internal workflows, built 6+ intelligent agents covering automated order export, customer service monitoring, and complaint analysis, improving data processing efficiency by ~60%; independently developed data visualization tools including an order funnel analyzer and a product review assistant.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Company 2 -->
+            <div class="exp-item">
+                <div class="exp-head">
+                    <span class="exp-role">
+                        <span data-lang="zh">出行产品负责人</span><span data-lang="en">Head of Mobility Products</span>
+                    </span>
+                    <span class="exp-period">2023.5 – 2024.8</span>
+                </div>
+                <div class="exp-company">
+                    <span data-lang="zh">某出行科技初创公司</span>
+                    <span data-lang="en">A Mobility Tech Startup</span>
+                </div>
+                <div class="exp-desc">
+                    <span data-lang="zh">天使轮初创公司，打造高速ETC车主会员平台，提供支付结算闭环服务</span>
+                    <span data-lang="en">Angel-round startup building a highway ETC driver membership platform with closed-loop payment and settlement services</span>
+                </div>
+                <ul class="exp-bullets">
+                    <li>
+                        <span data-lang="zh">主导ETC车主产品从0到1，设计高扩展产品架构，实现会员、交易、保险与金融服务的模块化打通与数据闭环。半年内推动5款省级直连产品上线，日GMV突破9万。</span>
+                        <span data-lang="en">Led the 0-to-1 development of an ETC driver product with a highly extensible architecture enabling modular integration across membership, transactions, insurance, and financial services. Launched 5 province-level direct-connect products within six months, achieving daily GMV exceeding ¥90K.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">设计并完成了支撑规模化增长的技术基建。上线小程序、支付中台、会员权益与CRM/分销系统，打通"权益–交易–结算–数据"闭环，次月用户留存率达60%。</span>
+                        <span data-lang="en">Designed and delivered scalable technical infrastructure: mini-programs, a payment middle platform, membership benefits, and CRM/distribution systems, achieving a 60% user retention rate by the following month.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">搭建并管理产研、运营与客服团队（5-8人），重点优化供应链管理与售后支持体系。成功拓展代理60家、构建私域社群100+。</span>
+                        <span data-lang="en">Built and managed a product, engineering, operations, and CS team (5–8 members). Successfully onboarded 60 distributors and built 100+ private-domain communities to fuel sustained growth.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Company 3 -->
+            <div class="exp-item">
+                <div class="exp-head">
+                    <span class="exp-role">
+                        <span data-lang="zh">出行产品经理</span><span data-lang="en">Mobility Product Manager</span>
+                    </span>
+                    <span class="exp-period">2020.5 – 2023.3</span>
+                </div>
+                <div class="exp-company">
+                    <span data-lang="zh">某智慧交通科技企业（腾讯投资）</span>
+                    <span data-lang="en">A Smart Mobility Tech Company (Tencent-Backed)</span>
+                </div>
+                <div class="exp-desc">
+                    <span data-lang="zh">腾讯投资的智慧交通独角兽，核心产品服务亿级车主，覆盖ETC及车后生活</span>
+                    <span data-lang="en">Tencent-backed smart mobility unicorn; core products serve 100M+ drivers, covering ETC and automotive aftermarket</span>
+                </div>
+                <ul class="exp-bullets">
+                    <li>
+                        <span data-lang="zh">从0到1主导ETC金融产品，针对货车司机融资慢、抵押难的痛点，协同银行及保理公司共建产品方案，上线1年获客5万，月交易规模破1亿。</span>
+                        <span data-lang="en">Led the 0-to-1 development of an ETC fintech product addressing truck drivers' financing pain points; co-developed solutions with banks and factoring companies, acquiring 50K users within one year and achieving monthly transaction volume exceeding ¥100M.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">参与会员体系商业化建设，通过精细化分群、AB实验与智能推荐策略完成付费方案验证。1年内付费会员达20万，月毛利超200万元，年度GMV超4000万。</span>
+                        <span data-lang="en">Contributed to membership system commercialization through granular segmentation, A/B testing, and intelligent recommendations. Reached 200K paid members within one year, monthly gross profit exceeding ¥2M, annual GMV exceeding ¥40M.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">构建业务报表体系，将数据洞察封装为标准化解决方案并推动B端合作；模型计算量4–6亿次，覆盖800万用户，支撑日均5万人次个性化推荐与600万人次订阅触达。</span>
+                        <span data-lang="en">Built a business reporting system, packaging data insights into standardized B2B solutions; 400–600M model computations covering 8M users, supporting 50K daily personalized recommendations and 6M subscription touchpoints.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Company 4 -->
+            <div class="exp-item">
+                <div class="exp-head">
+                    <span class="exp-role">
+                        <span data-lang="zh">出行产品运营</span><span data-lang="en">Mobility Product Operations</span>
+                    </span>
+                    <span class="exp-period">2018.4 – 2020.5</span>
+                </div>
+                <div class="exp-company">
+                    <span data-lang="zh">某省属交通集团直属国企</span>
+                    <span data-lang="en">A Provincial State-Owned Transport Enterprise</span>
+                </div>
+                <div class="exp-desc">
+                    <span data-lang="zh">省属交通集团直属国企，主营高速ETC发行与智慧交通，服务千万级车主</span>
+                    <span data-lang="en">Provincial SOE specializing in highway ETC issuance and smart mobility, serving tens of millions of drivers</span>
+                </div>
+                <ul class="exp-bullets">
+                    <li>
+                        <span data-lang="zh">主导省级官方平台小程序从0到1的线上化建设，推动线下业务向线上迁移，依托预付卡支付牌照创新上线"扫码付"跨场景交易功能，累计用户超过600万，首层交互上亿次。</span>
+                        <span data-lang="en">Led the 0-to-1 digital transformation of a provincial mini-program platform, driving offline-to-online migration. Leveraged a prepaid card license to launch a "scan-to-pay" cross-scenario feature, accumulating 6M+ users and 100M+ interactions.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">参与ETC与银行二类户融合结算创新项目，搭建10人以上专项客服团队，联动国有大行在广东省50余家网点异业地推。该方案于2019年被国家主管部门采纳为全国推广标准，累计服务用户规模超1亿。</span>
+                        <span data-lang="en">Participated in an ETC and bank Tier-II account settlement innovation project, building a 10+ person CS team and coordinating cross-industry promotions across 50+ major state-owned bank branches. The solution was adopted as a national standard in 2019, cumulatively serving 100M+ users.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">全面负责品牌推广与用户增长，整合新媒体矩阵、品牌广告、行业展会、发布会与协会合作等多类渠道，构建线上线下联动的整合传播体系。</span>
+                        <span data-lang="en">Fully responsible for brand promotion and user growth, integrating new media, brand advertising, industry exhibitions, and association partnerships into an online-offline communication system.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Company 5 -->
+            <div class="exp-item">
+                <div class="exp-head">
+                    <span class="exp-role">
+                        <span data-lang="zh">车主产品运营</span><span data-lang="en">Driver Product Operations</span>
+                    </span>
+                    <span class="exp-period">2016.5 – 2017.8</span>
+                </div>
+                <div class="exp-company">
+                    <span data-lang="zh">某互联网出行公司</span>
+                    <span data-lang="en">An Internet Mobility Company</span>
+                </div>
+                <div class="exp-desc">
+                    <span data-lang="zh">省属交通集团注资的互联网初创公司，深耕ETC+互联网创新</span>
+                    <span data-lang="en">Internet startup invested by a provincial ETC operator, focused on ETC + internet innovation</span>
+                </div>
+                <ul class="exp-bullets">
+                    <li>
+                        <span data-lang="zh">负责APP用户增长运营，策划积分/虚拟币/裂变活动等系列运营玩法，APP用户从40万增长至170万。触达车主超50万人次，新增用户环比提升约40%，7日留存率达35%。</span>
+                        <span data-lang="en">Responsible for app user growth operations — loyalty points, virtual currency, and viral campaigns — growing users from 400K to 1.7M. Reached 500K+ drivers, boosting new user acquisition by ~40% MoM with a 35% 7-day retention rate.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">协助增值业务（充值、洗车、加油）消费带动，通过卡券活动与精准触达实现单日充值订单翻3倍。建立核心数据监控体系，每日跟踪关键指标并输出归因诊断报告。</span>
+                        <span data-lang="en">Drove consumption for value-added services (top-up, car wash, fuel), achieving a 3x increase in daily top-up orders through coupon campaigns and precision targeting. Established a core data monitoring system with daily metric tracking and attribution analysis.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Projects -->
+        <section class="section">
+            <h2 class="section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span data-lang="zh">项目经历</span><span data-lang="en">Featured Projects</span>
+            </h2>
+
+            <!-- Project 1: AI -->
+            <div class="project-card">
+                <div class="project-head">
+                    <span class="project-name">
+                        <span data-lang="zh">AI项目探索</span><span data-lang="en">AI Project Exploration</span>
+                    </span>
+                    <span class="project-period">2026.3 – <span data-lang="zh">至今</span><span data-lang="en">Present</span></span>
+                </div>
+                <div class="project-role">
+                    <span data-lang="zh">AI Builder</span><span data-lang="en">AI Builder</span>
+                </div>
+                <p class="project-desc" data-lang="zh">基于AI编程助手深度参与业务场景，在73天内发起1,177次独立会话、发出39,207条交互指令，累计消耗33.5亿Tokens，AI实际工作时长折合287.3小时（约36个工作日）。从零构建覆盖5大业务域的53个AI技能体系，形成标准化自动化中台，核心业务效率提升83%–100%。</p>
+                <p class="project-desc" data-lang="en">Deeply engaged with business scenarios using an AI coding assistant over 73 days — 1,177 sessions, 39,207 commands, 3.35B tokens consumed. AI working time totaled 287.3 hours (~36 working days). Built 53 AI skill systems covering 5 business domains, forming a standardized automation platform that improved core efficiency by 83%–100%.</p>
+                <ul class="project-highlights">
+                    <li>
+                        <span data-lang="zh">前端工程化架构重构——产品原型管理器四层分层架构，自主设计EventBus事件总线、依赖注入容器、StateManager状态管理等基础设施。</span>
+                        <span data-lang="en">Front-end engineering overhaul — four-layer restructuring of a product prototype manager with EventBus, DI container, and StateManager infrastructure.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">跨Android与Windows自动化方案——打通视觉识别、Android模拟器、ADB控制链路与OCR坐标校准，实现APP界面AI视觉识别与自动操作。</span>
+                        <span data-lang="en">Cross-platform automation — integrated visual recognition, Android emulator, ADB pipeline, and OCR calibration for AI-driven UI automation.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">数据处理与可视化闭环——Python处理特殊格式业务数据，HTML/CSS/JS构建漏斗分析页面，解决数据"取不出、看不清、分析慢"的问题。</span>
+                        <span data-lang="en">Data processing &amp; visualization — Python for non-standard business data, HTML/CSS/JS funnel analysis pages, solving data accessibility and analysis challenges.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">日程管理网页端——打通日程管理、笔记同步与OKR关联总结，实现日程-笔记-目标三位一体的个人效能管理系统。</span>
+                        <span data-lang="en">Schedule management web app — integrated schedules, note synchronization, and OKR summaries into a unified personal productivity system.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">AI coding零代码——桌面效率工具、个人博客、高效写作网页端、海外销售线索挖掘。</span>
+                        <span data-lang="en">Zero-code AI coding — desktop productivity tool, personal blog, writing web app, and overseas sales lead mining.</span>
+                    </li>
+                </ul>
+                <div class="project-results">
+                    <div class="project-results-label">
+                        <span data-lang="zh">核心成果</span><span data-lang="en">Key Results</span>
+                    </div>
+                    <span data-lang="zh">从零构建覆盖5大业务域的53个AI技能体系，形成标准化自动化中台，核心业务效率提升83%–100%。</span>
+                    <span data-lang="en">Built 53 AI skill systems covering 5 major business domains, forming a standardized automation middle platform that improved core business efficiency by 83%–100%.</span>
+                </div>
+            </div>
+
+            <!-- Project 2: Invoice -->
+            <div class="project-card">
+                <div class="project-head">
+                    <span class="project-name">
+                        <span data-lang="zh">发票业务流量商业化探索</span><span data-lang="en">Invoice Traffic Commercialization</span>
+                    </span>
+                    <span class="project-period">2022 Q1 – 2023 Q1</span>
+                </div>
+                <div class="project-role">
+                    <span data-lang="zh">项目负责人</span><span data-lang="en">Project Lead</span>
+                </div>
+                <p class="project-desc" data-lang="zh">公司拥有庞大的发票用户池（年开票量3亿人次），但该业务长期被视为纯成本中心，用户价值未被有效挖掘，会员转化率不足核心用户的1/3。核心挑战：如何将海量发票流量转化为高价值会员增长与增值业务收入，开辟第二增长曲线。</p>
+                <p class="project-desc" data-lang="en">The company owned a massive invoice user pool (300M annual invoicing instances), but the business was regarded as a pure cost center with membership conversion less than 1/3 of core users. The challenge: convert massive invoice traffic into high-value membership growth and value-added service revenue.</p>
+                <ul class="project-highlights">
+                    <li>
+                        <span data-lang="zh">重新设计发票服务产品路径，在开票完成节点嵌入会员权益入口与车后服务推荐，将低频工具场景转化为高价值交易触点。</span>
+                        <span data-lang="en">Redesigned the invoice service journey, embedding membership benefits and aftermarket recommendations at the invoice completion touchpoint, transforming a low-frequency utility into a high-value transaction point.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">搭建用户价值分层模型，基于开票频次与消费额度对15万用户进行价值分级，实现会员套餐精准匹配与差异化推荐。</span>
+                        <span data-lang="en">Built a user value stratification model, segmenting 150K users by invoicing frequency and spending to enable precise membership package matching and differentiated recommendations.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">构建沉默用户召回机制，通过发票场景提醒激活90日内活跃非绑定用户，全年累计召回绑卡失效用户125万人次。</span>
+                        <span data-lang="en">Built a dormant user reactivation mechanism leveraging invoice-scenario reminders, cumulatively reactivating 1.25M card-unbound users throughout the year.</span>
+                    </li>
+                </ul>
+                <div class="project-results">
+                    <div class="project-results-label">
+                        <span data-lang="zh">核心成果</span><span data-lang="en">Key Results</span>
+                    </div>
+                    <span data-lang="zh">策略上线后，单月内发票场景引导至会员业务的访问UV增长6倍，支付人数翻5倍。Q2-Q4累计为增值业务导流105万人次，贡献GMV100万+。</span>
+                    <span data-lang="en">Post-launch: UV traffic from invoice to membership grew 6x, paying users increased 5x within a single month. Through Q2–Q4, the strategy drove 1.05M cumulative visits to value-added services, contributing ¥1M+ in GMV.</span>
+                </div>
+            </div>
+
+            <!-- Project 3: Truck ETC -->
+            <div class="project-card">
+                <div class="project-head">
+                    <span class="project-name">
+                        <span data-lang="zh">货车ETC金融产品</span><span data-lang="en">Truck ETC Financial Product</span>
+                    </span>
+                    <span class="project-period">2020 Q2 – 2022 Q1</span>
+                </div>
+                <div class="project-role">
+                    <span data-lang="zh">产品负责人</span><span data-lang="en">Product Lead</span>
+                </div>
+                <p class="project-desc" data-lang="zh">应对硬件增长放缓、收入结构单一的挑战，公司决定开辟金融服务新赛道，向出行生态服务商战略转型。目标：从0到1完成货车产品体系搭建，验证"硬件引流+长期收费"新模式。</p>
+                <p class="project-desc" data-lang="en">In response to slowing hardware growth and a monolithic revenue structure, the company entered the financial services track to strategically transform into a mobility ecosystem provider. Goal: build a truck product system from 0 to 1, validating a "hardware acquisition + long-term monetization" model.</p>
+                <ul class="project-highlights">
+                    <li>
+                        <span data-lang="zh">1年内接入4家头部省份，推出带金融属性的货车ETC产品（日结卡、周结卡），跑通"硬件获客-服务留存-金融变现"闭环模型，快速拓展50+渠道伙伴。</span>
+                        <span data-lang="en">Onboarded 4 leading provinces within one year, launched truck ETC products with financial attributes (daily/weekly settlement cards), validating a closed-loop model of "hardware acquisition – service retention – financial monetization" with 50+ channel partners.</span>
+                    </li>
+                    <li>
+                        <span data-lang="zh">设计硬件+增值服务复合产品包，叠加通行折扣、开票&违章提醒、道路救援等权益，将产品价值从通行工具延伸至车后服务生态。</span>
+                        <span data-lang="en">Designed a composite hardware + VAS bundle with toll discounts, invoicing &amp; violation alerts, and roadside assistance, shifting the value proposition from a toll-pass tool to an aftermarket service ecosystem.</span>
+                    </li>
+                </ul>
+                <div class="project-results">
+                    <div class="project-results-label">
+                        <span data-lang="zh">核心成果</span><span data-lang="en">Key Results</span>
+                    </div>
+                    <span data-lang="zh">线上硬件销售13万台，支付转化率稳定51%，小程序累计382万人次访问。交易规模从2020年2.64亿元增长至2021年8亿元，项目盈利从400万元增长至1000万元。</span>
+                    <span data-lang="en">130K units of online hardware sales with a sustained 51% payment conversion rate, 3.82M+ mini-program visits. Transaction volume grew from ¥264M (2020) to ¥800M (2021), project profit from ¥4M to ¥10M.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills -->
+        <section class="section">
+            <h2 class="section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                <span data-lang="zh">技能特长</span><span data-lang="en">Skills</span>
+            </h2>
+            <div class="skills-grid" data-lang="zh">
+                <span class="skill-tag">Obsidian</span>
+                <span class="skill-tag">大语言模型应用</span>
+                <span class="skill-tag">开源AI工作流工具</span>
+                <span class="skill-tag">AI编程</span>
+                <span class="skill-tag">视频/新媒体</span>
+                <span class="skill-tag">SQL</span>
+                <span class="skill-tag">英语（CET-6）</span>
+                <span class="skill-tag">粤语</span>
+            </div>
+            <div class="skills-grid" data-lang="en">
+                <span class="skill-tag">Obsidian</span>
+                <span class="skill-tag">LLM Applications</span>
+                <span class="skill-tag">Open-Source AI Workflow Tools</span>
+                <span class="skill-tag">AI Coding</span>
+                <span class="skill-tag">Video &amp; New Media</span>
+                <span class="skill-tag">SQL</span>
+                <span class="skill-tag">English (CET-6)</span>
+                <span class="skill-tag">Cantonese</span>
+            </div>
+        </section>
+
+        <!-- Education -->
+        <section class="section">
+            <h2 class="section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 10 3 12 0v-5"/></svg>
+                <span data-lang="zh">教育经历</span><span data-lang="en">Education</span>
+            </h2>
+            <div>
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:4px 16px;">
+                    <span class="edu-school">
+                        <span data-lang="zh">某综合性大学（统招本科）</span>
+                        <span data-lang="en">A Comprehensive University (Full-Time Undergraduate)</span>
+                    </span>
+                    <span class="edu-period">2012 – 2016</span>
+                </div>
+                <div class="edu-major">
+                    <span data-lang="zh">汉语言文学</span>
+                    <span data-lang="en">Chinese Language &amp; Literature</span>
+                </div>
+                <p class="edu-details" data-lang="zh">主修课程：古现代汉语、外国文学、文学鉴赏与创作、速记、会计、秘书实务、企业经管、公共关系。校内实践：学生会秘书长、志愿者；国际与国内4A广告公司实习1年。</p>
+                <p class="edu-details" data-lang="en">Core courses: Classical &amp; Modern Chinese, Foreign Literature, Literary Appreciation &amp; Creative Writing, Shorthand, Accounting, Secretarial Practice, Business Management, Public Relations. Extracurriculars: Secretary-General of the Student Union, volunteer; 1-year internship at international and domestic 4A advertising agencies.</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="resume-footer">
+            <span data-lang="zh">Faye &middot; 最后更新于 2026年6月</span>
+            <span data-lang="en">Faye &middot; Last updated June 2026</span>
+        </footer>
+
+    </div>
+
+    <script>
+        function switchLang(lang) {
+            document.body.className = 'lang-' + lang;
+            document.querySelectorAll('.lang-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.getAttribute('data-lang-btn') === lang);
+            });
+        }
+
+        // Print: force current language
+        window.addEventListener('beforeprint', function() {
+            // Print will use current language, hide the other
+        });
+    </script>
+
+</body>
+</html>
