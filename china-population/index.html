@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中国人口结构分析与预测 (2026-2050)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"Microsoft YaHei","PingFang SC",sans-serif;background:#f5f7fa;color:#2c3e50}
+.header{background:linear-gradient(135deg,#1a237e 0%,#283593 50%,#3949ab 100%);color:#fff;padding:40px 20px;text-align:center}
+.header h1{font-size:28px;margin-bottom:8px}
+.header p{font-size:14px;opacity:.85}
+.container{max-width:1280px;margin:0 auto;padding:20px}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:24px 0}
+.card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.card .label{font-size:12px;color:#78909c;margin-bottom:4px}
+.card .value{font-size:26px;font-weight:700;color:#1a237e}
+.card .sub{font-size:12px;color:#ef5350;margin-top:2px}
+.chart-section{background:#fff;border-radius:12px;padding:24px;margin:20px 0;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.chart-section h2{font-size:18px;color:#283593;margin-bottom:4px}
+.chart-section .desc{font-size:13px;color:#90a4ae;margin-bottom:12px}
+.chart-box{width:100%;height:480px}
+.chart-box.tall{height:580px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:800px){.row{grid-template-columns:1fr}}
+.btns{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.btns button{padding:5px 14px;border:1px solid #c5cae9;border-radius:20px;background:#fff;cursor:pointer;font-size:13px;color:#3949ab;transition:all .2s}
+.btns button.active,.btns button:hover{background:#3949ab;color:#fff;border-color:#3949ab}
+.btns .sep{width:1px;background:#e0e0e0;margin:0 4px}
+.footer{text-align:center;padding:30px;font-size:12px;color:#b0bec5}
+.methodology{background:#fff;border-radius:12px;padding:24px;margin:20px 0;box-shadow:0 2px 8px rgba(0,0,0,.06);font-size:13px;line-height:1.8;color:#546e7a}
+.methodology h2{font-size:18px;color:#283593;margin-bottom:12px}
+
+/* Tab Navigation */
+.tab-nav{display:flex;gap:0;margin:24px 0 0 0;border-bottom:2px solid #e8eaed;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.tab-nav::-webkit-scrollbar{height:3px}
+.tab-nav::-webkit-scrollbar-thumb{background:#c5cae9;border-radius:2px}
+.tab-btn{position:relative;padding:12px 22px;font-size:14px;font-weight:500;color:#78909c;background:none;border:none;cursor:pointer;white-space:nowrap;transition:color .25s}
+.tab-btn:hover{color:#3949ab}
+.tab-btn.active{color:#4f46e5;font-weight:600}
+.tab-btn.active::after{content:'';position:absolute;left:0;bottom:-2px;width:100%;height:3px;background:#4f46e5;border-radius:2px 2px 0 0}
+
+/* Tab Content */
+.tab-panel{display:none;opacity:0;transition:opacity .3s ease}
+.tab-panel.active{display:block;opacity:1}
+
+/* Placeholder Chart */
+.chart-placeholder{width:100%;height:480px;display:flex;align-items:center;justify-content:center;background:#f8f9fb;border:2px dashed #d1d5db;border-radius:8px;color:#9ca3af;font-size:15px;font-weight:500;letter-spacing:1px}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>中国人口结构分析与预测</h1>
+<p>基准年: 2026 | 预测期: 2026-2050 | 队列要素法 (Cohort-Component) | 高/中/低三种情景 | 含权威机构基准对比</p>
+</div>
+<div class="container">
+
+<div class="summary">
+<div class="card"><div class="label">2026 总人口</div><div class="value">13.94 亿</div><div class="sub">已进入负增长阶段</div></div>
+<div class="card"><div class="label">2050 总人口 (中方案)</div><div class="value">11.65 亿</div><div class="sub">较2026年减少2.29亿</div></div>
+<div class="card"><div class="label">2050 老龄化率</div><div class="value">28.2%</div><div class="sub">超四分之一为65岁以上</div></div>
+<div class="card"><div class="label">2050 中位年龄</div><div class="value">50.1 岁</div><div class="sub">超过50岁</div></div>
+<div class="card"><div class="label">2050 城镇化率</div><div class="value">75.2%</div><div class="sub">Logistic曲线趋于饱和</div></div>
+</div>
+
+<!-- Tab Navigation -->
+<div class="tab-nav" id="tabNav">
+<button class="tab-btn active" onclick="switchTab(0,this)">总量与结构</button>
+<button class="tab-btn" onclick="switchTab(1,this)">老龄化</button>
+<button class="tab-btn" onclick="switchTab(2,this)">人力资本</button>
+<button class="tab-btn" onclick="switchTab(3,this)">社会变迁</button>
+<button class="tab-btn" onclick="switchTab(4,this)">健康福利</button>
+<button class="tab-btn" onclick="switchTab(5,this)">国际坐标</button>
+</div>
+
+<!-- ==================== Tab 1: 总量与结构 ==================== -->
+<div class="tab-panel active" id="tabPanel0">
+
+<!-- 1. Pyramid -->
+<div class="chart-section">
+<h2>人口金字塔</h2>
+<p class="desc">男性在左 (蓝色)，女性在右 (红色)。可切换年份和情景。</p>
+<div class="btns" id="pyramidBtns">
+<button class="active" onclick="switchPyramid(2026,'medium',this)">2026</button>
+<button onclick="switchPyramid(2030,'medium',this)">2030</button>
+<button onclick="switchPyramid(2035,'medium',this)">2035</button>
+<button onclick="switchPyramid(2040,'medium',this)">2040</button>
+<button onclick="switchPyramid(2045,'medium',this)">2045</button>
+<button onclick="switchPyramid(2050,'medium',this)">2050</button>
+<div class="sep"></div>
+<button onclick="switchPyramid(currentPY,'high',this)" style="color:#e74c3c;border-color:#e74c3c">高方案</button>
+<button class="active" onclick="switchPyramid(currentPY,'medium',this)" style="color:#2980b9;border-color:#2980b9">中方案</button>
+<button onclick="switchPyramid(currentPY,'low',this)" style="color:#7f8c8d;border-color:#7f8c8d">低方案</button>
+</div>
+<div id="pyramidChart" class="chart-box tall"></div>
+<div style="font-size:13px;color:#546e7a;line-height:1.8;margin-top:16px;padding:14px;background:#f5f7fa;border-radius:8px;">
+<p><strong>金字塔计算逻辑：</strong>横轴为各年龄组人口数（万人），男性取负值向左延伸、女性取正值向右延伸，以0点对称展开。纵轴为21个5岁年龄组（0-4岁至100+）。数据由队列要素法逐年推演输出，每年龄组性别人口 = 上年该组存活人口（经当年分性别死亡率折算）+ 当年新出生人口（仅0-4岁组）。</p>
+<p style="margin-top:6px;"><strong>三情景差异来源：</strong>高/中/低方案在相同基线人口上并行推演，核心差异参数为：① 总和生育率TFR路径（高0.95→1.30、中0.88→1.15、低0.82→0.85），直接影响底部年轻组规模；② 死亡率乘数（高0.90、中1.00、低1.10），经Coale-Demeny West模型生命表动态调整预期寿命，对中老年组人口存量产生持续影响。切换情景时可观察到全年龄组均有差异。</p>
+</div>
+</div>
+
+<!-- Row: 总人口趋势 + 自然增长率趋势(占位) -->
+<div class="row">
+<div class="chart-section">
+<h2>总人口预测</h2>
+<p class="desc">三种情景下总人口变化趋势 (亿人)</p>
+<div id="popTrendChart" class="chart-box"></div>
+</div>
+<div class="chart-section">
+<h2>自然增长率趋势</h2>
+<p class="desc">自然增长率（出生率减死亡率）变化趋势，零线以下表示人口自然减少</p>
+<div id="ngrChart" class="chart-box"></div>
+<div style="font-size:13px;color:#546e7a;line-height:1.8;margin-top:12px;padding:12px;background:#f5f7fa;border-radius:8px;">
+<p>中国人口自2022年起进入负增长阶段，自然增长率持续走低。中情景下2026年自然增长率约为-4.2‰，2050年约为-10.6‰。三情景的差异主要源于生育率路径假设不同，高情景下负增长速率相对缓和，低情景下2050年自然增长率可达-13.5‰。</p>
+</div>
+</div>
+</div>
+
+<!-- Row: 出生vs死亡 + 出生性别比(占位) -->
+<div class="row">
+<div class="chart-section">
+<h2>出生 vs 死亡</h2>
+<p class="desc">年出生人口与年死亡人口 (万人)</p>
+<div id="birthDeathChart" class="chart-box"></div>
+</div>
+<div class="chart-section">
+<h2>出生性别比与总人口性别比</h2>
+<p class="desc">出生性别比（SRB）与总人口性别比（男/女×100）变化趋势</p>
+<div id="sexRatioChart" class="chart-box"></div>
+<div style="font-size:13px;color:#546e7a;line-height:1.8;margin-top:12px;padding:12px;background:#f5f7fa;border-radius:8px;">
+<p>出生性别比从历史偏高水平（约1.065）逐步回归生物常态（1.05），总人口性别比随之趋于平衡。中情景下总人口性别比从2026年的103.0降至2050年的100.5，反映人口性别结构逐步走向均衡。</p>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- ==================== Tab 2: 老龄化 ==================== -->
+<div class="tab-panel" id="tabPanel1">
+
+<!-- Row: 老龄化率 + 老年与少儿人口比(占位) -->
+<div class="row">
+<div class="chart-section">
+<h2>老龄化率 (65+ 占比)</h2>
+<p class="desc">65岁以上人口占总人口比例</p>
+<div id="agingChart" class="chart-box"></div>
+</div>
+<div class="chart-section">
+<h2>老年与少儿人口比</h2>
+<p class="desc">65岁以上人口与0-14岁人口的比值变化，反映人口年龄结构转型</p>
+<div id="elderlyChildChart" class="chart-box"></div>
+<div style="font-size:13px;color:#546e7a;line-height:1.8;margin-top:12px;padding:12px;background:#f5f7fa;border-radius:8px;">
+<p>2026年老年人口已超过少儿人口（比值约为1.14），这是人口结构转型的重要里程碑。中情景下到2050年，老年人口约为少儿人口的2.6倍，意味着社会抚养重心已全面从少儿向老年转移。</p>
+</div>
+</div>
+</div>
+
+<!-- Row: 抚养比 + 中位年龄 -->
+<div class="row">
+<div class="chart-section">
+<h2>抚养比变化趋势</h2>
+<p class="desc">老年抚养比 + 少儿抚养比 = 总抚养比</p>
+<div id="dependencyChart" class="chart-box"></div>
+</div>
+<div class="chart-section">
+<h2>中位年龄</h2>
+<p class="desc">人口中位年龄变化趋势 (岁)</p>
+<div id="medianAgeChart" class="chart-box"></div>
+</div>
+</div>
+
+</div>
+
+<!-- ==================== Tab 3: 人力资本 ==================== -->
+<div class="tab-panel" id="tabPanel2">
+
+<div class="chart-section">
+<h2>人口教育结构变迁</h2>
+<p class="desc">各教育层次人口占比变化趋势（三情景对比，队列推进模型）</p>
+<div id="eduChart" class="chart-box tall"></div>
+<div style="font-size:13px;color:#546e7a;line-height:1.8;margin-top:12px;padding:12px;background:#f5f7fa;border-radius:8px;">
+<p>2026-2050年间，人口教育结构持续优化。"未上过学"人口占比从2026年的7.7%单调下降至2050年的3-4%，主要受两方面驱动：一是高龄文盲队列（80岁以上）随自然减员逐步退出人口基数，二是义务教育全覆盖确保新增学龄人口均纳入教育体系。大学及以上学历占比从2026年的约21%稳步上升至2050年的47-48%，反映高等教育扩招的长期效应。小学和初中学历占比同步下降，高中学历占比相对稳定在25-27%。三情景之间的差异主要通过人口年龄结构加权传导：低情景下出生人口较少，学龄前"未上过学"群体的权重较小，使得大学+占比略高于高情景；高情景下出生人口较多，该稀释效应相应增强。整体而言，三情景的教育结构走势高度接近。</p>
+</div>
+</div>
+
+<div class="row">
+<div class="chart-section">
+<h2>劳动年龄人口规模（15-64岁）</h2>
+<p class="desc">劳动年龄人口总量变化趋势（万人）</p>
+<div id="laborChart" class="chart-box"></div>
+<div style="font-size:13px;color:#546e7a;line-height:1.8;margin-top:12px;padding:12px;background:#f5f7fa;border-radius:8px;">
+<p>劳动年龄人口从中情景2026年的约9.49亿降至2050年的约7.11亿，25年减少约2.38亿。高情景下劳动力收缩较为缓和（降至7.22亿），低情景下收缩更为剧烈（降至6.97亿）。劳动力持续缩减对经济增长潜力和社会保障体系构成长期挑战。</p>
+</div>
+</div>
+<div class="chart-section">
+<h2>劳动年龄人口教育结构（15-64岁）</h2>
+<p class="desc">劳动年龄人口各教育层次占比变化趋势</p>
+<div id="eduLaborChart" class="chart-box"></div>
+<div style="font-size:13px;color:#546e7a;line-height:1.8;margin-top:12px;padding:12px;background:#f5f7fa;border-radius:8px;">
+<p>劳动年龄人口（15-64岁）的教育结构排除了学龄儿童和高龄群体，更直接反映劳动力的人力资本水平。2026年劳动年龄人口中大学及以上学历占比约28.8%，显著高于全年龄口径的约20.9%。随着高教育队列持续进入劳动力市场、低教育老年队列退出，到2050年大学+占比升至约54-55%。</p>
+</div>
+</div>
+</div>
+
+<div class="chart-section">
+<h2>养老金体系人口支撑比</h2>
+<p class="desc">缴费人口与领取人口比例变化</p>
+<div class="chart-placeholder">数据待补充</div>
+</div>
+
+</div>
+
+<!-- ==================== Tab 4: 社会变迁 ==================== -->
+<div class="tab-panel" id="tabPanel3">
+
+<div class="row">
+<div class="chart-section">
+<h2>城镇化率预测</h2>
+<p class="desc">Logistic曲线模型下的城镇化率走势</p>
+<div id="urbanChart" class="chart-box"></div>
+</div>
+<div class="chart-section">
+<h2>婚姻家庭变化趋势</h2>
+<p class="desc">结婚率、离婚率与家庭结构变迁</p>
+<div class="chart-placeholder">数据待补充</div>
+</div>
+</div>
+
+<div class="chart-section">
+<h2>学龄人口与教育资源需求</h2>
+<p class="desc">各学段适龄人口规模与教育资源配置压力</p>
+<div class="chart-placeholder">数据待补充</div>
+</div>
+
+</div>
+
+<!-- ==================== Tab 5: 健康福利 ==================== -->
+<div class="tab-panel" id="tabPanel4">
+
+<div class="row">
+<div class="chart-section">
+<h2>预期寿命与老年健康</h2>
+<p class="desc">预期寿命增长趋势与老年健康预期</p>
+<div class="chart-placeholder">数据待补充</div>
+</div>
+<div class="chart-section">
+<h2>医疗卫生需求预测</h2>
+<p class="desc">人口老龄化驱动的医疗卫生需求变化</p>
+<div class="chart-placeholder">数据待补充</div>
+</div>
+</div>
+
+<div class="chart-section">
+<h2>消费结构人口基础</h2>
+<p class="desc">人口年龄结构变迁对消费模式的影响</p>
+<div class="chart-placeholder">数据待补充</div>
+</div>
+
+</div>
+
+<!-- ==================== Tab 6: 国际坐标 ==================== -->
+<div class="tab-panel" id="tabPanel5">
+
+<!-- 8. 与权威机构对比 -->
+<div class="chart-section">
+<h2>与权威机构预测对比</h2>
+<p class="desc">模型中方案 vs UN WPP 2024 / IHME / 育娲人口 / Rhodium Group 2050年预测</p>
+<div id="benchmarkChart" class="chart-box"></div>
+<div style="font-size:13px;color:#546e7a;line-height:1.8;margin-top:12px;padding:12px;background:#f5f7fa;border-radius:8px;">
+<p>本模型采用队列要素法(Cohort-Component Method)，方法论与联合国人口司、世界银行等机构一致。2050年各情景预测在国际机构预测区间中的位置如上图所示：</p>
+<p style="margin-top:6px;">模型中方案总人口11.65亿，介于UN WPP中方案(12.05亿)与低方案(10.98亿)之间，与育娲人口智库中预测(11.50亿)接近。模型高方案(12.13亿)与UN WPP中方案较为接近；低方案(11.07亿)位于UN低方案与IHME参考情景(10.30亿)之间。各机构差异主要源于生育率假设路径不同：本模型TFR起点(0.88)更贴近近年统计实际，UN WPP则假设了更强的回升力度。</p>
+</div>
+</div>
+
+<div class="chart-section">
+<h2>国际老龄化速度比较</h2>
+<p class="desc">中国与其他主要经济体老龄化速度对比</p>
+<div class="chart-placeholder">数据待补充</div>
+</div>
+
+</div>
+
+<div class="methodology">
+<h2>方法论说明</h2>
+<p><strong>基准数据:</strong> 2020年第七次全国人口普查分年龄性别人口数(21个5岁组)，利用2020-2025年统计局公布的出生人口、死亡人口、出生性别比等公开数据逐年队列推进至2026年构建基线。</p>
+<p><strong>预测方法:</strong> 队列要素法逐年推进。5岁年龄组每年1/5推进至下一组，4/5留在原位。死亡率基于Coale-Demeny West模型生命表，根据预期寿命动态调整。生育率保持2020普查ASFR分布模式，总水平按情景TFR缩放并经2024年实际出生数据校准。</p>
+<p><strong>情景假设:</strong> 高方案(TFR 0.95→1.30)、中方案(TFR 0.88→1.15)、低方案(TFR 0.82→0.85)。预期寿命逐年增长0.10-0.20年，出生性别比逐步回归自然值1.05，城镇化率采用Logistic曲线模型。</p>
+<p><strong>数据来源:</strong> 国家统计局《第七次全国人口普查汇总》、国家统计局年度统计公报、联合国World Population Prospects 2024修订版。</p>
+<p><strong>对标机构:</strong> 联合国World Population Prospects 2024 (中方案TFR~1.35/2050)、IHME/Lancet 2020 (参考情景10.3亿/2050)、育娲人口智库2023版 (中预测11.5亿/2050)、Rhodium Group 2026 (2035年死亡~1500万/年)。</p>
+</div>
+</div>
+<div class="footer">中国人口结构分析与预测 | 队列要素法 | 基准年2026 | 含国际权威预测对比</div>
+
+<script>
+const AG=['0-4','5-9','10-14','15-19','20-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64','65-69','70-74','75-79','80-84','85-89','90-94','95-99','100+'];
+const SC={high:'#e74c3c',medium:'#2980b9',low:'#7f8c8d'};
+const SN={high:'高方案',medium:'中方案',low:'低方案'};
+const YR=[2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050];
+
+const D={
+high:{
+  total_yi:[13.944,13.907,13.865,13.819,13.770,13.716,13.659,13.598,13.534,13.467,13.396,13.323,13.246,13.167,13.085,13.000,12.912,12.822,12.729,12.634,12.537,12.438,12.337,12.235,12.131],
+  aging:[17.0,17.71,18.41,19.11,19.79,20.45,21.1,21.72,22.32,22.89,23.44,23.96,24.46,24.94,25.4,25.84,26.25,26.65,27.03,27.39,27.73,28.06,28.37,28.67,28.95],
+  births:[897,900,904,908,914,919,925,930,935,938,941,943,943,943,941,938,935,931,925,920,914,908,901,895,888],
+  deaths:[1267,1314,1361,1405,1449,1491,1531,1569,1607,1642,1675,1707,1737,1764,1790,1814,1836,1856,1873,1889,1903,1915,1925,1933,1939],
+  median_age:[42.5,43.0,43.5,44.0,44.4,44.9,45.3,45.7,46.1,46.4,46.8,47.1,47.4,47.7,48.0,48.2,48.5,48.7,48.9,49.2,49.4,49.6,49.8,49.9,50.1],
+  old_dep:[25.0,26.1,27.2,28.4,29.5,30.6,31.8,32.9,34.0,35.1,36.1,37.2,38.2,39.2,40.2,41.1,42.0,43.0,43.8,44.7,45.5,46.4,47.1,47.9,48.6],
+  child_dep:[22.0,21.3,20.7,20.1,19.6,19.2,18.8,18.5,18.3,18.1,18.0,17.9,17.9,17.9,18.0,18.0,18.1,18.2,18.4,18.5,18.7,18.8,19.0,19.2,19.3],
+  total_dep:[46.9,47.4,47.9,48.5,49.1,49.8,50.6,51.4,52.3,53.2,54.1,55.1,56.1,57.1,58.1,59.1,60.2,61.2,62.2,63.2,64.2,65.2,66.1,67.0,67.9],
+  ngr:[-2.65,-2.98,-3.3,-3.6,-3.88,-4.16,-4.44,-4.7,-4.96,-5.22,-5.48,-5.74,-5.99,-6.24,-6.49,-6.74,-6.98,-7.22,-7.45,-7.67,-7.89,-8.1,-8.3,-8.49,-8.66],
+  srb:[1.065,1.0644,1.0638,1.0631,1.0625,1.0619,1.0613,1.0606,1.06,1.0594,1.0588,1.0581,1.0575,1.0569,1.0563,1.0556,1.055,1.0544,1.0538,1.0531,1.0525,1.0519,1.0513,1.0506,1.05],
+  sex_ratio:[102.96,102.88,102.8,102.71,102.62,102.54,102.45,102.35,102.26,102.17,102.07,101.98,101.89,101.79,101.7,101.61,101.51,101.42,101.33,101.25,101.16,101.08,100.99,100.91,100.84],
+  labor_15_64:[94889.4,94355.4,93747.8,93071.9,92333.3,91538.0,90692.3,89802.0,88872.6,87909.7,86918.1,85902.7,84867.9,83818.1,82757.1,81688.7,80616.6,79543.8,78473.4,77408.1,76350.2,75301.9,74264.9,73240.7,72230.5],
+  elderly_child_ratio:[1.137,1.226,1.317,1.411,1.504,1.597,1.687,1.774,1.857,1.934,2.007,2.073,2.133,2.188,2.237,2.281,2.321,2.356,2.387,2.415,2.44,2.462,2.482,2.5,2.516],
+  edu_dist:[[.0772,.1488,.3573,.2081,.2086],[.0683,.1288,.3482,.2203,.2344],[.0619,.1104,.3368,.2311,.2597],[.0577,.0942,.3236,.2407,.2840],[.0551,.0804,.3091,.2487,.3067],[.0537,.0692,.2942,.2553,.3276],[.0530,.0605,.2796,.2606,.3463],[.0525,.0541,.2660,.2647,.3627],[.0523,.0495,.2538,.2677,.3767],[.0523,.0465,.2431,.2698,.3884],[.0523,.0446,.2341,.2708,.3982],[.0521,.0434,.2267,.2711,.4067],[.0515,.0427,.2209,.2708,.4141],[.0504,.0423,.2165,.2700,.4208],[.0488,.0422,.2133,.2688,.4270],[.0469,.0421,.2108,.2674,.4328],[.0449,.0421,.2090,.2658,.4382],[.0430,.0421,.2074,.2642,.4433],[.0415,.0422,.2059,.2623,.4480],[.0403,.0422,.2046,.2605,.4525],[.0395,.0423,.2032,.2584,.4566],[.0391,.0424,.2018,.2563,.4604],[.0389,.0424,.2004,.2542,.4640],[.0389,.0425,.1991,.2520,.4675],[.0389,.0426,.1977,.2499,.4709]],
+  edu_labor_dist:[[.0134,.0749,.3617,.2616,.2884],[.0134,.0526,.3379,.2729,.3232],[.0145,.0355,.3131,.2814,.3555],[.0162,.0237,.2885,.2886,.3831],[.0183,.0166,.2664,.2938,.4049],[.0204,.0128,.2472,.2978,.4218],[.0221,.0109,.2320,.3005,.4345],[.0230,.0100,.2199,.3023,.4448],[.0238,.0098,.2110,.3032,.4523],[.0244,.0098,.2040,.3027,.4591],[.0247,.0100,.1992,.2987,.4674],[.0184,.0099,.1986,.2978,.4753],[.0129,.0099,.1978,.2967,.4827],[.0084,.0098,.1968,.2953,.4896],[.0049,.0098,.1957,.2936,.4960],[.0025,.0097,.1944,.2916,.5018],[.0012,.0096,.1929,.2893,.5070],[.0010,.0096,.1912,.2868,.5115],[.0009,.0095,.1895,.2842,.5159],[.0009,.0094,.1878,.2817,.5202],[.0009,.0093,.1861,.2792,.5245],[.0009,.0092,.1845,.2767,.5286],[.0009,.0091,.1829,.2743,.5327],[.0009,.0091,.1813,.2720,.5367],[.0009,.0090,.1798,.2696,.5407]],
+    pyr:{
+    2026:{m:[-2847,-3784,-4363,-4338,-4066,-4100,-4798,-5314,-5197,-5165,-5478,-5477,-4748,-3835,-2946,-2021,-1214,-638,-280,-96,-30],f:[-2614,-3386,-3849,-3854,-3700,-3861,-4600,-5085,-4963,-4936,-5233,-5287,-4690,-3948,-3208,-2356,-1539,-901,-451,-179,-65]},
+    2030:{m:[-2530,-3128,-3833,-4216,-4205,-4117,-4369,-4857,-5116,-5133,-5209,-5275,-4951,-4214,-3300,-2357,-1500,-831,-389,-150,-59],f:[-2355,-2846,-3421,-3742,-3772,-3787,-4128,-4645,-4902,-4922,-5005,-5106,-4877,-4286,-3529,-2696,-1855,-1126,-587,-254,-115]},
+    2035:{m:[-2422,-2676,-3187,-3732,-4057,-4138,-4200,-4439,-4757,-4957,-5029,-5040,-4888,-4422,-3653,-2725,-1818,-1065,-531,-219,-99],f:[-2276,-2478,-2895,-3342,-3626,-3739,-3879,-4189,-4546,-4765,-4856,-4904,-4825,-4480,-3858,-3059,-2199,-1401,-767,-350,-179]},
+    2040:{m:[-2412,-2497,-2772,-3211,-3655,-3950,-4095,-4229,-4438,-4664,-4809,-4843,-4735,-4412,-3813,-2982,-2082,-1275,-667,-289,-142],f:[-2277,-2339,-2559,-2917,-3288,-3553,-3725,-3920,-4191,-4465,-4649,-4729,-4692,-4475,-4014,-3317,-2482,-1647,-940,-448,-246]},
+    2045:{m:[-2389,-2431,-2561,-2834,-3218,-3596,-3874,-4056,-4216,-4392,-4547,-4620,-4556,-4307,-3824,-3105,-2260,-1445,-788,-357,-188],f:[-2264,-2292,-2392,-2612,-2927,-3248,-3506,-3711,-3923,-4160,-4376,-4512,-4526,-4381,-4029,-3446,-2677,-1845,-1094,-542,-317]},
+    2050:{m:[-2332,-2382,-2456,-2610,-2874,-3214,-3547,-3813,-4008,-4166,-4300,-4382,-4352,-4157,-3753,-3124,-2349,-1558,-883,-416,-232],f:[-2217,-2257,-2313,-2434,-2648,-2931,-3220,-3471,-3688,-3897,-4099,-4259,-4319,-4233,-3961,-3469,-2778,-1981,-1216,-625,-386]}
+  }
+},
+medium:{
+  total_yi:[13.944,13.886,13.823,13.756,13.685,13.610,13.532,13.450,13.365,13.277,13.186,13.092,12.995,12.896,12.794,12.689,12.582,12.472,12.360,12.246,12.131,12.013,11.894,11.773,11.651],
+  aging:[17.0,17.65,18.31,18.95,19.58,20.2,20.8,21.38,21.94,22.47,22.99,23.48,23.95,24.4,24.83,25.24,25.63,26.01,26.37,26.72,27.05,27.36,27.67,27.96,28.24],
+  births:[831,831,833,835,838,841,844,847,849,851,851,851,849,847,843,838,833,826,819,811,803,795,786,777,768],
+  deaths:[1413,1458,1502,1544,1584,1623,1660,1695,1729,1760,1790,1818,1844,1868,1890,1910,1927,1943,1957,1969,1978,1986,1992,1996,1998],
+  median_age:[42.5,43.0,43.5,43.9,44.4,44.8,45.2,45.6,46.0,46.3,46.6,47.0,47.3,47.5,47.8,48.1,48.3,48.6,48.8,49.0,49.3,49.5,49.7,49.9,50.1],
+  old_dep:[25.0,26.0,27.0,28.0,29.1,30.1,31.1,32.1,33.1,34.0,35.0,35.9,36.8,37.7,38.6,39.5,40.3,41.1,41.9,42.7,43.4,44.2,44.9,45.6,46.3],
+  child_dep:[22.0,21.2,20.5,19.9,19.3,18.8,18.4,18.0,17.7,17.4,17.2,17.1,17.0,16.9,16.9,16.9,16.9,17.0,17.0,17.1,17.2,17.3,17.4,17.5,17.6],
+  total_dep:[46.9,47.2,47.5,47.9,48.4,48.9,49.5,50.1,50.8,51.5,52.2,53.0,53.8,54.6,55.5,56.3,57.2,58.1,58.9,59.8,60.6,61.5,62.3,63.1,63.9],
+  ngr:[-4.17,-4.52,-4.84,-5.15,-5.45,-5.74,-6.03,-6.3,-6.58,-6.85,-7.12,-7.39,-7.65,-7.92,-8.18,-8.44,-8.7,-8.95,-9.2,-9.45,-9.69,-9.92,-10.14,-10.35,-10.56],
+  srb:[1.065,1.0644,1.0638,1.0631,1.0625,1.0619,1.0613,1.0606,1.06,1.0594,1.0588,1.0581,1.0575,1.0569,1.0563,1.0556,1.055,1.0544,1.0538,1.0531,1.0525,1.0519,1.0513,1.0506,1.05],
+  sex_ratio:[102.96,102.86,102.77,102.67,102.57,102.47,102.36,102.26,102.15,102.04,101.93,101.83,101.72,101.61,101.5,101.4,101.29,101.19,101.09,100.99,100.89,100.8,100.71,100.62,100.53],
+  labor_15_64:[94889.4,94322.0,93683.5,92978.7,92213.0,91391.4,90519.2,89601.2,88642.5,87647.6,86621.3,85567.8,84491.5,83396.4,82286.6,81165.6,80037.2,78904.7,77771.2,76639.4,75511.9,74391.0,73278.5,72176.0,71084.8],
+  elderly_child_ratio:[1.137,1.224,1.315,1.408,1.503,1.598,1.691,1.782,1.869,1.952,2.03,2.103,2.17,2.231,2.287,2.338,2.383,2.425,2.462,2.496,2.527,2.555,2.58,2.604,2.626],
+  edu_dist:[[.0772,.1488,.3573,.2081,.2086],[.0677,.1288,.3484,.2205,.2346],[.0610,.1102,.3371,.2315,.2602],[.0564,.0938,.3238,.2412,.2848],[.0537,.0798,.3093,.2494,.3079],[.0522,.0684,.2943,.2561,.3290],[.0513,.0597,.2796,.2614,.3480],[.0507,.0531,.2659,.2656,.3646],[.0504,.0485,.2536,.2688,.3787],[.0503,.0454,.2429,.2708,.3906],[.0503,.0434,.2338,.2720,.4005],[.0499,.0422,.2265,.2723,.4091],[.0492,.0414,.2208,.2720,.4166],[.0479,.0410,.2164,.2712,.4235],[.0462,.0407,.2132,.2701,.4298],[.0441,.0405,.2108,.2687,.4358],[.0420,.0404,.2089,.2672,.4414],[.0401,.0404,.2073,.2656,.4467],[.0385,.0403,.2058,.2638,.4516],[.0373,.0403,.2044,.2619,.4561],[.0365,.0403,.2030,.2599,.4603],[.0360,.0403,.2015,.2578,.4643],[.0358,.0404,.2000,.2557,.4681],[.0358,.0404,.1986,.2536,.4717],[.0358,.0404,.1972,.2514,.4752]],
+  edu_labor_dist:[[.0134,.0749,.3617,.2616,.2884],[.0134,.0526,.3379,.2729,.3232],[.0145,.0355,.3131,.2815,.3555],[.0162,.0236,.2884,.2887,.3831],[.0183,.0166,.2663,.2938,.4049],[.0204,.0128,.2471,.2978,.4219],[.0221,.0109,.2319,.3006,.4345],[.0231,.0100,.2199,.3023,.4448],[.0238,.0098,.2109,.3032,.4523],[.0244,.0098,.2040,.3027,.4591],[.0247,.0100,.1992,.2987,.4675],[.0183,.0099,.1986,.2978,.4754],[.0129,.0099,.1978,.2967,.4828],[.0084,.0098,.1968,.2953,.4897],[.0049,.0098,.1957,.2936,.4960],[.0025,.0097,.1944,.2916,.5018],[.0012,.0096,.1929,.2893,.5069],[.0010,.0096,.1912,.2868,.5115],[.0009,.0095,.1895,.2842,.5159],[.0009,.0094,.1878,.2817,.5202],[.0009,.0093,.1861,.2792,.5244],[.0009,.0092,.1845,.2768,.5285],[.0009,.0091,.1829,.2744,.5326],[.0009,.0091,.1814,.2720,.5366],[.0009,.0090,.1798,.2697,.5406]],
+    pyr:{
+    2026:{m:[-2847,-3784,-4363,-4338,-4066,-4100,-4798,-5314,-5197,-5165,-5478,-5477,-4748,-3835,-2946,-2021,-1214,-638,-280,-96,-30],f:[-2614,-3386,-3849,-3854,-3700,-3861,-4600,-5085,-4963,-4936,-5233,-5287,-4690,-3948,-3208,-2356,-1539,-901,-451,-179,-65]},
+    2030:{m:[-2423,-3096,-3828,-4215,-4204,-4115,-4367,-4854,-5112,-5126,-5198,-5257,-4926,-4181,-3260,-2314,-1459,-798,-368,-138,-52],f:[-2254,-2816,-3416,-3741,-3771,-3786,-4127,-4643,-4899,-4917,-4997,-5095,-4860,-4262,-3499,-2660,-1818,-1092,-561,-237,-103]},
+    2035:{m:[-2245,-2567,-3138,-3715,-4052,-4135,-4197,-4434,-4749,-4945,-5009,-5009,-4840,-4356,-3570,-2632,-1728,-990,-478,-189,-79],f:[-2109,-2376,-2849,-3327,-3621,-3737,-3877,-4186,-4541,-4757,-4843,-4883,-4793,-4433,-3796,-2983,-2118,-1325,-706,-310,-146]},
+    2040:{m:[-2193,-2328,-2662,-3153,-3629,-3938,-4088,-4221,-4427,-4647,-4783,-4802,-4673,-4323,-3697,-2848,-1946,-1158,-582,-240,-107],f:[-2071,-2179,-2455,-2862,-3264,-3543,-3720,-3915,-4184,-4454,-4632,-4702,-4650,-4412,-3927,-3209,-2362,-1530,-844,-384,-191]},
+    2045:{m:[-2139,-2217,-2395,-2722,-3151,-3561,-3855,-4043,-4202,-4372,-4517,-4574,-4485,-4204,-3686,-2939,-2087,-1290,-672,-287,-134],f:[-2028,-2091,-2237,-2507,-2866,-3217,-3490,-3702,-3914,-4148,-4356,-4481,-4477,-4307,-3926,-3312,-2524,-1692,-965,-454,-236]},
+    2050:{m:[-2054,-2135,-2247,-2446,-2759,-3141,-3504,-3787,-3988,-4144,-4268,-4332,-4275,-4045,-3600,-2937,-2147,-1372,-740,-327,-160],f:[-1953,-2023,-2116,-2280,-2541,-2864,-3182,-3450,-3674,-3882,-4078,-4226,-4267,-4154,-3847,-3319,-2600,-1798,-1058,-513,-280]}
+  }
+},
+low:{
+  total_yi:[13.944,13.865,13.781,13.693,13.600,13.503,13.403,13.298,13.190,13.078,12.963,12.844,12.723,12.598,12.471,12.341,12.208,12.072,11.934,11.795,11.653,11.509,11.363,11.216,11.067],
+  aging:[17.0,17.6,18.2,18.79,19.38,19.96,20.52,21.06,21.59,22.09,22.58,23.05,23.5,23.93,24.35,24.76,25.15,25.53,25.89,26.25,26.59,26.93,27.25,27.57,27.88],
+  births:[775,766,759,753,747,742,737,732,726,720,713,706,697,688,678,667,656,644,631,619,605,592,579,565,552],
+  deaths:[1561,1602,1641,1679,1715,1750,1783,1814,1843,1871,1896,1920,1942,1962,1980,1995,2009,2021,2030,2038,2044,2047,2049,2050,2048],
+  median_age:[42.5,43.0,43.5,43.9,44.3,44.7,45.1,45.5,45.9,46.2,46.6,46.9,47.2,47.5,47.8,48.1,48.4,48.7,48.9,49.2,49.4,49.7,49.9,50.2,50.4],
+  old_dep:[25.0,25.9,26.8,27.7,28.6,29.5,30.4,31.3,32.2,33.1,33.9,34.7,35.5,36.3,37.1,37.9,38.7,39.4,40.1,40.9,41.6,42.3,42.9,43.6,44.3],
+  child_dep:[22.0,21.2,20.4,19.7,19.1,18.5,17.9,17.4,17.0,16.6,16.3,16.0,15.7,15.5,15.3,15.2,15.1,15.0,14.9,14.8,14.7,14.7,14.6,14.6,14.6],
+  total_dep:[46.9,47.1,47.2,47.4,47.7,48.0,48.3,48.7,49.2,49.7,50.2,50.7,51.3,51.9,52.5,53.1,53.7,54.4,55.0,55.7,56.3,57.0,57.6,58.2,58.8],
+  ngr:[-5.64,-6.03,-6.4,-6.76,-7.12,-7.46,-7.8,-8.13,-8.47,-8.8,-9.13,-9.45,-9.78,-10.11,-10.44,-10.76,-11.08,-11.4,-11.72,-12.03,-12.34,-12.65,-12.94,-13.24,-13.52],
+  srb:[1.065,1.0644,1.0638,1.0631,1.0625,1.0619,1.0613,1.0606,1.06,1.0594,1.0588,1.0581,1.0575,1.0569,1.0563,1.0556,1.055,1.0544,1.0538,1.0531,1.0525,1.0519,1.0513,1.0506,1.05],
+  sex_ratio:[102.96,102.85,102.74,102.63,102.51,102.39,102.28,102.15,102.03,101.91,101.79,101.66,101.54,101.42,101.29,101.17,101.05,100.94,100.82,100.7,100.59,100.48,100.37,100.27,100.16],
+  labor_15_64:[94889.4,94288.4,93618.5,92884.8,92091.8,91243.8,90345.0,89399.5,88411.3,87384.1,86321.8,85228.0,84106.6,82961.0,81794.9,80611.6,79414.6,78207.0,76991.6,75771.4,74548.8,73325.9,72104.8,70887.1,69674.3],
+  elderly_child_ratio:[1.137,1.222,1.312,1.405,1.502,1.6,1.699,1.798,1.896,1.992,2.085,2.175,2.261,2.343,2.421,2.496,2.567,2.634,2.698,2.76,2.819,2.877,2.932,2.987,3.04],
+  edu_dist:[[.0772,.1488,.3573,.2081,.2086],[.0673,.1287,.3485,.2206,.2349],[.0602,.1100,.3373,.2318,.2608],[.0553,.0934,.3240,.2417,.2857],[.0522,.0792,.3095,.2500,.3091],[.0505,.0677,.2944,.2569,.3305],[.0494,.0588,.2796,.2624,.3498],[.0485,.0522,.2659,.2667,.3667],[.0479,.0474,.2536,.2700,.3811],[.0476,.0442,.2429,.2722,.3931],[.0472,.0420,.2339,.2735,.4034],[.0466,.0406,.2266,.2739,.4122],[.0455,.0397,.2209,.2738,.4201],[.0439,.0390,.2166,.2731,.4274],[.0418,.0385,.2134,.2721,.4341],[.0394,.0381,.2110,.2709,.4405],[.0370,.0377,.2091,.2696,.4466],[.0348,.0374,.2074,.2681,.4523],[.0329,.0372,.2059,.2665,.4576],[.0315,.0369,.2043,.2647,.4625],[.0305,.0367,.2028,.2629,.4672],[.0299,.0364,.2012,.2610,.4716],[.0294,.0362,.1996,.2590,.4758],[.0292,.0360,.1980,.2570,.4798],[.0289,.0358,.1965,.2550,.4838]],
+  edu_labor_dist:[[.0134,.0749,.3617,.2616,.2884],[.0134,.0525,.3378,.2730,.3233],[.0145,.0354,.3130,.2815,.3556],[.0162,.0236,.2883,.2887,.3832],[.0183,.0166,.2663,.2938,.4050],[.0205,.0128,.2470,.2978,.4219],[.0222,.0109,.2318,.3006,.4346],[.0231,.0100,.2198,.3023,.4448],[.0238,.0098,.2109,.3032,.4523],[.0244,.0098,.2040,.3027,.4592],[.0246,.0100,.1992,.2987,.4675],[.0183,.0099,.1986,.2978,.4754],[.0128,.0099,.1978,.2967,.4828],[.0084,.0098,.1968,.2953,.4897],[.0049,.0098,.1957,.2936,.4960],[.0025,.0097,.1944,.2916,.5018],[.0012,.0096,.1929,.2894,.5069],[.0010,.0096,.1912,.2868,.5115],[.0009,.0095,.1895,.2843,.5158],[.0009,.0094,.1878,.2817,.5201],[.0009,.0093,.1862,.2793,.5243],[.0009,.0092,.1846,.2769,.5284],[.0009,.0091,.1830,.2745,.5325],[.0009,.0091,.1814,.2721,.5365],[.0009,.0090,.1799,.2698,.5404]],
+    pyr:{
+    2026:{m:[-2847,-3784,-4363,-4338,-4066,-4100,-4798,-5314,-5197,-5165,-5478,-5477,-4748,-3835,-2946,-2021,-1214,-638,-280,-96,-30],f:[-2614,-3386,-3849,-3854,-3700,-3861,-4600,-5085,-4963,-4936,-5233,-5287,-4690,-3948,-3208,-2356,-1539,-901,-451,-179,-65]},
+    2030:{m:[-2312,-3065,-3823,-4215,-4203,-4114,-4365,-4851,-5107,-5119,-5187,-5240,-4900,-4147,-3220,-2271,-1419,-767,-347,-127,-45],f:[-2151,-2788,-3412,-3741,-3771,-3785,-4126,-4641,-4896,-4913,-4990,-5084,-4843,-4239,-3468,-2625,-1781,-1058,-535,-221,-91]},
+    2035:{m:[-2018,-2443,-3087,-3699,-4047,-4131,-4192,-4428,-4740,-4932,-4989,-4977,-4792,-4289,-3488,-2540,-1640,-918,-430,-163,-63],f:[-1895,-2260,-2801,-3312,-3617,-3735,-3875,-4182,-4535,-4748,-4829,-4862,-4760,-4385,-3734,-2909,-2038,-1251,-649,-274,-119]},
+    2040:{m:[-1863,-2099,-2528,-3086,-3601,-3927,-4081,-4213,-4416,-4630,-4757,-4761,-4611,-4234,-3582,-2716,-1817,-1050,-507,-198,-79],f:[-1759,-1964,-2329,-2800,-3238,-3534,-3715,-3910,-4177,-4443,-4614,-4675,-4607,-4348,-3840,-3102,-2245,-1419,-757,-328,-148]},
+    2045:{m:[-1723,-1892,-2165,-2578,-3073,-3522,-3835,-4030,-4188,-4353,-4487,-4526,-4413,-4100,-3549,-2777,-1922,-1148,-572,-230,-96],f:[-1633,-1783,-2020,-2372,-2793,-3182,-3474,-3692,-3905,-4135,-4336,-4450,-4428,-4233,-3822,-3181,-2376,-1549,-849,-378,-176]},
+    2050:{m:[-1566,-1725,-1924,-2214,-2607,-3052,-3455,-3758,-3966,-4120,-4234,-4281,-4198,-3933,-3450,-2755,-1958,-1204,-617,-255,-110],f:[-1489,-1634,-1810,-2061,-2398,-2781,-3138,-3426,-3658,-3867,-4056,-4192,-4213,-4073,-3732,-3170,-2429,-1627,-917,-419,-202]}
+  }
+}
+};
+
+let currentPY=2026, currentSC='medium';
+const charts=[];
+function initChart(id){const c=echarts.init(document.getElementById(id));charts.push(c);return c;}
+window.addEventListener('resize',()=>charts.forEach(c=>c.resize()));
+
+// ========== Tab Switching ==========
+let currentTab=0;
+function switchTab(idx,btn){
+  if(idx===currentTab) return;
+  // Deactivate all
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>{p.classList.remove('active');p.style.display='none';p.style.opacity='0';});
+  // Activate target
+  btn.classList.add('active');
+  const panel=document.getElementById('tabPanel'+idx);
+  panel.style.display='block';
+  // Force reflow before opacity transition
+  void panel.offsetWidth;
+  panel.classList.add('active');
+  panel.style.opacity='1';
+  currentTab=idx;
+  // Resize all charts after tab becomes visible
+  setTimeout(()=>charts.forEach(c=>c.resize()),50);
+}
+
+// ========== 1. Pyramid ==========
+const pyramidChart=initChart('pyramidChart');
+function switchPyramid(year,sc,btn){
+  currentPY=year; currentSC=sc;
+  // Update buttons
+  document.querySelectorAll('#pyramidBtns button').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  // Also highlight matching year/scenario buttons
+  document.querySelectorAll('#pyramidBtns button').forEach(b=>{
+    const txt=b.textContent;
+    if(txt===String(year)) b.classList.add('active');
+    if(txt===SN[sc]) b.classList.add('active');
+  });
+  const p=D[sc].pyr[year];
+  const scColor=sc==='high'?'#ef5350':sc==='medium'?'#5c6bc0':'#78909c';
+  pyramidChart.setOption({
+    title:{text:SN[sc]+' '+year+'年',left:'center',top:5,textStyle:{fontSize:15,color:'#283593'}},
+    tooltip:{trigger:'axis',formatter:function(ps){
+      let h='<div style="font-size:13px"><strong>'+ps[0].axisValue+'</strong><br>';
+      ps.forEach(p=>{h+=p.marker+' '+p.seriesName+': <strong>'+Math.abs(p.value)+' 万人</strong><br>';});
+      return h+'</div>';
+    }},
+    legend:{data:['男性','女性'],top:30},
+    grid:{left:60,right:60,top:65,bottom:30},
+    xAxis:{type:'value',name:'万人',min:function(v){var m=Math.max(Math.abs(v.min),Math.abs(v.max));return -m;},max:function(v){var m=Math.max(Math.abs(v.min),Math.abs(v.max));return m;},axisLabel:{formatter:v=>Math.abs(v)},splitLine:{lineStyle:{type:'dashed',color:'#e0e0e0'}}},
+    yAxis:{type:'category',data:AG,axisLabel:{fontSize:11},inverse:true},
+    series:[
+      {name:'男性',type:'bar',data:p.m,itemStyle:{color:'#5c6bc0',borderColor:'#fff',borderWidth:1},barWidth:'75%',barGap:'-100%'},
+      {name:'女性',type:'bar',data:p.f.map(v=>-v),itemStyle:{color:'#ef5350',borderColor:'#fff',borderWidth:1},barWidth:'75%'}
+    ]
+  },true);
+}
+switchPyramid(2026,'medium',null);
+
+// ========== 2. Total Pop ==========
+const popTrendChart=initChart('popTrendChart');
+popTrendChart.setOption({
+  tooltip:{trigger:'axis'},
+  legend:{data:['高方案','中方案','低方案','UN WPP中方案','UN WPP低方案'],top:0},
+  grid:{left:60,right:20,top:40,bottom:30},
+  xAxis:{type:'category',data:YR.map(String),boundaryGap:false},
+  yAxis:{type:'value',name:'亿人',min:11,max:14.5,splitLine:{lineStyle:{type:'dashed'}}},
+  series:[...['high','medium','low'].map(k=>({
+    name:SN[k],type:'line',data:D[k].total_yi,
+    lineStyle:{width:k==='medium'?3:2},symbol:'none',itemStyle:{color:SC[k]},
+    areaStyle:k==='medium'?{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'rgba(41,128,185,0.12)'},{offset:1,color:'rgba(41,128,185,0)'}])}:undefined
+  })),
+  {name:'UN WPP中方案',type:'scatter',symbolSize:11,symbol:'diamond',
+   data:[[2030,13.815],[2035,13.49],[2040,13.075],[2045,12.585],[2050,12.053]],
+   color:'#1565c0',itemStyle:{borderColor:'#fff',borderWidth:2}},
+  {name:'UN WPP低方案',type:'scatter',symbolSize:11,symbol:'triangle',
+   data:[[2030,13.71],[2035,13.18],[2040,12.52],[2045,11.77],[2050,10.98]],
+   color:'#64b5f6',itemStyle:{borderColor:'#fff',borderWidth:2}}
+  ]
+});
+
+// ========== 3. Aging ==========
+const agingChart=initChart('agingChart');
+agingChart.setOption({
+  tooltip:{trigger:'axis',valueFormatter:v=>v.toFixed(1)+'%'},
+  legend:{data:['高方案','中方案','低方案','UN WPP中方案','IHME参考'],top:0},
+  grid:{left:50,right:20,top:40,bottom:30},
+  xAxis:{type:'category',data:YR.map(String),boundaryGap:false},
+  yAxis:{type:'value',name:'%',min:10,max:30,splitLine:{lineStyle:{type:'dashed'}}},
+  series:[...['high','medium','low'].map(k=>({
+    name:SN[k],type:'line',data:D[k].aging,
+    lineStyle:{width:k==='medium'?3:2},symbol:'none',itemStyle:{color:SC[k]}
+  })),
+  {name:'UN WPP中方案',type:'scatter',symbolSize:11,symbol:'diamond',
+   data:[[2030,17.4],[2035,19.5],[2040,21.5],[2045,23.5],[2050,25.6]],
+   color:'#1565c0',itemStyle:{borderColor:'#fff',borderWidth:2}},
+  {name:'IHME参考',type:'scatter',symbolSize:11,symbol:'triangle',
+   data:[[2030,17.8],[2040,23.0],[2050,28.5]],
+   color:'#ff9800',itemStyle:{borderColor:'#fff',borderWidth:2}}
+  ]
+});
+
+// ========== 4. Birth vs Death ==========
+const bdChart=initChart('birthDeathChart');
+bdChart.setOption({
+  tooltip:{trigger:'axis'},
+  legend:{data:['高方案-出生','中方案-出生','低方案-出生','高方案-死亡','中方案-死亡','低方案-死亡','UN WPP出生(中)','Rhodium死亡估计'],top:0,textStyle:{fontSize:11}},
+  grid:{left:60,right:20,top:50,bottom:30},
+  xAxis:{type:'category',data:YR.map(String),boundaryGap:false},
+  yAxis:{type:'value',name:'万人',splitLine:{lineStyle:{type:'dashed'}}},
+  series:[
+    ...['high','medium','low'].map(k=>({
+      name:SN[k]+'-出生',type:'bar',data:D[k].births,
+      barWidth:'20%',itemStyle:{color:SC[k],opacity:0.7},barGap:'-60%',
+    })),
+    ...['high','medium','low'].map(k=>({
+      name:SN[k]+'-死亡',type:'line',data:D[k].deaths,
+      lineStyle:{width:2,type:'dashed'},symbol:'none',itemStyle:{color:SC[k]}
+    })),
+    {name:'UN WPP出生(中)',type:'scatter',symbolSize:10,symbol:'diamond',
+     data:[[2030,880],[2035,850],[2040,820],[2045,790],[2050,770]],
+     color:'#1565c0',itemStyle:{borderColor:'#fff',borderWidth:2}},
+    {name:'Rhodium死亡估计',type:'scatter',symbolSize:12,symbol:'circle',
+     data:[[2035,1500]],
+     color:'#2c3e50',itemStyle:{borderColor:'#fff',borderWidth:2},
+     label:{show:true,formatter:'Rhodium\n~1500万',position:'top',fontSize:11}}
+  ]
+});
+
+// ========== 5. Dependency ==========
+const depChart=initChart('dependencyChart');
+depChart.setOption({
+  tooltip:{trigger:'axis',valueFormatter:v=>v.toFixed(1)+'%'},
+  legend:{data:['高方案-总抚养比','中方案-总抚养比','低方案-总抚养比','中方案-老年','中方案-少儿'],top:0,textStyle:{fontSize:11}},
+  grid:{left:50,right:20,top:50,bottom:30},
+  xAxis:{type:'category',data:YR.map(String),boundaryGap:false},
+  yAxis:{type:'value',name:'%',splitLine:{lineStyle:{type:'dashed'}}},
+  series:[
+    {name:'中方案-老年',type:'line',stack:'dep',data:D.medium.old_dep,areaStyle:{color:'rgba(239,83,80,0.2)'},lineStyle:{width:0},symbol:'none',itemStyle:{color:'#ef5350'}},
+    {name:'中方案-少儿',type:'line',stack:'dep',data:D.medium.child_dep,areaStyle:{color:'rgba(66,165,245,0.2)'},lineStyle:{width:0},symbol:'none',itemStyle:{color:'#42a5f5'}},
+    ...['high','medium','low'].map(k=>({
+      name:SN[k]+'-总抚养比',type:'line',data:D[k].total_dep,
+      lineStyle:{width:k==='medium'?3:2},symbol:'none',itemStyle:{color:SC[k]}
+    }))
+  ]
+});
+
+// ========== 6. Median Age ==========
+const maChart=initChart('medianAgeChart');
+maChart.setOption({
+  tooltip:{trigger:'axis',valueFormatter:v=>v.toFixed(1)+'岁'},
+  legend:{data:['高方案','中方案','低方案'],top:0},
+  grid:{left:50,right:20,top:40,bottom:30},
+  xAxis:{type:'category',data:YR.map(String),boundaryGap:false},
+  yAxis:{type:'value',name:'岁',min:40,max:55,splitLine:{lineStyle:{type:'dashed'}}},
+  series:['high','medium','low'].map(k=>({
+    name:SN[k],type:'line',data:D[k].median_age,
+    lineStyle:{width:k==='medium'?3:2},symbol:'none',itemStyle:{color:SC[k]}
+  }))
+});
+
+// ========== 7. Urbanization ==========
+const urbChart=initChart('urbanChart');
+function logistic(y,ceil,k,p0,t0){return ceil/(1+((ceil-p0)/p0)*Math.exp(-k*(y-t0)));}
+urbChart.setOption({
+  tooltip:{trigger:'axis',valueFormatter:v=>(v*100).toFixed(1)+'%'},
+  legend:{data:['高方案','中方案','低方案'],top:0},
+  grid:{left:55,right:20,top:40,bottom:30},
+  xAxis:{type:'category',data:YR.map(String),boundaryGap:false},
+  yAxis:{type:'value',name:'%',min:0.64,max:0.88,axisLabel:{formatter:v=>(v*100).toFixed(0)+'%'},splitLine:{lineStyle:{type:'dashed'}}},
+  series:[
+    {name:'高方案',type:'line',data:YR.map(y=>logistic(y,0.85,0.04,0.6789,2026)),lineStyle:{width:2},symbol:'none',itemStyle:{color:SC.high}},
+    {name:'中方案',type:'line',data:YR.map(y=>logistic(y,0.82,0.035,0.6789,2026)),lineStyle:{width:3},symbol:'none',itemStyle:{color:SC.medium}},
+    {name:'低方案',type:'line',data:YR.map(y=>logistic(y,0.78,0.03,0.6789,2026)),lineStyle:{width:2},symbol:'none',itemStyle:{color:SC.low}}
+  ]
+});
+
+// ========== 8. Benchmark Comparison ==========
+const bmChart=initChart('benchmarkChart');
+bmChart.setOption({
+  tooltip:{trigger:'axis',valueFormatter:v=>v.toFixed(2)+'亿'},
+  grid:{left:60,right:20,top:40,bottom:60},
+  xAxis:{type:'category',
+    data:['项目\n高方案','项目\n中方案','项目\n低方案','UN WPP\n中方案','UN WPP\n低方案','育娲人口\n中预测','IHME\n参考'],
+    axisLabel:{fontSize:11,interval:0}},
+  yAxis:{type:'value',name:'亿人 (2050)',min:9,max:13,splitLine:{lineStyle:{type:'dashed'}}},
+  series:[{
+    type:'bar',barWidth:'55%',
+    data:[
+      {value:12.13,itemStyle:{color:'#e74c3c'}},
+      {value:11.65,itemStyle:{color:'#2980b9'}},
+      {value:11.07,itemStyle:{color:'#7f8c8d'}},
+      {value:12.05,itemStyle:{color:'#1565c0'}},
+      {value:10.98,itemStyle:{color:'#64b5f6'}},
+      {value:11.50,itemStyle:{color:'#27ae60'}},
+      {value:10.30,itemStyle:{color:'#ff9800'}}
+    ],
+    label:{show:true,position:'top',formatter:'{c}亿',fontSize:12}
+  }]
+});
+
+// ========== 9. Natural Growth Rate ==========
+const ngrChart=initChart('ngrChart');
+ngrChart.setOption({
+  tooltip:{trigger:'axis',valueFormatter:v=>v.toFixed(2)+'‰'},
+  legend:{data:['高方案','中方案','低方案'],top:0},
+  grid:{left:55,right:20,top:40,bottom:30},
+  xAxis:{type:'category',data:YR.map(String),boundaryGap:false},
+  yAxis:{type:'value',name:'‰',splitLine:{lineStyle:{type:'dashed'}}},
+  series:['high','medium','low'].map(k=>({
+    name:SN[k],type:'line',data:D[k].ngr,
+    lineStyle:{width:k==='medium'?3:2},symbol:'none',itemStyle:{color:SC[k]},
+    areaStyle:{color:k==='high'?'rgba(231,76,60,0.08)':k==='medium'?'rgba(41,128,185,0.08)':'rgba(127,140,141,0.08)'},
+    markLine:k==='medium'?{silent:true,data:[{yAxis:0,lineStyle:{color:'#e74c3c',type:'dashed',width:1.5},label:{formatter:'零增长线',position:'insideEndTop',fontSize:11}}]}:undefined
+  }))
+});
+
+// ========== 10. Sex Ratio (SRB + Total) ==========
+const srChart=initChart('sexRatioChart');
+srChart.setOption({
+  tooltip:{trigger:'axis',formatter:function(ps){
+    let h='<div style="font-size:13px"><strong>'+ps[0].axisValue+'年</strong><br>';
+    ps.forEach(p=>{h+=p.marker+' '+p.seriesName+': <strong>'+p.value.toFixed(3)+'</strong><br>';});
+    return h+'</div>';
+  }},
+  legend:{data:['高方案-SRB','中方案-SRB','低方案-SRB','高方案-总性别比','中方案-总性别比','低方案-总性别比'],top:0,textStyle:{fontSize:11}},
+  grid:{left:55,right:60,top:50,bottom:30},
+  xAxis:{type:'category',data:YR.map(String),boundaryGap:false},
+  yAxis:[
+    {type:'value',name:'SRB',min:1.04,max:1.08,splitLine:{lineStyle:{type:'dashed'}},position:'left'},
+    {type:'value',name:'总性别比',min:99,max:104,splitLine:{show:false},position:'right'}
+  ],
+  series:[
+    ...['high','medium','low'].map(k=>({
+      name:SN[k]+'-SRB',type:'line',data:D[k].srb,yAxisIndex:0,
+      lineStyle:{width:k==='medium'?3:2},symbol:'none',itemStyle:{color:SC[k]}
+    })),
+    ...['high','medium','low'].map(k=>({
+      name:SN[k]+'-总性别比',type:'line',data:D[k].sex_ratio,yAxisIndex:1,
+      lineStyle:{width:k==='medium'?3:2,type:'dashed'},symbol:'none',itemStyle:{color:SC[k]}
+    })),
+    {name:'SRB常态',type:'line',data:[],markLine:{silent:true,data:[
+      {yAxis:1.05,lineStyle:{color:'#ff9800',type:'dotted',width:1},label:{formatter:'SRB=1.05',position:'insideEndTop',fontSize:10}},
+    ]}},
+    {name:'性别比均衡',type:'line',data:[],yAxisIndex:1,markLine:{silent:true,data:[
+      {yAxis:100,lineStyle:{color:'#4caf50',type:'dotted',width:1},label:{formatter:'性别比=100',position:'insideEndBottom',fontSize:10}},
+    ]}}
+  ]
+});
+
+// ========== 11. Elderly-Child Ratio ==========
+const ecChart=initChart('elderlyChildChart');
+ecChart.setOption({
+  tooltip:{trigger:'axis',valueFormatter:v=>v.toFixed(3)},
+  legend:{data:['高方案','中方案','低方案'],top:0},
+  grid:{left:55,right:20,top:40,bottom:30},
+  xAxis:{type:'category',data:YR.map(String),boundaryGap:false},
+  yAxis:{type:'value',name:'老年/少儿',min:0.5,max:3.5,splitLine:{lineStyle:{type:'dashed'}}},
+  series:['high','medium','low'].map(k=>({
+    name:SN[k],type:'line',data:D[k].elderly_child_ratio,
+    lineStyle:{width:k==='medium'?3:2},symbol:'none',itemStyle:{color:SC[k]},
+    markLine:k==='medium'?{silent:true,data:[{yAxis:1.0,lineStyle:{color:'#e74c3c',type:'dashed',width:1.5},label:{formatter:'老年=少儿',position:'insideEndTop',fontSize:11}}]}:undefined,
+    markPoint:k==='medium'?{symbol:'circle',symbolSize:10,data:[{coord:[YR[0],D[k].elderly_child_ratio[0]],value:'2026年',itemStyle:{color:'#e74c3c'},label:{show:true,formatter:'2026年\n已超过',fontSize:11,position:'top'}}]}:undefined
+  }))
+});
+
+// ========== 12. Labor Force (15-64) ==========
+const laborChart=initChart('laborChart');
+laborChart.setOption({
+  tooltip:{trigger:'axis',valueFormatter:v=>(v/10000).toFixed(2)+'亿'},
+  legend:{data:['高方案','中方案','低方案'],top:0},
+  grid:{left:65,right:20,top:40,bottom:30},
+  xAxis:{type:'category',data:YR.map(String),boundaryGap:false},
+  yAxis:{type:'value',name:'亿人',min:65000,max:100000,splitLine:{lineStyle:{type:'dashed'}},
+    axisLabel:{formatter:function(v){return (v/10000).toFixed(1);}}
+  },
+  series:['high','medium','low'].map(k=>({
+    name:SN[k],type:'line',data:D[k].labor_15_64,
+    lineStyle:{width:k==='medium'?3:2},symbol:'none',itemStyle:{color:SC[k]},
+    areaStyle:k==='medium'?{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'rgba(41,128,185,0.15)'},{offset:1,color:'rgba(41,128,185,0)'}])}:undefined
+  }))
+});
+
+// ========== 13. Education Structure ==========
+const eduLevels=['未上过学','小学','初中','高中','大学+'];
+const eduColors=['#d9d9d9','#ffcc99','#99cc99','#6699cc','#cc6666'];
+const eduChart=initChart('eduChart');
+eduChart.setOption({
+  tooltip:{trigger:'axis',formatter:function(ps){
+    let h='<div style="font-size:13px"><strong>'+ps[0].axisValue+'年</strong><br>';
+    ps.forEach(function(p){
+      if(p.seriesName==='高方案-大学+')
+        h+=p.marker+' 高方案-大学+: <strong>'+(p.value*100).toFixed(1)+'%</strong><br>';
+      else if(p.seriesName==='低方案-大学+')
+        h+=p.marker+' 低方案-大学+: <strong>'+(p.value*100).toFixed(1)+'%</strong><br>';
+      else
+        h+=p.marker+' 中方案-'+p.seriesName+': <strong>'+(p.value*100).toFixed(1)+'%</strong><br>';
+    });
+    return h+'</div>';
+  }},
+  legend:{data:['未上过学','小学','初中','高中','大学+','高方案-大学+','低方案-大学+'],top:0,textStyle:{fontSize:11}},
+  grid:{left:50,right:20,top:45,bottom:30},
+  xAxis:{type:'category',data:YR.map(String),boundaryGap:false},
+  yAxis:{type:'value',name:'%',max:1,axisLabel:{formatter:function(v){return (v*100).toFixed(0)+'%';}},splitLine:{lineStyle:{type:'dashed'}}},
+  series:[
+    // Medium scenario: stacked area (5 education levels)
+    {name:'未上过学',type:'line',stack:'edu',data:D.medium.edu_dist.map(function(r){return r[0];}),areaStyle:{color:eduColors[0]},lineStyle:{width:0},symbol:'none',itemStyle:{color:eduColors[0]}},
+    {name:'小学',type:'line',stack:'edu',data:D.medium.edu_dist.map(function(r){return r[1];}),areaStyle:{color:eduColors[1]},lineStyle:{width:0},symbol:'none',itemStyle:{color:eduColors[1]}},
+    {name:'初中',type:'line',stack:'edu',data:D.medium.edu_dist.map(function(r){return r[2];}),areaStyle:{color:eduColors[2]},lineStyle:{width:0},symbol:'none',itemStyle:{color:eduColors[2]}},
+    {name:'高中',type:'line',stack:'edu',data:D.medium.edu_dist.map(function(r){return r[3];}),areaStyle:{color:eduColors[3]},lineStyle:{width:0},symbol:'none',itemStyle:{color:eduColors[3]}},
+    {name:'大学+',type:'line',stack:'edu',data:D.medium.edu_dist.map(function(r){return r[4];}),areaStyle:{color:eduColors[4]},lineStyle:{width:0},symbol:'none',itemStyle:{color:eduColors[4]}},
+    // High scenario: dashed university+ line
+    {name:'高方案-大学+',type:'line',data:D.high.edu_dist.map(function(r){return r[4];}),lineStyle:{width:2,type:'dashed',color:'#cc6666'},symbol:'none',itemStyle:{color:'#cc6666'},stack:false},
+    // Low scenario: dashed university+ line
+    {name:'低方案-大学+',type:'line',data:D.low.edu_dist.map(function(r){return r[4];}),lineStyle:{width:2,type:'dashed',color:'#999'},symbol:'none',itemStyle:{color:'#999'},stack:false}
+  ]
+});
+
+// ========== 14. Labor-Age Education Structure (15-64) ==========
+const eduLaborChart=initChart('eduLaborChart');
+eduLaborChart.setOption({
+  tooltip:{trigger:'axis',formatter:function(ps){
+    let h='<div style="font-size:13px"><strong>'+ps[0].axisValue+'年</strong><br>';
+    ps.forEach(function(p){
+      if(p.seriesName==='高方案-大学+')
+        h+=p.marker+' 高方案-大学+: <strong>'+(p.value*100).toFixed(1)+'%</strong><br>';
+      else if(p.seriesName==='低方案-大学+')
+        h+=p.marker+' 低方案-大学+: <strong>'+(p.value*100).toFixed(1)+'%</strong><br>';
+      else
+        h+=p.marker+' 中方案-'+p.seriesName+': <strong>'+(p.value*100).toFixed(1)+'%</strong><br>';
+    });
+    return h+'</div>';
+  }},
+  legend:{data:['未上过学','小学','初中','高中','大学+','高方案-大学+','低方案-大学+'],top:0,textStyle:{fontSize:11}},
+  grid:{left:50,right:20,top:45,bottom:30},
+  xAxis:{type:'category',data:YR.map(String),boundaryGap:false},
+  yAxis:{type:'value',name:'%',max:1,axisLabel:{formatter:function(v){return (v*100).toFixed(0)+'%';}},splitLine:{lineStyle:{type:'dashed'}}},
+  series:[
+    {name:'未上过学',type:'line',stack:'eduL',data:D.medium.edu_labor_dist.map(function(r){return r[0];}),areaStyle:{color:eduColors[0]},lineStyle:{width:0},symbol:'none',itemStyle:{color:eduColors[0]}},
+    {name:'小学',type:'line',stack:'eduL',data:D.medium.edu_labor_dist.map(function(r){return r[1];}),areaStyle:{color:eduColors[1]},lineStyle:{width:0},symbol:'none',itemStyle:{color:eduColors[1]}},
+    {name:'初中',type:'line',stack:'eduL',data:D.medium.edu_labor_dist.map(function(r){return r[2];}),areaStyle:{color:eduColors[2]},lineStyle:{width:0},symbol:'none',itemStyle:{color:eduColors[2]}},
+    {name:'高中',type:'line',stack:'eduL',data:D.medium.edu_labor_dist.map(function(r){return r[3];}),areaStyle:{color:eduColors[3]},lineStyle:{width:0},symbol:'none',itemStyle:{color:eduColors[3]}},
+    {name:'大学+',type:'line',stack:'eduL',data:D.medium.edu_labor_dist.map(function(r){return r[4];}),areaStyle:{color:eduColors[4]},lineStyle:{width:0},symbol:'none',itemStyle:{color:eduColors[4]}},
+    {name:'高方案-大学+',type:'line',data:D.high.edu_labor_dist.map(function(r){return r[4];}),lineStyle:{width:2,type:'dashed',color:'#cc6666'},symbol:'none',itemStyle:{color:'#cc6666'},stack:false},
+    {name:'低方案-大学+',type:'line',data:D.low.edu_labor_dist.map(function(r){return r[4];}),lineStyle:{width:2,type:'dashed',color:'#999'},symbol:'none',itemStyle:{color:'#999'},stack:false}
+  ]
+});
+</script>
+</body>
+</html>
