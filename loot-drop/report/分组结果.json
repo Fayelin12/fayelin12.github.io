@@ -1,0 +1,8738 @@
+{
+  "enterprise_software": [
+    {
+      "name": "Hopin",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Zhubajie",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Kujiale",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Monster Worldwide",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Invision",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Zilingo",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Tintri",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Mode Media",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Videology",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Flip",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Moka",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "TellApart",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Bitwise Industries",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Jinshang Intelligent",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Solid",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "VisionAI",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Atrium",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Modsy",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Ve Interactive",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Intent Media",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Wildfire",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "FiftyThree",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Xobni",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "ArsDigita",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Unlockd",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "NetBooks",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "ShoreTel",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Invenia",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Laurel & Wolf",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Whiteboard",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Fringe",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Big Un",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Trada",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Blueboard SaaS",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Nuvion Limited",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Toplyne",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Ansaro",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Preclusio",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Intelligent",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Hera",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Protego",
+      "id": null,
+      "sub_sector": "网络安全"
+    },
+    {
+      "name": "Penguin AI",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Branch AI",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Invaria",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Fable",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Mogara",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "OpenSight",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Chirp",
+      "id": null,
+      "sub_sector": "媒体/娱乐"
+    },
+    {
+      "name": "Skiff",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Metigy",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "ROSS Intelligence",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Argovox",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Sidenote",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Nextop",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Huddlefire",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "MarcoPolo",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Wonder",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Sleek",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Kyte (B2B SaaS)",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Zoe",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Anthropos Digital",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Watu",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Demospace",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Trello Gold",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Tallarna",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Sunrise",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Springpad",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Tailor",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "GoComm",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Mindmesh",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Tandem",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Flux",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Poll Everywhere",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "PoliMobile",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Uptrend",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "TopMind",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Brushes",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Zenbox",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Dreamforge",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "MicroEval",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "VOIQ",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Fastpad",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "User Hero",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "BuildStream",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Metamanagement",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Oico",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "In Stock",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Memo",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Nextstore",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Buzzle",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Mixr",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Moving Parts",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Talentdrop",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Notebook Labs",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Stellar",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Manatee",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Watto AI",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Unhaze",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Vango AI",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Onward",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Dabble",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "StrongIntro",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Fibo",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Sycamore",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Iambiq Technologies",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Point API",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Allo",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Pengram",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "DevFlight",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Evo.Do",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Quickcard",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Clayboard",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Syncro",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "noHQ",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Pelm",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Demo Gorilla",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "ClickFacts",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "The Grid",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Preact",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Woven",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Cocoon",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Pixate",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "ABBY",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Goodly",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Compgun",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Picnik",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Salorix",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Teemyco",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "RingDaddy",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Design Inc.",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "LeanMarket",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Docucharm",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Protobase",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Niles",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Screenhero",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "MyCity",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Team Voice",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Muun",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "MotionThink",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Argyle Social",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "AdThrow",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Canopy Labs",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Sparkboard",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Grabb-It",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Virtually",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "BookSolid",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Prophecy Sciences",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Yumbin",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Kicksend",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Gogohire",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Delite",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "RewardMe",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Brisk",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Team Apart",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "numericcal, inc.",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Snaptalent",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "PetaSales",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Infoharmoni",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "SolidStage",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "WireOver",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Marketfox",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Cadence",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Jobr",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Fixed",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Sixty",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "RecruitLoop",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "FameBit",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Job Alchemist",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "RoboHR",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Instantq",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Tastemaker",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Maderight",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Ubiq",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Contrast",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Unfaze AI",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Trigger",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Joberator",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Glider",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "GroupAhead",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Automate Ads",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Comradery",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Datamode",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Kable",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Dunwello",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Tali",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Picwing",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Credictive",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Slik",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Unflow",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "GiveSpark",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Shift Messenger",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Dealyze",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Hello Tyro",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "EventVue",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Picplum",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Vernox",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Dime",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Moped",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Siasto",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Userfox",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "RightHello",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Answerly",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Addressbin",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Swipes",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Appiterate",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Snapjoy",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Audobox",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Lightwell",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Nototo",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Pixelapse",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Threadable",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "miru",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Vesper",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "LiveLoop",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Graphite Docs",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Adproval",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Hawthorne Strategies",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Eventloot",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Bediwin Information Services",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "GazeHawk",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Verelo",
+      "id": null,
+      "sub_sector": "网络安全"
+    },
+    {
+      "name": "Vulpine",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "CO2Stats",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Rentobo",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Muddy",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Audiobeta",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Skysheet",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Convore",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "TurboTranslations",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Hashtag Pirate",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Alana",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "TellFi",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Punch’d",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "CollabFinder",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Gantto",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Interstate",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Scoutzie",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Kivo",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "jEugene",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Monosi",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Hipmob",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Marft",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Documents.Me",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Posmetrics",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Entry",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "onetool",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "LayerVault",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Thinkature",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Splashup",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "ContestMachine",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "OhLife",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Jobspice",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Snipshot",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "WriteWith",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Elance",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Drawbridge",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Livefyre",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "ODesk",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Fiksu",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Incita",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Neon Shake",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "WantRemoteJob",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Jobridge",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Ink",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Transpose",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "VisiCalc",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    }
+  ],
+  "infrastructure": [
+    {
+      "name": "Best Express",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Kingsoft Cloud",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Nettrix",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Builder.ai",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Zhongke Chuangxin",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "QingCloud",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Starry",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Wejo",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Yunniao Logistics",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Pandion",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "OpTier",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Calxeda",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Primary Data",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Twitter Fabric",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Neeva",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "GetSwift",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Cubyn",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Isentium",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Ask Jeeves",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Zapier Plus",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Rockmelt",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Pando",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Famo.us",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Subspace",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Connect",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Layer",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Kite DevTool",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Bonsai DevTool",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "UnifyID",
+      "id": null,
+      "sub_sector": "网络安全"
+    },
+    {
+      "name": "Piston Cloud",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Everalbum",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "DotCloud",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Dukaan",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Canvas",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Koji",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "WorldOs",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "NewCo",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Eloquis",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Passenger AI",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Mercator",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Slauth.io",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Nimbus",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Galaxy",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Drivingforce",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "SumAll",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "CloudHammer",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Ionx Networks",
+      "id": null,
+      "sub_sector": "网络安全"
+    },
+    {
+      "name": "RethinkDB",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "ilumadata",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "CodeSee",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "SendGrid Labs",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Xmarks",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "PlayHaven",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Nitrous.io",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Lieferoo",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Swish",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Sublime Black",
+      "id": null,
+      "sub_sector": "网络安全"
+    },
+    {
+      "name": "FlowDeploy",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Burstly",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Sider",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Streamdal",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Movley",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "PhoneSys",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Traversal Networks",
+      "id": null,
+      "sub_sector": "网络安全"
+    },
+    {
+      "name": "Mosaix.ai",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Prompt",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Lantern",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Flow",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Lariat Data",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Scratch Data",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Ruleset",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Pivo Technology Inc",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Dev Tools AI",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Logiblock",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Viaopt",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Scout",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Zumo Labs",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Readability",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Netscape",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Moodstocks",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "ThinAir",
+      "id": null,
+      "sub_sector": "网络安全"
+    },
+    {
+      "name": "Openbase",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Sixa",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "WunderGraph",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Crejo.Fun",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Light Table/Eve",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Dashblock",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Toopher",
+      "id": null,
+      "sub_sector": "网络安全"
+    },
+    {
+      "name": "Tenta",
+      "id": null,
+      "sub_sector": "网络安全"
+    },
+    {
+      "name": "Iddiction",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Singly",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Mage",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "GoScale",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "StackMachine",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Patchwork Security",
+      "id": null,
+      "sub_sector": "网络安全"
+    },
+    {
+      "name": "Orbiter",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Fig DevTool",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Zencoder",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Sosh",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Shipbeat",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Framebase",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Shotput",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Xkit",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Convoy",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Wundrbar",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Zillabyte",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "FloydHub",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Vectordash",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Aklimate",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Divshot",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "BufferBox",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Fieldbook",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Teamometer",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Patron.ai",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Lookery",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "FileStack",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Reploy",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Meson",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Pagedraw",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Snapboard",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Launcher Labs",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Suggestr",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Reclip",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Integration Labs",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Answer.ky",
+      "id": null,
+      "sub_sector": "媒体/娱乐"
+    },
+    {
+      "name": "Data Marketplace",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Brace",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Tipe",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Haiku",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Surge Cloud",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Ziddu",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Tessel",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Swapbox",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Poliana",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Hiptype",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Keychain Logistics",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "LocalOn",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "AppHarbor",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Optilly/Installmonetizer",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Elucify",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Shipitwise",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "AirPair",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Youlicit",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Zigfu",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Kirkland North",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "NudgePad",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Opzi",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Proxino",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Testmunk",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "DataNitro",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Markupwand",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Parallel Universe",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Watchsend",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "WebCake",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Metapacket",
+      "id": null,
+      "sub_sector": "网络安全"
+    },
+    {
+      "name": "Flotype",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Appcubator",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Omniref",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Storyline",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Codeball",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "InoVVorX",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Notifo",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Infogami",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "ChaCha",
+      "id": null,
+      "sub_sector": "媒体/娱乐"
+    },
+    {
+      "name": "FoundationDB",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "HitroNaSplet",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "FathomDB",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "SlashAuth",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Yandex Kit",
+      "id": null,
+      "sub_sector": "开发者工具"
+    }
+  ],
+  "fintech": [
+    {
+      "name": "Silicon Valley Bank",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "Wirecard",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Ezubao",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Thodex",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "FTX",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Greensill Capital",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Zhongzhi",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "BlockFi",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Amigo Loans",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Celsius Network",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Coinbase NFT",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Bitmain",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Zepz",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Bairong Yunda",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "GetBack",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Core Scientific",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Aspiration",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "Mt. Gox",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Tuandaiwang",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Pay By Touch",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Huobi China",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Metromile",
+      "id": null,
+      "sub_sector": "保险"
+    },
+    {
+      "name": "Mozido",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "Suishou Technology",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Plastiq",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Powa Technologies",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Digital River (SaaS)",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "OKX China",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Terraform Labs",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Frank",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Tally",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Voyager Digital",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "ZestMoney",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Wonga",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Railsr",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "Fast",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Weidai",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Qianhe",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "PayMate",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "iGrow",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Bebgroup (Beb)",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "Xinja",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "ScaleFactor",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Qredo",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Volt Bank",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "Parse.com",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Origami",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Dash",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "Kevin.",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Luko",
+      "id": null,
+      "sub_sector": "保险"
+    },
+    {
+      "name": "SoFi Social",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Vebitcoin",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Synapse Financial",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "Investree",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Flooz.com",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Loyal3",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "KPCB Edge",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Tilt",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "CircleBack Lending",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "LendUp",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "RupeeRedee",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Zebec",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "UangTeman",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Clinkle",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Cover",
+      "id": null,
+      "sub_sector": "保险"
+    },
+    {
+      "name": "Nirvana",
+      "id": null,
+      "sub_sector": "保险"
+    },
+    {
+      "name": "Mattermark",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Payfura",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Monitor110",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Cushion",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Singulution",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Letter",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Magic",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Weltio",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Alma",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Lotus",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Krab",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "GoBuild (fka Brick)",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Purpose Finance",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Noble",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Cheqout",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Simple",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "Imercive",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Clarity Money",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Kenko Health",
+      "id": null,
+      "sub_sector": "保险"
+    },
+    {
+      "name": "Voly",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "Bitpass",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Blockstamp",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Hyperseed",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Nexus",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Carbon-12 Labs",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Bitfront",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Pactero",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "AlphaFlow",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Paperplane",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Parse",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "BHRD",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "Drip",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "PayTango",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Valiu",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Pesto",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Varamis",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Phoenix",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Ready For Zero",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "MarketBrief",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Leaky",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "Serica",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Mipos.dev",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "HoverChat",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Unicornly",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Pit.AI",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Cartcam",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Neema",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Zaam",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Emigre",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "NFTScoring",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "PoundPay",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Plum Will",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Apartio",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Wesabe",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Cake Financial",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Grasp",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Safely Finance",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Direct Match",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Balanced",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Tinker",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Saida",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Covela",
+      "id": null,
+      "sub_sector": "保险"
+    },
+    {
+      "name": "Finantier",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Vittana",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Mint Songs",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Ivella",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "LendLayer",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Multis",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Sway Finance",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Instavest",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Kickpay",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "goDutch",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Koinex",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Gulp",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Levo",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Opkit",
+      "id": null,
+      "sub_sector": "保险"
+    },
+    {
+      "name": "Ben",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "Easyplan",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "CapWay",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "Buttercoin",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Glassjar",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "PayDragon",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Tipjoy",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "TrustEgg",
+      "id": null,
+      "sub_sector": "数字银行"
+    },
+    {
+      "name": "37Coins",
+      "id": null,
+      "sub_sector": "区块链/加密货币"
+    },
+    {
+      "name": "Birdy",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Lendsnap",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "SparkGift",
+      "id": null,
+      "sub_sector": "财富管理"
+    },
+    {
+      "name": "Flowtab",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "No Lean Season",
+      "id": null,
+      "sub_sector": "借贷平台"
+    },
+    {
+      "name": "Bitspark",
+      "id": null,
+      "sub_sector": "在线支付"
+    },
+    {
+      "name": "Cinkciarz.pl",
+      "id": null,
+      "sub_sector": "数字银行"
+    }
+  ],
+  "mobility": [
+    {
+      "name": "Northvolt",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "WM Motor",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Baoneng",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Panda Auto",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Argo AI",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "OneWeb",
+      "id": null,
+      "sub_sector": "航空航天"
+    },
+    {
+      "name": "Qoros Auto",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "GAC Stellantis",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Singulato",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Ofo",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Fair.com",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "GAC Mitsubishi Tech Unit",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Cazoo",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Enovate Motors (Tianji)",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Lilium (US Units)",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Vroom",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Fisker Inc.",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "LeSee",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Youxin",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Byton",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Canoo",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Lilium",
+      "id": null,
+      "sub_sector": "航空航天"
+    },
+    {
+      "name": "Proterra",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Lordstown Motors",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "TuSimple",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Aiways",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "A123 Systems",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Virgin Orbit",
+      "id": null,
+      "sub_sector": "航空航天"
+    },
+    {
+      "name": "Mobike",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Saleen China",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Olive AI",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "Better Place",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Borgward China",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Luminar Technologies",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Jiyue",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Bird",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Renrenche",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Arrival",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "KuaiGou Dache",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Levteo (Letin)",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Niutron",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "HiPhi (Human Horizons)",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Levdeo",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Tuhui Car Tech Branch",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Yudo Auto",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "LinkSure",
+      "id": null,
+      "sub_sector": "旅游"
+    },
+    {
+      "name": "Qiantu Motor",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Hyperloop One",
+      "id": null,
+      "sub_sector": "航空航天"
+    },
+    {
+      "name": "Tacoma Nanjing",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Bordrin Motors",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Rad Power Bikes",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Embark Trucks",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Lidian",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Embark",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Volta Trucks",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Leishen Power",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Karhoo",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Ghost Autonomy",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Hanteng Auto",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Lightyear",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Britishvolt",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Saimo Technology",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Frontier Car Group",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "BuilderX Robotics",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "Lingyun",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Ningbo Borine",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Zhidou",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Rethink Robotics",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "WOW Air",
+      "id": null,
+      "sub_sector": "航空航天"
+    },
+    {
+      "name": "Beepi",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "SpaceTy",
+      "id": null,
+      "sub_sector": "航空航天"
+    },
+    {
+      "name": "Navya",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Sono Motors",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Airware",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "Thunder Power",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Locomation",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "GoMechanic",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Hailo",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Phantom Auto",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "EasyMile",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Bluegogo",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Volansi",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "Cake",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Luxe",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Jibo",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "Seven Dreamers Laboratories",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "MaaS Global",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Pegipegi",
+      "id": null,
+      "sub_sector": "旅游"
+    },
+    {
+      "name": "Hipmunk",
+      "id": null,
+      "sub_sector": "旅游"
+    },
+    {
+      "name": "Pearl Auto",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Tada (VCNC)",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "FlightCar",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Aria Insights",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "Guardian Agriculture",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "Sidecar",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Skip",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Nebula",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Starsky Robotics",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Xiaoming Bike",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Hyer",
+      "id": null,
+      "sub_sector": "航空航天"
+    },
+    {
+      "name": "Mishra Motors",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Tensil",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "AuroraQ",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "Mythia",
+      "id": null,
+      "sub_sector": "旅游"
+    },
+    {
+      "name": "Botin",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "Flike",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Zagster",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "DoorDash Air",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "Carwoo",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Shuddle",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Modal",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "WorldMate",
+      "id": null,
+      "sub_sector": "旅游"
+    },
+    {
+      "name": "BlackJet",
+      "id": null,
+      "sub_sector": "航空航天"
+    },
+    {
+      "name": "SpaceRyde",
+      "id": null,
+      "sub_sector": "航空航天"
+    },
+    {
+      "name": "Titan Aerospace",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "Gobee.bike",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "RoboTire",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "Reebeez",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "K-Scale Labs",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "Arrinera",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Zoomo",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Arc",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "Shout",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Robby Technologies",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "RideAlong",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "RoverRide",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Envyl",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "VanGo",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Simmer",
+      "id": null,
+      "sub_sector": "旅游"
+    },
+    {
+      "name": "Exosonic, Inc.",
+      "id": null,
+      "sub_sector": "航空航天"
+    },
+    {
+      "name": "Blink",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Lit Motors",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Utrip",
+      "id": null,
+      "sub_sector": "旅游"
+    },
+    {
+      "name": "MotoBox",
+      "id": null,
+      "sub_sector": "新能源车"
+    },
+    {
+      "name": "Passerine Aircraft",
+      "id": null,
+      "sub_sector": "航空航天"
+    },
+    {
+      "name": "Onepagetrip",
+      "id": null,
+      "sub_sector": "旅游"
+    },
+    {
+      "name": "CARUPI",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Leap Transit",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Grid",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Fetch",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "BarSense",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Desti",
+      "id": null,
+      "sub_sector": "旅游"
+    },
+    {
+      "name": "Autto.in",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Viacycle",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Pashi",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "Ridejoy",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Carsabi",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "HiGear",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Bistrobot",
+      "id": null,
+      "sub_sector": "机器人/无人机"
+    },
+    {
+      "name": "Bagaveev Corporation",
+      "id": null,
+      "sub_sector": "航空航天"
+    },
+    {
+      "name": "Flytenow",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "WheelStreet",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "OpenAirplane",
+      "id": null,
+      "sub_sector": "共享出行"
+    },
+    {
+      "name": "Open Motors",
+      "id": null,
+      "sub_sector": "新能源车"
+    }
+  ],
+  "social_network": [
+    {
+      "name": "Vice Media",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Hike Messenger",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Zhenai",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "IRL",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Tantan",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Wukong Wenda",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Mobli",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Quora Credits",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Path",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Yik Yak",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Chuming",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Koo",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Feiliao (Flipchat)",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Tinder Social",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "BranchOut",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Digg",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "GeoCities",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Color Labs",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Klout",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Secret",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "TheGlobe.com",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Tempo",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Fobo",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "GetGlue",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Kibu.com",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Polyvore",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "HowAboutWe",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "The Hunt",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Lobby",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Prismatic",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Bebo",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Formspring",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Thumb",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Sharkius",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Friendster",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Gowalla",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Refresh",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "TeeBeeDee",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Bluelearn",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Frankly",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Nuzzel",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Friend.ly",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "DotaHaven",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Storyboard",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Goosebump",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Rume",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "3dot",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Rhythmm",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Basement",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Me.me",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Pair",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Simmery",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "FameGame",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Revel",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Gamador",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Openland",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Legaats",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Toki",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Talkito",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "SocialPicks",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Pribbit",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "RegistryLove",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Value Voting",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Zoltar Labs",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "YumDots",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Jetpac",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Memolane",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Flud",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Delicious",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Readership",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Playdate",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Meetyu",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Vapor",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Tsumobi",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Zipio",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Hitpost",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Grouper",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "MessageParty",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Elpha",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Sonar",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Whitenoise",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Awesometalk",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Tingles",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Basilica",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Yo",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Milk",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Hot Potato",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Inporia",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Lanyrd",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Talkray (TiKL)",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "ThinkUp",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Soundwave",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Shelfari",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Fashism",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Plancast",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "openmargin",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "PostRocket",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "BeehiveID",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Snipd",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Crohnology (by Healthy Labs)",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "MightyQuiz",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Deluux",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Couple",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Quibb",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "DormChat",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Dating Ring",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Passel",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Picurio",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Jamglue",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "iJigg/Top440",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Fanchatter",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Stackq",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Imgfave",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Socialmoth",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Recurious",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Upbeat",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "WedMap",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Pollground",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Chillabit",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Tioki",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Eivod",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Post.fm",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Greo",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Guggy",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Zenedy",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Tress",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Rally Tennis",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "MyMiniLife",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Nambii",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Likebetter",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Biographicon",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Anyvite",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Popcuts",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Slinkset",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Flagr",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Socialbrowse",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Mixwit",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Insoshi",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Plurchase",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Houseparty",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Topsy",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Topix",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Crowdmix",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Dopplr",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "NK.pl",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Qingchi",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Cuddli",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Phez",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Radar Radio",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Yahoo Groups",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Yahoo Buzz",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Yahoo Answers",
+      "id": null,
+      "sub_sector": "社交网络"
+    },
+    {
+      "name": "Twitter Music",
+      "id": null,
+      "sub_sector": "社交网络"
+    }
+  ],
+  "entertainment_media": [
+    {
+      "name": "Nuverse",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Quibi",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "LeSports",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Stadia",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Outcome Health",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Penguin Esports",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Buzzer",
+      "id": null,
+      "sub_sector": "媒体/娱乐"
+    },
+    {
+      "name": "Club Penguin",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Iflix",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Tencent Huiying",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Panda TV",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Juzi",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Waka",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Guvera",
+      "id": null,
+      "sub_sector": "媒体/娱乐"
+    },
+    {
+      "name": "Vessel",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Quixey",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Rdio",
+      "id": null,
+      "sub_sector": "媒体/娱乐"
+    },
+    {
+      "name": "Blade (Shadow)",
+      "id": null,
+      "sub_sector": "云计算"
+    },
+    {
+      "name": "Viggle",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Aereo",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Hooq",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Quanmin TV",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Fanclash",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Kuaibo (Qvod)",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Guitar Hero Live",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Joost",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Tout",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Ticketfly",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Viddy",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Vine",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "QuizUp",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Yog",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Trapit",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Fanhattan",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Glitch",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Tiny Speck",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Ouya",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Disruptive Media",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Meerkat",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "OnSwipe",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Gigs Live",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Upworthy Insider",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Detour",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Riffsy",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Qwiki",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Vidme",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Quest",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Grooveshark",
+      "id": null,
+      "sub_sector": "媒体/娱乐"
+    },
+    {
+      "name": "CreatorML",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Songza",
+      "id": null,
+      "sub_sector": "媒体/娱乐"
+    },
+    {
+      "name": "Circa",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Zirtual",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "WURA",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Zapstream",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Memamp",
+      "id": null,
+      "sub_sector": "媒体/娱乐"
+    },
+    {
+      "name": "Precognate",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Claimspotting",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Coco Controller",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Gameday",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Artifact",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "View3",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Mixed Media Labs",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Ark",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Streamup",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Nugget",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Vdio",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Twitch Squads",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Outbox",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Entrypoint",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Egomotion",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Gawkbox",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "PandoDaily",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Flocu",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Afrostream",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Omaze UK",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Coub",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "AskTina",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Twitch Highlights",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Real Artists",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Paneau",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Pressly",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "QuickHaggle",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "LocalTown",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "SellanApp",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Creator Growth Lab",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "DSK",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "NetClick Inc.",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Assorted Bits",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "CoinTent",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Snowball",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Admazely",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "SetJam",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "MySee",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Jumpchat",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Koduco",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "TomoGuides",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "ClearMix",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "LVL6",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Wavii",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Pixelpipe",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Lockpick Entertainment",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Sport Draftr",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Newcope",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "BeatDeck",
+      "id": null,
+      "sub_sector": "媒体/娱乐"
+    },
+    {
+      "name": "Closer Sports",
+      "id": null,
+      "sub_sector": "媒体/娱乐"
+    },
+    {
+      "name": "Jamiphy",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Product Hunt Games",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Hyperink",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "ReelSurfer",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Reble",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Odin",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Periscope",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Booktrope",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Earbits",
+      "id": null,
+      "sub_sector": "媒体/娱乐"
+    },
+    {
+      "name": "Hipset",
+      "id": null,
+      "sub_sector": "媒体/娱乐"
+    },
+    {
+      "name": "InStream",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Stereomood",
+      "id": null,
+      "sub_sector": "媒体/娱乐"
+    },
+    {
+      "name": "The Nerd Cave",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "HighlightCam",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Whirlscape",
+      "id": null,
+      "sub_sector": "开发者工具"
+    },
+    {
+      "name": "Vodio",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Kippt",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Dropleaf",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Bluepad",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Gameslog",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Yottio",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Geddit",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Teevox",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Draft",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Xberts",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Newslabs",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Minefold",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Unnyhog",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Curious Fictions",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Kiko",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "The Blogging Manifesto",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "NewsTilt",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Fuzzwich",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Voxli",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Kuaibo",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Waterproof Digital Camera",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "140 Canvas",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Hubrif",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Kaya.gs",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Kolos",
+      "id": null,
+      "sub_sector": "游戏"
+    },
+    {
+      "name": "Sip",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Taleship",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Yahoo Live",
+      "id": null,
+      "sub_sector": "视频/直播"
+    },
+    {
+      "name": "Spotify Stations",
+      "id": null,
+      "sub_sector": "媒体/娱乐"
+    },
+    {
+      "name": "Skype Qik",
+      "id": null,
+      "sub_sector": "视频/直播"
+    }
+  ],
+  "o2o_local": [
+    {
+      "name": "Xingsheng Youxuan",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Uber Rush",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Getir (Intl. Ops)",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Getir",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Jingxi",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Dingdong Maicai",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Missfresh",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Chengxin Youxuan",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Nice Tuan",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Yiguo Fresh",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Groupon Now",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Yiguo E-commerce",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Webvan",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "AppHarvest",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Yimidida",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Zume",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Dianwoda",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Tongcheng Life",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Kozmo.com",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Munchery",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Orbital Express",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Pets.com",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Jidixian",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Meatable",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "TaniHub",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Wukong Rental",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Garden.com",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Shyp",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Pro.com",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Sprig",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "PepperTap",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Honestbee",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Gilt Taste",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Shixianghui",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Homejoy",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Baqi (AgTech)",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Chef’d",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Maple",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Zoomer",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "TinyOwl",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Zesty",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Postmates X",
+      "id": null,
+      "sub_sector": "物流/供应链"
+    },
+    {
+      "name": "Kaodim",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Washio",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Take Eat Easy",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Songkick Detour",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Halo Food Co",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Qraved",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Racer",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "FastFarma",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Membo",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Fuse",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Unfurl",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Platypus",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Taste",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Ole",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Blyss",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Parabolic",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Overflux",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Foodler",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Curb Food",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Zaarly",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Farmstead",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "SpoonRocket",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Zage",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "MilkRun",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "24quan",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Stoqo",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Mister Hot",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "OrderAhead",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Kitchit",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Nophin",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Liftopia",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "LocalBanya",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Melon",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "HitMeUp",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "FreshConnect",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Profig",
+      "id": null,
+      "sub_sector": "招聘/人力资源"
+    },
+    {
+      "name": "Halolife",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Purple Plate",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Cache",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "SimplyListed",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Futureleague",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Rare Door",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "California Dreamin",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Necto",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Hideout",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Blok",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Mezli",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Sudden Coffee",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Avo",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Doodhwala",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Lambda Tea",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Dinner Lab",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Zanbazaar",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Exec",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "NOX",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "The Buttermilk Company",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Kisan Network",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Wheelys Café",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Hot Barber",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Ticket Stumbler",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "People & Pages",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Mylk Guys",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "MerryMint",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "OurMenu",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "VetPronto",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Poppy",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "WillCall",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Butter Systems",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "UpOut",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Tazemasa",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Zulzi",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Dazo",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Airshared",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Seva Coffee",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Orchata",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Dealflicks",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "YourGrocer",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Botnim",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "MommaZoo",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Abundance Labs",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Canopi",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Ordinary Seafood",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "LaunchHear",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Pantheon",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Global Belly",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "StyleBee",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Perfekto",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Oink",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "KweekWeek",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Tonx",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Groop",
+      "id": null,
+      "sub_sector": "生鲜/社区团购"
+    },
+    {
+      "name": "Gymlisted",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Opez",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Wabi",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Deskbeers",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Foodoro",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Dinnr",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Chowdy",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Collections",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Venuetastic",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "Juice Startup",
+      "id": null,
+      "sub_sector": "食品外卖"
+    },
+    {
+      "name": "Sharingear",
+      "id": null,
+      "sub_sector": "本地生活"
+    },
+    {
+      "name": "The Punjab Kitchen",
+      "id": null,
+      "sub_sector": "食品外卖"
+    }
+  ],
+  "hardware_iot": [
+    {
+      "name": "LeEco",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Gionee",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Wolfspeed",
+      "id": null,
+      "sub_sector": "半导体"
+    },
+    {
+      "name": "HSMC",
+      "id": null,
+      "sub_sector": "半导体"
+    },
+    {
+      "name": "Pico",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Zeku",
+      "id": null,
+      "sub_sector": "半导体"
+    },
+    {
+      "name": "iRobot",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "FCNT",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "JOLED",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Jawbone",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Royole Corporation",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Xingji Shidai Chip Unit",
+      "id": null,
+      "sub_sector": "半导体"
+    },
+    {
+      "name": "iQiyi VR",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Essential Products",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Tencent XR Division",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Sigfox",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Daqri",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Hanking Electronics",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Smartisan",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Tellme",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Humane",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Lytro",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Han's CNC",
+      "id": null,
+      "sub_sector": "硬件"
+    },
+    {
+      "name": "Qianxun SI",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Shanghai Wusheng Semi",
+      "id": null,
+      "sub_sector": "半导体"
+    },
+    {
+      "name": "Handspring",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Quirky",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Anki",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Suzhou SIP Precision",
+      "id": null,
+      "sub_sector": "半导体"
+    },
+    {
+      "name": "Hikeen",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Zhenxin Computing",
+      "id": null,
+      "sub_sector": "半导体"
+    },
+    {
+      "name": "Blippar",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Dingli",
+      "id": null,
+      "sub_sector": "硬件"
+    },
+    {
+      "name": "Juicero",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Rain AI",
+      "id": null,
+      "sub_sector": "半导体"
+    },
+    {
+      "name": "Singleton Electronics",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Pulse",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Meta",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "ADAMOS",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Doppler Labs",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Reality Hunt",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Kano",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Pebble",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Navdy",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Hello",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Aetech",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Fuhu",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Onkyo",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Bluesmart",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Teforia",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Oyster",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Virtual Arts",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Zortrax",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Coin",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Lumos",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "CraftOS",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Kips Health",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Observa",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Skully",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Butterfly Health",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Petalite",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Comet Health",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Immersv",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Vreal",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Graphica Display",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Plastc",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Wimm Labs",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Ixora",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Zola Books",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Ringly",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "WigWag",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "PonoMusic",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Voodoo Manufacturing",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "MatterFab",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Cam.ly",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Ixiplay",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "SpringWit",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Reduced Energy Microsystems",
+      "id": null,
+      "sub_sector": "半导体"
+    },
+    {
+      "name": "Seerslab",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "GTRACK Technologies",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Modular Science",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "RTCanary",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Pathmind",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "LitHit",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Portal Entryways",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Hypnos",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Visual One",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "AvairSense",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Vook",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    },
+    {
+      "name": "Mailbox",
+      "id": null,
+      "sub_sector": "企业协作"
+    },
+    {
+      "name": "Zombie Labs",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Omnity",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Airo Health",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Magic Instruments",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "ElectricObjects",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Edyn",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Lully",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "ExploreVR",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "MadeSolid",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "ConstructVR",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Wattage",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Picolab",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Sesame",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "UtilityScore (formerly Pando)",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Nomiku",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Vathys",
+      "id": null,
+      "sub_sector": "半导体"
+    },
+    {
+      "name": "Voicery",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "VocalIQ",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Toymail",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Drive Pulse",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Silver",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Sketchbox",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "SprintAI",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Doblet",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Whirl",
+      "id": null,
+      "sub_sector": "AR/VR"
+    },
+    {
+      "name": "Matter.io",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Cinder",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Enflux",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Vanhawks",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Wakemate",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Zor Technology",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "ZowPow",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Woolet",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Frogmetrics",
+      "id": null,
+      "sub_sector": "硬件"
+    },
+    {
+      "name": "Berg",
+      "id": null,
+      "sub_sector": "智能家居/物联网"
+    },
+    {
+      "name": "Prayas Analytics",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "Index",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Amulyte",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Nextbit",
+      "id": null,
+      "sub_sector": "消费电子"
+    },
+    {
+      "name": "Viewdle",
+      "id": null,
+      "sub_sector": "数据/AI"
+    }
+  ],
+  "ecommerce": [
+    {
+      "name": "Kaola",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Farfetch",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "NetEase Koala",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Signa Sports",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "MatchesFashion",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Globalegrow",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Fab.com",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "RetailMeNot UK",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Zulily",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Boxed",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "eToys.com",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Poshmark UK",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Wine.com (1.0)",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Tradesy",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Boo.com",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Made.com",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Taojiji",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Trunk Club",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Renown",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Rent the Runway UK",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Fancy",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Haiming",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Ideeli",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Le Tote",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Outdoor Voices",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Elevenia",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "ShopX",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Trell",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Winc",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Limeroad",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "PopSugar Shop",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Delight",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Baicheng",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Thread",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Metao",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Plum District",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Booktopia",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Operator",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Shoes of Prey",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Kinnek",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Move Loot",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "MoveLoot",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Fabelio",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Dot & Bo",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Ahalife",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Vanti",
+      "id": null,
+      "sub_sector": "数据/AI"
+    },
+    {
+      "name": "OneShop",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Neverland ",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Dressd",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Zing",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Triad",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "ToVieFor",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Markafoni",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Thrillist Rewards",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Lysto",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Leflair",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Milky Way AI",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "TradeGecko",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Lidyana",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Etsy Wholesale",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Fit to Form",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Merlin.pl",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Underground Cellar",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "HauteDay",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "SnipSnap",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Wantful",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "HobbyDB",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Shoutfit",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Glio",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Selfycart",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Haywheel",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "ShopWith",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Adla",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Namaste Business",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Restocks",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "PerShop",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Maitian.ai",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "The Mercer Club",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Gonddo",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Outfit",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "boitas.com",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Frenzy",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Din",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Catelyn",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Try.com",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Firsthand",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Alle App",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Hush",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Wittlebee",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Alikolo",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Mindori",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Celery",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Marie Zélie",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Hello Chair",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Looklive",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Fithub",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Shopagram",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "VO2 Sportswear",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Lume",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "BitSample",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Fabricly",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Pakible",
+      "id": null,
+      "sub_sector": "设计工具"
+    },
+    {
+      "name": "Secured",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Riya Collective",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Selltag",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Sampling Lab",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Spoil",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Ecomom",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "99dresses",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Bountii",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Style Lend",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Okami Pack",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Ropero",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Inokyo",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "ToyGaroo",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Reach.ly",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Beetailer",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Chirply",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Dubjoy",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Covetly",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "And Comfort",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Totsy",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Gittigidiyor",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Mongoose Cricket",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "NE Lounge",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Vivalatina",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Zappos Local",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Zappos Labs",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "Chinictown",
+      "id": null,
+      "sub_sector": "电商"
+    },
+    {
+      "name": "AllRomance",
+      "id": null,
+      "sub_sector": "内容/媒体"
+    }
+  ],
+  "edtech": [
+    {
+      "name": "Byju's",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Yuanfudao",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Pluralsight",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Zuoyebang",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Byju's Alpha (US)",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Dali Education",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "VIPKid",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "ITT Tech",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Corinthian",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Udacity",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "2U",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Zhangmen",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "DaDaABC",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Meten EdtechX",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Huohua Siwei",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "17zuoye",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Rise Education",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "OneSmart Edu",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Fenbi",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Zovio",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "CodeMao",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Xueersi",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Wall Street English",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "WhiteHat Jr",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "TutorGroup (iTutor)",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Gogokid",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Changingedu",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Qingqing Education",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Hujiang",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Knewton",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "AltSchool",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Koolearn (K-12)",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Xuebajun",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Rafter",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Xueba100",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Qkids",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Dada English",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "InBloom",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Tuosai",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Kno",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Magic Ears",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Grockit",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Zenius",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Dev Bootcamp",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Juni Learning",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Lido Learning",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "FrontRow",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Shape Robotics",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "The Iron Yard",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "101 Studios",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Adleaf Technologies",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Sonnet",
+      "id": null,
+      "sub_sector": "营销/广告"
+    },
+    {
+      "name": "Udayy",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "AllHere",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "LearnUp",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Yellow Class",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Invact Metaversity",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Cellabus",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "KnowNet",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Zuuka",
+      "id": null,
+      "sub_sector": "媒体/娱乐"
+    },
+    {
+      "name": "GigaBryte",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "PlayReader",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Hickory",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "StudyRoom",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "ExceptionALLY",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "buildspace",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Trainzen",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Tailor-ED",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Tutorspree",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Airy Labs",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Alieo Games",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Flashnotes",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Community Coders",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "TutorCloud",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "VideoNotes",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "MathChat",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Dux Education",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Lernin Games",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Make School",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "EduKart",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Socrative",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Young Entrepreneurs' Program",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Class Connect",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "InstaGrok",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "LearningJar",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "SmarterCookie",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "ClassroomIQ",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Tap to Learn",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "BrainNook",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Edusight",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Insight Data Science",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Leada",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Eleven Learning",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Blendspace",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Quad",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "eduvee",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "BrightLoop",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Chesscademy",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "CareerTu",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Teacher Finder",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Edmodo",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Yogome",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "Formatically",
+      "id": null,
+      "sub_sector": "在线教育"
+    },
+    {
+      "name": "GoGoKid",
+      "id": null,
+      "sub_sector": "在线教育"
+    }
+  ],
+  "healthcare": [
+    {
+      "name": "Intarcia Therapeutics",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Babylon Health",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "23andMe",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "SmileDirectClub",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Zymergen",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Theranos",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Forward Health",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "MicroPort",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Cue Health",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Sichuan Kelun-Biotech",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Pear Therapeutics",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Weidong Cloud",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Fapon Biotech",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Yiyao",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Mindstrong",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Xiaohe",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Elvie",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Jianke",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Bridgetech",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "DrKoop.com",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Jiyan AI",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "uBiome",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Spotlight Therapeutics",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Faze Medicines",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Vedere Bio II",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Arivale",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "HealthSpot",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "54Gene",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Maven",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Spotlight Bio",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Base Therapeutics",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Call9",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "HomeHero, Inc",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Mojocare",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Cambridge Cancer Genomics",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Trident Bioscience",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "BeWell Digital",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "CoVerified",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Brave Care",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Micro Meat",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Fitmob",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Bina Technologies",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Caelum Health",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "First Opinion",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Fermata",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Tandem App",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Clip Health",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Sage Care",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Bumpline",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Hey Healthcare",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Nonu",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Zergo",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Overfit",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Ruta Health",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Saatvy",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Wink Health",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "PhysioHealth",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Volt Health",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Brick Health",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "DailyDoctor",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Simple Strips",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Charge Running",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "CareLedger",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "RxRobots",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Raw Gains",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Standard Cyborg",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "BusyMind",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "SSovereign",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Klarismo",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Encepheal Therapeutics",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "20n",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Nutrigene",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Shield Bio",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Nintee",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Refolo",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Medisas",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "ReSchedule Med",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "DoseDr",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Lilia",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "SoundFocus",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Penta Medical",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Anchor Health",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Thunderpod",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Unima",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "In Your Corner",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "TRAC",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "FitFu",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Zenamins",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "PatientBank",
+      "id": null,
+      "sub_sector": "远程医疗"
+    },
+    {
+      "name": "Habit Labs",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Habitual",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Triplet Therapeutics",
+      "id": null,
+      "sub_sector": "生物医疗"
+    },
+    {
+      "name": "Kopely",
+      "id": null,
+      "sub_sector": "生物医疗"
+    }
+  ],
+  "real_estate": [
+    {
+      "name": "WeWork",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Katerra",
+      "id": null,
+      "sub_sector": "建筑科技"
+    },
+    {
+      "name": "Dangke Apartment (Eggshell)",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Veev",
+      "id": null,
+      "sub_sector": "建筑科技"
+    },
+    {
+      "name": "Knotel",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Frontdesk",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Iwjw (Love Home)",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Lyric",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Tink Labs",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Zeus Living",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Breather",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Dadao",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Domio",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Hantoo",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Room 77",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Lekee",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "CoHive",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Propzy",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Stayzilla",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Wujiang Hotels",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Covo",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Zen Rooms",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Social Construct",
+      "id": null,
+      "sub_sector": "建筑科技"
+    },
+    {
+      "name": "Atomized",
+      "id": null,
+      "sub_sector": "建筑科技"
+    },
+    {
+      "name": "Commery",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "BricksAI",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Struct",
+      "id": null,
+      "sub_sector": "建筑科技"
+    },
+    {
+      "name": "ProntoPiso",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "RadPad",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "The Landing",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Acre Platforms",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Homestead",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "HubHaus",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Enzo",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Cribspot",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Pod Space",
+      "id": null,
+      "sub_sector": "建筑科技"
+    },
+    {
+      "name": "Vacation Bird",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Roomblocker",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Hutsy",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "OSIMple",
+      "id": null,
+      "sub_sector": "建筑科技"
+    },
+    {
+      "name": "Hexel",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Union Apartment",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Laguna",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Degrees of Freedom",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Vecindario",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Zeus",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Rent Nest",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "HotelsAroundYou",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Castle",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Start Closing",
+      "id": null,
+      "sub_sector": "建筑科技"
+    },
+    {
+      "name": "Monthli",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Viya",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Vayable",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Homeslice",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Kopa",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "RoomsTonite",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "SmartSite",
+      "id": null,
+      "sub_sector": "企业SaaS"
+    },
+    {
+      "name": "Pursuit",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Boston Apartment Hub",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Spaces Life",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Lovely",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "boxouse",
+      "id": null,
+      "sub_sector": "建筑科技"
+    },
+    {
+      "name": "Tateru",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Airy Rooms",
+      "id": null,
+      "sub_sector": "酒店/民宿"
+    },
+    {
+      "name": "Rumah.com",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Fantastic House Buyers",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "REPitchbook",
+      "id": null,
+      "sub_sector": "房地产"
+    },
+    {
+      "name": "Zillow Offers",
+      "id": null,
+      "sub_sector": "房地产"
+    }
+  ],
+  "clean_tech": [
+    {
+      "name": "Q-Cells",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "Solyndra",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "Plenty",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "SolarWorld",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "Plenty Unlimited",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "Infarm",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "Nanosolar",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "Powin Energy",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "AeroFarms",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "SunCable",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "Youon Hydrogen",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "Bulb Energy",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "LightSail Energy",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "Ursus",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "QBotix",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "Sunfolding",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "Moxion Power Co.",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "Green Energy Exchange",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "NextDrop",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "WATERFX",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "Terravion",
+      "id": null,
+      "sub_sector": "清洁技术"
+    },
+    {
+      "name": "Mission 100%",
+      "id": null,
+      "sub_sector": "清洁技术"
+    }
+  ]
+}

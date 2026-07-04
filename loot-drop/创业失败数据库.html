@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>创业失败数据库 | 1768 个项目</title>
+<meta name="description" content="收录 1768 个失败创业项目的完整数据库，支持按公司名、价值主张、死因摘要和详细分析搜索，包含死因分类、行业分布、融资数据，覆盖全球多个国家。">
+<meta property="og:title" content="Loot Drop - 创业失败数据库 | 1768 个项目的死因分析">
+<meta property="og:description" content="收录 1768 个失败创业项目的完整数据库，覆盖 30+ 行业、50+ 国家，支持按公司名、死因、行业搜索，含价值主张、死因精要和详细分析。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://fayelin12.github.io/loot-drop/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Loot Drop - 创业失败数据库">
+<meta name="twitter:description" content="1768 个失败创业项目，覆盖 30+ 行业、50+ 国家，含死因分析与 AI 分类报告。">
+<meta name="twitter:image" content="https://fayelin12.github.io/loot-drop/og-cover.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💀</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0f;color:#e0e0e0}
+.container{max-width:1600px;margin:0 auto;padding:20px}
+header{text-align:center;padding:40px 0 30px;border-bottom:1px solid #222;margin-bottom:30px}
+header h1{font-size:2.2em;color:#ff4444;margin-bottom:8px}
+header p{color:#888;font-size:1.05em}
+.stats{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:25px 0 0}
+.stat-card{background:#14141f;border:1px solid #222;border-radius:10px;padding:14px 20px;text-align:center;min-width:110px}
+.stat-card .num{font-size:1.8em;font-weight:700;color:#ff4444}
+.stat-card .label{font-size:.8em;color:#777;margin-top:4px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+.controls input,.controls select{padding:9px 12px;border-radius:8px;border:1px solid #333;background:#14141f;color:#e0e0e0;font-size:.9em}
+.controls input{flex:1;min-width:180px}
+.controls select{min-width:130px;max-width:180px}
+.controls input::placeholder{color:#555}
+.meta{color:#888;font-size:.85em;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.table-wrap{overflow-x:auto;max-height:65vh;overflow-y:auto}
+.pagination{display:flex;gap:6px;justify-content:center;align-items:center;padding:16px 0 8px;flex-wrap:wrap}
+.pagination button,.pagination span{background:#14141f;border:1px solid #333;color:#ccc;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:.85em;transition:all .15s;min-width:36px;text-align:center}
+.pagination button:hover:not(:disabled){border-color:#ff4444;color:#ff4444}
+.pagination button:disabled{opacity:.3;cursor:default}
+.pagination .active{background:#ff4444;border-color:#ff4444;color:#fff;font-weight:700}
+.pagination .info{background:transparent;border:none;color:#666;cursor:default;font-size:.8em}
+.pagination select{background:#14141f;border:1px solid #333;color:#ccc;padding:8px;border-radius:6px;font-size:.85em;cursor:pointer}
+.items-table{table-layout:fixed;width:100%;border-collapse:collapse;font-size:.9em}
+.items-table th{background:#14141f;padding:10px 8px;text-align:center;font-weight:600;color:#aaa;border-bottom:2px solid #333;position:sticky;top:0;z-index:1;white-space:nowrap;font-size:13px}
+.items-table td{padding:10px 8px;border-bottom:1px solid #1a1a25;vertical-align:top;word-break:break-word;line-height:1.5;font-size:13px}
+.items-table tr:hover td{background:#14141f40}
+th:nth-child(1){width:55px}th:nth-child(2){width:120px}th:nth-child(3){width:100px}th:nth-child(4){width:68px}th:nth-child(5){width:76px}th:nth-child(6){width:105px}th:nth-child(7),th:nth-child(8),th:nth-child(9){min-width:165px}
+.rank{text-align:center;font-weight:700;color:#ff4444;font-size:.6em}
+.name-col{font-weight:600;line-height:1.4}
+.name-col .country{color:#888;font-size:12px;font-weight:400}
+.funding{color:#ff6666;font-weight:600;white-space:nowrap}
+.cause{font-size:12px;padding:2px 7px;border-radius:4px;white-space:nowrap}
+.c-NO{background:#331111;color:#ff6666}
+.c-COMP{background:#112233;color:#6699ff}
+.c-RAN{background:#332211;color:#ffaa44}
+.c-LEGAL{background:#221133;color:#bb88ff}
+.c-PROD{background:#113322;color:#44cc88}
+.c-UNIT{background:#333311;color:#cccc44}
+.c-CONF{background:#331122;color:#ff66aa}
+.scores{text-align:center;line-height:1.6}
+.scores span{display:inline-block;background:#222;padding:1px 5px;border-radius:3px;margin:1px 0}
+.s-H{color:#44cc88}.s-M{color:#ffaa44}.s-L{color:#ff6666}
+.detail-cell{font-size:13px;color:#999;line-height:1.5;position:relative}
+.detail-cell .text{font-size:13px;display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer;max-height:4.5em}
+.detail-cell .text.expanded{display:block;-webkit-line-clamp:unset;line-clamp:unset;max-height:none}
+.detail-cell .expand-hint{color:#6699ff;font-size:12px;cursor:pointer;margin-top:2px}
+.detail-cell .expand-hint:hover{color:#ff4444}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.loading-bar{height:3px;background:#222;border-radius:2px;overflow:hidden;max-width:400px;margin:12px auto 0}
+.loading-bar::after{content:'';display:block;width:30%;height:100%;background:linear-gradient(90deg,#ff4444,#ff6644);border-radius:2px;animation:loading 1s ease-in-out infinite}
+@keyframes loading{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
+.loading-text{color:#888;font-size:.85em;text-align:center;margin-top:8px}
+@media(max-width:768px){
+  .container{padding:12px}
+  header{padding:24px 0 16px}
+  header h1{font-size:1.4em}
+  .controls{flex-direction:column}
+  .controls input,.controls select{width:100%;max-width:none}
+  .stat-card{min-width:70px;padding:10px 12px}
+  .stat-card .num{font-size:1.4em}
+  .stat-card .label{font-size:.7em}
+  /* 表格转卡片布局 */
+  .table-wrap{max-height:none;overflow:visible}
+  .items-table,.items-table thead,.items-table tbody,.items-table tr,.items-table td,.items-table th{display:block}
+  .items-table thead{display:none}
+  .items-table tr{background:#14141f;border:1px solid #222;border-radius:10px;padding:14px;margin-bottom:14px}
+  .items-table td{padding:6px 0;border:none;width:auto!important;text-align:left!important;font-size:13px;line-height:1.5}
+  .items-table td:empty{display:none}
+  /* 隐藏非核心列：#、行业类型、评分、详细分析 */
+  .items-table td:nth-child(1),
+  .items-table td:nth-child(3),
+  .items-table td:nth-child(6),
+  .items-table td:nth-child(9){display:none}
+  /* 公司名称放大 */
+  .items-table td:nth-child(2){font-size:15px;font-weight:700;color:#ff6666;padding-bottom:8px;border-bottom:1px solid #1a1a25;margin-bottom:6px}
+  /* 融资额和死因同行显示 */
+  .items-table td:nth-child(4),.items-table td:nth-child(5){display:inline-block;padding-right:16px}
+  .items-table td:nth-child(4)::before{content:'融资 ';font-size:11px;color:#666;font-weight:400}
+  .items-table td:nth-child(5)::before{content:''}
+  /* 价值主张和死因精要加标签 */
+  .items-table td:nth-child(7){margin-top:8px;padding-top:8px;border-top:1px solid #1a1a25}
+  .items-table td:nth-child(7)::before{content:'价值主张 ';font-size:11px;color:#666;font-weight:600;display:block;margin-bottom:2px}
+  .items-table td:nth-child(8){margin-top:6px}
+  .items-table td:nth-child(8)::before{content:'死因 ';font-size:11px;color:#666;font-weight:600;display:block;margin-bottom:2px}
+  /* 分页适配 */
+  .pagination button,.pagination span{padding:6px 10px;font-size:.8em;min-width:30px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>💀 Loot Drop - 创业失败数据库</h1>
+<div style="margin-top:14px">
+<a href="report/失败项目分类报告.html" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#ff4444,#cc3333);color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-size:.95em;font-weight:600;border:2px solid #ff5555;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(255,68,68,.3)" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 16px rgba(255,68,68,.5)'" onmouseout="this.style.transform='';this.style.boxShadow='0 2px 8px rgba(255,68,68,.3)'">📊 查看 AI 分类报告 <span style="font-weight:400;opacity:.8;font-size:.85em">765 组归类 · 7 维标签 · 可筛选</span></a>
+</div>
+<div class="stats" id="stats"></div>
+</header>
+<div class="controls">
+<label for="search" class="sr-only">搜索公司名、价值主张、死因摘要、详细分析</label>
+<input type="text" id="search" placeholder="搜索公司名 / 价值主张 / 死因…" aria-label="搜索公司名、价值主张、死因摘要、详细分析">
+<label for="sector-filter" class="sr-only">按行业筛选</label>
+<select id="sector-filter" aria-label="按行业筛选"><option value="">所有行业</option></select>
+<label for="type-filter" class="sr-only">按产品类型筛选</label>
+<select id="type-filter" aria-label="按产品类型筛选"><option value="">所有产品类型</option></select>
+<label for="country-filter" class="sr-only">按国家筛选</label>
+<select id="country-filter" aria-label="按国家筛选"><option value="">所有国家</option></select>
+<label for="cause-filter" class="sr-only">按死因筛选</label>
+<select id="cause-filter" aria-label="按死因筛选"><option value="">所有死因</option></select>
+</div>
+<div class="meta" id="meta"></div>
+<div class="table-wrap" role="region" aria-label="创业失败项目列表" tabindex="0">
+<table class="items-table">
+<caption class="sr-only">创业失败数据库 - 1768个项目，按融资额降序排列</caption>
+<thead><tr>
+<th scope="col">#</th><th scope="col">公司名称</th><th scope="col">行业 · 类型</th><th scope="col">融资额</th><th scope="col">死亡 · 死因</th><th scope="col" title="市场潜力 / 可扩展性 / 重建难度">评分 ?</th><th scope="col">价值主张</th><th scope="col">死因精要</th><th scope="col">详细分析</th>
+</tr></thead>
+<tbody id="items-body"></tbody>
+</table>
+</div>
+<div class="pagination" id="pagination"></div>
+</div>
+<script>
+function escHtml(s){if(!s&&s!=='')return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function getCauseClass(tag){if(!tag)return'';const t=tag.toUpperCase();if(t.includes('没有市场')||t.includes('NO MARKET'))return'c-NO';if(t.includes('竞争')||t.includes('COMPET'))return'c-COMP';if(t.includes('现金')||t.includes('RAN OUT')||t.includes('CASH'))return'c-RAN';if(t.includes('法律')||t.includes('LEGAL'))return'c-LEGAL';if(t.includes('产品')||t.includes('技术')||t.includes('PRODUCT')||t.includes('TECH'))return'c-PROD';if(t.includes('单位')||t.includes('经济')||t.includes('UNIT'))return'c-UNIT';if(t.includes('内部')||t.includes('冲突')||t.includes('CONFLICT')||t.includes('FOUNDER'))return'c-CONF';return''}
+function fmtFunding(v){if(!v)return'-';if(v>=1e9)return'$'+(v/1e9).toFixed(1)+'B';if(v>=1e6)return'$'+(v/1e6).toFixed(0)+'M';return'$'+(v/1e3).toFixed(0)+'K'}
+function fmtScore(v,label){if(!v&&v!==0)return'';const cls=v==='高潜'?'s-H':v==='中潜'?'s-M':v==='低潜'?'s-L':v>=4?'s-H':v>=3?'s-M':'s-L';return'<span class="'+cls+'">'+label+v+'</span>'}
+
+var DATA=[],filteredData=[],currentPage=1,pageSize=50;
+
+function init(){
+  document.getElementById('stats').innerHTML='<div class="loading-bar"></div><div class="loading-text">正在加载数据…</div>';
+  var s=document.createElement('script');
+  s.src='data.js';
+  s.onload=function(){
+    DATA=window.__STARTUP_DATA__;
+    if(!Array.isArray(DATA)||!DATA.length){fail('数据格式错误：DATA 为空或非数组');return}
+    buildUI()
+  };
+  s.onerror=function(){fail('data.js 加载失败，请检查网络后刷新')};
+  document.head.appendChild(s);
+}
+function fail(msg){
+  document.getElementById('stats').innerHTML='<div style="color:#ff4444;text-align:center;padding:20px">❌ 加载失败：'+escHtml(msg)+'</div>';
+  document.getElementById('items-body').innerHTML='<tr><td colspan=9 style="text-align:center;padding:40px;color:#ff4444">'+escHtml(msg)+'</td></tr>';
+}
+init();
+
+function buildUI(){
+  try{
+  const sectors=[...new Set(DATA.map(i=>i.sector).filter(Boolean))].sort();
+  const types=[...new Set(DATA.map(i=>i.product_type).filter(Boolean))].sort();
+  const countries=[...new Set(DATA.map(i=>i.country).filter(Boolean))].sort();
+  const causes=[...new Set(DATA.map(i=>i.cause_tag||i.primary_cause_of_death).filter(Boolean))].sort();
+  function fill(id,vals){const s=document.getElementById(id);vals.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;s.appendChild(o)})}
+  fill('sector-filter',sectors);fill('type-filter',types);fill('country-filter',countries);fill('cause-filter',causes);
+  const totalFunding=DATA.reduce((s,i)=>s+(i.total_funding||0),0);
+  document.getElementById('stats').innerHTML='<div class=stat-card><div class=num>'+DATA.length+'</div><div class=label>项目总数</div></div><div class=stat-card><div class=num>'+sectors.length+'</div><div class=label>行业</div></div><div class=stat-card><div class=num>'+countries.length+'</div><div class=label>国家</div></div><div class=stat-card><div class=num>$'+(totalFunding/1e12).toFixed(1)+'T</div><div class=label>总融资额</div></div>';
+  filteredData=DATA;render();
+  let debounceTimer;
+  document.getElementById('search').addEventListener('input',()=>{
+    clearTimeout(debounceTimer);
+    debounceTimer=setTimeout(filter,200);
+  });
+  ['sector-filter','type-filter','country-filter','cause-filter'].forEach(id=>document.getElementById(id).addEventListener('change',filter));
+  }catch(e){
+    document.getElementById('items-body').innerHTML='<tr><td colspan=9 style="text-align:center;padding:40px;color:#ff4444">❌ 界面渲染失败：'+escHtml(e.message)+'</td></tr>';
+    console.error('buildUI error:',e);
+  }
+}
+
+function render(){
+  var total=filteredData.length,totalPages=Math.ceil(total/pageSize);
+  if(currentPage>totalPages)currentPage=totalPages||1;
+  var start=(currentPage-1)*pageSize,end=start+pageSize;
+  var subset=filteredData.slice(start,end);
+  document.getElementById('items-body').innerHTML=subset.map((i,idx)=>{
+    var causeLabel=i.cause_tag||i.primary_cause_of_death||'-';
+    var deathCause=escHtml(i.end_year||'-')+'<br><span class="cause '+getCauseClass(causeLabel)+'">'+escHtml(causeLabel)+'</span>';
+    var sectorType=escHtml([i.sector,i.product_type].filter(Boolean).join(' · ')||'-');
+    var nameCell=escHtml(i.name)+'<br><span class=country>'+escHtml(i.country||'')+'</span>';
+    var vp=escHtml(i.value_proposition?i.value_proposition.substring(0,200):'-');
+    var cod=escHtml(i.cause_of_death_short||i.tldr||'-');
+    var full=i.cause_of_death||'';
+    var detail=full.length>0?full:'-';
+    var needExpand=full.length>120;
+    return '<tr>'+
+      '<td class=rank>'+i.rank+'</td>'+
+      '<td class=name-col>'+nameCell+'</td>'+
+      '<td style="color:#aaa">'+sectorType+'</td>'+
+      '<td class=funding>'+fmtFunding(i.total_funding)+'</td>'+
+      '<td>'+deathCause+'</td>'+
+      '<td><div class=scores>'+fmtScore(i.market_potential,'')+'<br>'+fmtScore(i.scalability,'S')+'<br>'+fmtScore(i.difficulty,'D')+'</div></td>'+
+      '<td style="color:#bbb;font-size:13px">'+vp+'</td>'+
+      '<td style="color:#999;font-size:13px">'+cod+'</td>'+
+      '<td class=detail-cell>'+
+        '<div class=text id=dt-'+idx+'>'+escHtml(detail)+'</div>'+
+        (needExpand?'<div class=expand-hint tabindex=0 role=button aria-expanded=false onclick="toggleDetail('+idx+')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();toggleDetail('+idx+')}">▶ 展开全文</div>':'')+
+      '</td>'+
+    '</tr>';
+  }).join('');
+  renderPagination(total,totalPages);
+  document.getElementById('meta').textContent='共 '+total+' 条结果'+(total!==DATA.length?'（全库 '+DATA.length+' 条）':'');
+}
+
+function renderPagination(total,totalPages){
+  if(totalPages<=1){document.getElementById('pagination').innerHTML='';return}
+  var html='<button onclick="goToPage(1)"'+(currentPage===1?' disabled':'')+'>⏮ 首页</button>';
+  html+='<button onclick="goToPage('+(currentPage-1)+')"'+(currentPage===1?' disabled':'')+'>◀ 上一页</button>';
+  var startPage=Math.max(1,currentPage-2),endPage=Math.min(totalPages,currentPage+2);
+  if(startPage>1){html+='<button onclick="goToPage(1)">1</button>';if(startPage>2)html+='<span class=info>…</span>'}
+  for(var p=startPage;p<=endPage;p++)html+='<button onclick="goToPage('+p+')"'+(p===currentPage?' class=active':'')+'>'+p+'</button>';
+  if(endPage<totalPages){if(endPage<totalPages-1)html+='<span class=info>…</span>';html+='<button onclick="goToPage('+totalPages+')">'+totalPages+'</button>'}
+  html+='<button onclick="goToPage('+(currentPage+1)+')"'+(currentPage===totalPages?' disabled':'')+'>下一页 ▶</button>';
+  html+='<button onclick="goToPage('+totalPages+')"'+(currentPage===totalPages?' disabled':'')+'>末页 ⏭</button>';
+  html+='<span class=info>每页<select onchange="changePageSize(this.value)"><option value=30'+(pageSize===30?' selected':'')+'>30</option><option value=50'+(pageSize===50?' selected':'')+'>50</option><option value=100'+(pageSize===100?' selected':'')+'>100</option></select>条</span>';
+  document.getElementById('pagination').innerHTML=html;
+}
+
+function goToPage(n){currentPage=n;render();window.scrollTo({top:document.querySelector('.meta').offsetTop-20,behavior:'smooth'})}
+function changePageSize(n){pageSize=parseInt(n);currentPage=1;render()}
+
+function toggleDetail(idx){const el=document.getElementById('dt-'+idx);if(!el)return;const hint=el.nextElementSibling;if(el.classList.contains('expanded')){el.classList.remove('expanded');if(hint){hint.innerHTML='▶ 展开全文';hint.setAttribute('aria-expanded','false')}}else{el.classList.add('expanded');if(hint){hint.innerHTML='▲ 收起';hint.setAttribute('aria-expanded','true')}}}
+
+function filter(){
+  if(!DATA.length)return;
+  var s=document.getElementById('search').value.toLowerCase();
+  var sec=document.getElementById('sector-filter').value;
+  var typ=document.getElementById('type-filter').value;
+  var ctr=document.getElementById('country-filter').value;
+  var cau=document.getElementById('cause-filter').value;
+  var f=DATA;
+  if(s)f=f.filter(function(i){return(i.name||'').toLowerCase().includes(s)||(i.value_proposition||'').toLowerCase().includes(s)||(i.cause_of_death_short||i.tldr||'').toLowerCase().includes(s)||(i.cause_of_death||'').toLowerCase().includes(s)});
+  if(sec)f=f.filter(i=>i.sector===sec);
+  if(typ)f=f.filter(i=>i.product_type===typ);
+  if(ctr)f=f.filter(i=>i.country===ctr);
+  if(cau)f=f.filter(i=>i.cause_tag===cau||i.primary_cause_of_death===cau);
+  filteredData=f;currentPage=1;render();
+}
+</script>
+</body>
+</html>
