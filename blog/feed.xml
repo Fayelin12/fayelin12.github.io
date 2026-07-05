@@ -1,4 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh_CN"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://fayelin12.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://fayelin12.github.io/blog/" rel="alternate" type="text/html" hreflang="zh_CN" /><updated>2026-06-26T02:23:53+00:00</updated><id>https://fayelin12.github.io/blog/feed.xml</id><title type="html">南飞</title><subtitle>记录思考，分享生活，探索技术的无限可能</subtitle><author><name>南飞</name></author><entry><title type="html">少年的宫殿 | 《竞争战略》</title><link href="https://fayelin12.github.io/blog/2026/06/26/jing-zheng-zhan-lue/" rel="alternate" type="text/html" title="少年的宫殿 | 《竞争战略》" /><published>2026-06-26T00:00:00+00:00</published><updated>2026-06-26T00:00:00+00:00</updated><id>https://fayelin12.github.io/blog/2026/06/26/%E7%AB%9E%E4%BA%89%E6%88%98%E7%95%A5</id><content type="html" xml:base="https://fayelin12.github.io/blog/2026/06/26/jing-zheng-zhan-lue/"><![CDATA[<p>任何一个作者，大概都藏着“一本书吃一生”的野心——不是指靠版税过活，而是让作品成为穿越时间的工具。波特的《竞争战略》显然做到了。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh_CN"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://fayelin12.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://fayelin12.github.io/blog/" rel="alternate" type="text/html" hreflang="zh_CN" /><updated>2026-07-05T07:34:44+00:00</updated><id>https://fayelin12.github.io/blog/feed.xml</id><title type="html">南飞</title><subtitle>记录思考，分享生活，探索技术的无限可能</subtitle><author><name>南飞</name></author><entry><title type="html">共治组织 | 《合弄制》</title><link href="https://fayelin12.github.io/blog/2026/07/05/he-nong-zhi/" rel="alternate" type="text/html" title="共治组织 | 《合弄制》" /><published>2026-07-05T00:00:00+00:00</published><updated>2026-07-05T00:00:00+00:00</updated><id>https://fayelin12.github.io/blog/2026/07/05/%E5%90%88%E5%BC%84%E5%88%B6</id><content type="html" xml:base="https://fayelin12.github.io/blog/2026/07/05/he-nong-zhi/"><![CDATA[<p>最近在思考，随着AI放大了每个人的能力，组织形态会变成什么样？传统公司是金字塔，上面决策下面执行，但当每个基层员工都配上AI助手，信息获取和分析能力都大幅提升之后，这套自上而下的机制还转的顺畅吗——强人之间互相内耗、不听话、抢资源？因为每个人都很强，有没有可能演变成自下而上的组织？</p>
+
+<p>于是deepseek给我推荐了这本书《holacracy》，中信出版社翻译为《重新定义管理》（很烂的翻译，但考虑是在2015年，勉强也能理解）。过去10多年，这本书包括作者构建的合弄制组织在世界范围内并没有产生什么水花，唱衰的论调及失败的案例居多，甚至有人是在地铁站旁论斤称买到这本书的。</p>
+
+<p>但我认为在AI时代，值得把它翻出来读一读。</p>
+
+<p>布赖恩·罗伯逊是程序员出身，合弄制是他自己捣鼓出来的。2007年前后正式创立了holacracycore，自己用这套方法管公司，写出了一套“宪法”并开始推广。这本书就是他这套系统的官方说明书。</p>
+
+<p>合弄制主张用规则替代权力，用角色替代职位。</p>
+
+<p>传统组织里权力等于职位，你是总监就有总监的权。合弄制反过来——权力不给人，给角色。你扮演什么角色就有什么权，换个人演这个角色同样的权。权力从人身上剥离了。组织被拆成很多个“圈子”，每个圈子自治运行，圈子之间互相嵌套，靠“治理会议”来调整角色和权责。</p>
+
+<p>治理会议是合弄制最核心的决策机制。任何人觉得哪里不对劲（书里叫“张力”），都可以在会上提提案，要求调整角色、权责或预算。别人想反对可以，但必须有“有效反对”——就是能说清楚“按你说的做会损害我明确的职责”，空口说“我觉得不行”不算数。</p>
+
+<p>合弄制要求每个人都像CEO一样思考、感知张力、提提案、参与治理——这太理想化了。现实中大部分人只想干好手头的活按时下班，没精力也没意愿参与那么多决策。这本书最大的问题是假设所有人都有足够的时间和认知带宽，但这个假设在现实中几乎不成立。</p>
+
+<p>合弄制对人性假设过于乐观，这可能是它所有问题的根源。信息不互通就是最大的问题，布赖恩给出的解法就是今天的PMO机制。靠“代表链”和跨圈会议传递信息，人工传递效率低、容易失真，圈子多了会议数量爆炸。</p>
+
+<p>Zappos就是最好的例子，这个美国鞋类电商品牌2015年在内部大刀阔斧推行合弄制改革，造成了五分之一的员工流失，大量的时间被花在会议上争论“如何工作”，而非实际工作，大量重叠的“圈子”导致员工职责混乱，无所适从。</p>
+
+<p>Zappos有1500人左右的规模，后来大家便默认合弄制的生效范围可能无法超出这个规模边界，在千人以下的公司才会取得成效，至今全世界小范围内也有继续推行合弄制的企业。</p>
+
+<p>书里还有一个很有意思但也很容易让人抓狂的设计——没有截止日期。作者的理由是：传统截止日期是一种“无意识的优先排序”。当别人问你“什么时候能完成”，你拍脑袋说“周二”，其实是在没搞清楚所有任务优先级的情况下强行做了个承诺。这会导致你为了兑现这个人为的承诺，把真正重要的事往后推。它默认每个人都是高度自驱的，且能准确判断优先级，这在现实中几乎不成立。</p>
+
+<p>埃里克·拜因霍克在《财富的起源》里讲过一个核心观点：经济是一个进化系统，商业上做得好的组织，本质上是在内部引入了“进化”的齿轮——求异（变异）、选优（选择）、强化（复制）三者循环运转。</p>
+
+<p>合弄制是布莱恩把进化理论融入组织日常运行的解法，用纯人类的方式跑这套框架是跑不动的，非常考验节点之间的调控能力，以及顶层的兜底能力，但如果把AI嵌进去，这三个齿轮的转速可能就会完全不一样。</p>]]></content><author><name>南飞</name></author><category term="组织" /><category term="管理" /><summary type="html"><![CDATA[最近在思考，随着AI放大了每个人的能力，组织形态会变成什么样？传统公司是金字塔，上面决策下面执行，但当每个基层员工都配上AI助手，信息获取和分析能力都大幅提升之后，这套自上而下的机制还转的顺畅吗——强人之间互相内耗、不听话、抢资源？因为每个人都很强，有没有可能演变成自下而上的组织？]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" /><media:content medium="image" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">少年的宫殿 | 《竞争战略》</title><link href="https://fayelin12.github.io/blog/2026/06/26/jing-zheng-zhan-lue/" rel="alternate" type="text/html" title="少年的宫殿 | 《竞争战略》" /><published>2026-06-26T00:00:00+00:00</published><updated>2026-06-26T00:00:00+00:00</updated><id>https://fayelin12.github.io/blog/2026/06/26/%E7%AB%9E%E4%BA%89%E6%88%98%E7%95%A5</id><content type="html" xml:base="https://fayelin12.github.io/blog/2026/06/26/jing-zheng-zhan-lue/"><![CDATA[<p>任何一个作者，大概都藏着“一本书吃一生”的野心——不是指靠版税过活，而是让作品成为穿越时间的工具。波特的《竞争战略》显然做到了。</p>
 
 <p>自70年代“五力模型”横空出世，五十年过去，企业分析竞争环境时，依然会画那张熟悉的波特五力图。</p>
 
@@ -368,36 +394,4 @@
 
 <p>实际上，那种“厚重的人性关怀”，并不是资本主义良心的发现，而是当核心资产从“体力”变为“创造力”后，资本为了最大化剩余价值而进化出的更成熟、更隐蔽的管理形态。它不再像对待机器零件那样去拧紧螺丝，而是像呵护一棵会自己生长、并结出果实的大树那样去浇灌——因为那棵树的根系已经深深扎进了公司的估值里。用“信任”和“自由”换取员工心甘情愿地投入“认知剩余价值”，是互联网模式下的效率最优解。与之成对比的“精细化的时间管理”，则是人口红利充沛、竞争同质化环境下最直接的成本控制手段。两种模式，底层逻辑其实都是“怎么把人用得最值”。</p>
 
-<p>书中所有看似“人性化”的管理，背后都是一套关于“怎么让最有创造力的人去拼命”的精巧算法。</p>]]></content><author><name>南飞</name></author><category term="互联网" /><summary type="html"><![CDATA[《互联网人才变革》是中信出的“奇点系列”，跟彼得·蒂尔的《从0到一》是同个系列的姊妹篇。主笔人（或者说“主脑人”）是LinkedIn创始人里德·霍夫曼，人称“硅谷人脉王”、Facebook最早的投资人之一，后来把自己的公司卖给了微软，卖了260亿美元。这本书短小精悍。但2015年出版那会儿还是引起了不小的动静，被《纽约时报》列为畅销书，《华尔街日报》《哈佛商业评论》《财富》都报道过。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" /><media:content medium="image" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">成为棋手，而非棋子 | 《从0到1》</title><link href="https://fayelin12.github.io/blog/2026/05/22/cong-0-dao-1/" rel="alternate" type="text/html" title="成为棋手，而非棋子 | 《从0到1》" /><published>2026-05-22T00:00:00+00:00</published><updated>2026-05-22T00:00:00+00:00</updated><id>https://fayelin12.github.io/blog/2026/05/22/%E4%BB%8E0%E5%88%B01</id><content type="html" xml:base="https://fayelin12.github.io/blog/2026/05/22/cong-0-dao-1/"><![CDATA[<p>最近在听一档视频播客时，看到了对袁岚峰的采访。他是一位拥有”神童”背景、在科研一线深耕后投身科普的学者，也是科普节目《科技袁人》的主讲人，算过气网红了吧。采访中他提出，在科学研究领域，很多发表成果都是外国人创造的，国人更多是在后面追赶。大概意思是，中国搞科研的，其 idea 大多是在外国人的基础上再做改进，很少从零开始产生原创想法。</p>
-
-<p>他最著名的例子就是：美国造出原子弹后，大家就知道了”核武器是可以造出来的”，这就是最重要的信息。苏联、中国等后来者不需要从头摸索，这就是”追赶型创新”</p>
-
-<p>创新力不足仅能代表是袁岚峰个人观点，听听就好。事实上，单个天才或企业在实验室里从无到有搞出一个颠覆性技术——那中国确实案例不多。但如果把视野拉开，看那些依靠大规模组织协同、国家战略意志、基础设施重构完成的”从0到1”，中国的案例不仅存在，而且体量惊人。</p>
-
-<p>他的观点和今天要说的这本书《从0到1》有点不谋而合。</p>
-
-<p>这本书的作者彼得·蒂尔（Peter Thiel），也是一位“神童”，人称”硅谷创投教父”。他2岁就获得国际象棋天才称号，曾是全美国际象棋排名前10的高手。后来他从斯坦福大学法学院毕业，因为一次面试落选，阴差阳错之下没有选择传统的律师道路，而是一头扎进了互联网创业的浪潮。</p>
-
-<p>创业的例子不太突出，让他一炮而红的更多是投资的例子，2004年，当Facebook还只是哈佛校园里的一个社交网站时，彼得·蒂尔以50万美元成为其第一位外部投资者，换取10.2%股权。随着Facebook上市，这笔投资最终为他带来超过2万倍的回报。</p>
-
-<p>所以我们读这本书时，不是去关注”什么是从0到1”或”怎样从0到1”，而是关注在投资人眼中，什么才是从0到1。</p>
-
-<p>在书中所举的例子都是大家熟悉的美国大厂——谷歌的搜索算法、亚马逊的规模经济、Facebook的网络效应。他用谷歌对比航空业：2012年谷歌收入502亿美元、利润率21%，而航空业收入1956亿美元、利润率却只有0.2%[^1](春秋航空2025年上半年净赚11.69亿元，净利润率超过10%25，而同期三大航合计亏损超47亿，其成功逻辑是，用服务减法，换价格优势)。作者的视角是投资人视角，关心的是谁能建立垄断、创造长期现金流。</p>
-
-<p>最核心的观点是：投资人不想投复制型产品，不想在红海里继续竞争。他们更希望一家公司能创造蓝海市场，在蓝海里竞争（说的就是今天的AI投资泡沫）。他对创始人的要求也是不要做复制模仿。他面试时最爱问那个”反常识问题”：”什么重要的真理只有很少人同意你的观点？”，”什么有价值的公司还没有人创建？”。</p>
-
-<p>其次是幂次法则（也就是之前《链接》所提的幂律分布），风险投资的回报不遵循正态分布，而是一小部分公司赚的钱超过其他所有公司的总和。彼得·蒂尔认为这个法则不仅适用于投资，也适用于人生——把精力分散在众多事情上，不如专注在最有价值的那一件事上。</p>
-
-<p>最后是关于先发优势（同样是之前多本书有提到的概念，但这本书观点又有不同）。“如果你是第一个进入市场的，在其他竞争者还在艰难起步的时候，你可以独自占据可观的市场份额。但先行一步只是一个策略，不是目标。真正重要的事在未来产生现金流，因此如果有别的公司出现并取代了你，那么就算你是第一个做的也捞不到一点好处，反而那个最后下手的人更好——最终可以在一个特定的市场里取得重大进展，获得几年甚至几十年的垄断利润。要实现这个目标就要先主导一个小的利基市场，在这个基础上扩大，直到达到你预想的长远目标。至少在这一点上，经商就像下棋。国际象棋大师卡帕布兰卡说过：’要想赢，首要工作就是研究残局。’”</p>
-
-<p>我最初看这本书时也有个疑惑：彼得·蒂尔说90年代互联网就已经到末期了，可我们明明看到移动互联网在两千年初才开始爆发。后来我意识到，他说的是PC互联网那波浪潮的结束，但他确实没有预见到移动互联网的真正形态。在90年代末，无线应用协议体验极差，从技术决定论出发，屏幕、带宽、电池这些物理限制足以判移动互联网”死刑”。</p>
-
-<p>彼得·蒂尔所讲的案例都是局外人的案例。虽然他自己确实是PayPal联合创始人，不是纯投资人，但《从0到1》之后他更多是以投资人身份出现。他并没有真正扎根一线去”从0到1”做那些后来的项目，他只是投资了从0到1。</p>
-
-<p>他的文风非常通俗易懂，原因在于彼得·蒂尔一直从事面向高中生和大学生的创业指导课程——斯坦福的CS183。我认识过类似的人，财富自由后的币圈大佬回到学校开课程，听学生讲天马行空的想法，并从中孵化项目。蒂尔大概就是同类，他认为年轻人的创造力会更好。</p>
-
-<p>同时，这本书还有一个偏见：它很多内容站在高层视角看问题，不够生活化。比如对中国的看法，其实就有偏见，可能只基于一部分中国人转述的观点，并没有深入了解中国。</p>
-
-<p>给这本做序的是真格资金创始人徐小平，他在序尾发愿，哪一天中国有征服全球的公司和产品时，也许彼得·蒂尔就可以常来中国。彼时是2014年，如今时过12年，中国已经连续在两个时代（移动互联网、新能源）实现了引领，当下正在准备连AI时代都拿下，彼得·蒂尔依旧没有常来（除了曾与张一鸣短暂会面）。</p>
-
-<p>他如今在干嘛呢？其公司Palantir在2025年8月获得美国陆军100亿美元大单，成为军工复合体”新贵”，还扶植了现任美国副总统万斯。硅谷教父可能正在试图走出硅谷，成为“美国教父”。</p>]]></content><author><name>南飞</name></author><category term="社会学" /><category term="心理学" /><summary type="html"><![CDATA[最近在听一档视频播客时，看到了对袁岚峰的采访。他是一位拥有”神童”背景、在科研一线深耕后投身科普的学者，也是科普节目《科技袁人》的主讲人，算过气网红了吧。采访中他提出，在科学研究领域，很多发表成果都是外国人创造的，国人更多是在后面追赶。大概意思是，中国搞科研的，其 idea 大多是在外国人的基础上再做改进，很少从零开始产生原创想法。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" /><media:content medium="image" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>书中所有看似“人性化”的管理，背后都是一套关于“怎么让最有创造力的人去拼命”的精巧算法。</p>]]></content><author><name>南飞</name></author><category term="互联网" /><summary type="html"><![CDATA[《互联网人才变革》是中信出的“奇点系列”，跟彼得·蒂尔的《从0到一》是同个系列的姊妹篇。主笔人（或者说“主脑人”）是LinkedIn创始人里德·霍夫曼，人称“硅谷人脉王”、Facebook最早的投资人之一，后来把自己的公司卖给了微软，卖了260亿美元。这本书短小精悍。但2015年出版那会儿还是引起了不小的动静，被《纽约时报》列为畅销书，《华尔街日报》《哈佛商业评论》《财富》都报道过。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" /><media:content medium="image" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
