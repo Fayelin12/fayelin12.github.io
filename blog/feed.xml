@@ -1,10 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh_CN"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://fayelin12.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://fayelin12.github.io/blog/" rel="alternate" type="text/html" hreflang="zh_CN" /><updated>2026-07-05T07:34:44+00:00</updated><id>https://fayelin12.github.io/blog/feed.xml</id><title type="html">南飞</title><subtitle>记录思考，分享生活，探索技术的无限可能</subtitle><author><name>南飞</name></author><entry><title type="html">共治组织 | 《合弄制》</title><link href="https://fayelin12.github.io/blog/2026/07/05/he-nong-zhi/" rel="alternate" type="text/html" title="共治组织 | 《合弄制》" /><published>2026-07-05T00:00:00+00:00</published><updated>2026-07-05T00:00:00+00:00</updated><id>https://fayelin12.github.io/blog/2026/07/05/%E5%90%88%E5%BC%84%E5%88%B6</id><content type="html" xml:base="https://fayelin12.github.io/blog/2026/07/05/he-nong-zhi/"><![CDATA[<p>最近在思考，随着AI放大了每个人的能力，组织形态会变成什么样？传统公司是金字塔，上面决策下面执行，但当每个基层员工都配上AI助手，信息获取和分析能力都大幅提升之后，这套自上而下的机制还转的顺畅吗——强人之间互相内耗、不听话、抢资源？因为每个人都很强，有没有可能演变成自下而上的组织？</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh_CN"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://fayelin12.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://fayelin12.github.io/blog/" rel="alternate" type="text/html" hreflang="zh_CN" /><updated>2026-07-10T05:36:46+00:00</updated><id>https://fayelin12.github.io/blog/feed.xml</id><title type="html">南飞</title><subtitle>记录思考，分享生活，探索技术的无限可能</subtitle><author><name>南飞</name></author><entry><title type="html">不确定状况下的判断</title><link href="https://fayelin12.github.io/blog/2026/07/10/bu-que-ding-zhuang-kuang-xia-de-pan-duan/" rel="alternate" type="text/html" title="不确定状况下的判断" /><published>2026-07-10T00:00:00+00:00</published><updated>2026-07-10T00:00:00+00:00</updated><id>https://fayelin12.github.io/blog/2026/07/10/%E4%B8%8D%E7%A1%AE%E5%AE%9A%E7%8A%B6%E5%86%B5%E4%B8%8B%E7%9A%84%E5%88%A4%E6%96%AD</id><content type="html" xml:base="https://fayelin12.github.io/blog/2026/07/10/bu-que-ding-zhuang-kuang-xia-de-pan-duan/"><![CDATA[<p>《不确定状况下的判断：启发式和偏差》是行为经济学领域的奠基之作（一本头部选手的论文精华）。</p>
+
+<p>这本书的本质内核认知心理学，之所以常被贴上“行为经济学”的标签，是因为经济学领域为其广泛应用做了背书，学界拿它作为工具，去解释市场和金融现象，比如股民为何追涨杀跌、消费者为何不买保险。</p>
+
+<p>主要编者丹尼尔·卡尼曼我们都很熟悉，2002年诺贝尔经济学奖得主（ “将心理学研究的洞察融入经济科学，尤其是在不确定条件下的人类判断与决策领域”），2011年，他将这几十年研究精华凝聚成《思考，快与慢》，正式提出了“系统1”和“系统2”。</p>
+
+<p>本书的精华内容集中在前半部分，分别是代表性、因果性和归因、便利性、控制错觉，核心来自卡尼曼和特沃斯基（如果特沃斯基没去世，那应该是诺贝尔奖的共享者）合作的启发式与偏差研究。他们正儿八经做了几十个精巧的实验，量化了人是如何算错的（比如代表性偏差、锚定效应），把心理学变成了可以验证的“硬科学”。</p>
+
+<p>在卡尼曼之前，经济学默认“人是理性的”。他通过“最后通牒博弈”实验直接打脸——如果A分100美元，B哪怕只拿1美元也是纯赚（理性该接受），但现实中B常因觉得“不公平”而宁可不拿，也要拒绝。这个简单事例证明了“公平感”能碾压“金钱利益”，迫使经济学必须正视人类的非理性情绪。</p>
+
+<p>其著名的前景理论认为相比最终财富，人更看重“得失的变化，损失100块的痛苦，远大于赚到100块的快乐（损失厌恶）。这个理论直接解释了股民为何“卖掉赚钱的股票，死扛亏损的股票”。</p>
+
+<p>卡尼曼研究的是认知偏差（Cognitive Biases），指大脑系统性犯错的规律，而《[[错不在我]]》基于认知失调理论（Cognitive Dissonance），指想法与行为冲突时的不适感带来的纠偏规律。</p>
+
+<p>人在不确定性下的系统性非理性——几乎涵盖了生活、工作甚至社会交互的方方面面。</p>
+
+<p>代表性启发式：根据某事物与典型事物的相似程度来主观评估概率，给被试描述一个刻板理工男形象，让其猜专业，绝大多数人选了工程系，完全忽略了各专业学生的真实比例。</p>
+
+<p>便利性（可得性）启发式：根据相关事例或信息从记忆中提取的容易程度来评估概率。让被试判断英文单词中“以R开头”和“R在第三位”哪个多。大多数人觉得“以R开头”的多（因为更容易回忆），但实际上“R在第三位”的单词更多。</p>
+
+<p>锚定与调整启发式：在估算时，会过分依赖最先接触到的信息（锚），随后的调整往往不充分。让被试估算1×2×3×4×5×6×7×8和8×7×6×5×4×3×2×1。从小到大估算的组，答案中位数是512；从大到小的是2250，实际正确答案是40320，两组都严重低估，且起点数字越低，估算值越低。</p>
+
+<p>模拟启发式：通过构建心理模拟的难易程度来判断概率。比如，想象自己买彩票中奖，模拟越生动就越容易高估中奖可能。（与彩票相关的还有“控制错觉”，当彩票号码是自己选的，或由“幸运儿”代抽时，人们会高估中奖概率。）</p>
+
+<p>卡尼曼试图证明犯错是有规律的、可预测的，所以我们都需要系统1和系统2.</p>]]></content><author><name>南飞</name></author><category term="社会学" /><summary type="html"><![CDATA[《不确定状况下的判断：启发式和偏差》是行为经济学领域的奠基之作（一本头部选手的论文精华）。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" /><media:content medium="image" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">共治组织 | 《合弄制》</title><link href="https://fayelin12.github.io/blog/2026/07/05/he-nong-zhi/" rel="alternate" type="text/html" title="共治组织 | 《合弄制》" /><published>2026-07-05T00:00:00+00:00</published><updated>2026-07-05T00:00:00+00:00</updated><id>https://fayelin12.github.io/blog/2026/07/05/%E5%90%88%E5%BC%84%E5%88%B6</id><content type="html" xml:base="https://fayelin12.github.io/blog/2026/07/05/he-nong-zhi/"><![CDATA[<p>最近在思考，随着AI放大了每个人的能力，组织形态会变成什么样？传统公司是金字塔，上面决策下面执行，但当每个基层员工都配上AI助手，信息获取和分析能力都大幅提升之后，这套自上而下的机制还转的顺畅吗——强人之间互相内耗、不听话、抢资源？因为每个人都很强，有没有可能演变成自下而上的组织？</p>
 
 <p>于是deepseek给我推荐了这本书《holacracy》，中信出版社翻译为《重新定义管理》（很烂的翻译，但考虑是在2015年，勉强也能理解）。过去10多年，这本书包括作者构建的合弄制组织在世界范围内并没有产生什么水花，唱衰的论调及失败的案例居多，甚至有人是在地铁站旁论斤称买到这本书的。</p>
 
 <p>但我认为在AI时代，值得把它翻出来读一读。</p>
 
-<p>布赖恩·罗伯逊是程序员出身，合弄制是他自己捣鼓出来的。2007年前后正式创立了holacracycore，自己用这套方法管公司，写出了一套“宪法”并开始推广。这本书就是他这套系统的官方说明书。</p>
+<p>布赖恩·罗伯逊是程序员出身，合弄制是他自己捣鼓出来的。2007年前后正式创立了holacracyone，自己用这套方法管公司，写出了一套“宪法”并开始推广。这本书就是他这套系统的官方说明书。</p>
 
 <p>合弄制主张用规则替代权力，用角色替代职位。</p>
 
@@ -378,20 +402,4 @@
 
 <p>回归到Stanley本人的经历，2022年（在OpenAI引爆全球的前夕），他离开OpenAI，表示要创建一个能增加人们生活中”意外发现”（serendipity）概率的系统。2年后他的社交产品Maven顺利上线，但增长未达预期，仅运营3个月就已宣告夭折。</p>
 
-<p>由此可见，作者亦是凡人，目标的欺骗性甚至能欺骗那些最了解它的人。但Stanley也展现出了书中倡导的”放弃的智慧”——他没有执着于拯救这个”目标”，而是迅速转身，加入了Lila Sciences，成为了一个真正的“寻宝者”——将 AI 应用于科学方法的每个环节（提出假设、实验设计、执行、观察、迭代），在生命科学、化学和材料科学领域实现自主发现。</p>]]></content><author><name>南飞</name></author><category term="AI" /><summary type="html"><![CDATA[这周想找关于OpenAI的书来研究（八卦），却发现市面上不少作品都流于表面，像是公司的软文或从资本视角出发的蹭热度，缺乏深度。偶然看到这本由两位前OpenAI研究员撰写的《伟大不能被计划》，作者肯尼斯·斯坦利和乔尔·雷曼，是人工智能领域的知名科学家，曾是Uber AI实验室的创始成员，后来加入了OpenAI。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" /><media:content medium="image" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">联盟 | 《互联网人才变革》</title><link href="https://fayelin12.github.io/blog/2026/05/22/hu-lian-wang-ren-cai-bian-ge/" rel="alternate" type="text/html" title="联盟 | 《互联网人才变革》" /><published>2026-05-22T00:00:00+00:00</published><updated>2026-05-22T00:00:00+00:00</updated><id>https://fayelin12.github.io/blog/2026/05/22/%E4%BA%92%E8%81%94%E7%BD%91%E4%BA%BA%E6%89%8D%E5%8F%98%E9%9D%A9</id><content type="html" xml:base="https://fayelin12.github.io/blog/2026/05/22/hu-lian-wang-ren-cai-bian-ge/"><![CDATA[<p>《互联网人才变革》是中信出的“奇点系列”，跟彼得·蒂尔的《从0到一》是同个系列的姊妹篇。主笔人（或者说“主脑人”）是LinkedIn创始人里德·霍夫曼，人称“硅谷人脉王”、Facebook最早的投资人之一，后来把自己的公司卖给了微软，卖了260亿美元。这本书短小精悍。但2015年出版那会儿还是引起了不小的动静，被《纽约时报》列为畅销书，《华尔街日报》《哈佛商业评论》《财富》都报道过。</p>
-
-<p>这本书的英文原名叫 <strong>《The Alliance》</strong> ，直译就是“联盟”。这个词精准概括了核心主张：围绕“人才流动性”和“使命驱动”的大趋势展开，雇主与员工之间应该是平等的、互惠的、有明确期限的合作关系，不假装天长地久，但结束后仍是伙伴。</p>
-
-<p>说是互联网人才观，实际上是领英人才观，是投资人人才观。2004年，领英用户接近100万。霍夫曼领着扎克伯格去见了自己的PayPal前同事彼得·蒂尔，两人都给Facebook做了投资，霍夫曼当初微不足道的4万美元最后变成2亿美元，此后，他陆续投了Airbnb、Groupon等80多家公司。</p>
-
-<p>2016年微软以262亿美元现金收购LinkedIn，霍夫曼持股接近20%，直接成了亿万富翁。LinkedIn本身不是靠烧钱烧出来的——它2010年时从每个用户身上赚1.3美元，同期Facebook只赚6.2美分，差了20倍。</p>
-
-<p>卖完LinkedIn后，霍夫曼基本上All in AI了——投资OpenAI、联合创立Inflection AI、2025年又搞了家AI制药公司Manas AI，种子轮融资2460万美元，还出了本新书《Superagency》给AI唱赞歌。这期间霍夫曼每天在社交媒体上谈AI，还和马斯克在X上公开吵过架（2月份的爱泼斯坦事件）。他甚至有个以太坊钱包，里面持有610万美元的ETH（老韭菜了）。他说过一句话挺有冲击力：<strong>15个会用AI的人，可以和150个不用AI的人竞争（”15 people with AI can compete with 150 without it. AI fundamentally changes what small teams can accomplish.”）</strong>。</p>
-
-<p>霍夫曼的人才观确实影响了很多硅谷公司，包括也延续到了OpenAI和Anthropic这两家当今最火的AI公司。霍夫曼是OpenAI和Anthropic的投资人，曾在OpenAI担任董事会成员。OpenAI的人才模式可以解读为本书的教科书级案例：顶尖AI研究员本来就是流动最频繁的人群，OpenAI从不假装他们会待一辈子，而是用“使命驱动”让他们在任期内全力投入；每个研究员都是AGI愿景的传教士，在社交媒体、学术会议上为OpenAI代言——这正是书中说的“让员工为品牌背书”的最高形态。</p>
-
-<p>这本书让我印象最深、也最困惑的一个点是——为什么在资本主义的公司制度下，它们对员工的人性关怀显得那么厚重？有别于我们对资本主义的传统印象，采用了开放包容的管理模式？</p>
-
-<p>实际上，那种“厚重的人性关怀”，并不是资本主义良心的发现，而是当核心资产从“体力”变为“创造力”后，资本为了最大化剩余价值而进化出的更成熟、更隐蔽的管理形态。它不再像对待机器零件那样去拧紧螺丝，而是像呵护一棵会自己生长、并结出果实的大树那样去浇灌——因为那棵树的根系已经深深扎进了公司的估值里。用“信任”和“自由”换取员工心甘情愿地投入“认知剩余价值”，是互联网模式下的效率最优解。与之成对比的“精细化的时间管理”，则是人口红利充沛、竞争同质化环境下最直接的成本控制手段。两种模式，底层逻辑其实都是“怎么把人用得最值”。</p>
-
-<p>书中所有看似“人性化”的管理，背后都是一套关于“怎么让最有创造力的人去拼命”的精巧算法。</p>]]></content><author><name>南飞</name></author><category term="互联网" /><summary type="html"><![CDATA[《互联网人才变革》是中信出的“奇点系列”，跟彼得·蒂尔的《从0到一》是同个系列的姊妹篇。主笔人（或者说“主脑人”）是LinkedIn创始人里德·霍夫曼，人称“硅谷人脉王”、Facebook最早的投资人之一，后来把自己的公司卖给了微软，卖了260亿美元。这本书短小精悍。但2015年出版那会儿还是引起了不小的动静，被《纽约时报》列为畅销书，《华尔街日报》《哈佛商业评论》《财富》都报道过。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" /><media:content medium="image" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>由此可见，作者亦是凡人，目标的欺骗性甚至能欺骗那些最了解它的人。但Stanley也展现出了书中倡导的”放弃的智慧”——他没有执着于拯救这个”目标”，而是迅速转身，加入了Lila Sciences，成为了一个真正的“寻宝者”——将 AI 应用于科学方法的每个环节（提出假设、实验设计、执行、观察、迭代），在生命科学、化学和材料科学领域实现自主发现。</p>]]></content><author><name>南飞</name></author><category term="AI" /><summary type="html"><![CDATA[这周想找关于OpenAI的书来研究（八卦），却发现市面上不少作品都流于表面，像是公司的软文或从资本视角出发的蹭热度，缺乏深度。偶然看到这本由两位前OpenAI研究员撰写的《伟大不能被计划》，作者肯尼斯·斯坦利和乔尔·雷曼，是人工智能领域的知名科学家，曾是Uber AI实验室的创始成员，后来加入了OpenAI。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" /><media:content medium="image" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
