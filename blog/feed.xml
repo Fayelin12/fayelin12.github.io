@@ -1,4 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh_CN"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://fayelin12.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://fayelin12.github.io/blog/" rel="alternate" type="text/html" hreflang="zh_CN" /><updated>2026-07-10T05:36:46+00:00</updated><id>https://fayelin12.github.io/blog/feed.xml</id><title type="html">南飞</title><subtitle>记录思考，分享生活，探索技术的无限可能</subtitle><author><name>南飞</name></author><entry><title type="html">不确定状况下的判断</title><link href="https://fayelin12.github.io/blog/2026/07/10/bu-que-ding-zhuang-kuang-xia-de-pan-duan/" rel="alternate" type="text/html" title="不确定状况下的判断" /><published>2026-07-10T00:00:00+00:00</published><updated>2026-07-10T00:00:00+00:00</updated><id>https://fayelin12.github.io/blog/2026/07/10/%E4%B8%8D%E7%A1%AE%E5%AE%9A%E7%8A%B6%E5%86%B5%E4%B8%8B%E7%9A%84%E5%88%A4%E6%96%AD</id><content type="html" xml:base="https://fayelin12.github.io/blog/2026/07/10/bu-que-ding-zhuang-kuang-xia-de-pan-duan/"><![CDATA[<p>《不确定状况下的判断：启发式和偏差》是行为经济学领域的奠基之作（一本头部选手的论文精华）。</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh_CN"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://fayelin12.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://fayelin12.github.io/blog/" rel="alternate" type="text/html" hreflang="zh_CN" /><updated>2026-07-17T10:37:48+00:00</updated><id>https://fayelin12.github.io/blog/feed.xml</id><title type="html">南飞</title><subtitle>记录思考，分享生活，探索技术的无限可能</subtitle><author><name>南飞</name></author><entry><title type="html">系统1和系统2 | 《不确定状态下的判断》</title><link href="https://fayelin12.github.io/blog/2026/07/10/bu-que-ding-zhuang-kuang-xia-de-pan-duan/" rel="alternate" type="text/html" title="系统1和系统2 | 《不确定状态下的判断》" /><published>2026-07-10T00:00:00+00:00</published><updated>2026-07-10T00:00:00+00:00</updated><id>https://fayelin12.github.io/blog/2026/07/10/%E4%B8%8D%E7%A1%AE%E5%AE%9A%E7%8A%B6%E5%86%B5%E4%B8%8B%E7%9A%84%E5%88%A4%E6%96%AD</id><content type="html" xml:base="https://fayelin12.github.io/blog/2026/07/10/bu-que-ding-zhuang-kuang-xia-de-pan-duan/"><![CDATA[<p>本周继续读后半部分，这部分内容可能就是从主线中拎出来的有趣的小研究了。</p>
+
+<p>奥斯坎普做了一个经典实验：让专业人士（比如临床心理学家）通过个案材料做判断，随着材料越给越多，他们的自信心直线上升，但判断的准确性并没有同步提高。换句话说，信息变多了，你只是更自信了，并不一定更对了。这种现象在日常生活中几乎每天都在发生——看了一堆资料之后拍着桌子说”这次我肯定没错”，然后果然错了。（所以不要怪大模型有幻觉，人类同理）</p>
+
+<p>爱德华兹提出了一个概念叫”保守主义”——面对新证据时，人们更新信念的速度太慢了。理论上，贝叶斯定理告诉我们如何根据新信息调整概率，但现实中的人往往不够敏感，倾向于死守原有判断。这和过度自信其实是同一个硬币的两面：一面是你对已有判断太自信，另一面是你对新证据反应太迟钝。</p>
+
+<p>菲什霍夫写的是大家都很熟悉的——事后诸葛亮偏差，知道结果之后，人们会高估自己事前预测到的可能性，仿佛”我早就知道会这样”。</p>
+
+<ul>
+  <li>对于确实发生的事件，人们回忆起的概率，普遍高于他们当初实际给出的概率。</li>
+  <li>对于没有发生的事件，情况则相反，他们回忆起的概率会低于实际给出的概率。</li>
+</ul>
+
+<p>道斯在《决策中非常规线性模型的优美之处》里提出：即便权重设得很粗糙，简单的线性模型（比如把几个指标加权求和）在预测时，也比专家的直觉判断更稳定、更准确。 书里举了多个领域的例子——从研究生录取到临床诊断，专家拍脑袋的判断常常输给一个没有任何”智慧”的公式。原因很简单：模型不会累、不会受情绪影响、不会被最近的个案带偏，最关键是一致性极高——同样的输入永远给出同样的输出，而专家今天和明天的判断可能完全不同。</p>
+
+<p>书里用大量实验证明了：
+第一，直觉擅长讲故事，不擅长算概率。
+第二，直觉的校准能力极差。</p>
+
+<p>为了对抗这种天性，我们需要在统计学里，寻找一个数据锚点——代表某类事情的平均水平或基础概率。</p>
+
+<hr />
+
+<p>《不确定状况下的判断：启发式和偏差》是行为经济学领域的奠基之作（一本头部选手的论文精华）。</p>
 
 <p>这本书的本质内核认知心理学，之所以常被贴上“行为经济学”的标签，是因为经济学领域为其广泛应用做了背书，学界拿它作为工具，去解释市场和金融现象，比如股民为何追涨杀跌、消费者为何不买保险。</p>
 
@@ -22,7 +45,7 @@
 
 <p>模拟启发式：通过构建心理模拟的难易程度来判断概率。比如，想象自己买彩票中奖，模拟越生动就越容易高估中奖可能。（与彩票相关的还有“控制错觉”，当彩票号码是自己选的，或由“幸运儿”代抽时，人们会高估中奖概率。）</p>
 
-<p>卡尼曼试图证明犯错是有规律的、可预测的，所以我们都需要系统1和系统2.</p>]]></content><author><name>南飞</name></author><category term="社会学" /><summary type="html"><![CDATA[《不确定状况下的判断：启发式和偏差》是行为经济学领域的奠基之作（一本头部选手的论文精华）。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" /><media:content medium="image" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">共治组织 | 《合弄制》</title><link href="https://fayelin12.github.io/blog/2026/07/05/he-nong-zhi/" rel="alternate" type="text/html" title="共治组织 | 《合弄制》" /><published>2026-07-05T00:00:00+00:00</published><updated>2026-07-05T00:00:00+00:00</updated><id>https://fayelin12.github.io/blog/2026/07/05/%E5%90%88%E5%BC%84%E5%88%B6</id><content type="html" xml:base="https://fayelin12.github.io/blog/2026/07/05/he-nong-zhi/"><![CDATA[<p>最近在思考，随着AI放大了每个人的能力，组织形态会变成什么样？传统公司是金字塔，上面决策下面执行，但当每个基层员工都配上AI助手，信息获取和分析能力都大幅提升之后，这套自上而下的机制还转的顺畅吗——强人之间互相内耗、不听话、抢资源？因为每个人都很强，有没有可能演变成自下而上的组织？</p>
+<p>卡尼曼试图证明犯错是有规律的、可预测的，所以我们都需要系统1和系统2.</p>]]></content><author><name>南飞</name></author><category term="社会学" /><summary type="html"><![CDATA[本周继续读后半部分，这部分内容可能就是从主线中拎出来的有趣的小研究了。]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" /><media:content medium="image" url="https://fayelin12.github.io/blog/assets/images/og-card.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">共治组织 | 《合弄制》</title><link href="https://fayelin12.github.io/blog/2026/07/05/he-nong-zhi/" rel="alternate" type="text/html" title="共治组织 | 《合弄制》" /><published>2026-07-05T00:00:00+00:00</published><updated>2026-07-05T00:00:00+00:00</updated><id>https://fayelin12.github.io/blog/2026/07/05/%E5%90%88%E5%BC%84%E5%88%B6</id><content type="html" xml:base="https://fayelin12.github.io/blog/2026/07/05/he-nong-zhi/"><![CDATA[<p>最近在思考，随着AI放大了每个人的能力，组织形态会变成什么样？传统公司是金字塔，上面决策下面执行，但当每个基层员工都配上AI助手，信息获取和分析能力都大幅提升之后，这套自上而下的机制还转的顺畅吗——强人之间互相内耗、不听话、抢资源？因为每个人都很强，有没有可能演变成自下而上的组织？</p>
 
 <p>于是deepseek给我推荐了这本书《holacracy》，中信出版社翻译为《重新定义管理》（很烂的翻译，但考虑是在2015年，勉强也能理解）。过去10多年，这本书包括作者构建的合弄制组织在世界范围内并没有产生什么水花，唱衰的论调及失败的案例居多，甚至有人是在地铁站旁论斤称买到这本书的。</p>
 
