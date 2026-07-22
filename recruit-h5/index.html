@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0B0F14">
+  <title>FoundU.ai — AI原生人才发现系统</title>
+
+  <style>
+    /* ============================================================
+       1. CSS 变量系统 / Design Tokens
+       ============================================================ */
+    :root {
+      --fu-bg-deep: #0B0F14;
+      --fu-green: #4ADE80;
+      --fu-green-dim: rgba(74, 222, 128, 0.6);
+      --fu-green-subtle: rgba(74, 222, 128, 0.2);
+      --fu-green-glow: rgba(74, 222, 128, 0.08);
+      --fu-text-primary: #E6EDF3;
+      --fu-text-secondary: #8B949E;
+      --fu-text-tertiary: #5F6874;
+      --fu-terminal-bg: rgba(13, 17, 23, 0.88);
+      --fu-terminal-border: rgba(74, 222, 128, 0.15);
+      --fu-terminal-glow: rgba(74, 222, 128, 0.07);
+      --fu-font-mono: ui-monospace, SFMono-Regular, 'SF Mono', 'Fira Code', 'Cascadia Code', 'JetBrains Mono', Menlo, Consolas, monospace;
+      --fu-font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+      --fu-space-1: 4px; --fu-space-2: 8px; --fu-space-3: 12px;
+      --fu-space-4: 16px; --fu-space-5: 20px; --fu-space-6: 24px;
+      --fu-space-8: 32px; --fu-space-10: 40px; --fu-space-12: 48px;
+      --fu-space-16: 64px; --fu-space-20: 80px;
+      --fu-radius-sm: 6px; --fu-radius-md: 10px; --fu-radius-lg: 14px;
+      --fu-ease-smooth: cubic-bezier(0.25, 0.8, 0.25, 1.2);
+      --fu-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --fu-ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+      --fu-duration-fast: 150ms; --fu-duration-normal: 300ms; --fu-duration-slow: 500ms;
+      --fu-text-terminal: clamp(0.8125rem, 0.75rem + 0.3vw, 0.9375rem);
+      --fu-text-body: clamp(0.9375rem, 0.9rem + 0.2vw, 1rem);
+      --fu-text-heading: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);
+      --fu-text-big-number: clamp(2.5rem, 1.8rem + 3vw, 4.5rem);
+      --fu-text-label: clamp(0.6875rem, 0.65rem + 0.18vw, 0.8125rem);
+    }
+
+    /* ============================================================
+       2. Reset 与基础工具类
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body {
+      font-family: var(--fu-font-sans);
+      background-color: var(--fu-bg-deep);
+      color: var(--fu-text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100dvh;
+    }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    .touch-target { min-height: 44px; min-width: 44px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    /* ============================================================
+       3. Canvas 环境光层
+       ============================================================ */
+    #three-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       4. 背景光晕（静态底色）
+       ============================================================ */
+    .bg-aura {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 900px 700px at 50% 35%, rgba(22, 45, 33, 0.35) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 400px at 50% 30%, rgba(74, 222, 128, 0.03) 0%, transparent 70%),
+        var(--fu-bg-deep);
+    }
+
+    /* 浮动光点：保留原设计的微妙装饰 */
+    .floating-dots { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .floating-dot { position: absolute; width: 2px; height: 2px; background: var(--fu-green); border-radius: 50%; opacity: 0; will-change: transform, opacity; animation: floatDot 10s ease-in-out infinite; }
+    .floating-dot:nth-child(1) { left: 15%; top: 25%; animation-delay: 0s; animation-duration: 11s; }
+    .floating-dot:nth-child(2) { left: 78%; top: 40%; animation-delay: 3s; animation-duration: 12s; }
+    .floating-dot:nth-child(3) { left: 55%; top: 60%; animation-delay: 6s; animation-duration: 10s; }
+    .floating-dot:nth-child(4) { left: 32%; top: 12%; animation-delay: 1.5s; animation-duration: 13s; }
+    .floating-dot:nth-child(5) { left: 88%; top: 72%; animation-delay: 4.5s; animation-duration: 9s; }
+    .floating-dot:nth-child(6) { left: 8%; top: 55%; animation-delay: 7s; animation-duration: 11.5s; }
+    .floating-dot:nth-child(7) { left: 65%; top: 18%; animation-delay: 2s; animation-duration: 10.5s; }
+    .floating-dot:nth-child(8) { left: 42%; top: 82%; animation-delay: 5.5s; animation-duration: 8.5s; }
+    .floating-dot:nth-child(9) { left: 92%; top: 8%; animation-delay: 0.8s; animation-duration: 14s; }
+    .floating-dot:nth-child(10){ left: 20%; top: 90%; animation-delay: 3.8s; animation-duration: 11s; }
+    @keyframes floatDot {
+      0%,100% { opacity: 0; transform: translateY(0) translateX(0) scale(1); }
+      15% { opacity: 0.5; }
+      30% { opacity: 0.15; transform: translateY(-50px) translateX(25px) scale(2.5); }
+      50% { opacity: 0.04; transform: translateY(-100px) translateX(-15px) scale(1.2); }
+      70% { opacity: 0.3; transform: translateY(-40px) translateX(-30px) scale(2); }
+      85% { opacity: 0.08; }
+    }
+
+    /* ============================================================
+       5. 主布局
+       ============================================================ */
+    .main-container { position: relative; z-index: 1; }
+
+    /* ============================================================
+       6. Hero 首屏
+       ============================================================ */
+    .hero-section { min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: var(--fu-space-6); position: relative; z-index: 2; }
+    .terminal-label { font-family: var(--fu-font-mono); font-size: var(--fu-text-label); font-weight: 400; color: var(--fu-green-dim); letter-spacing: 0.04em; text-align: center; margin-bottom: var(--fu-space-6); opacity: 0; transform: translateY(6px); transition: opacity var(--fu-duration-slow) var(--fu-ease-enter), transform var(--fu-duration-slow) var(--fu-ease-enter); user-select: none; }
+    .terminal-label.visible { opacity: 1; transform: translateY(0); }
+    .terminal-wrapper { width: 100%; max-width: 680px; container-type: inline-size; container-name: terminal; }
+    .terminal-window { width: 100%; background: var(--fu-terminal-bg); border: 1px solid var(--fu-terminal-border); border-radius: var(--fu-radius-lg); box-shadow: 0 0 60px var(--fu-terminal-glow), 0 24px 64px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(74,222,128,0.04); padding: var(--fu-space-6) var(--fu-space-5); position: relative; opacity: 0; transform: translateY(12px); transition: opacity var(--fu-duration-slow) var(--fu-ease-enter), transform var(--fu-duration-slow) var(--fu-ease-enter), box-shadow var(--fu-duration-normal) ease; z-index: 3; overflow: hidden; }
+    @supports (backdrop-filter: blur(22px)) and (not (hover: none)) {
+      .terminal-window { background: rgba(13,17,23,0.72); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); }
+    }
+    .terminal-window.visible { opacity: 1; transform: translateY(0); }
+    .terminal-window.expanded { box-shadow: 0 0 80px rgba(74,222,128,0.1), 0 28px 72px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(74,222,128,0.06); }
+    .window-dots { display: flex; gap: var(--fu-space-2); margin-bottom: var(--fu-space-4); opacity: 0.5; }
+    .window-dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--fu-green); opacity: 0.3; flex-shrink: 0; }
+    .window-dots span:nth-child(1) { opacity: 0.4; } .window-dots span:nth-child(2) { opacity: 0.25; } .window-dots span:nth-child(3) { opacity: 0.35; }
+    .terminal-content { font-family: var(--fu-font-mono); font-size: var(--fu-text-terminal); line-height: 1.75; color: var(--fu-text-primary); min-height: 20px; position: relative; }
+    .terminal-content .line { white-space: pre-wrap; word-break: break-word; min-height: 1.75em; position: relative; padding-block: 2px; }
+    .terminal-content .line .label { color: var(--fu-green); font-weight: 500; }
+    .terminal-content .line .highlight { color: var(--fu-green); font-weight: 700; animation: pulseHighlight 2s ease-in-out 1; }
+    .terminal-content .line .dim { color: var(--fu-text-secondary); }
+    .terminal-content .line .prompt { color: var(--fu-green); font-weight: 600; }
+    @keyframes pulseHighlight { 0%,100% { text-shadow: 0 0 0 transparent; } 50% { text-shadow: 0 0 14px rgba(74,222,128,0.7); } }
+    .terminal-content .line.option { cursor: pointer; color: var(--fu-text-primary); transition: color var(--fu-duration-fast) ease, transform var(--fu-duration-fast) var(--fu-ease-spring); padding-block: 10px; position: relative; user-select: none; -webkit-tap-highlight-color: transparent; }
+    .terminal-content .line.option:hover { color: var(--fu-green); transform: translateX(3px); }
+    .terminal-content .line.option:active { transform: translateX(2px); color: var(--fu-green); }
+    .terminal-content .line.option.selected { color: var(--fu-green); font-weight: 600; pointer-events: none; }
+    .terminal-content .line.option.dimmed { color: var(--fu-text-tertiary); pointer-events: none; opacity: 0.5; }
+    .terminal-content .line.option .arrow { color: var(--fu-green); margin-right: var(--fu-space-1); display: inline-block; transition: transform var(--fu-duration-fast) ease; }
+    .terminal-content .line.option:hover .arrow { transform: translateX(2px); }
+    .cursor-blink { display: inline-block; width: 2px; height: 1.1em; background: var(--fu-green); vertical-align: text-bottom; margin-left: 1px; animation: cursorBlink 1s steps(1) infinite; position: relative; top: 0.05em; }
+    @keyframes cursorBlink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+    .cta-button-wrapper { margin-top: var(--fu-space-10); z-index: 3; opacity: 0; transform: translateY(8px); transition: opacity var(--fu-duration-slow) var(--fu-ease-enter) 0.3s, transform var(--fu-duration-slow) var(--fu-ease-enter) 0.3s; }
+    .cta-button-wrapper.visible { opacity: 1; transform: translateY(0); }
+    .cta-button { display: inline-flex; align-items: center; justify-content: center; font-family: var(--fu-font-sans); font-size: var(--fu-text-body); font-weight: 600; letter-spacing: 0.03em; color: var(--fu-bg-deep); background: var(--fu-green); border-radius: var(--fu-radius-sm); padding: 14px 44px; min-height: 48px; min-width: 160px; box-shadow: 0 0 24px rgba(74,222,128,0.3); transition: box-shadow var(--fu-duration-normal) ease, transform var(--fu-duration-fast) var(--fu-ease-spring), background var(--fu-duration-fast) ease; text-decoration: none; user-select: none; -webkit-tap-highlight-color: transparent; position: relative; overflow: hidden; }
+    .cta-button:hover { box-shadow: 0 0 36px rgba(74,222,128,0.5); transform: translateY(-1px); background: #5CEC96; }
+    .cta-button:active { transform: scale(0.97); box-shadow: 0 0 18px rgba(74,222,128,0.35); transition: transform 80ms ease, box-shadow 80ms ease; }
+    .cta-button:disabled { pointer-events: none; opacity: 0.55; cursor: not-allowed; }
+    .cta-button::after { content: ''; position: absolute; top: -50%; left: -60%; width: 40%; height: 200%; background: rgba(255,255,255,0.15); transform: rotate(25deg); transition: left var(--fu-duration-normal) ease; }
+    .cta-button:hover::after { left: 120%; }
+
+    /* ============================================================
+       7. 后续板块通用样式
+       ============================================================ */
+    .section { padding: var(--fu-space-20) var(--fu-space-6); position: relative; z-index: 2; max-width: 900px; margin: 0 auto; }
+    .section-title { font-size: var(--fu-text-heading); font-weight: 700; letter-spacing: -0.01em; color: var(--fu-text-primary); margin-bottom: var(--fu-space-6); }
+    .section-body { font-size: var(--fu-text-body); color: var(--fu-text-secondary); line-height: 1.7; }
+
+    /* ============================================================
+       8. 板块二：不看简历
+       ============================================================ */
+    .section-2 { display: flex; align-items: center; gap: var(--fu-space-12); flex-wrap: wrap; justify-content: center; }
+    .resume-icon-wrapper { flex-shrink: 0; position: relative; width: 120px; height: 150px; }
+    .resume-icon { width: 100px; height: 130px; border: 2px solid var(--fu-text-tertiary); border-radius: var(--fu-radius-sm); position: relative; margin: 0 auto; background: rgba(255,255,255,0.02); }
+    .resume-icon::before { content: ''; position: absolute; top: 16px; left: 16px; right: 16px; height: 2px; background: var(--fu-text-tertiary); border-radius: 1px; box-shadow: 0 14px 0 var(--fu-text-tertiary), 0 28px 0 var(--fu-text-tertiary), 0 42px 0 var(--fu-text-tertiary), 0 56px 0 var(--fu-text-tertiary); }
+    .resume-strike { position: absolute; top: 50%; left: -10px; right: -10px; height: 3px; background: var(--fu-green); border-radius: 2px; transform: rotate(-12deg); opacity: 0.8; box-shadow: 0 0 12px rgba(74,222,128,0.4); }
+    .resume-strike:nth-child(2) { transform: rotate(8deg); top: 48%; opacity: 0.6; }
+    .section-2 .text-block { max-width: 380px; }
+
+    /* ============================================================
+       9. 板块三：AI如何做到
+       ============================================================ */
+    .section-3 { text-align: center; }
+    .section-3 .section-title { margin-bottom: var(--fu-space-10); }
+    .steps-row { display: flex; gap: var(--fu-space-6); justify-content: center; flex-wrap: wrap; align-items: flex-start; }
+    .step-card { flex: 1; min-width: 160px; max-width: 200px; text-align: center; position: relative; }
+    .step-icon { width: 48px; height: 48px; border: 2px solid var(--fu-green-subtle); border-radius: 50%; margin: 0 auto var(--fu-space-4); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--fu-green); background: rgba(74,222,128,0.04); }
+    .step-card h4 { font-size: var(--fu-text-body); font-weight: 600; margin-bottom: var(--fu-space-1); color: var(--fu-text-primary); }
+    .step-card p { font-size: 0.875rem; color: var(--fu-text-secondary); line-height: 1.5; }
+    .step-connector { display: none; width: 32px; height: 1px; background: var(--fu-green-subtle); margin-top: 24px; flex-shrink: 0; position: relative; }
+    .step-connector::after { content: ''; position: absolute; right: -3px; top: -3px; width: 7px; height: 7px; border-right: 1px solid var(--fu-green-subtle); border-top: 1px solid var(--fu-green-subtle); transform: rotate(45deg); }
+
+    /* ============================================================
+       10. 板块四：谁在等你
+       ============================================================ */
+    .section-4 { text-align: center; padding: var(--fu-space-16) var(--fu-space-6); }
+    .big-number { font-family: var(--fu-font-mono); font-size: var(--fu-text-big-number); font-weight: 700; color: var(--fu-green); letter-spacing: -0.02em; line-height: 1; margin-bottom: var(--fu-space-3); text-shadow: 0 0 40px rgba(74,222,128,0.3); }
+    .section-4 h3 { font-size: var(--fu-text-body); font-weight: 600; margin-bottom: var(--fu-space-2); color: var(--fu-text-primary); }
+    .section-4 p { font-size: var(--fu-text-body); color: var(--fu-text-secondary); max-width: 420px; margin: 0 auto; }
+
+    /* ============================================================
+       11. 板块五：底部CTA
+       ============================================================ */
+    .section-5 { text-align: center; padding: var(--fu-space-12) var(--fu-space-6) var(--fu-space-20); }
+    .section-5 .big-quote { font-size: var(--fu-text-heading); font-weight: 700; margin-bottom: var(--fu-space-6); color: var(--fu-text-primary); letter-spacing: -0.01em; }
+    .section-5 .cta-button { font-size: var(--fu-text-body); padding: 16px 52px; min-height: 52px; }
+
+    /* ============================================================
+       12. 响应式
+       ============================================================ */
+    @container terminal (max-width: 360px) { .terminal-content { font-size: 0.8125rem; } }
+    @media (min-width: 768px) { .step-connector { display: block; } }
+    @media (max-width: 767px) {
+      .terminal-window { padding: var(--fu-space-5) var(--fu-space-4); border-radius: var(--fu-radius-md); }
+      .cta-button-wrapper { margin-top: var(--fu-space-8); }
+      .section-2 { flex-direction: column; gap: var(--fu-space-8); text-align: center; }
+      .section-2 .text-block { max-width: 100%; }
+      .resume-icon-wrapper { width: 90px; height: 115px; }
+      .resume-icon { width: 75px; height: 100px; }
+      .resume-icon::before { top: 12px; left: 12px; right: 12px; box-shadow: 0 10px 0 var(--fu-text-tertiary), 0 20px 0 var(--fu-text-tertiary), 0 30px 0 var(--fu-text-tertiary), 0 40px 0 var(--fu-text-tertiary); }
+      .steps-row { gap: var(--fu-space-5); }
+      .step-card { min-width: 120px; max-width: 160px; }
+    }
+    @media (max-width: 480px) {
+      .terminal-window { padding: var(--fu-space-4) var(--fu-space-3); border-radius: var(--fu-radius-sm); }
+      .window-dots { gap: var(--fu-space-1); margin-bottom: var(--fu-space-3); }
+      .window-dots span { width: 8px; height: 8px; }
+      .cta-button { width: 100%; max-width: 260px; padding: 13px 24px; }
+      .steps-row { flex-direction: column; align-items: center; gap: var(--fu-space-5); }
+      .step-card { max-width: 100%; min-width: auto; width: 100%; }
+      .step-connector { display: none !important; }
+    }
+
+    /* ============================================================
+       13. 可访问性降级
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+      .floating-dot { animation: none !important; opacity: 0 !important; }
+      .cursor-blink { animation: none !important; opacity: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 背景光晕（保留为底色） -->
+  <div class="bg-aura"></div>
+
+  <!-- Canvas 环境光层（在bg-aura之后，渲染于其上） -->
+  <canvas id="three-canvas" aria-hidden="true"></canvas>
+
+  <!-- CSS浮动光点（微妙装饰） -->
+  <div class="floating-dots">
+    <div class="floating-dot"></div>
+    <div class="floating-dot"></div>
+    <div class="floating-dot"></div>
+    <div class="floating-dot"></div>
+    <div class="floating-dot"></div>
+    <div class="floating-dot"></div>
+    <div class="floating-dot"></div>
+    <div class="floating-dot"></div>
+    <div class="floating-dot"></div>
+    <div class="floating-dot"></div>
+  </div>
+
+  <!-- 主容器 -->
+  <div class="main-container">
+
+    <!-- ========== 首屏 Hero ========== -->
+    <section class="hero-section" id="hero">
+      <div class="terminal-label" id="terminalLabel">
+        FoundU.ai // talent re:discovery system
+      </div>
+      <div class="terminal-wrapper">
+        <div class="terminal-window" id="terminalWindow">
+          <div class="window-dots"><span></span><span></span><span></span></div>
+          <div class="terminal-content" id="terminalContent"></div>
+        </div>
+      </div>
+      <div class="cta-button-wrapper" id="ctaWrapper">
+        <button class="cta-button touch-target" id="ctaButton" type="button">开始匹配</button>
+      </div>
+    </section>
+
+    <!-- ========== 板块二：不看简历 ========== -->
+    <section class="section section-2" id="section2">
+      <div class="resume-icon-wrapper">
+        <div class="resume-icon"></div>
+        <div class="resume-strike"></div>
+        <div class="resume-strike"></div>
+      </div>
+      <div class="text-block">
+        <h2 class="section-title">传统招聘看过去，<br>我们计算你的未来。</h2>
+        <p class="section-body">你的能力不是一张A4纸能定义的。我们的AI原生系统直接解析你的代码库、项目痕迹、思维模式，构建属于你的真实能力图谱。</p>
+      </div>
+    </section>
+
+    <!-- ========== 板块三：AI如何做到 ========== -->
+    <section class="section section-3" id="section3">
+      <h2 class="section-title">AI如何重新发现你</h2>
+      <div class="steps-row">
+        <div class="step-card">
+          <div class="step-icon" aria-hidden="true">①</div>
+          <h4>你留下痕迹</h4>
+          <p>GitHub、作品集、一段语音——任何能代表你的数字足迹。</p>
+        </div>
+        <div class="step-connector" aria-hidden="true"></div>
+        <div class="step-card">
+          <div class="step-icon" aria-hidden="true">②</div>
+          <h4>AI构建图谱</h4>
+          <p>跨维度解析你的底层能力，发现你未曾察觉的潜力节点。</p>
+        </div>
+        <div class="step-connector" aria-hidden="true"></div>
+        <div class="step-card">
+          <div class="step-icon" aria-hidden="true">③</div>
+          <h4>精准啮合</h4>
+          <p>与成长型企业深度匹配，让对的企业找到对的你。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 板块四：谁在等你 ========== -->
+    <section class="section section-4" id="section4">
+      <div class="big-number" id="bigNumber">10,000+</div>
+      <h3>营收1亿-20亿的成长型企业，正在寻找你。</h3>
+      <p>他们不关心你来自哪家大厂，只关心你能解决什么问题。</p>
+    </section>
+
+    <!-- ========== 板块五：底部CTA ========== -->
+    <section class="section section-5" id="section5">
+      <div class="big-quote">旧规则已失效。</div>
+      <button class="cta-button touch-target" id="bottomCtaButton" type="button">开始匹配</button>
+    </section>
+
+  </div>
+
+  <!-- ============================================================
+       Canvas 环境光层 — 呼吸渐变 + 滚动追光 + 鼠标跟随
+       ============================================================ -->
+  <script>
+    (function () {
+      /* ---- 可调参数 ---- */
+      var SMOOTH = 0.06;             // 鼠标/滚动平滑系数（越小越粘滞）
+      var GLOW_TOP = 0.35;          // 光斑垂直起始（视口比例，0=顶 1=底）
+      var GLOW_RANGE = 0.32;        // 光斑垂直移动范围（滚动时从 TOP 到 TOP+RANGE）
+      var BREATHE_SPEED = 0.35;     // 呼吸频率
+      var BREATHE_AMP = 0.12;       // 呼吸幅度
+      var MOUSE_V_WEIGHT = 0.35;    // 鼠标垂直影响力
+      var GLOW_RADIUS = 0.52;       // 光斑半径（屏幕对角线比例）
+      var DPR_MAX = 1.5;            // 最高像素比（控制性能）
+      var GLOW_STOPS = [            // 径向渐变色阶 [offset, r, g, b, a]
+        [0,    74, 222, 128, 0.045],
+        [0.25, 74, 222, 128, 0.018],
+        [0.5,  22, 45,   33,  0.01 ],
+        [1,    11, 15,   20,  0    ]
+      ];
+
+      var canvas = document.getElementById('three-canvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      var W = 0, H = 0;
+      var mouse = { x: 0.5, y: 0.55, tx: 0.5, ty: 0.55 };
+      var scroll = { raw: 0, smooth: 0 };
+      var pageH = 0;
+
+      function resize() {
+        W = window.innerWidth; H = window.innerHeight;
+        pageH = Math.max(document.body.scrollHeight, H);
+        var dpr = Math.min(window.devicePixelRatio || 1, DPR_MAX);
+        canvas.width = W * dpr; canvas.height = H * dpr;
+        canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      document.addEventListener('mousemove', function (e) {
+        mouse.tx = e.clientX / W; mouse.ty = e.clientY / H;
+      }, { passive: true });
+
+      document.addEventListener('scroll', function () {
+        scroll.raw = window.scrollY;
+      }, { passive: true });
+
+      function makeGradient(cx, cy, radius) {
+        var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+        for (var i = 0; i < GLOW_STOPS.length; i++) {
+          var s = GLOW_STOPS[i];
+          grad.addColorStop(s[0], 'rgba(' + s[1] + ',' + s[2] + ',' + s[3] + ',' + s[4] + ')');
+        }
+        return grad;
+      }
+
+      var start = performance.now();
+
+      function animate(now) {
+        requestAnimationFrame(animate);
+        var t = (now - start) / 1000;
+
+        // 平滑鼠标
+        mouse.x += (mouse.tx - mouse.x) * SMOOTH;
+        mouse.y += (mouse.ty - mouse.y) * SMOOTH;
+
+        // 追光：滚动驱动垂直位置
+        scroll.smooth += (scroll.raw - scroll.smooth) * SMOOTH;
+        var maxScroll = pageH - H;
+        var ratio = maxScroll > 0 ? scroll.smooth / maxScroll : 0;
+        var cyBase = H * (GLOW_TOP + ratio * GLOW_RANGE);
+
+        ctx.clearRect(0, 0, W, H);
+
+        var breathe = 1 + Math.sin(t * BREATHE_SPEED) * BREATHE_AMP;
+        var cx = W * mouse.x;
+        var cy = cyBase + (mouse.y - 0.5) * H * MOUSE_V_WEIGHT;
+        var radius = Math.max(W, H) * GLOW_RADIUS * breathe;
+
+        ctx.fillStyle = makeGradient(cx, cy, radius);
+        ctx.fillRect(0, 0, W, H);
+      }
+
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+      requestAnimationFrame(animate);
+    })();
+  </script>
+
+  <!-- ============================================================
+       原有业务逻辑（完全保留）
+       ============================================================ -->
+  <script>
+    /* ---- 数据配置 ---- */
+    var TERMINAL_CONFIG = {
+      introLines: [
+        { html: '<span class="label">[系统]</span> FoundU.ai // talent re:discovery system 已启动', speed: 35 },
+        { html: '<span class="label">[扫描]</span> 正在探测未映射的能力节点...', speed: 30 },
+        { html: '<span class="label">[发现]</span> 节点 #2847 — 潜力评级：<span class="highlight">S</span>', speed: 30 },
+        { html: '<span class="label">[系统]</span> 你，不止于档案。旧规则已失效。', speed: 28 },
+        { html: '<span class="label">[系统]</span> 新世界已加载。欢迎。', speed: 32 }
+      ],
+      expandedLines: [
+        { html: '<span class="prompt">$</span> <span class="dim">开始匹配</span>', speed: 40, delayBefore: 300 },
+        { html: '<span class="label">[系统]</span> 请选择一种方式，让我重新发现你：', speed: 28, delayBefore: 350 },
+        { html: '<span class="arrow">></span> GitHub 用户名', speed: 25, delayBefore: 150, isOption: true, optionIndex: 0 },
+        { html: '<span class="arrow">></span> 作品集链接', speed: 25, delayBefore: 120, isOption: true, optionIndex: 1 },
+        { html: '<span class="arrow">></span> 描述你解决过的一个问题', speed: 25, delayBefore: 120, isOption: true, optionIndex: 2 },
+        { html: '<span class="arrow">></span> 上传一段语音', speed: 25, delayBefore: 120, isOption: true, optionIndex: 3 }
+      ],
+      responseLines: [
+        { html: '<span class="label">[系统]</span> 收到。我们即将分析你的数字足迹，构建专属能力模型。' },
+        { html: '<span class="label">[系统]</span> 这是重新定义你职业生涯的第一步。' }
+      ]
+    };
+    var CTA_LABELS = { continue: '继续探索', next: '进入下一步' };
+
+    /* ---- 状态 ---- */
+    var state = { isExpanded: false, isTyping: false, optionSelected: false };
+
+    /* ---- DOM引用 ---- */
+    var elements = {
+      terminalWindow: document.getElementById('terminalWindow'),
+      terminalContent: document.getElementById('terminalContent'),
+      terminalLabel: document.getElementById('terminalLabel'),
+      ctaWrapper: document.getElementById('ctaWrapper'),
+      ctaButton: document.getElementById('ctaButton'),
+      bottomCtaButton: document.getElementById('bottomCtaButton'),
+      bigNumber: document.getElementById('bigNumber')
+    };
+
+    /* ---- 终端打字机 ---- */
+    function createCursor() {
+      var cursor = document.createElement('span');
+      cursor.className = 'cursor-blink';
+      cursor.setAttribute('aria-hidden', 'true');
+      return cursor;
+    }
+    function removeAllCursors() {
+      var cursors = elements.terminalContent.querySelectorAll('.cursor-blink');
+      cursors.forEach(function (c) { c.remove(); });
+    }
+    function placeCursorAtEnd() {
+      removeAllCursors();
+      elements.terminalContent.appendChild(createCursor());
+    }
+
+    function typeHTMLString(lineEl, htmlString, speed, callback) {
+      var temp = document.createElement('div');
+      temp.innerHTML = htmlString;
+      var nodes = Array.from(temp.childNodes);
+      var nodeIndex = 0, charIndex = 0;
+      var cursor = createCursor();
+      lineEl.appendChild(cursor);
+
+      function typeChar() {
+        if (nodeIndex >= nodes.length) { cursor.remove(); if (callback) callback(); return; }
+        var node = nodes[nodeIndex];
+        if (node.nodeType === Node.TEXT_NODE) {
+          var text = node.textContent;
+          if (charIndex < text.length) {
+            lineEl.insertBefore(document.createTextNode(text[charIndex]), cursor);
+            charIndex += 1;
+            setTimeout(typeChar, speed);
+          } else {
+            charIndex = 0; nodeIndex += 1; typeChar();
+          }
+        } else {
+          lineEl.insertBefore(node.cloneNode(true), cursor);
+          nodeIndex += 1; typeChar();
+        }
+      }
+      typeChar();
+    }
+
+    function processLineQueue(lines, startIndex, onAllComplete) {
+      if (startIndex >= lines.length) { if (onAllComplete) onAllComplete(); return; }
+      var lineData = lines[startIndex];
+      var delayBefore = lineData.delayBefore || (startIndex === 0 ? 0 : 350);
+      setTimeout(function () {
+        var lineDiv = document.createElement('div');
+        lineDiv.className = 'line';
+        if (lineData.isOption) {
+          lineDiv.classList.add('option');
+          lineDiv.setAttribute('data-option-index', lineData.optionIndex);
+          lineDiv.setAttribute('role', 'button');
+          lineDiv.setAttribute('tabindex', '0');
+        }
+        elements.terminalContent.appendChild(lineDiv);
+        typeHTMLString(lineDiv, lineData.html, lineData.speed, function () {
+          var nextDelay = lineData.isOption ? 100 : 200;
+          setTimeout(function () { processLineQueue(lines, startIndex + 1, onAllComplete); }, nextDelay);
+        });
+      }, delayBefore);
+    }
+
+    function playInitialSequence() {
+      state.isTyping = true;
+      elements.terminalContent.innerHTML = '';
+      removeAllCursors();
+      processLineQueue(TERMINAL_CONFIG.introLines, 0, function () {
+        placeCursorAtEnd();
+        state.isTyping = false;
+        elements.ctaWrapper.classList.add('visible');
+        elements.ctaButton.disabled = false;
+      });
+    }
+
+    function expandTerminal() {
+      if (state.isTyping || state.isExpanded) return;
+      state.isExpanded = true; state.isTyping = true;
+      elements.ctaButton.disabled = true;
+      elements.terminalWindow.classList.add('expanded');
+      removeAllCursors();
+      var spacer = document.createElement('div');
+      spacer.className = 'line'; spacer.style.height = '4px';
+      elements.terminalContent.appendChild(spacer);
+      processLineQueue(TERMINAL_CONFIG.expandedLines, 0, function () {
+        placeCursorAtEnd();
+        state.isTyping = false;
+        elements.ctaButton.textContent = CTA_LABELS.continue;
+        elements.ctaButton.disabled = true;
+      });
+    }
+
+    function handleOptionClick(optionIndex) {
+      if (state.optionSelected || state.isTyping) return;
+      state.optionSelected = true; state.isTyping = true;
+      elements.ctaButton.disabled = true;
+      var allOptions = elements.terminalContent.querySelectorAll('.line.option');
+      var clickedOption = allOptions[optionIndex];
+      if (clickedOption) clickedOption.classList.add('selected');
+      allOptions.forEach(function (opt, idx) {
+        if (idx !== optionIndex) opt.classList.add('dimmed');
+      });
+      removeAllCursors();
+      setTimeout(function () {
+        TERMINAL_CONFIG.responseLines.forEach(function (line) {
+          var responseLine = document.createElement('div');
+          responseLine.className = 'line';
+          responseLine.innerHTML = line.html;
+          elements.terminalContent.appendChild(responseLine);
+        });
+        var loadingLine = document.createElement('div');
+        loadingLine.className = 'line';
+        loadingLine.innerHTML = '<span class="label">[处理]</span> <span class="dim">正在初始化分析引擎</span><span class="dot-anim">...</span>';
+        loadingLine.style.color = 'var(--fu-green-dim)';
+        elements.terminalContent.appendChild(loadingLine);
+        var dotCount = 0;
+        var dotInterval = setInterval(function () {
+          dotCount = (dotCount + 1) % 4;
+          var dots = '.'.repeat(dotCount);
+          var dotAnim = loadingLine.querySelector('.dot-anim');
+          if (dotAnim) dotAnim.textContent = dots;
+        }, 400);
+        setTimeout(function () {
+          clearInterval(dotInterval);
+          var dotAnim = loadingLine.querySelector('.dot-anim');
+          var dimSpan = loadingLine.querySelector('.dim');
+          if (dotAnim) dotAnim.textContent = ' 完成';
+          if (dimSpan) dimSpan.textContent = '分析引擎已就绪';
+          loadingLine.style.color = 'var(--fu-green)';
+          placeCursorAtEnd();
+          state.isTyping = false;
+          elements.ctaButton.textContent = CTA_LABELS.next;
+          elements.ctaButton.disabled = false;
+        }, 1800);
+      }, 300);
+    }
+
+    /* ---- 数字滚动动画 ---- */
+    function animateNumber(el, targetStr, duration) {
+      var numericPart = parseInt(targetStr.replace(/[^0-9]/g, ''), 10);
+      var suffix = targetStr.replace(/[0-9,]/g, '');
+      var startTime = performance.now();
+      function update(now) {
+        var elapsed = now - startTime;
+        var progress = Math.min(elapsed / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = Math.floor(eased * numericPart);
+        el.textContent = current.toLocaleString('en-US') + suffix;
+        if (progress < 1) { requestAnimationFrame(update); }
+        else { el.textContent = targetStr; }
+      }
+      requestAnimationFrame(update);
+    }
+
+    /* ---- 事件处理 ---- */
+    function handleCtaClick() {
+      if (state.isTyping) return;
+      if (!state.isExpanded) { expandTerminal(); }
+      else if (state.optionSelected) { scrollToSection('section2'); }
+    }
+    function scrollToSection(sectionId) {
+      var section = document.getElementById(sectionId);
+      if (section) section.scrollIntoView({ behavior: 'smooth' });
+    }
+    function handleTerminalContentClick(event) {
+      var optionEl = event.target.closest('.line.option');
+      if (!optionEl) return;
+      var optionIndex = parseInt(optionEl.getAttribute('data-option-index'), 10);
+      if (!isNaN(optionIndex)) handleOptionClick(optionIndex);
+    }
+    function handleTerminalContentKeydown(event) {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      var optionEl = event.target.closest('.line.option');
+      if (!optionEl) return;
+      event.preventDefault();
+      var optionIndex = parseInt(optionEl.getAttribute('data-option-index'), 10);
+      if (!isNaN(optionIndex)) handleOptionClick(optionIndex);
+    }
+    function initNumberObserver() {
+      if (!elements.bigNumber) return;
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            animateNumber(elements.bigNumber, '10,000+', 1800);
+            observer.unobserve(elements.bigNumber);
+          }
+        });
+      }, { threshold: 0.5 });
+      observer.observe(elements.bigNumber);
+    }
+
+    /* ---- 初始化 ---- */
+    function init() {
+      elements.ctaButton.addEventListener('click', handleCtaClick);
+      elements.ctaButton.disabled = true;
+      elements.bottomCtaButton.addEventListener('click', function () { scrollToSection('hero'); });
+      elements.terminalContent.addEventListener('click', handleTerminalContentClick);
+      elements.terminalContent.addEventListener('keydown', handleTerminalContentKeydown);
+      initNumberObserver();
+      setTimeout(function () { elements.terminalLabel.classList.add('visible'); }, 150);
+      setTimeout(function () { elements.terminalWindow.classList.add('visible'); }, 350);
+      setTimeout(function () { playInitialSequence(); }, 750);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script>
+</body>
+</html>
