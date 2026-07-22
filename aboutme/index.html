@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Me</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#090908;
+    --cream:#fff8ec;
+    --muted:#b9b1a6;
+    --muted-2:#7d766d;
+    --amber:#c8ff45;
+    --coral:#ff6546;
+    --violet:#8b9cff;
+    --teal:#ff8fc7;
+    --grad:linear-gradient(100deg,#c8ff45 0%,#ffd45b 24%,#ff6546 50%,#ff8fc7 74%,#8b9cff 100%);
+    --btn-grad:linear-gradient(105deg,#c8ff45 0%,#ffe75e 100%);
+    --mono:"Fragment Mono",ui-monospace,"SF Mono",monospace;
+    --sans:"Noto Sans SC","PingFang SC",system-ui,sans-serif;
+    --serif:"Noto Serif SC","Songti SC",serif;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--cream);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* ---------- ambient particles ---------- */
+  .stage-bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .stage-fg{position:fixed;inset:0;z-index:5;pointer-events:none}
+  .particle{
+    position:absolute;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,240,210,.9),rgba(255,220,160,0) 70%);
+    animation:drift linear infinite;
+  }
+  @keyframes drift{
+    0%{transform:translateY(0) translateX(0);opacity:0}
+    12%{opacity:.7}
+    88%{opacity:.5}
+    100%{transform:translateY(-70px) translateX(26px);opacity:0}
+  }
+
+  /* ---------- stage light ---------- */
+  .darkness{
+    position:fixed;inset:0;z-index:3;pointer-events:none;
+    opacity:var(--dark-ease,1);
+    transition:opacity .25s ease;
+    background:rgba(2,2,3,.5);
+  }
+  .darkness::before{
+    content:"";position:absolute;left:0;right:0;top:0;height:250px;
+    background:linear-gradient(180deg,
+      rgba(2,2,3,.96) 0%,
+      rgba(2,2,3,.94) 64%,
+      rgba(2,2,3,.58) 82%,
+      rgba(2,2,3,0) 100%);
+  }
+  .darkness::after{
+    content:"";position:absolute;inset:0;
+    background:rgba(2,2,3,.62);opacity:0;
+    transition:opacity .38s ease;
+  }
+  .beam{
+    position:fixed;z-index:4;pointer-events:none;
+    left:0;top:0;
+    width:var(--pool-width,720px);
+    height:var(--pool-height,840px);
+    transform:translate3d(
+      calc(var(--light-x,50vw) - 50%),
+      calc(var(--light-y,52vh) - 50%),
+      0
+    ) rotate(var(--pool-angle,0rad));
+    transform-origin:50% 50%;
+    mix-blend-mode:screen;
+    border-radius:50%;
+    background:none;
+    -webkit-mask-image:linear-gradient(180deg,
+      transparent 0,
+      transparent var(--pool-cutoff,0px),
+      rgba(0,0,0,.15) calc(var(--pool-cutoff,0px) + 20px),
+      #000 calc(var(--pool-cutoff,0px) + 70px),
+      #000 100%);
+    mask-image:linear-gradient(180deg,
+      transparent 0,
+      transparent var(--pool-cutoff,0px),
+      rgba(0,0,0,.15) calc(var(--pool-cutoff,0px) + 20px),
+      #000 calc(var(--pool-cutoff,0px) + 70px),
+      #000 100%);
+    opacity:var(--pool-opacity,.8);
+    will-change:transform;
+    transition:opacity .25s ease;
+  }
+  .beam::before{
+    content:"";position:absolute;inset:0;border-radius:50%;
+    pointer-events:none;
+    background:radial-gradient(ellipse at center,
+      rgba(255,236,201,.2) 0%,
+      rgba(255,224,175,.145) 24%,
+      rgba(255,208,145,.07) 45%,
+      rgba(255,196,124,.026) 61%,
+      rgba(255,190,112,.008) 70%,
+      rgba(255,190,112,0) 79%);
+    filter:blur(62px);
+    transform:scale(1.02);
+  }
+  .grain{
+    position:fixed;inset:0;z-index:6;pointer-events:none;
+    opacity:.026;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- lamp (SVG) ---------- */
+  .lamp{
+    position:absolute;top:0;left:50%;width:320px;margin-left:-160px;
+    display:flex;flex-direction:column;align-items:center;
+    transform-origin:160px 0;
+    pointer-events:auto;cursor:grab;touch-action:none;user-select:none;
+    will-change:transform;
+  }
+  .lamp.is-dragging{cursor:grabbing}
+  .lamp-image{
+    width:100%;height:auto;display:block;
+    pointer-events:none;
+    filter:none;
+    transition:filter .38s ease,opacity .38s ease;
+  }
+  .lamp-art{
+    position:relative;width:320px;margin-top:-1px;
+    isolation:isolate;
+    transform-origin:50% 6%;
+    transform:perspective(720px) rotateX(var(--fixture-pitch,0deg)) scaleY(var(--fixture-scale-y,1)) translateY(var(--retract-y,0)) scale(var(--retract-scale,1));
+    will-change:transform;
+    backface-visibility:hidden;
+    opacity:1;
+    transition:transform .3s cubic-bezier(.18,.86,.2,1),opacity .14s ease;
+  }
+  .lamp-point{
+    position:absolute;top:10px;left:50%;z-index:4;
+    width:10px;height:10px;border-radius:50%;
+    background:#fff3ce;border:1px solid rgba(255,255,255,.7);
+    box-shadow:0 0 0 5px rgba(255,227,167,.08),0 0 20px rgba(255,220,150,.85);
+    opacity:0;pointer-events:none;
+    transform:translate(-50%,-50%) scale(.25);
+    transition:opacity .18s ease,transform .28s cubic-bezier(.2,.8,.2,1);
+  }
+  .lamp.is-retracted{
+    --retract-y:-14px;
+    --retract-scale:.025;
+    pointer-events:none;cursor:default;
+  }
+  .lamp.is-retracted .lamp-art{
+    opacity:0;
+    transition-duration:.5s,.22s;
+  }
+  .lamp.is-retracted .lamp-point{
+    opacity:1;pointer-events:auto;cursor:pointer;
+    transform:translate(-50%,-50%) scale(1);
+    transition-delay:.3s;
+  }
+  html.lamp-retracted .darkness,html.lamp-retracted .beam{opacity:0}
+  html.lamp-retracted .copy-base{
+    filter:none;opacity:1;
+    -webkit-mask-image:none;mask-image:none;
+  }
+  html.lamp-retracted .copy-lit{opacity:0}
+  html.lamp-retracted [data-reveal]{opacity:1 !important;filter:none !important;transform:none !important}
+
+  /* ---------- layout ---------- */
+  main{position:relative}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 40px}
+  [data-reveal]{opacity:0;will-change:transform,filter,opacity}
+
+  /* ---------- hero ---------- */
+  .hero{min-height:118vh;display:flex;flex-direction:column}
+  nav{
+    display:flex;justify-content:space-between;align-items:center;
+    padding-top:clamp(118px,15vh,160px);
+  }
+  .logo{font-weight:600;font-size:17px;letter-spacing:.01em}
+  .nav-link{
+    font-size:14px;color:var(--muted);text-decoration:none;
+    transition:color .3s;
+  }
+  .nav-link:hover{color:var(--cream)}
+
+  .hero-body{margin-top:clamp(42px,6vh,68px)}
+
+  .spot{position:relative;z-index:4;isolation:isolate}
+  .copy-base{
+    filter:none;
+    opacity:.22;
+    transition:opacity .45s ease;
+  }
+  [data-reveal].is-light-focused{
+    position:relative;z-index:4;
+    opacity:1 !important;filter:none !important;
+  }
+  .copy-lit{
+    position:absolute;inset:0;pointer-events:none;
+    filter:none;opacity:1;
+    transition:opacity .38s ease;
+    clip-path:inset(100%);
+  }
+
+  .badge{
+    display:inline-flex;align-items:center;gap:9px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+    color:#111;text-transform:uppercase;
+    margin-bottom:34px;padding:10px 14px;
+    background:var(--amber);border:1px solid #111;border-radius:3px;
+    box-shadow:5px 5px 0 var(--coral);transform:rotate(-2deg);
+  }
+  .badge .dot{
+    width:7px;height:7px;border-radius:50%;background:#111;
+    box-shadow:none;
+  }
+  .badge{cursor:default}
+  .self-notes-count{
+    cursor:pointer;
+    transition:filter .28s ease,box-shadow .28s ease,transform .28s ease;
+  }
+  h1{
+    font-family:var(--serif);
+    font-size:clamp(58px,8.6vw,126px);
+    font-weight:900;line-height:.98;letter-spacing:-.055em;
+    color:#fff8ec;
+  }
+  h1 .grad{
+    display:inline-block;padding-bottom:.08em;
+    background:var(--grad);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    text-shadow:none;
+  }
+  .sub{
+    margin-top:38px;max-width:680px;
+    font-size:18px;line-height:1.9;color:#c6beb3;
+  }
+
+  .cta-row{display:flex;gap:14px;margin-top:42px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    height:52px;padding:0 26px;border-radius:4px;
+    border:1px solid #111;font-size:14px;font-weight:700;text-decoration:none;
+    transition:transform .25s ease,box-shadow .25s ease,filter .25s ease,background .3s ease,color .3s ease;
+  }
+  .btn:hover,.btn:focus-visible,.btn.is-light-target{
+    transform:translate(-2px,-2px);
+    background:#fff3ce;color:#18130b;
+    box-shadow:0 0 38px rgba(255,224,158,.35),5px 5px 0 var(--violet);
+    outline:none;
+  }
+  .btn-primary{background:var(--btn-grad);color:#1a1206}
+  .btn-primary:hover{filter:brightness(1.08)}
+  .btn-ghost{background:#fff8ec;color:#191511}
+  .btn-ghost:hover{filter:brightness(1.05)}
+
+  .stats{
+    margin-top:auto;padding:0 0 46px;
+    display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  }
+  .stat{
+    min-height:164px;padding:24px;border:1px solid rgba(255,248,236,.22);
+    border-radius:18px;background:rgba(255,255,255,.035);
+    position:relative;z-index:4;overflow:hidden;will-change:auto;
+  }
+  .stat .label{
+    margin-top:32px;font-family:var(--mono);font-size:11px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+  }
+  .stat .label-cn{
+    margin-top:7px;font-family:var(--serif);font-size:20px;font-weight:700;color:var(--cream);
+  }
+  .stat-copy-base{opacity:.46}
+  .stat-copy-lit{
+    position:absolute;z-index:6;inset:24px;
+    color:#fff8ec;opacity:1;filter:none;mix-blend-mode:normal;
+    pointer-events:none;clip-path:inset(100%);
+  }
+  .stat-copy-lit .label,
+  .stat-copy-lit .label-cn{color:#fff8ec !important}
+  html.lamp-retracted .stat-copy-base{opacity:1}
+  html.lamp-retracted .stat-copy-lit{opacity:0}
+
+  /* ---------- sections ---------- */
+  section{padding:clamp(110px,14vh,170px) 0}
+  .section-label{
+    display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+    text-transform:uppercase;color:#111;background:var(--teal);
+    padding:9px 12px;border-radius:3px;
+    margin-bottom:66px;
+  }
+
+  .features{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  .feature{
+    min-height:330px;padding:34px;border:1px solid rgba(255,248,236,.18);
+    border-radius:24px;background:rgba(255,255,255,.035);
+    position:relative;z-index:4;overflow:hidden;will-change:auto;
+  }
+  .feature:nth-child(2){background:rgba(139,156,255,.1)}
+  .feature:nth-child(3){background:rgba(255,101,70,.1)}
+  .feature:nth-child(4){background:rgba(200,255,69,.07)}
+  .feature .idx{
+    font-family:var(--mono);font-size:12px;letter-spacing:.12em;
+    margin-bottom:48px;display:block;
+  }
+  .f1 .idx{color:var(--amber)}
+  .f2 .idx{color:var(--coral)}
+  .f3 .idx{color:var(--violet)}
+  .f4 .idx{color:var(--teal)}
+  .feature h3{font-family:var(--serif);font-size:27px;font-weight:700;letter-spacing:-.02em;margin-bottom:18px}
+  .feature p{font-size:15.5px;line-height:1.95;color:var(--muted)}
+  .feature-copy-base{opacity:.5}
+  .feature-copy-lit{
+    position:absolute;z-index:6;inset:34px;pointer-events:none;
+    color:#fff8ec;opacity:1;filter:none;mix-blend-mode:normal;
+    clip-path:inset(100%);
+  }
+  .feature-copy-lit .idx,.feature-copy-lit h3,.feature-copy-lit p{color:#fff8ec !important}
+  html.lamp-retracted .feature-copy-base{opacity:1}
+  html.lamp-retracted .feature-copy-lit{opacity:0}
+
+  /* ---------- notes to self ---------- */
+  .self-notes-section{
+    padding-top:clamp(140px,18vh,220px);
+    padding-bottom:clamp(110px,14vh,170px);
+  }
+  .self-notes-head{
+    position:relative;margin-bottom:76px;
+  }
+  .self-notes-head-base,.self-notes-head-lit{
+    display:grid;grid-template-columns:minmax(0,1fr) auto;
+    align-items:end;gap:28px;
+  }
+  .self-notes-head-base{opacity:.42}
+  .self-notes-head-lit{
+    position:absolute;z-index:6;inset:0;pointer-events:none;
+    color:#fff8ec;clip-path:inset(100%);
+  }
+  .self-notes-head-lit .self-notes-kicker,
+  .self-notes-head-lit .self-notes-title{color:#fff8ec !important}
+  .self-notes-head-lit .self-notes-count{filter:brightness(1.22) saturate(1.08)}
+  html.lamp-retracted .self-notes-head-base{opacity:1}
+  html.lamp-retracted .self-notes-head-lit{opacity:0}
+  .self-notes-kicker{
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--amber);margin-bottom:26px;
+  }
+  .self-notes-title{
+    font-family:var(--serif);font-size:clamp(42px,6.2vw,84px);
+    line-height:1.08;font-weight:900;letter-spacing:-.045em;
+  }
+  .self-notes-count{
+    font-family:var(--mono);font-size:12px;letter-spacing:.14em;
+    color:#111;background:var(--violet);padding:10px 13px;
+    border-radius:3px;transform:rotate(2deg);
+  }
+  .self-notes-count.is-light-target{
+    filter:brightness(1.14);
+    transform:rotate(2deg) translate(-2px,-2px);
+    box-shadow:0 0 34px rgba(139,156,255,.34);
+  }
+  .self-notes{
+    list-style:none;counter-reset:self-note;
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:0 42px;
+  }
+  .self-notes li{
+    counter-increment:self-note;
+    position:relative;z-index:4;
+    display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;
+    align-items:start;padding:25px 2px 28px;
+    border-top:1px solid rgba(255,248,236,.18);
+    font-family:var(--serif);font-size:18px;line-height:1.75;
+    color:#e8e0d4;
+  }
+  .note-copy-base{
+    grid-column:2;
+    filter:none;opacity:.28;
+  }
+  .note-copy-lit{
+    position:absolute;left:60px;right:2px;top:25px;
+    color:#fff8ec;pointer-events:none;
+    clip-path:inset(100%);
+  }
+  html.lamp-retracted .note-copy-base{
+    filter:none;opacity:1;
+    -webkit-mask-image:none;mask-image:none;
+  }
+  html.lamp-retracted .note-copy-lit{opacity:0}
+  .self-notes li::before{
+    content:counter(self-note,decimal-leading-zero);
+    font-family:var(--mono);font-size:11px;line-height:2.8;
+    letter-spacing:.08em;color:var(--amber);
+  }
+  .self-notes li:nth-child(4n+2)::before{color:var(--coral)}
+  .self-notes li:nth-child(4n+3)::before{color:var(--violet)}
+  .self-notes li:nth-child(4n+4)::before{color:var(--teal)}
+
+  /* ---------- quote ---------- */
+  .quote-block{
+    --quote-pad:clamp(38px,7vw,84px);
+    position:relative;max-width:100%;padding:var(--quote-pad);
+    background:var(--cream);border-radius:30px;color:#111;
+    box-shadow:14px 14px 0 var(--violet);overflow:hidden;
+  }
+  .quote-block::after{
+    content:"";position:absolute;inset:0;z-index:4;pointer-events:none;
+    opacity:var(--quote-light-opacity,0);
+    background:radial-gradient(
+      ellipse var(--quote-light-rx,340px) var(--quote-light-ry,240px)
+      at var(--quote-light-x,50%) var(--quote-light-y,50%),
+      rgba(255,255,250,.72) 0%,
+      rgba(255,250,232,.5) 28%,
+      rgba(255,237,204,.24) 52%,
+      rgba(255,222,177,.07) 70%,
+      rgba(255,218,168,0) 84%
+    );
+    mix-blend-mode:screen;
+    transition:opacity .16s ease;
+  }
+  .quote-copy-base{
+    position:relative;z-index:2;opacity:.62;filter:blur(.45px);
+  }
+  .quote-copy-lit{
+    position:absolute;z-index:5;inset:var(--quote-pad);
+    pointer-events:none;clip-path:inset(100%);
+    filter:contrast(1.08);
+  }
+  html.lamp-retracted .quote-copy-base{
+    opacity:1;filter:none;
+  }
+  html.lamp-retracted .quote-copy-lit{opacity:0}
+  html.lamp-retracted .quote-block::after{opacity:0}
+  .quote{
+    font-family:var(--serif);font-size:clamp(30px,4.2vw,58px);
+    line-height:1.45;color:#111;font-weight:900;
+    letter-spacing:-.03em;
+  }
+  .quote-grad{
+    background:linear-gradient(100deg,#667f00 0%,#9a7200 24%,#b6472f 50%,#a74778 74%,#575ca2 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+  }
+  .quote-lead{color:#111}
+  .quote-copy-lit .quote-grad{
+    background:linear-gradient(100deg,#647f00 0%,#bd4e33 52%,#65519a 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+  }
+  .quote-by{
+    margin-top:34px;font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;text-transform:uppercase;color:#6d645b;
+  }
+
+  .belief-section{padding-bottom:clamp(44px,6vh,72px)}
+  .closing-runway{
+    min-height:0;padding-top:0;padding-bottom:24px;
+  }
+  .closing-signature{
+    position:relative;overflow:hidden;min-height:154px;padding:30px 34px 34px;
+    border-top:1px solid rgba(255,248,236,.14);
+    border-bottom:1px solid rgba(255,248,236,.14);
+  }
+  .closing-signature-base{opacity:.34}
+  .closing-signature-lit{
+    position:absolute;z-index:5;inset:30px 34px 34px;
+    color:#fff8ec;pointer-events:none;clip-path:inset(100%);
+  }
+  .closing-signature-kicker{
+    display:block;margin-bottom:18px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--muted-2);
+  }
+  .closing-signature-lit .closing-signature-kicker{color:#fff8ec}
+  .closing-signature-text{
+    font-family:var(--serif);font-size:clamp(24px,3vw,42px);
+    line-height:1.05;font-weight:900;letter-spacing:-.04em;color:#fff8ec;
+  }
+
+  /* ---------- final ---------- */
+  .final{text-align:center}
+  .final h2{
+    font-family:var(--serif);
+    font-size:clamp(38px,5.4vw,72px);
+    font-weight:900;letter-spacing:-.04em;line-height:1.15;
+  }
+  .final h2 .grad{
+    background:var(--grad);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+  }
+  .final .sub-center{
+    margin:26px auto 40px;max-width:560px;
+    font-size:17px;line-height:1.85;color:var(--muted);
+  }
+
+  @media (max-width:760px){
+    .features{grid-template-columns:1fr;gap:56px}
+    .stats{grid-template-columns:1fr;gap:12px}
+    .stat{min-height:130px}
+    .feature{min-height:0}
+    .self-notes-section{padding-top:110px;padding-bottom:90px}
+    .self-notes-head{margin-bottom:56px}
+    .self-notes-head-base,.self-notes-head-lit{grid-template-columns:1fr;align-items:start}
+    .self-notes-count{justify-self:start}
+    .self-notes{grid-template-columns:1fr}
+    .self-notes li{grid-template-columns:38px minmax(0,1fr);gap:10px;font-size:17px}
+    .note-copy-lit{left:50px}
+    .quote-block{--quote-pad:34px;border-radius:22px}
+    .belief-section{padding-bottom:44px}
+    .closing-runway{padding-bottom:16px}
+    .closing-signature{min-height:130px;padding:24px 18px 28px}
+    .closing-signature-lit{inset:24px 18px 28px}
+    .spot{--spot-rx:38vw;--spot-ry:28vh}
+    .lamp{left:50%;width:250px;margin-left:-125px;transform-origin:125px 0}
+    .darkness::before{height:208px}
+    .lamp-art{width:250px}
+    .hero{min-height:112vh}
+    nav{padding-top:170px}
+    .hero-body{margin-top:64px}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .particle{animation:none}
+    [data-reveal]{opacity:1 !important;filter:none !important;transform:none !important}
+  }
+</style>
+</head>
+<body>
+
+<!-- ambient background -->
+<div class="stage-bg">
+  <span class="particle" style="left:18%;top:62%;width:5px;height:5px;animation-duration:9s;animation-delay:-2s"></span>
+  <span class="particle" style="left:42%;top:74%;width:4px;height:4px;animation-duration:12s;animation-delay:-6s"></span>
+  <span class="particle" style="left:63%;top:58%;width:6px;height:6px;animation-duration:10s;animation-delay:-4s"></span>
+  <span class="particle" style="left:81%;top:70%;width:4px;height:4px;animation-duration:13s;animation-delay:-8s"></span>
+  <span class="particle" style="left:30%;top:82%;width:3px;height:3px;animation-duration:11s;animation-delay:-1s"></span>
+</div>
+
+<!-- stage light: vignette + floating light pool + film grain -->
+<div class="darkness"></div>
+<div class="beam"></div>
+<div class="grain"></div>
+
+<!-- hanging lamp (inline SVG) -->
+<div class="stage-fg">
+  <div class="lamp" role="button" tabindex="0" aria-label="拖动灯改变方向，点击收起灯" aria-pressed="true">
+    <span class="lamp-point" aria-hidden="true"></span>
+    <div class="lamp-art" aria-hidden="true">
+      <svg class="lamp-image" viewBox="0 0 320 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- warm glow beneath shade -->
+          <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(255,225,160,0.45)"/>
+            <stop offset="45%" stop-color="rgba(255,210,130,0.12)"/>
+            <stop offset="100%" stop-color="rgba(255,200,120,0)"/>
+          </radialGradient>
+          <!-- cord gradient -->
+          <linearGradient id="cord" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3a3a3a"/>
+            <stop offset="100%" stop-color="#2d2d2d"/>
+          </linearGradient>
+          <!-- wood connector -->
+          <linearGradient id="wood" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#8a6e4a"/>
+            <stop offset="25%" stop-color="#a3845c"/>
+            <stop offset="50%" stop-color="#b8956a"/>
+            <stop offset="75%" stop-color="#a3845c"/>
+            <stop offset="100%" stop-color="#8a6e4a"/>
+          </linearGradient>
+          <!-- outer shade -->
+          <linearGradient id="shade-outer" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2a2a28"/>
+            <stop offset="100%" stop-color="#1a1a18"/>
+          </linearGradient>
+          <!-- inner shade surface (cream/warm white) -->
+          <radialGradient id="shade-inner" cx="50%" cy="20%" r="80%">
+            <stop offset="0%" stop-color="#f5e8d0"/>
+            <stop offset="40%" stop-color="#e8d4b8"/>
+            <stop offset="100%" stop-color="#c8b498"/>
+          </radialGradient>
+          <!-- bulb glass -->
+          <radialGradient id="bulb-glass" cx="50%" cy="40%" r="50%">
+            <stop offset="0%" stop-color="#fff5d8"/>
+            <stop offset="50%" stop-color="#ffe8a8"/>
+            <stop offset="100%" stop-color="#dcc080"/>
+          </radialGradient>
+          <!-- bulb warm glow -->
+          <radialGradient id="bulb-warm" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(255,220,140,0.7)"/>
+            <stop offset="60%" stop-color="rgba(255,200,100,0.2)"/>
+            <stop offset="100%" stop-color="rgba(255,190,90,0)"/>
+          </radialGradient>
+          <!-- blur filter for unified warm glow -->
+          <filter id="glow-blur" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="18"/>
+          </filter>
+          <!-- subtle drop shadow for shade -->
+          <filter id="shade-shadow" x="-10%" y="-5%" width="120%" height="115%">
+            <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.35)"/>
+          </filter>
+        </defs>
+
+        <!-- cord from top -->
+        <line x1="160" y1="0" x2="160" y2="110" stroke="url(#cord)" stroke-width="2"/>
+        <!-- ceiling mount cap -->
+        <rect x="154" y="0" width="12" height="5" rx="2" fill="#333"/>
+
+        <!-- wooden connector cylinder -->
+        <rect x="148" y="108" width="24" height="28" rx="4" fill="url(#wood)"/>
+        <!-- wood grain lines -->
+        <line x1="152" y1="112" x2="152" y2="132" stroke="rgba(100,70,40,0.25)" stroke-width="0.6"/>
+        <line x1="157" y1="112" x2="157" y2="132" stroke="rgba(100,70,40,0.18)" stroke-width="0.5"/>
+        <line x1="163" y1="112" x2="163" y2="132" stroke="rgba(100,70,40,0.18)" stroke-width="0.5"/>
+        <line x1="168" y1="112" x2="168" y2="132" stroke="rgba(100,70,40,0.25)" stroke-width="0.6"/>
+        <!-- wood top/bottom caps -->
+        <ellipse cx="160" cy="108" rx="12" ry="3" fill="#7a6040"/>
+        <ellipse cx="160" cy="136" rx="12" ry="3" fill="#7a6040"/>
+
+        <!-- shade outer body - wide flat cone -->
+        <path d="M148,136 L60,230 Q58,238 64,240 L256,240 Q262,238 260,230 L172,136 Z"
+              fill="url(#shade-outer)" filter="url(#shade-shadow)"/>
+
+        <!-- shade top ellipse (where cord meets shade) -->
+        <ellipse cx="160" cy="136" rx="14" ry="3.5" fill="#2e2e2c"/>
+
+        <!-- shade inner surface visible at bottom opening (semi-transparent) -->
+        <ellipse cx="160" cy="238" rx="98" ry="14" fill="url(#shade-inner)" opacity="0.55"/>
+
+        <!-- warm light bounce inside shade -->
+        <ellipse cx="160" cy="232" rx="80" ry="10" fill="rgba(255,220,160,0.25)"/>
+
+        <!-- shade bottom rim (dark edge) -->
+        <ellipse cx="160" cy="240" rx="98" ry="10" fill="none" stroke="#1a1a18" stroke-width="1.8"/>
+
+        <!-- inner rim highlight -->
+        <ellipse cx="160" cy="238" rx="92" ry="11" fill="none" stroke="rgba(255,220,160,0.18)" stroke-width="0.8"/>
+
+        <!-- bulb socket (small dark cylinder, tucked into shade) -->
+        <rect x="155" y="220" width="10" height="10" rx="2" fill="#3a3632"/>
+        <!-- bulb base ring -->
+        <ellipse cx="160" cy="231" rx="8" ry="3" fill="#5a5248" opacity="0.7"/>
+
+        <!-- Edison bulb glass envelope (mostly inside shade, barely peeking out) -->
+        <ellipse cx="160" cy="242" rx="13" ry="18" fill="url(#bulb-glass)" opacity="0.88"/>
+
+        <!-- filament lines (Edison style) -->
+        <path d="M154,234 Q156,244 154,254" fill="none" stroke="rgba(255,190,80,0.6)" stroke-width="0.9"/>
+        <path d="M166,234 Q164,244 166,254" fill="none" stroke="rgba(255,190,80,0.6)" stroke-width="0.9"/>
+        <path d="M157,236 Q160,246 157,253" fill="none" stroke="rgba(255,180,60,0.35)" stroke-width="0.6"/>
+        <path d="M163,236 Q160,246 163,253" fill="none" stroke="rgba(255,180,60,0.35)" stroke-width="0.6"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<main>
+  <!-- hero -->
+  <header class="hero wrap">
+    <nav data-reveal>
+      <span class="logo">Your Name</span>
+      <a class="nav-link" href="#">Back to Home &rarr;</a>
+    </nav>
+
+    <div class="hero-body">
+      <div class="spot" id="spot" data-reveal>
+        <div class="copy-base" aria-hidden="true">
+          <div class="badge"><span class="dot"></span>Placeholder &middot; About</div>
+          <h1>做自己的事，<br><span class="grad">也对世界好奇。</span></h1>
+        </div>
+        <div class="copy-lit">
+          <div class="badge"><span class="dot"></span>Placeholder &middot; About</div>
+          <h1>做自己的事，<br><span class="grad">也对世界好奇。</span></h1>
+        </div>
+      </div>
+
+      <div class="cta-row" data-reveal>
+        <a class="btn btn-primary" href="#">看看我的作品 &nearr;</a>
+        <a class="btn btn-ghost" href="mailto:hello@example.com">给我写信</a>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat s1" data-reveal><div class="label">Believe In What You Do</div><div class="label-cn">做自己相信的事</div></div>
+      <div class="stat s2" data-reveal><div class="label">Stay Curious, Keep Building</div><div class="label-cn">保持好奇，保持创造</div></div>
+      <div class="stat s3" data-reveal><div class="label">Life Is The Priority</div><div class="label-cn">生活永远是第一位的</div></div>
+    </div>
+  </header>
+
+  <!-- what I do -->
+  <section class="wrap">
+    <div class="section-label" data-reveal>Not a r&eacute;sum&eacute; &middot; 我大概是这样的人</div>
+    <div class="features">
+      <div class="feature f1" data-reveal>
+        <span class="idx">01</span>
+        <h3>第一条标题占位</h3>
+        <p>这里放你的第一段自我介绍。可以写你的职业经历、做过的事情、或者你正在专注的方向。保持真实，用自己的声音讲述。</p>
+      </div>
+      <div class="feature f2" data-reveal>
+        <span class="idx">02</span>
+        <h3>第二条标题占位</h3>
+        <p>这里放你的兴趣爱好。比如你喜欢阅读什么、热爱什么运动、或者有什么独特的习惯。让读者看到工作之外的你。</p>
+      </div>
+      <div class="feature f3" data-reveal>
+        <span class="idx">03</span>
+        <h3>第三条标题占位</h3>
+        <p>这里可以写你的经历时间线。在哪里工作过、做过什么角色、为什么选择了现在的路。让故事有连贯的脉络。</p>
+      </div>
+      <div class="feature f4" data-reveal>
+        <span class="idx">04</span>
+        <h3>第四条标题占位</h3>
+        <p>这里可以写你的价值观和生活哲学。什么对你最重要、你如何平衡工作与生活、你希望留下什么。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- notes to self -->
+  <section class="wrap self-notes-section">
+    <div class="self-notes-head" data-reveal>
+      <div>
+        <div class="self-notes-kicker">Notes to self</div>
+        <h2 class="self-notes-title">写给自己的话</h2>
+      </div>
+      <div class="self-notes-count">20 NOTES</div>
+    </div>
+    <ol class="self-notes">
+      <li data-reveal>不要害怕犯错，错误是学习的开始。</li>
+      <li data-reveal>保持阅读的习惯，它会改变你思考的方式。</li>
+      <li data-reveal>善良是一种选择，每天都要选择。</li>
+      <li data-reveal>行动比完美更重要。</li>
+      <li data-reveal>与其抱怨环境，不如改变自己。</li>
+      <li data-reveal>学会倾听，再学会表达。</li>
+      <li data-reveal>健康不是目标，是生活的基础。</li>
+      <li data-reveal>真正的朋友不需要多，需要真。</li>
+      <li data-reveal>享受过程，而不只是结果。</li>
+      <li data-reveal>保持谦逊，永远有学习的心态。</li>
+      <li data-reveal>不要在愤怒时做决定。</li>
+      <li data-reveal>每天写一点，哪怕只有三行。</li>
+      <li data-reveal>接受不完美，它是真实的一部分。</li>
+      <li data-reveal>好奇心是最珍贵的天赋之一。</li>
+      <li data-reveal>做减法比做加法更难，但也更重要。</li>
+      <li data-reveal>尊重别人的时间，也珍惜自己的时间。</li>
+      <li data-reveal>失败不可怕，不再尝试才可怕。</li>
+      <li data-reveal>简单生活，深入思考。</li>
+      <li data-reveal>爱是动词，需要每天练习。</li>
+      <li data-reveal>一边害怕，一边前行。</li>
+    </ol>
+  </section>
+
+  <!-- belief -->
+  <section class="wrap belief-section">
+    <div class="quote-block">
+      <blockquote class="quote"><span class="quote-lead">人生苦短，</span><span class="quote-grad">做点如果没有你就不会发生的事。很小的事也可以。</span></blockquote>
+    </div>
+  </section>
+
+  <div class="closing-runway wrap">
+    <div class="closing-signature">
+      <div class="closing-signature-base">
+        <span class="closing-signature-kicker">Current state &middot; 我的状态</span>
+        <p class="closing-signature-text">还在探索，还在折腾，还没放弃。</p>
+      </div>
+      <div class="closing-signature-lit" aria-hidden="true">
+        <span class="closing-signature-kicker">Current state &middot; 我的状态</span>
+        <p class="closing-signature-text">还在探索，还在折腾，还没放弃。</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+
+  /* ---------- scroll-linked reveal: sharp at centre, blurred at edges */
+  const featureCards = [...document.querySelectorAll('.feature')];
+  for (const card of featureCards){
+    const base = document.createElement('div');
+    base.className = 'feature-copy-base';
+    while (card.firstChild) base.appendChild(card.firstChild);
+    const lit = base.cloneNode(true);
+    lit.className = 'feature-copy-lit';
+    lit.setAttribute('aria-hidden', 'true');
+    card.append(base, lit);
+  }
+  const statCards = [...document.querySelectorAll('.stat')];
+  for (const card of statCards){
+    const base = document.createElement('div');
+    base.className = 'stat-copy-base';
+    while (card.firstChild) base.appendChild(card.firstChild);
+    const lit = base.cloneNode(true);
+    lit.className = 'stat-copy-lit';
+    lit.setAttribute('aria-hidden', 'true');
+    card.append(base, lit);
+  }
+  const selfNotesHead = document.querySelector('.self-notes-head');
+  if (selfNotesHead){
+    const base = document.createElement('div');
+    base.className = 'self-notes-head-base';
+    while (selfNotesHead.firstChild) base.appendChild(selfNotesHead.firstChild);
+    const lit = base.cloneNode(true);
+    lit.className = 'self-notes-head-lit';
+    lit.setAttribute('aria-hidden', 'true');
+    selfNotesHead.append(base, lit);
+  }
+  const noteItems = [...document.querySelectorAll('.self-notes li')];
+  for (const note of noteItems){
+    const text = note.textContent.trim();
+    note.textContent = '';
+    const base = document.createElement('span');
+    base.className = 'note-copy-base';
+    base.textContent = text;
+    const lit = document.createElement('span');
+    lit.className = 'note-copy-lit';
+    lit.setAttribute('aria-hidden', 'true');
+    lit.textContent = text;
+    note.append(base, lit);
+  }
+  const quoteBlock = document.querySelector('.quote-block');
+  if (quoteBlock){
+    const base = document.createElement('div');
+    base.className = 'quote-copy-base';
+    while (quoteBlock.firstChild) base.appendChild(quoteBlock.firstChild);
+    const lit = base.cloneNode(true);
+    lit.className = 'quote-copy-lit';
+    lit.setAttribute('aria-hidden', 'true');
+    quoteBlock.append(base, lit);
+  }
+  const items = [...document.querySelectorAll('[data-reveal]')];
+  const revealEntries = items.map(el => ({
+    el,
+    isNote:el.matches('.self-notes li'),
+    isFeature:el.matches('.feature'),
+    isStat:el.matches('.stat')
+  }));
+  const layoutRects = new WeakMap();
+  const revealOwners = new WeakMap();
+  const motionOffsets = new WeakMap();
+  let lightX = window.innerWidth / 2;
+  let lightY = window.innerHeight * 0.46;
+
+  function cacheLayoutRect(el){
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    layoutRects.set(el, {
+      left:rect.left + scrollX,
+      top:rect.top + scrollY,
+      width:rect.width,
+      height:rect.height
+    });
+  }
+
+  function viewportRect(el){
+    if (!el) return null;
+    if (!layoutRects.has(el)) cacheLayoutRect(el);
+    const rect = layoutRects.get(el);
+    if (!revealOwners.has(el)){
+      revealOwners.set(el, el.matches('[data-reveal]') ? el : el.closest('[data-reveal]'));
+    }
+    const motionY = motionOffsets.get(revealOwners.get(el)) || 0;
+    const left = rect.left - scrollX;
+    const top = rect.top - scrollY + motionY;
+    return {
+      left,
+      top,
+      right:left + rect.width,
+      bottom:top + rect.height,
+      width:rect.width,
+      height:rect.height
+    };
+  }
+
+  function revealFrame(){
+    const vh = window.innerHeight;
+    const vw = window.innerWidth;
+    for (const {el, isNote, isFeature, isStat} of revealEntries){
+      const r = viewportRect(el);
+      if (r.bottom < -160 || r.top > vh + 160) continue;
+      const followsLight = isNote || isFeature || isStat;
+      const c = (r.top + r.height / 2 - vh / 2) / vh;
+      const ad = Math.abs(c);
+      const vertical = clamp(1 - Math.max(0, ad - 0.25) * 2.75, 0, 1);
+      const sampleX = followsLight ? clamp(lightX, r.left, r.right) : r.left + r.width / 2;
+      const sampleY = followsLight ? clamp(lightY, r.top, r.bottom) : r.top + r.height / 2;
+      const dx = (sampleX - lightX) / Math.max(430, vw * 0.32);
+      const dy = (sampleY - lightY) / Math.max(330, vh * 0.38);
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const light = el.id === 'spot' ? 1 : clamp(1.18 - distance, 0.12, 1);
+      if (isNote){
+        el.style.setProperty('--note-mx', `${(lightX - r.left).toFixed(1)}px`);
+        el.style.setProperty('--note-my', `${(lightY - r.top).toFixed(1)}px`);
+      }
+      if (isFeature || isStat){
+        motionOffsets.set(el, 0);
+        el.style.opacity = '1';
+        el.style.filter = 'none';
+        el.style.transform = 'none';
+        continue;
+      }
+      const op = followsLight
+        ? clamp(vertical * (0.76 + light * 0.24), 0.18, 1)
+        : clamp(vertical * (0.72 + light * 0.28), 0.18, 1);
+      el.style.opacity = op.toFixed(3);
+      el.style.filter = 'none';
+      const motionY = c * 70;
+      motionOffsets.set(el, motionY);
+      el.style.transform = `translate3d(0, ${motionY.toFixed(1)}px, 0)`;
+    }
+  }
+
+  /* ---------- lamp pendulum ---------- */
+  const lamp = document.querySelector('.lamp');
+  const spot = document.getElementById('spot');
+  const selfNotesSection = document.querySelector('.self-notes-section');
+  const beliefSection = document.querySelector('.belief-section');
+  const closingSignature = document.querySelector('.closing-signature');
+  const lightModules = [...document.querySelectorAll('.hero, main > section, .closing-runway')];
+  const sharpCopies = [
+    spot.querySelector('.copy-lit'),
+    ...document.querySelectorAll('.stat-copy-lit'),
+    ...document.querySelectorAll('.feature-copy-lit'),
+    document.querySelector('.self-notes-head-lit'),
+    ...document.querySelectorAll('.note-copy-lit'),
+    document.querySelector('.closing-signature-lit'),
+    document.querySelector('.quote-copy-lit')
+  ].filter(Boolean);
+  const lightTargets = [...document.querySelectorAll('.btn')];
+  const rootStyle = document.documentElement.style;
+  const W = 2.65, GAMMA = 0.34, MAX_VEL = 1.65, MAX_ANGLE = 0.64;
+  const PENDULUM = 198;
+  const SWEEP = 6.2;
+
+  let angle = 0, angVel = 0, displayAngle = 0, displayDepth = 0, last = performance.now();
+  let dragging = false, dragMoved = false;
+  let previousDragAngle = 0, previousDragTime = 0, releaseVelocity = 0;
+  let lampRetracted = false;
+  let scrollDrive = 1, scrollLevel = 1, scrollPhase = 0;
+  let scrollTempo = 2.55, scrollAmplitude = 0.6, scrollBlend = 1;
+  let introBoost = 0.14;
+  let moduleBoost = 0, activeModuleIndex = -1;
+  let previousScrollY = scrollY, previousScrollTime = performance.now();
+  let activeTarget = null, activeReveal = null, buttonTargetAngle = 0;
+  let buttonTargetX = window.innerWidth / 2;
+  let buttonTargetY = window.innerHeight * 0.54, buttonFocus = 0;
+  let pointerX = window.innerWidth / 2, pointerY = window.innerHeight * 0.54;
+  let pointerSeen = false, pointerFocus = 0, closingPointerActive = false;
+  let geometryFrame = 0, animationFrameId = 0;
+
+  function refreshLayoutRects(){
+    geometryFrame = 0;
+    const savedTransforms = items.map(el => el.style.transform);
+    items.forEach(el => { el.style.transform = 'none'; });
+    const targets = new Set([
+      ...items,
+      ...sharpCopies,
+      ...lightModules,
+      spot,
+      quoteBlock,
+      selfNotesSection,
+      beliefSection
+    ].filter(Boolean));
+    targets.forEach(cacheLayoutRect);
+    items.forEach((el, index) => { el.style.transform = savedTransforms[index]; });
+  }
+
+  function scheduleLayoutRefresh(){
+    if (geometryFrame) cancelAnimationFrame(geometryFrame);
+    geometryFrame = requestAnimationFrame(refreshLayoutRects);
+  }
+
+  refreshLayoutRects();
+  addEventListener('resize', scheduleLayoutRefresh, {passive:true});
+  addEventListener('load', scheduleLayoutRefresh, {once:true});
+  document.fonts?.ready.then(scheduleLayoutRefresh);
+
+  closingSignature?.addEventListener('pointerenter', e => {
+    if (e.pointerType !== 'touch') closingPointerActive = true;
+  });
+  closingSignature?.addEventListener('pointerleave', () => {
+    closingPointerActive = false;
+  });
+
+  function setLampRetracted(retracted){
+    lampRetracted = retracted;
+    introBoost = 0;
+    if (lampRetracted && activeTarget){
+      activeTarget.classList.remove('is-light-target');
+      activeTarget = null;
+      activeReveal?.classList.remove('is-light-focused');
+      activeReveal = null;
+      buttonFocus = 0;
+    }
+    if (lampRetracted) pointerFocus = 0;
+    if (!lampRetracted){
+      angle = 0;
+      angVel = 0;
+      displayAngle = 0;
+      displayDepth = 0;
+      scrollDrive = 0.62;
+      scrollLevel = 0.62;
+      scrollAmplitude = 0.2;
+      scrollPhase = 0;
+      scrollBlend = 1;
+      renderLamp(0);
+    }
+    document.documentElement.classList.toggle('lamp-retracted', lampRetracted);
+    lamp.classList.toggle('is-retracted', lampRetracted);
+    lamp.setAttribute('aria-pressed', String(!lampRetracted));
+    lamp.setAttribute('aria-label', lampRetracted
+      ? '点击放下灯'
+      : '拖动灯改变方向，点击收起灯');
+  }
+
+  function toggleLamp(){
+    setLampRetracted(!lampRetracted);
+  }
+
+  function trackScrollMotion(){
+    const now = performance.now();
+    const dy = scrollY - previousScrollY;
+    const dt = Math.max(16, now - previousScrollTime);
+    if (lampRetracted){
+      previousScrollY = scrollY;
+      previousScrollTime = now;
+      return;
+    }
+    const speed = Math.abs(dy) / dt * 1000;
+    if (Math.abs(dy) > 0.5){
+      const intensity = clamp(0.055 + speed / 1900, 0.055, 1);
+      scrollDrive = intensity;
+      introBoost = 0;
+    }
+    updateActiveLightModule();
+    previousScrollY = scrollY;
+    previousScrollTime = now;
+  }
+
+  function updateActiveLightModule(initial = false){
+    const readingLine = window.innerHeight * .5;
+    let nextIndex = -1;
+    let nearest = Infinity;
+    lightModules.forEach((module, index) => {
+      const rect = viewportRect(module);
+      if (rect.bottom <= 0 || rect.top >= window.innerHeight) return;
+      const distance = readingLine < rect.top
+        ? rect.top - readingLine
+        : readingLine > rect.bottom
+          ? readingLine - rect.bottom
+          : 0;
+      if (distance < nearest){
+        nearest = distance;
+        nextIndex = index;
+      }
+    });
+    if (nextIndex < 0 || nextIndex === activeModuleIndex) return;
+    activeModuleIndex = nextIndex;
+    if (!initial && !lampRetracted){
+      moduleBoost = .48;
+      scrollBlend = Math.max(scrollBlend, .9);
+    }
+  }
+
+  updateActiveLightModule(true);
+
+  if (!reduce){
+    addEventListener('scroll', trackScrollMotion, {passive:true});
+    addEventListener('pointermove', e => {
+      if (e.pointerType === 'touch' || dragging) return;
+      pointerX = e.clientX;
+      pointerY = e.clientY;
+      pointerSeen = true;
+    }, {passive:true});
+    addEventListener('mouseout', e => {
+      if (!e.relatedTarget) pointerSeen = false;
+    });
+  }
+
+  function updateButtonTarget(target){
+    const rect = target.getBoundingClientRect();
+    const targetX = rect.left + rect.width / 2;
+    buttonTargetX = targetX;
+    const ratioLimit = Math.sin(0.62);
+    const ratio = clamp(
+      (targetX - window.innerWidth / 2) / (PENDULUM * SWEEP),
+      -ratioLimit,
+      ratioLimit
+    );
+    buttonTargetAngle = Math.asin(ratio);
+    buttonTargetY = clamp(rect.top + rect.height / 2, 0, window.innerHeight);
+  }
+
+  function aimAtButton(target){
+    if (lampRetracted) return;
+    if (activeTarget && activeTarget !== target){
+      activeTarget.classList.remove('is-light-target');
+      activeReveal?.classList.remove('is-light-focused');
+    }
+    activeTarget = target;
+    activeReveal = target.closest('[data-reveal]');
+    activeTarget.classList.add('is-light-target');
+    activeReveal?.classList.add('is-light-focused');
+    updateButtonTarget(activeTarget);
+    if (reduce){
+      buttonFocus = 1;
+      renderLamp(buttonTargetAngle);
+    }
+  }
+
+  function releaseButton(target){
+    if (activeTarget !== target) return;
+    activeTarget.classList.remove('is-light-target');
+    activeTarget = null;
+    activeReveal?.classList.remove('is-light-focused');
+    activeReveal = null;
+    if (reduce){
+      buttonFocus = 0;
+      renderLamp(0);
+    }
+  }
+
+  function syncSharpTextWithPool(poolX, poolY, poolRx, poolRy){
+    for (const copy of sharpCopies){
+      const rect = viewportRect(copy);
+      if (rect.bottom <= -120 || rect.top >= window.innerHeight + 120) continue;
+      const localX = poolX - rect.left;
+      const localY = poolY - rect.top;
+      const isQuote = copy.classList.contains('quote-copy-lit');
+      const rx = isQuote ? poolRx * .62 : poolRx;
+      const ry = isQuote ? poolRy * .5 : poolRy;
+      const mask = `radial-gradient(ellipse ${rx.toFixed(1)}px ${ry.toFixed(1)}px at ${localX.toFixed(1)}px ${localY.toFixed(1)}px,#000 0%,#000 ${isQuote ? 68 : 62}%,rgba(0,0,0,.9) 76%,rgba(0,0,0,.34) 90%,transparent 100%)`;
+      copy.style.clipPath = 'none';
+      copy.style.webkitMaskImage = mask;
+      copy.style.maskImage = mask;
+    }
+  }
+
+  for (const target of lightTargets){
+    target.addEventListener('pointerenter', () => aimAtButton(target));
+    target.addEventListener('pointerleave', () => releaseButton(target));
+    target.addEventListener('focus', () => aimAtButton(target));
+    target.addEventListener('blur', () => releaseButton(target));
+  }
+
+  function renderLamp(a, depth = 0){
+    const visualAngle = -a;
+    const depthNorm = clamp(depth / 0.17, -1, 1);
+    const depthScale = 1 + depthNorm * 0.026;
+    lamp.style.transform = `perspective(900px) rotateX(${(-depth).toFixed(4)}rad) rotate(${visualAngle}rad) scale(${depthScale.toFixed(4)})`;
+    const fixtureTilt = clamp(Math.abs(a) / 0.34, 0, 1);
+    lamp.style.setProperty('--fixture-pitch', `${(fixtureTilt * 8 - depthNorm * 5).toFixed(2)}deg`);
+    lamp.style.setProperty('--fixture-scale-y', (1 - fixtureTilt * 0.042 - Math.abs(depthNorm) * 0.018).toFixed(3));
+    const bx = PENDULUM * Math.sin(a);
+    const projectedX = window.innerWidth / 2 + bx * SWEEP;
+    const compact = window.innerWidth <= 760;
+    const restingY = window.innerHeight * 0.54 + depthNorm * (compact ? 26 : 46);
+    const pointerLightY = clamp(pointerY, compact ? 238 : 292, window.innerHeight);
+    const guidedX = projectedX + (pointerX - projectedX) * pointerFocus;
+    const guidedY = restingY + (pointerLightY - restingY) * pointerFocus;
+    const lx = guidedX + (buttonTargetX - guidedX) * buttonFocus;
+    const ly = guidedY + (buttonTargetY - guidedY) * buttonFocus;
+    const tilt = clamp(Math.abs(a) / MAX_ANGLE, 0, 1);
+    const breathe = 0.5 + Math.sin(scrollPhase * 0.72) * 0.5;
+    const focusXScale = 1 - buttonFocus * 0.2;
+    const focusYScale = 1 - buttonFocus * 0.08;
+    const depthXScale = 1 + depthNorm * 0.035;
+    const depthYScale = 1 - depthNorm * 0.07;
+    const poolRx = compact
+      ? clamp(window.innerWidth * (0.52 + tilt * 0.07 + breathe * 0.018), 170, 330) * focusXScale * depthXScale
+      : clamp(window.innerWidth * (0.27 + tilt * 0.07 + breathe * 0.014), 330, 650) * focusXScale * depthXScale;
+    const poolRy = compact
+      ? clamp(window.innerHeight * (0.38 - tilt * 0.04 + breathe * 0.012), 280, 500) * focusYScale * depthYScale
+      : clamp(window.innerHeight * (0.43 - tilt * 0.06 + breathe * 0.016), 350, 660) * focusYScale * depthYScale;
+    const shadeMouthY = (compact ? 203 : 260) * Math.cos(a) * Math.cos(depth) * depthScale;
+    const poolTop = ly - poolRy;
+    const poolCutoff = clamp(shadeMouthY + 24 - poolTop, 0, poolRy * 2);
+    const poolAngle = visualAngle * 0.28;
+    const poolOpacity = 0.54 + (1 - tilt) * 0.07 + breathe * 0.02 + buttonFocus * 0.08;
+    lightX = lx;
+    lightY = ly;
+    rootStyle.setProperty('--angle', `${visualAngle}rad`);
+    rootStyle.setProperty('--bulb-x', `${bx.toFixed(2)}px`);
+    rootStyle.setProperty('--bulb-y', `${(PENDULUM * Math.cos(a) * Math.cos(depth)).toFixed(2)}px`);
+    rootStyle.setProperty('--light-x', `${lx.toFixed(1)}px`);
+    rootStyle.setProperty('--light-y', `${ly.toFixed(1)}px`);
+    rootStyle.setProperty('--pool-rx', `${poolRx.toFixed(1)}px`);
+    rootStyle.setProperty('--pool-ry', `${poolRy.toFixed(1)}px`);
+    rootStyle.setProperty('--pool-width', `${(poolRx * 2).toFixed(1)}px`);
+    rootStyle.setProperty('--pool-height', `${(poolRy * 2).toFixed(1)}px`);
+    rootStyle.setProperty('--pool-cutoff', `${poolCutoff.toFixed(1)}px`);
+    rootStyle.setProperty('--pool-angle', `${poolAngle.toFixed(4)}rad`);
+    rootStyle.setProperty('--pool-opacity', poolOpacity.toFixed(3));
+    const rect = viewportRect(spot);
+    spot.style.setProperty('--mx', `${(lx - rect.left).toFixed(1)}px`);
+    spot.style.setProperty('--my', `${(ly - rect.top).toFixed(1)}px`);
+    if (quoteBlock){
+      const quoteRect = viewportRect(quoteBlock);
+      const quoteVisible = quoteRect.bottom > 0 && quoteRect.top < window.innerHeight;
+      quoteBlock.style.setProperty('--quote-light-x', `${(lx - quoteRect.left).toFixed(1)}px`);
+      quoteBlock.style.setProperty('--quote-light-y', `${(ly - quoteRect.top).toFixed(1)}px`);
+      quoteBlock.style.setProperty('--quote-light-rx', `${(poolRx * .62).toFixed(1)}px`);
+      quoteBlock.style.setProperty('--quote-light-ry', `${(poolRy * .5).toFixed(1)}px`);
+      quoteBlock.style.setProperty('--quote-light-opacity', quoteVisible ? '.96' : '0');
+    }
+    syncSharpTextWithPool(lx, ly, poolRx, poolRy);
+    const ease = clamp(scrollY / (window.innerHeight * 1.15), 0, 1);
+    rootStyle.setProperty('--dark-ease', (1 - ease * 0.18).toFixed(3));
+  }
+
+  function tick(now){
+    animationFrameId = 0;
+    const dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    if (!dragging){
+      angVel += -W * W * angle * dt;
+      angVel *= Math.exp(-GAMMA * dt);
+      angle += angVel * dt;
+      if (Math.abs(angle) > MAX_ANGLE){
+        angle = Math.sign(angle) * MAX_ANGLE;
+        angVel *= -0.18;
+      }
+    }
+    scrollDrive *= Math.exp(-1.08 * dt);
+    const levelEase = 1 - Math.exp(-3.6 * dt);
+    scrollLevel += (scrollDrive - scrollLevel) * levelEase;
+    const targetTempo = 2.0 + scrollLevel * 0.95;
+    const tempoEase = 1 - Math.exp(-2.8 * dt);
+    scrollTempo += (targetTempo - scrollTempo) * tempoEase;
+    introBoost *= Math.exp(-0.52 * dt);
+    moduleBoost *= Math.exp(-0.42 * dt);
+    const speedAmplitude = (0.025 + scrollLevel * 0.44) * clamp(scrollLevel * 8, 0, 1);
+    const targetAmplitude = Math.max(0.18, speedAmplitude + introBoost, moduleBoost);
+    const amplitudeEase = 1 - Math.exp(-3.1 * dt);
+    scrollAmplitude += (targetAmplitude - scrollAmplitude) * amplitudeEase;
+    scrollPhase += scrollTempo * dt;
+    const targetBlend = clamp(0.82 + scrollLevel * .45 + moduleBoost, 0.82, 1);
+    scrollBlend += (targetBlend - scrollBlend) * amplitudeEase;
+    const scrollAngle = Math.sin(scrollPhase) * scrollAmplitude;
+    const freeAngle = dragging
+      ? angle
+      : angle * (1 - scrollBlend) + scrollAngle * scrollBlend;
+    const focusTarget = activeTarget && !lampRetracted ? 1 : 0;
+    const focusEase = 1 - Math.exp(-(focusTarget ? 6.2 : 4.2) * dt);
+    buttonFocus += (focusTarget - buttonFocus) * focusEase;
+    const notesRect = viewportRect(selfNotesSection);
+    const beliefRect = viewportRect(beliefSection);
+    const beliefActive = Boolean(
+      beliefRect &&
+      beliefRect.top < window.innerHeight * .78 &&
+      beliefRect.bottom > window.innerHeight * .18
+    );
+    const notesPointerActive = Boolean(
+      notesRect &&
+      notesRect.top < window.innerHeight * 0.72 &&
+      notesRect.bottom > window.innerHeight * 0.28 &&
+      !beliefActive
+    );
+    const pointerTarget = pointerSeen && (notesPointerActive || closingPointerActive) && !dragging && !lampRetracted && !activeTarget ? 1 : 0;
+    const pointerEase = 1 - Math.exp(-(pointerTarget ? 3.8 : 5.4) * dt);
+    pointerFocus += (pointerTarget - pointerFocus) * pointerEase;
+    const pointerRatio = clamp(
+      (pointerX - window.innerWidth / 2) / (PENDULUM * SWEEP),
+      -Math.sin(0.58),
+      Math.sin(0.58)
+    );
+    const pointerTargetAngle = Math.asin(pointerRatio);
+    const guidedAngle = freeAngle * (1 - pointerFocus * .55) + pointerTargetAngle * pointerFocus;
+    displayAngle = guidedAngle * (1 - buttonFocus) + buttonTargetAngle * buttonFocus;
+    const depthStrength = clamp(scrollAmplitude * 0.28, 0, 0.17) * (1 - buttonFocus * 0.55);
+    displayDepth = Math.sin(scrollPhase * 0.82 + 1.05) * depthStrength;
+    renderLamp(clamp(displayAngle, -MAX_ANGLE, MAX_ANGLE), displayDepth);
+    revealFrame();
+    if (!document.hidden) animationFrameId = requestAnimationFrame(tick);
+  }
+
+  function startAnimation(){
+    if (reduce || document.hidden || animationFrameId) return;
+    last = performance.now();
+    animationFrameId = requestAnimationFrame(tick);
+  }
+
+  if (!reduce){
+    startAnimation();
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden){
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        animationFrameId = 0;
+      } else {
+        startAnimation();
+      }
+    });
+  } else {
+    renderLamp(0);
+  }
+
+  function pointerAngle(e){
+    const y = Math.max(90, e.clientY);
+    return clamp(Math.atan2(e.clientX - window.innerWidth / 2, y), -0.44, 0.44);
+  }
+
+  lamp.addEventListener('pointerdown', e => {
+    if (reduce) return;
+    if (lampRetracted){
+      setLampRetracted(false);
+      e.preventDefault();
+      return;
+    }
+    angle = displayAngle;
+    angVel = 0;
+    scrollDrive = 0;
+    scrollLevel = 0;
+    scrollAmplitude = 0;
+    moduleBoost = 0;
+    introBoost = 0;
+    scrollBlend = 0;
+    dragging = true;
+    dragMoved = false;
+    lamp.classList.add('is-dragging');
+    lamp.setPointerCapture(e.pointerId);
+    previousDragAngle = angle;
+    previousDragTime = performance.now();
+    releaseVelocity = 0;
+    e.preventDefault();
+  });
+
+  lamp.addEventListener('pointermove', e => {
+    if (!dragging || reduce) return;
+    const now = performance.now();
+    const next = pointerAngle(e);
+    const dt = Math.max(0.008, (now - previousDragTime) / 1000);
+    releaseVelocity = releaseVelocity * 0.58 + ((next - previousDragAngle) / dt) * 0.42;
+    dragMoved ||= Math.abs(next - angle) > 0.012;
+    angle = next;
+    angVel = 0;
+    previousDragAngle = next;
+    previousDragTime = now;
+    renderLamp(angle);
+  });
+
+  function releaseLamp(e){
+    if (!dragging) return;
+    dragging = false;
+    lamp.classList.remove('is-dragging');
+    if (lamp.hasPointerCapture(e.pointerId)) lamp.releasePointerCapture(e.pointerId);
+    if (dragMoved){
+      angVel = clamp(releaseVelocity, -MAX_VEL, MAX_VEL);
+    } else {
+      toggleLamp();
+    }
+  }
+
+  lamp.addEventListener('pointerup', releaseLamp);
+  lamp.addEventListener('pointercancel', releaseLamp);
+  addEventListener('pointerup', releaseLamp);
+  addEventListener('pointercancel', releaseLamp);
+
+  lamp.addEventListener('keydown', e => {
+    if (e.key === ' ' || e.key === 'Enter'){
+      e.preventDefault();
+      toggleLamp();
+      return;
+    }
+    if (reduce) return;
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight'){
+      e.preventDefault();
+      angVel = e.key === 'ArrowLeft' ? -1.05 : 1.05;
+    }
+  });
+
+  lamp.addEventListener('click', () => {
+    if (reduce) toggleLamp();
+  });
+
+  addEventListener('resize', () => {
+    pointerX = clamp(pointerX, 0, window.innerWidth);
+    pointerY = clamp(pointerY, 0, window.innerHeight);
+    if (activeTarget) updateButtonTarget(activeTarget);
+    renderLamp(displayAngle, displayDepth);
+  });
+</script>
+</body>
+</html>
