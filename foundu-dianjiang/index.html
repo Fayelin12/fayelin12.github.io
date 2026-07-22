@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>点将 - FoundU.ai 企业端</title>
+  <meta name="description" content="把 AI 人才送到真正需要他们的产业里去。FoundU.ai 企业端「点将」，用真实产业问题匹配解题者。">
+  <style>
+    /* ===== Design Tokens ===== */
+    :root {
+      --gold: #c9a050;
+      --gold-light: #e0b86a;
+      --gold-dim: #e8d5b2;
+      --ink-950: #09090b;
+      --ink-900: #131316;
+      --ink-850: #0e0e11;
+      --ink-800: #27272a;
+      --ink-700: #3f3f46;
+      --zinc-300: #d4d4d8;
+      --zinc-400: #a1a1aa;
+      --zinc-500: #71717a;
+      --zinc-600: #52525b;
+      --white: #fafaf9;
+      --white-06: rgba(255,255,255,0.06);
+      --white-08: rgba(255,255,255,0.08);
+      --white-10: rgba(255,255,255,0.10);
+      --ease-smooth: cubic-bezier(0.32, 0.72, 0, 1);
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --radius-sm: 12px;
+      --radius-md: 16px;
+      --radius-lg: 20px;
+      --radius-pill: 9999px;
+      --dur-fast: 200ms;
+      --dur-normal: 400ms;
+      --dur-slow: 700ms;
+      --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    /* ===== Reset ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: var(--font);
+      background: var(--ink-950);
+      color: var(--white);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; height: auto; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+    input { font: inherit; }
+
+    /* ===== Utility ===== */
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+
+    /* ===== Ambient Background ===== */
+    .ambient {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 45% at 50% -5%, rgba(255,255,255,0.04) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 35% at 85% 35%, rgba(201,160,80,0.07) 0%, transparent 50%),
+        radial-gradient(ellipse 55% 40% at 15% 80%, rgba(201,160,80,0.04) 0%, transparent 45%),
+        linear-gradient(180deg, var(--ink-850) 0%, var(--ink-950) 40%, var(--ink-900) 70%, var(--ink-950) 100%);
+    }
+    .grain {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.022;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ===== Header ===== */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      background: rgba(9,9,11,0.8); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--white-06); height: 72px;
+      opacity: 0; pointer-events: none;
+      transition: opacity var(--dur-normal) var(--ease-smooth);
+    }
+    .header.visible { opacity: 1; pointer-events: auto; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 100%; }
+
+    /* Brand Lockup */
+    .brand { display: inline-flex; align-items: center; gap: 9px; color: var(--white); transition: opacity var(--dur-fast); }
+    .brand:hover { opacity: 0.92; }
+    .brand-name { font-size: 1.35rem; font-weight: 600; letter-spacing: -0.03em; display: inline-flex; align-items: baseline; }
+    .brand-u {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 1.05em; height: 1.18em; margin: 0 1px; border-radius: 5px;
+      background: linear-gradient(145deg, #b88d45 0%, #d4a853 30%, #e8c67a 55%, var(--gold) 100%);
+      color: var(--ink-950); font-size: 0.88em; font-weight: 700;
+      box-shadow: 0 2px 6px rgba(201,160,80,0.32), 0 4px 14px rgba(201,160,80,0.18), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 -1px 0 rgba(0,0,0,0.12);
+      position: relative;
+    }
+    .brand-u::before {
+      content: ''; position: absolute; inset: 2px; border-radius: 3px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 45%); pointer-events: none;
+    }
+    .brand-divider { width: 1px; height: 1.15rem; background: rgba(201,160,80,0.45); flex-shrink: 0; }
+    .brand-product { font-size: 1.1rem; font-weight: 500; letter-spacing: 0.04em; color: var(--gold-light); }
+
+    /* Nav */
+    .nav-links { display: none; }
+    @media (min-width: 768px) {
+      .nav-links { display: flex; align-items: center; gap: 32px; font-size: 0.875rem; color: var(--zinc-400); }
+    }
+    .nav-links a { position: relative; transition: color var(--dur-normal); }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a::after {
+      content: ''; position: absolute; left: 0; bottom: -4px; width: 100%; height: 1px;
+      background: var(--gold); transform: scaleX(0); transform-origin: right;
+      transition: transform var(--dur-normal) var(--ease-smooth);
+    }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+    /* Header Actions */
+    .header-actions { display: flex; align-items: center; gap: 12px; }
+    .header-actions .consult { display: none; color: var(--zinc-400); font-size: 0.875rem; transition: color var(--dur-normal); }
+    @media (min-width: 640px) { .header-actions .consult { display: inline-flex; } }
+    .header-actions .consult:hover { color: var(--white); }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      font-weight: 600; border-radius: var(--radius-pill); white-space: nowrap;
+      transition: all var(--dur-normal) var(--ease-smooth);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold) 0%, #dcb66a 50%, var(--gold) 100%);
+      background-size: 200% 100%; color: var(--ink-950);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 1px 2px rgba(0,0,0,0.2), 0 4px 20px -6px rgba(201,160,80,0.35);
+      padding: 6px 16px; font-size: 0.8125rem; position: relative; overflow: hidden;
+    }
+    .btn-primary:hover { background-position: 100% 0; box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 2px 4px rgba(0,0,0,0.22), 0 8px 32px -8px rgba(201,160,80,0.45); transform: translateY(-1px); }
+    .btn-primary:active { transform: scale(0.985) translateY(0); transition-duration: var(--dur-fast); }
+    .btn-primary-lg { padding: 14px 32px; font-size: 1rem; }
+    .btn-outline {
+      border: 1px solid var(--white-10); color: var(--white); background: transparent;
+      padding: 14px 32px; font-size: 1rem;
+    }
+    .btn-outline:hover { border-color: rgba(201,160,80,0.45); color: var(--gold-light); background: rgba(201,160,80,0.06); transform: translateY(-2px); }
+    .btn-arrow { transition: transform var(--dur-normal) var(--ease-smooth); }
+    .btn-primary:hover .btn-arrow { transform: translateX(3px); }
+
+    /* Hamburger */
+    .hamburger { display: flex; padding: 8px; color: var(--zinc-400); transition: color var(--dur-normal); }
+    .hamburger:hover { color: var(--white); }
+    @media (min-width: 768px) { .hamburger { display: none; } }
+    .hamburger svg { width: 22px; height: 22px; }
+    .hamburger .icon-close { display: none; }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      position: fixed; top: 72px; left: 0; right: 0; bottom: 0; z-index: 40;
+      background: rgba(9,9,11,0.96); backdrop-filter: blur(20px);
+      display: flex; flex-direction: column; padding: 32px 24px; gap: 24px;
+      opacity: 0; pointer-events: none; transform: translateY(-12px);
+      transition: all var(--dur-normal) var(--ease-smooth);
+    }
+    .mobile-menu.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .mobile-menu a { font-size: 1.125rem; color: var(--zinc-300); transition: color var(--dur-normal); }
+    .mobile-menu a:hover { color: var(--white); }
+    .mobile-menu .mobile-cta { margin-top: auto; padding-top: 24px; border-top: 1px solid var(--white-08); }
+    .mobile-menu .btn-primary { width: 100%; text-align: center; padding: 14px; font-size: 1rem; }
+
+    /* ===== Sections ===== */
+    section, footer { position: relative; z-index: 2; }
+
+    /* ===== Hero ===== */
+    .hero {
+      min-height: 100dvh; display: flex; align-items: center;
+      overflow: hidden;
+    }
+    .hero-grid { display: grid; gap: 32px; align-items: center; }
+    @media (min-width: 1024px) { .hero-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+    .hero-content { max-width: 48rem; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; margin-bottom: 32px;
+      padding: 6px 16px; border-radius: var(--radius-pill);
+      border: 1px solid rgba(201,160,80,0.25); background: rgba(201,160,80,0.06);
+      color: var(--gold-dim); font-size: 0.75rem; letter-spacing: 0.04em;
+    }
+    .hero-eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+    .hero-title {
+      font-size: clamp(2.25rem, 5vw, 4.25rem); font-weight: 600;
+      letter-spacing: -0.03em; line-height: 1.06; color: var(--white); margin-bottom: 32px;
+    }
+    .hero-desc { font-size: 1.125rem; color: var(--zinc-400); line-height: 1.75; margin-bottom: 48px; max-width: 42rem; }
+    @media (min-width: 768px) { .hero-desc { font-size: 1.25rem; } }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 16px; }
+    .hero-image-wrapper { display: none; }
+    @media (min-width: 1024px) { .hero-image-wrapper { display: block; } }
+    .scroll-cue {
+      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+      color: var(--zinc-600); display: none;
+    }
+    @media (min-width: 768px) { .scroll-cue { display: block; } }
+    .scroll-cue svg { width: 24px; height: 24px; }
+
+    /* ===== Section Common ===== */
+    .section { padding: 64px 0; }
+    @media (min-width: 768px) { .section { padding: 144px 0; } }
+    .section-header { display: grid; gap: 24px; align-items: center; margin-bottom: 40px; }
+    @media (min-width: 1024px) { .section-header { grid-template-columns: 1fr 1fr; gap: 48px; } }
+    @media (min-width: 768px) { .section-header { margin-bottom: 96px; } }
+    .section-title {
+      font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; color: var(--white); margin-bottom: 12px;
+    }
+    @media (min-width: 768px) { .section-title { font-size: 2.75rem; margin-bottom: 20px; } }
+    .section-subtitle { font-size: 1rem; color: var(--zinc-400); line-height: 1.7; }
+    @media (min-width: 768px) { .section-subtitle { font-size: 1.25rem; } }
+    .section-img { display: none; }
+    @media (min-width: 1024px) { .section-img { display: block; } }
+    .section-img img { max-height: 220px; }
+    @media (min-width: 1280px) { .section-img img { max-height: 280px; } }
+    @media (min-width: 1536px) { .section-img img { max-height: 320px; } }
+    .hero-image-wrapper img,
+    .section-img img {
+      filter: drop-shadow(0 0 28px rgba(201,160,80,0.2)) brightness(1.1) contrast(1.05);
+    }
+
+    /* ===== Cards ===== */
+    .card {
+      background: rgba(255,255,255,0.03); border: 1px solid var(--white-06);
+      border-radius: var(--radius-md); padding: 24px;
+      transition: all var(--dur-normal) var(--ease-smooth);
+    }
+    @media (min-width: 768px) { .card { padding: 40px; } }
+    .card:hover {
+      border-color: rgba(201,160,80,0.25); background: rgba(255,255,255,0.045);
+      transform: translateY(-4px); box-shadow: 0 16px 40px -16px rgba(0,0,0,0.45);
+    }
+    .card-highlight { background: linear-gradient(160deg, rgba(201,160,80,0.06) 0%, rgba(255,255,255,0.03) 55%); }
+    .card-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 16px; }
+    .card-label-gold { color: var(--gold); }
+    .card-label-dim { color: var(--zinc-500); }
+    .card-title { font-size: 1.125rem; font-weight: 600; color: var(--white); margin-bottom: 8px; }
+    @media (min-width: 768px) { .card-title { font-size: 1.5rem; margin-bottom: 16px; } }
+    .card-title-lg { font-size: 1.25rem; }
+    @media (min-width: 768px) { .card-title-lg { font-size: 1.875rem; } }
+    .card-text { font-size: 0.9375rem; color: var(--zinc-400); line-height: 1.7; }
+    .card-text-lg { font-size: 1rem; }
+    @media (min-width: 768px) { .card-text-lg { font-size: 1.125rem; } }
+    .card-bar { margin-top: 40px; width: 64px; height: 2px; border-radius: 1px; }
+    .card-bar-dim { background: var(--ink-700); }
+    .card-bar-gold { background: var(--gold); }
+
+    /* Value numbered cards — extend .card */
+    .value-card {
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    @media (min-width: 768px) { .value-card { gap: 24px; padding: 32px; } }
+    .value-number {
+      flex-shrink: 0; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+      border-radius: 14px; border: 1px solid rgba(201,160,80,0.2);
+      background: rgba(201,160,80,0.1); color: var(--gold); font-size: 1.125rem; font-weight: 600;
+    }
+
+    /* ===== Process Steps ===== */
+    .steps-grid { display: grid; gap: 16px; position: relative; }
+    @media (min-width: 768px) { .steps-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+    .process-line {
+      display: none; position: absolute; top: 38px; left: 18%; right: 18%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,160,80,0.35), transparent); opacity: 0.6;
+    }
+    @media (min-width: 768px) { .process-line { display: block; } }
+    .process-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--ink-950); border: 2px solid var(--gold); box-shadow: 0 0 20px rgba(201,160,80,0.25); margin-bottom: 32px; transition: transform var(--dur-normal) var(--ease-spring), box-shadow var(--dur-normal) var(--ease-spring); }
+    .card:hover .process-dot { transform: scale(1.15); box-shadow: 0 0 28px rgba(201,160,80,0.4); }
+
+    /* ===== Stats ===== */
+    .stats-section { border-top: 1px solid var(--white-06); border-bottom: 1px solid var(--white-06); padding: 48px 0; }
+    @media (min-width: 768px) { .stats-section { padding: 128px 0; } }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; justify-items: center; }
+    @media (min-width: 768px) { .stats-grid { gap: 24px; } }
+    .stat { text-align: center; }
+    .stat:nth-child(2) { border: none; padding: 0; }
+    @media (min-width: 768px) {
+      .stat:nth-child(2) { border-left: 1px solid var(--white-08); padding-left: 40px; }
+      .stat:nth-child(3) { border-left: 1px solid var(--white-08); padding-left: 40px; }
+    }
+    .stat-number { font-size: 2rem; font-weight: 600; color: var(--gold); letter-spacing: -0.05em; margin-bottom: 4px; }
+    @media (min-width: 768px) { .stat-number { font-size: 4.5rem; margin-bottom: 12px; } }
+    .stat-number .unit { font-size: 1.25rem; color: var(--zinc-500); font-weight: 500; }
+    @media (min-width: 768px) { .stat-number .unit { font-size: 2.25rem; } }
+    .stat-label { font-size: 0.8125rem; color: var(--zinc-400); }
+    @media (min-width: 768px) { .stat-label { font-size: 1rem; } }
+
+    /* ===== CTA Section ===== */
+    .cta-section { text-align: center; padding: 64px 0; }
+    @media (min-width: 768px) { .cta-section { padding: 176px 0; } }
+    .cta-title {
+      font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; color: var(--white);
+      line-height: 1.25; margin-bottom: 16px;
+    }
+    @media (min-width: 768px) { .cta-title { font-size: 3.25rem; margin-bottom: 24px; } }
+    .cta-subtitle { font-size: 1rem; color: var(--zinc-400); margin-bottom: 32px; max-width: 42rem; margin-left: auto; margin-right: auto; }
+    @media (min-width: 768px) { .cta-subtitle { font-size: 1.25rem; margin-bottom: 48px; } }
+    .cta-form { display: flex; flex-direction: column; gap: 12px; max-width: 28rem; margin: 0 auto; }
+    @media (min-width: 640px) { .cta-form { flex-direction: row; } }
+    .cta-input {
+      flex: 1; padding: 14px 24px; font-size: 1rem; border-radius: var(--radius-pill);
+      background: rgba(255,255,255,0.04); border: 1px solid var(--white-06); color: var(--white);
+      transition: all var(--dur-normal) var(--ease-smooth);
+    }
+    .cta-input::placeholder { color: var(--zinc-500); }
+    .cta-input:hover { border-color: var(--white-10); background: rgba(255,255,255,0.06); }
+    .cta-input:focus { outline: none; border-color: rgba(201,160,80,0.45); background: rgba(255,255,255,0.06); box-shadow: 0 0 0 3px rgba(201,160,80,0.08); }
+    .cta-note { font-size: 0.75rem; color: var(--zinc-600); margin-top: 12px; }
+
+    /* ===== Footer ===== */
+    .footer { border-top: 1px solid var(--white-06); height: 72px; background: transparent; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; height: 100%; }
+    @media (max-width: 767px) { .footer-inner { flex-direction: column; justify-content: center; gap: 4px; } }
+    .footer .brand { color: var(--white); }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; font-size: 0.875rem; color: var(--zinc-500); }
+    @media (min-width: 768px) { .footer-links { gap: 32px; } }
+    .footer-links a { color: var(--zinc-500); transition: color var(--dur-normal); }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ===== Scroll Reveal ===== */
+    .reveal { opacity: 0; transform: translateY(32px); }
+    .reveal.visible { opacity: 1; transform: translateY(0); transition: opacity var(--dur-slow) var(--ease-smooth), transform var(--dur-slow) var(--ease-smooth); }
+    .reveal-img { opacity: 0; transform: translateY(20px); }
+    .reveal-img.visible { opacity: 1; transform: translateY(0); transition: opacity var(--dur-slow) var(--ease-smooth), transform var(--dur-slow) var(--ease-smooth); }
+
+    /* ===== Reduced Motion ===== */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; }
+      .reveal.visible { transition: none; }
+      .reveal-img { opacity: 1; transform: none; }
+      .reveal-img.visible { transition: none; }
+      .card, .value-card, .btn, .btn:hover, .card:hover, .value-card:hover,
+      .btn-primary:hover, .btn-outline:hover { transition: none !important; transform: none !important; }
+      .card:hover .process-dot { transform: none; }
+      .header { transition: none; opacity: 1; pointer-events: auto; }
+    }
+
+    /* ===== Beyond TOC Content ===== */
+    .sticky-side { position: static; }
+    @media (min-width: 1024px) { .sticky-side { position: sticky; top: 128px; } }
+    .value-grid { display: grid; gap: 24px; align-items: start; }
+    @media (min-width: 1024px) { .value-grid { grid-template-columns: 1fr 1fr; gap: 96px; } }
+    .value-cards { display: grid; gap: 16px; }
+    @media (min-width: 768px) { .value-cards { gap: 24px; } }
+
+    /* ===== Comparison Grid ===== */
+    .comparison-grid { display: grid; gap: 24px; }
+    @media (min-width: 768px) { .comparison-grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="ambient"></div>
+  <div class="grain"></div>
+
+  <!-- ===== Header ===== -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="brand" aria-label="FoundU.ai 点将">
+        <span class="brand-name">Found<span class="brand-u">U</span>.ai</span>
+        <span class="brand-divider" aria-hidden="true"></span>
+        <span class="brand-product">点将</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#how-it-works">我们做什么</a>
+        <a href="#mechanism">核心机制</a>
+        <a href="#value">价值</a>
+        <a href="#">数据安全承诺</a>
+      </nav>
+      <div class="header-actions">
+        <a href="#contact" class="consult">合作咨询</a>
+        <a href="#contact" class="btn btn-primary">开始点将</a>
+        <button class="hamburger" id="menu-toggle" aria-label="打开菜单" aria-expanded="false">
+          <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+          <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Mobile Menu ===== -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#how-it-works" class="mobile-link">我们做什么</a>
+    <a href="#mechanism" class="mobile-link">核心机制</a>
+    <a href="#value" class="mobile-link">价值</a>
+    <a href="#" class="mobile-link">数据安全承诺</a>
+    <div class="mobile-cta">
+      <a href="#contact" class="btn btn-primary">开始点将</a>
+    </div>
+  </div>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="container" style="width:100%">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="reveal">
+            <span class="brand-name" style="font-size:clamp(1.5rem,3vw,2.25rem);margin-right:16px">Found<span class="brand-u" style="width:1.05em;height:1.15em;font-size:0.86em;border-radius:6px;box-shadow:0 3px 10px rgba(201,160,80,0.4),0 6px 22px rgba(201,160,80,0.22),inset 0 1px 0 rgba(255,255,255,0.3),inset 0 -1px 0 rgba(0,0,0,0.12)">U</span>.ai</span>
+            <span style="display:inline-block;width:1px;height:1.75rem;background:linear-gradient(180deg,transparent,rgba(201,160,80,0.6),transparent);vertical-align:middle;margin-right:16px"></span>
+            <span style="font-size:clamp(1.25rem,2.4vw,1.85rem);font-weight:500;letter-spacing:0.06em;color:var(--gold-light);vertical-align:middle">点将</span>
+          </div>
+          <div class="reveal hero-eyebrow" style="margin-top:32px">
+            <span class="dot"></span> FoundU.ai 企业端
+          </div>
+          <h1 class="reveal hero-title">把 AI 人才，<br>送到真正需要他们的产业里去</h1>
+          <p class="reveal hero-desc">我们解决的是一个错配问题：最懂 AI 的人不在最需要 AI 的行业里。FoundU.ai 以真实产业问题为媒介，连接两端。</p>
+          <div class="reveal hero-actions">
+            <a href="#contact" class="btn btn-primary btn-primary-lg">
+              开始点将
+              <svg class="btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <a href="#how-it-works" class="btn btn-outline">了解机制</a>
+          </div>
+        </div>
+        <div class="hero-image-wrapper reveal-img">
+          <img src="foundu-dianjiang-hero.png" alt="" loading="eager">
+        </div>
+      </div>
+    </div>
+    <div class="scroll-cue">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+    </div>
+  </section>
+
+  <!-- ===== How It Works ===== -->
+  <section id="how-it-works" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="reveal">
+          <h2 class="section-title">我们做什么</h2>
+          <p class="section-subtitle">不是帮你发 JD，而是把你卡住的产业问题，交给能把它拆开的人</p>
+        </div>
+        <div class="section-img reveal-img"><img src="foundu-dianjiang-how.png" alt="" loading="lazy"></div>
+      </div>
+      <div class="steps-grid">
+        <div class="process-line"></div>
+        <div class="reveal card">
+          <div class="process-dot"></div>
+          <div class="card-label card-label-gold">第一步</div>
+          <h3 class="card-title">问题入口</h3>
+          <p class="card-text">产业方无需写 JD 或懂术语，用产业语言描述瓶颈。我们要的是"你现在卡在哪里"。</p>
+        </div>
+        <div class="reveal card">
+          <div class="process-dot"></div>
+          <div class="card-label card-label-gold">第二步</div>
+          <h3 class="card-title">解题者响应</h3>
+          <p class="card-text">不展示简历，只回传针对该问题的拆解思路。用真实的解题路径，替代面试里的口头表达。</p>
+        </div>
+        <div class="reveal card">
+          <div class="process-dot"></div>
+          <div class="card-label card-label-gold">第三步</div>
+          <h3 class="card-title">决策与交付</h3>
+          <p class="card-text">浏览所有解题方案，选择路径清晰、落地性强的合作者。平台按里程碑验收，锁定结果。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Mechanism ===== -->
+  <section id="mechanism" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="reveal">
+          <h2 class="section-title">核心机制</h2>
+          <p class="section-subtitle">我们不做简历筛选。我们只做一件事：把产业方卡住的环节，交给能把它拆开的人</p>
+        </div>
+        <div class="section-img reveal-img"><img src="foundu-dianjiang-mechanism.png" alt="" loading="lazy"></div>
+      </div>
+      <div class="comparison-grid">
+        <div class="reveal card">
+          <div class="card-label card-label-dim">传统招聘逻辑</div>
+          <h3 class="card-title card-title-lg">职位描述 vs 简历</h3>
+          <p class="card-text card-text-lg">靠关键词匹配和面试对话猜测能力，决策依据模糊，错配成本高。</p>
+          <div class="card-bar card-bar-dim"></div>
+        </div>
+        <div class="reveal card card-highlight">
+          <div class="card-label card-label-gold">FoundU.ai 逻辑</div>
+          <h3 class="card-title card-title-lg">真实问题 vs 解题能力</h3>
+          <p class="card-text card-text-lg" style="color:var(--zinc-300)">靠解题思路判断匹配度。产业方看到的不只是"这个人做过什么"，而是"这个问题他能怎么做"。</p>
+          <div class="card-bar card-bar-gold"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Value ===== -->
+  <section id="value" class="section">
+    <div class="container">
+      <div class="value-grid">
+        <div class="reveal sticky-side">
+          <h2 class="section-title">我们的价值</h2>
+          <p class="section-subtitle" style="max-width:28rem">让产业方不需要先成为 AI 专家，就能找到能解决问题的 AI 人才</p>
+          <div class="section-img reveal-img" style="display:block;margin-top:32px"><img src="foundu-dianjiang-value.png" alt="" loading="lazy"></div>
+        </div>
+        <div class="value-cards">
+          <div class="reveal card value-card">
+            <div class="value-number">01</div>
+            <div><h3 class="card-title">降低决策门槛</h3><p class="card-text">不需要成为 AI 专家，只需把问题说清楚。平台帮你把产业语言翻译成可执行的解题任务。</p></div>
+          </div>
+          <div class="reveal card value-card">
+            <div class="value-number">02</div>
+            <div><h3 class="card-title">置换判断依据</h3><p class="card-text">不靠面试对话猜测能力，靠解题思路判断匹配度。每一份回传都是可对比、可验证的方案。</p></div>
+          </div>
+          <div class="reveal card value-card">
+            <div class="value-number">03</div>
+            <div><h3 class="card-title">锁定交付结果</h3><p class="card-text">平台提供对赌式合作框架，按里程碑验收。人才与结果挂钩，降低合作风险。</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Stats ===== -->
+  <div class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="reveal stat"><div class="stat-number">128</div><div class="stat-label">已发布产业难题</div></div>
+        <div class="reveal stat"><div class="stat-number">46</div><div class="stat-label">已匹配落地项目</div></div>
+        <div class="reveal stat"><div class="stat-number">12<span class="unit">天</span></div><div class="stat-label">平均匹配周期</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CTA ===== -->
+  <section id="contact" class="cta-section">
+    <div class="container">
+      <h2 class="reveal cta-title">你的产业难题，<br class="hide-mobile">正在等待能拆解它的人</h2>
+      <p class="reveal cta-subtitle">留个邮箱，我们尽快联系。</p>
+      <form class="reveal cta-form" onsubmit="event.preventDefault();alert('已收到你的需求，我们会尽快与你联系。');">
+        <input type="email" placeholder="企业邮箱" required class="cta-input">
+        <button type="submit" class="btn btn-primary btn-primary-lg">开始点将</button>
+      </form>
+      <p class="cta-note">提交即表示同意我们的数据安全承诺与合作条款。</p>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="#" class="brand" aria-label="FoundU.ai">
+        <span class="brand-name">Found<span class="brand-u">U</span>.ai</span>
+      </a>
+      <div class="footer-links">
+        <a href="#">数据安全承诺</a>
+        <a href="#contact">合作咨询</a>
+        <span>&copy; 2026 FoundU.ai</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      var html = document.documentElement;
+
+      // Scroll Reveal
+      var observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting) e.target.classList.add('visible');
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+      var items = document.querySelectorAll('.reveal, .reveal-img');
+      for(var i = 0; i < items.length; i++){ observer.observe(items[i]); }
+
+      // Nav: hidden on hero, appears when scrolled past
+      var header = document.querySelector('.header');
+      var hero = document.querySelector('.hero');
+      var navObserver = new IntersectionObserver(function(entries){
+        header.classList.toggle('visible', !entries[0].isIntersecting);
+      }, { threshold: 0, rootMargin: '-72px 0px 0px 0px' });
+      navObserver.observe(hero);
+
+      // Mobile Menu
+      var toggle = document.getElementById('menu-toggle');
+      var menu = document.getElementById('mobile-menu');
+      var openIcon = toggle.querySelector('.icon-open');
+      var closeIcon = toggle.querySelector('.icon-close');
+      var links = document.querySelectorAll('.mobile-link');
+
+      function toggleMenu(){
+        var isOpen = menu.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', isOpen);
+        openIcon.style.display = isOpen ? 'none' : 'block';
+        closeIcon.style.display = isOpen ? 'block' : 'none';
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      }
+
+      toggle.addEventListener('click', toggleMenu);
+      for(var j = 0; j < links.length; j++){ links[j].addEventListener('click', toggleMenu); }
+    })();
+  </script>
+</body>
+</html>
