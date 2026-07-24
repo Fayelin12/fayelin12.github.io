@@ -470,6 +470,9 @@
         // ============ 渲染 ============
         function hexTint(hex) { return hex + '1F'; } // ~12% 透明度底色
 
+        // 切换视图时复位滚动位置：否则窗口沿用上一视图的滚动高度，结果页会定位在底部
+        function resetScroll() { window.scrollTo(0, 0); }
+
         function init() {
             showEntry();
         }
@@ -507,6 +510,7 @@
                     </div>
                 </div>
             `;
+            resetScroll();
         }
 
         function startDeep() {
@@ -578,6 +582,7 @@
                     </div>
                 </div>
             `;
+            resetScroll();
         }
 
         function selectSimple(i, val) {
@@ -661,6 +666,7 @@
                 </div>
             `;
             setChrome(false);
+            resetScroll();
         }
 
         function renderProgress() {
@@ -726,6 +732,7 @@
                     </div>
                 </div>
             `;
+            resetScroll();
         }
 
         function selectScore(gIdx, v) {
@@ -900,6 +907,7 @@
                 </div>
             `;
             setChrome(false);
+            resetScroll();
         }
 
         init();
