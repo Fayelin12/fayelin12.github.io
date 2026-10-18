@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh_CN"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://fayelin12.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://fayelin12.github.io/blog/" rel="alternate" type="text/html" hreflang="zh_CN" /><updated>2026-10-18T14:19:08+00:00</updated><id>https://fayelin12.github.io/blog/feed.xml</id><title type="html">南飞</title><subtitle>记录思考，分享生活，探索技术的无限可能</subtitle><author><name>南飞</name></author><entry><title type="html">是的，而且—— | 《即兴》</title><link href="https://fayelin12.github.io/blog/2026/10/18/ji-xing/" rel="alternate" type="text/html" title="是的，而且—— | 《即兴》" /><published>2026-10-18T00:00:00+00:00</published><updated>2026-10-18T00:00:00+00:00</updated><id>https://fayelin12.github.io/blog/2026/10/18/%E5%8D%B3%E5%85%B4</id><content type="html" xml:base="https://fayelin12.github.io/blog/2026/10/18/ji-xing/"><![CDATA[<p>起因是听说Palantir把一本讲戏剧即兴的书，列进了 FDE 的入职推荐书单——一家以数据和算法吃饭的公司，让写代码的人去读一本教演员怎么”没有剧本也能演”的书。（顺便一提，Palantir——就是《[[从0到1]]》的作者彼得·蒂尔投资、后来拿下美国陆军大单的公司，这套 FDE 文化的祖师爷）</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh_CN"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://fayelin12.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://fayelin12.github.io/blog/" rel="alternate" type="text/html" hreflang="zh_CN" /><updated>2026-10-18T14:24:59+00:00</updated><id>https://fayelin12.github.io/blog/feed.xml</id><title type="html">南飞</title><subtitle>记录思考，分享生活，探索技术的无限可能</subtitle><author><name>南飞</name></author><entry><title type="html">是的，而且—— | 《即兴》</title><link href="https://fayelin12.github.io/blog/2026/10/18/ji-xing/" rel="alternate" type="text/html" title="是的，而且—— | 《即兴》" /><published>2026-10-18T00:00:00+00:00</published><updated>2026-10-18T00:00:00+00:00</updated><id>https://fayelin12.github.io/blog/2026/10/18/%E5%8D%B3%E5%85%B4</id><content type="html" xml:base="https://fayelin12.github.io/blog/2026/10/18/ji-xing/"><![CDATA[<p>起因是听说Palantir把一本讲戏剧即兴的书，列进了 FDE 的入职推荐书单——一家以数据和算法吃饭的公司，让写代码的人去读一本教演员怎么”没有剧本也能演”的书。（顺便一提，Palantir——就是《[[从0到1]]》的作者彼得·蒂尔投资、后来拿下美国陆军大单的公司，这套 FDE 文化的祖师爷）</p>
 
 <p>约翰斯通1933年出生于英国，不爱上学，认为正规教育压抑了他的想象力。20多岁时，他作为剧作家加入伦敦的皇家宫廷剧院。十年后转型为导演和即兴表演教师，并开始系统性地创立了自己的即兴表演体系。</p>
 
@@ -6,15 +6,15 @@
 
 <p>这和《[[为什么伟大不能被计划]]》里那句”年轻人没被行业惯例驯化，保留了’为什么不可以这样’的质疑”，其实是同一件事的两种说法。被驯化的代价，是你再也接不住意外。</p>
 
-<p>书里对 FDE 最直接的映射，大概是”接受者”与”阻挡者”这对概念。即兴舞台上，阻挡者会说”不”，一句话杀死整个场景；接受者会说”是的，而且——”（Yes, and），把对方递过来的东西接住，再往上加一点，让情节继续长。客户现场永远是一本没写完的剧本，第一反应是”这行不通”的人，会在开口的那一刻就扼杀掉合作的可能。Palantir 要的是本能地接受现状、然后在上面解决问题的人。</p>
+<p>书里对 FDE 最直接的映射，大概是接受者、阻挡者这对概念。即兴舞台上，阻挡者会说”不”，一句话杀死整个场景；接受者会说”是的，而且——”（Yes, and），把对方递过来的东西接住，再往上加一点，让情节继续长。客户现场永远是一本没写完的剧本，第一反应是”这行不通”的人，会在开口的那一刻就扼杀掉合作的可能。Palantir 要的是本能地接受现状、然后在上面解决问题的人。</p>
 
-<p>我更喜欢的是书里另外两章——姿态和面具。它俩讲的不是表演技巧，而是”人在现场如何被角色和关系塑造”。</p>
+<p>我更喜欢的是书里另外两章——姿态和面具。它俩讲的不是表演技巧，而是人在现场如何被角色和关系塑造。</p>
 
-<p>status（译本中叫姿态），是两个人互动时不断交换的”谁高谁低”的信号。真正的高地位不表现为强势，而是放松——不急着证明自己；低地位才紧张、解释过多、过度道歉。</p>
+<p>status（译本中叫姿态），是两个人互动时不断交换的谁高谁低的信号。真正的高姿态不表现为强势，而是放松——不急着证明自己。低姿态才紧张、解释过多、过度道歉。</p>
 
-<p>而且 status 是共同建构的。你调高，对方可能自动调低；你示弱，对方就补位。所以交流的效果不取决于你”心里怎么想”，取决于你们俩在玩哪一出地位游戏。</p>
+<p>而且 status 是共同建构的。你调高，对方可能自动调低；你示弱，对方就补位。所以交流的效果不取决于心里怎么想，取决于你们俩在玩哪一出地位游戏。</p>
 
-<p>约翰斯通讲面具时有个很硬的洞察：面具不是用来”隐藏真我”的，它反过来会接管戴它的人。演员扣上一张面具，声音、身体、情绪全会变，甚至会释放出平时被压住的那部分人格。</p>
+<p>约翰斯通讲面具时有个很硬的洞察：面具不是用来隐藏真我的，它反过来会接管戴它的人。演员扣上一张面具，声音、身体、情绪全会变，甚至会释放出平时被压住的那部分人格。</p>
 
 <p>前阵子刷到很多即兴表演的短视频——给一个字接下一个字、给两个八竿子打不着的场景让你演、让观众随便点题。这些也都是《即兴》这一脉的经典练习：一字接龙（word at a time）练的是逼你放弃提前规划、只接住上一个人刚给的词；观众点题（audience suggestion）练的是把外部的随机性当礼物，而不是当刁难。</p>
 
