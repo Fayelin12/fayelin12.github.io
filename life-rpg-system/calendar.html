@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;600;900&display=block" rel="stylesheet">
     <link rel="stylesheet" href="common.css">
+    <script src="lib/sql-js/sql-asm.js"></script>
     <script src="common.js"></script>
     <style>
         /* 页面特有样式 - 时间圣殿主题 */
@@ -2895,7 +2896,14 @@
         // ============================================
         // 地标选择状态 - 新增
         // ============================================
-        let selectedLandmarkId = localStorage.getItem('lifeRpgSelectedLandmarkId') || null;
+        let selectedLandmarkId = (function() {
+            var v = localStorage.getItem('lifeRpgSelectedLandmarkId');
+            if (v && v !== 'null') {
+                var n = parseInt(v);
+                return isNaN(n) ? v : n;
+            }
+            return null;
+        })();
 
         /**
          * 获取选中的地标ID
@@ -2908,9 +2916,9 @@
          * 设置选中的地标
          */
         function setSelectedLandmarkId(landmarkId) {
-            selectedLandmarkId = landmarkId;
-            localStorage.setItem('lifeRpgSelectedLandmarkId', landmarkId || '');
-            console.log('[Landmark] Selected:', landmarkId);
+            var n = parseInt(landmarkId);
+            selectedLandmarkId = isNaN(n) ? landmarkId : n;
+            localStorage.setItem('lifeRpgSelectedLandmarkId', selectedLandmarkId);
         }
 
         /**
@@ -3133,12 +3141,9 @@
             // Grid 布局会自动处理条带位置，无需重新计算
         }
 
-        function init() {
+        async function init() {
             try {
-                loadData();
-
-                // 数据迁移：为历史日历条目补全创建时间（已执行完毕，可注释掉）
-                // migrateCalendarEntries();
+                await loadData();
 
                 // 如果没有选中的地标，默认选中第一个
                 if (!selectedLandmarkId && adminData.landmarks && adminData.landmarks.length > 0) {
@@ -3207,9 +3212,9 @@
         /**
          * 加载数据
          */
-        function loadData() {
+        async function loadData() {
             try {
-                const savedData = LifeRPG.data.load();
+                const savedData = await LifeRPG.data.load();
                 if (savedData) {
                     adminData = {
                         ...adminData,
@@ -3243,7 +3248,6 @@
 
                 if (migratedCount > 0) {
                     saveData();
-                    console.log(`[Migrate] 已为 ${migratedCount} 条历史日历条目补全创建时间`);
                 }
             } catch (error) {
                 console.error('数据迁移失败:', error);
@@ -3261,7 +3265,6 @@
                 renderChamberGrid();
                 renderScrollArchive();
                 updateStats();
-                console.log('✓ 所有日历数据已清空');
                 alert('所有数据已清空，请刷新页面');
             } catch (error) {
                 console.error('清空数据失败:', error);
@@ -3393,7 +3396,6 @@
                 document.body.removeChild(link);
 
                 showToast(`已导出 ${rows.length - 8} 条记录到CSV`, 'success');
-                console.log('[Export] CSV exported:', rows.length - 8, 'rows');
             } catch (error) {
                 console.error('导出CSV失败:', error);
                 showToast('导出失败：' + error.message, 'error');
@@ -3418,7 +3420,7 @@
          */
         function saveData() {
             try {
-                LifeRPG.data.save(adminData);
+                LifeRPG.storage.saveDebounced('lifeRpgAdminData', () => adminData);
             } catch (error) {
                 console.error('保存数据失败:', error);
             }
@@ -3752,15 +3754,12 @@
                 const container = document.getElementById('scrollCollection');
                 if (!container) return;
 
-                // 更新地标选择器
                 updateLandmarkSelect();
+
+                const selectedId = getSelectedLandmarkId();
 
                 let html = '';
 
-                // 获取选中的地标ID
-                const selectedId = getSelectedLandmarkId();
-
-                // 只渲染选中的地标（不再显示地标标题）
                 if (selectedId) {
                     const landmark = (adminData.landmarks || []).find(l => l.id === selectedId);
                     if (landmark) {
@@ -3768,7 +3767,6 @@
 
                         quests.forEach(quest => {
                             if (!quest.id) {
-                                console.warn('[ScrollArchive] quest missing id:', quest);
                                 return;
                             }
 
@@ -3776,7 +3774,6 @@
 
                             levels.forEach(level => {
                                 if (!level.id) {
-                                    console.warn('[ScrollArchive] level missing id:', level);
                                     return;
                                 }
 
@@ -3786,12 +3783,6 @@
                                     if (!cp.id || cp.id === '') {
                                         cp.id = generateId();
                                         saveData();
-                                        console.warn('[ScrollArchive] generated missing cp.id:', {
-                                            quest: quest.name,
-                                            level: level.name,
-                                            checkpoint: cp.name,
-                                            id: cp.id
-                                        });
                                     }
 
                                     const archiveDate = getCheckpointArchiveDate(cp.id);
@@ -4214,7 +4205,6 @@
                 }
 
                 bodyContainer.innerHTML = bodyHtml;
-                console.log('[YearView] Rendered', 12, 'months');
             } catch (error) {
                 console.error('渲染年视图失败:', error);
             }
@@ -4345,7 +4335,6 @@
                         const stripes = dayColumn.querySelectorAll('.checkpoint-stripe');
                         // Debug: 验证渲染结果
                         if (stripes.length === 0) {
-                            console.warn(`[WeekView] No stripes rendered for ${dateStr}`);
                         }
                     }
                 }, 100);
@@ -4907,7 +4896,6 @@
             const startTime = element.dataset.startTime;
             const duration = parseInt(element.dataset.duration);
 
-            console.log(`[WeekView] Saving entry ${entryId}: startTime=${startTime}, duration=${duration}`);
 
             // 更新数据
             if (adminData.calendarEntries[dateStr]) {
@@ -4916,7 +4904,6 @@
                     entry.startTime = startTime;
                     entry.duration = duration;
                     saveData();
-                    console.log(`[WeekView] Saved successfully`);
 
                     // 自动重新渲染该日期的检查项以更新布局
                     refreshWeekViewDayCheckpoints(dateStr);
@@ -4944,7 +4931,6 @@
                 dayColumn.insertAdjacentHTML('beforeend', newCheckpointsHtml);
             }
 
-            console.log(`[WeekView] Refreshed checkpoints for ${dateStr}`);
         }
 
         /**
@@ -5268,7 +5254,6 @@
 
             const stripe = e.currentTarget;
 
-            console.log('[StripeDrag] mousedown on stripe:', stripe.dataset.cpName);
 
             // 记录初始状态
             dragState.draggedStripe = stripe;
@@ -5305,13 +5290,11 @@
             if (dragState.mode === DragMode.NONE) {
                 if (deltaY > deltaX) {
                     // 垂直移动占主导 - 进入排序模式
-                    console.log('[StripeDrag] Vertical intent, entering REORDER mode');
                     dragState.mode = DragMode.REORDER;
                     dragState.intent = 'vertical';
                     startReorderMode(stripe);
                 } else {
                     // 水平移动占主导 - 进入跨格子拖拽模式
-                    console.log('[StripeDrag] Horizontal intent, entering CROSS_CELL mode');
                     dragState.mode = DragMode.CROSS_CELL;
                     dragState.intent = 'horizontal';
                     startCrossCellMode(stripe, e);
@@ -5363,7 +5346,6 @@
                 return;
             }
 
-            console.log('[Reorder] Start:', stripe.dataset.cpName);
 
             dragState.rowStripesContainer = rowContainer;
             dragState.startLevel = parseInt(stripe.style.getPropertyValue('--level')) || 1;
@@ -5425,7 +5407,6 @@
 
             if (!draggedStripe || !rowStripesContainer) return;
 
-            console.log('[Reorder] End, target:', targetLevel, 'start:', startLevel);
 
             // 移除视觉反馈
             draggedStripe.classList.remove('dragging');
@@ -5453,7 +5434,6 @@
             const isOutside = e.clientY < containerRect.top || e.clientY > containerRect.bottom;
 
             if (isOutside) {
-                console.log('[Reorder] Outside container, canceling');
                 cancelReorder();
                 return;
             }
@@ -5494,7 +5474,6 @@
 
             const { draggedStripe, rowStripesContainer, targetLevel, startLevel } = dragState;
 
-            console.log('[Reorder] End, target:', targetLevel, 'start:', startLevel);
 
             // 执行重排
             if (targetLevel && targetLevel !== startLevel) {
@@ -5534,7 +5513,6 @@
          * 启动跨格子拖拽模式
          */
         function startCrossCellMode(stripe, e) {
-            console.log('[CrossCell] Start ghost drag:', stripe.dataset.cpName);
 
             // 设置 draggedCheckpoint 用于跨格子拖放
             draggedCheckpoint = {
@@ -5600,7 +5578,6 @@
                 const rowIndex = rowContainer.dataset.row;
                 if (rowIndex !== dragState.currentRowIndex) {
                     dragState.currentRowIndex = rowIndex;
-                    console.log('[CrossCell] Hovering row:', rowIndex);
                 }
             }
         }
@@ -5614,7 +5591,6 @@
 
             if (!stripe) return;
 
-            console.log('[CrossCell] Finish ghost drag');
 
             // 移除幽灵元素
             if (ghost) {
@@ -5643,7 +5619,6 @@
                     }
 
                     if (targetDate && targetDate !== stripe.dataset.sourceDate) {
-                        console.log('[CrossCell] Dropped on date:', targetDate);
                         // 执行跨格子移动
                         executeCrossCellMove(stripe, targetDate);
                     }
@@ -5784,14 +5759,14 @@
             // 获取行索引
             const rowIndex = parseInt(rowStripes.dataset.row);
 
-            // 计算当前月的第一天是星期几
+            // 计算当前月的第一天是星期几（周一为0，周日为6，与 renderMonthView 保持一致）
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth();
             const firstDay = new Date(year, month, 1);
-            const startDayOfWeek = firstDay.getDay(); // 0=周日, 1=周一...
+            const firstDayWeekday = (firstDay.getDay() + 6) % 7;
 
             // 计算该行的起始日期
-            const rowStartDayOfMonth = rowIndex * 7 - startDayOfWeek + 1;
+            const rowStartDayOfMonth = rowIndex * 7 - firstDayWeekday + 1;
 
             let targetDate;
 
@@ -5836,7 +5811,7 @@
                 let colIndex = Math.floor(relativeX / colWidth);
                 colIndex = Math.max(0, Math.min(colIndex, 6));
 
-                const dayOfMonth = rowIndex * 7 + colIndex - startDayOfWeek + 1;
+                const dayOfMonth = rowIndex * 7 + colIndex - firstDayWeekday + 1;
                 targetDate = new Date(year, month, dayOfMonth);
             }
 
@@ -5848,7 +5823,6 @@
          */
         function createCheckpointEntry(dateStr, checkpoint) {
             console.group('[CreateEntry] 创建日历记录');
-            console.log('拖拽的checkpoint:', checkpoint);
 
             // 步骤1: 尝试直接查找（用拖拽带来的ID）
             let effectiveCheckpointId = checkpoint.id ? String(checkpoint.id) : '';
@@ -5856,14 +5830,12 @@
 
             // 步骤2: 如果直接查找失败，通过名称+关卡信息反向查找正确的ID
             if (!foundInLevels) {
-                console.log('ID为空，尝试通过名称和关卡信息查找...');
                 foundInLevels = findCheckpointIdByName(
                     checkpoint.name,
                     checkpoint.levelId,
                     checkpoint.questId
                 );
                 if (foundInLevels) {
-                    console.log('通过反向查找找到ID:', foundInLevels);
                     effectiveCheckpointId = foundInLevels;
                 }
             }
@@ -5871,26 +5843,21 @@
             // 步骤3: 如果还是找不到，检查是否是因为关卡数据ID和日历记录ID不一致
             // 这种情况下，通过名称在关卡数据中模糊匹配
             if (!foundInLevels && checkpoint.name) {
-                console.log('反向查找失败，尝试通过名称在关卡数据中模糊匹配...');
                 foundInLevels = findCheckpointIdByNameInAllLevels(checkpoint.name);
                 if (foundInLevels) {
-                    console.log('通过名称模糊匹配找到ID:', foundInLevels);
                     effectiveCheckpointId = foundInLevels;
                 }
             }
 
             // 步骤4: 如果所有查找都失败，生成新ID（仅在确实不存在时）
             if (!effectiveCheckpointId) {
-                console.warn('所有查找都失败，生成新ID');
                 effectiveCheckpointId = generateId();
             }
 
-            console.log('最终使用的checkpointId:', effectiveCheckpointId);
             console.groupEnd();
             
             // 检查该日期是否已有相同检查项（同一检查点ID）
             const existingEntries = adminData.calendarEntries[dateStr] || [];
-            console.log('📋 该日期已有条目数:', existingEntries.length);
             
             const existingEntry = existingEntries.find((entry, idx) => {
                 const storedId = String(entry.checkpointId || '');
@@ -5898,8 +5865,6 @@
                 
                 const existingHierarchy = getCheckpointHierarchy(entry.checkpointId);
                 const existingLevelName = existingHierarchy?.levelName || entry.levelName || '';
-                console.log(`  条目[${idx}] checkpointId: ${entry.checkpointId} (${typeof entry.checkpointId}), 名称: ${entry.checkpointName}, 关卡: ${existingLevelName}`);
-                console.log(`  比较: "${storedId}" === "${effectiveCheckpointId}" => ${isMatch}`);
                 
                 return isMatch;
             });
@@ -5912,20 +5877,6 @@
                 const existingLevelName = existingHierarchy?.levelName || existingEntry.levelName || '';
                 const msg = `「${checkpoint.name}」已在该日期存在（${existingLevelName}）`;
                 showToast(msg, 'warning');
-                console.warn('[Duplicate] 详细对比:', {
-                    dragging: {
-                        id: checkpoint.id,
-                        idType: typeof checkpoint.id,
-                        name: checkpoint.name,
-                        level: checkpoint.level
-                    },
-                    existing: {
-                        id: existingEntry.checkpointId,
-                        idType: typeof existingEntry.checkpointId,
-                        name: existingEntry.checkpointName,
-                        level: existingLevelName
-                    }
-                });
                 return false;
             }
 
@@ -5985,24 +5936,20 @@
                         e.preventDefault();
                         this.classList.remove('drag-over');
 
-                        console.log('[Drop] drop event fired, draggedCheckpoint:', draggedCheckpoint);
 
                         if (!draggedCheckpoint) return;
 
                         const dateStr = this.dataset.date;
 
-                        console.log('[Drop] target date:', dateStr, 'source date:', draggedCheckpoint.sourceDate);
 
                         // 如果是条带拖动
                         if (draggedCheckpoint.isStripe) {
                             // 如果是同一日期，不处理（让排序逻辑处理或忽略）
                             if (draggedCheckpoint.sourceDate === dateStr) {
-                                console.log('[Drop] Same date, ignoring');
                                 draggedCheckpoint = null;
                                 return;
                             }
                             // 跨格子拖动，继续执行创建新记录逻辑
-                            console.log('[Drop] Cross-cell drag detected, creating new entry');
                         }
 
                         createCheckpointEntry(dateStr, draggedCheckpoint);
@@ -6035,18 +5982,15 @@
                         e.preventDefault();
                         this.classList.remove('drag-over');
 
-                        console.log('[Drop] drop on row-stripes, draggedCheckpoint:', draggedCheckpoint);
 
                         if (!draggedCheckpoint) return;
 
                         // 计算目标日期
                         const dateStr = getDateFromRowStripes(this, e.clientX);
 
-                        console.log('[Drop] calculated date:', dateStr, 'source date:', draggedCheckpoint.sourceDate);
 
                         // 如果是条带拖动且同一日期，不处理
                         if (draggedCheckpoint.isStripe && draggedCheckpoint.sourceDate === dateStr) {
-                            console.log('[Drop] Same date on stripe container, ignoring');
                             draggedCheckpoint = null;
                             return;
                         }
@@ -6240,7 +6184,6 @@
                     if (!entry) return;
 
                     const isCompleted = entry.completed || h.completed;
-                    console.log('时间轴渲染:', h.date, 'entry.completed:', entry.completed, 'h.completed:', h.completed, 'isCompleted:', isCompleted);
                     const dateLabel = '';
 
                     // 获取标签数组（兼容新旧数据）
@@ -6335,12 +6278,6 @@
                 const existingEntry = nextDayEntries.find(e => e.checkpointId === entry.checkpointId);
 
                 // 调试日志：帮助排查数据问题
-                console.log('复制检查:', {
-                    nextDateStr,
-                    nextDayEntries,
-                    checkpointId: entry.checkpointId,
-                    existingEntry
-                });
 
                 if (existingEntry) {
                     // 存储临时数据

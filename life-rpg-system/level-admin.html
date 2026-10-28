@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;600;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="common.css">
+    <script src="lib/sql-js/sql-asm.js"></script>
     <script src="common.js"></script>
     <style>
         /* 页面特有样式 */
@@ -376,9 +377,9 @@
         /**
          * 初始化
          */
-        function init() {
+        async function init() {
             try {
-                loadData();
+                await loadData();
                 updateLandmarkSelect();
             } catch (error) {
                 console.error('初始化失败:', error);
@@ -389,9 +390,9 @@
         /**
          * 加载数据
          */
-        function loadData() {
+        async function loadData() {
             try {
-                const savedData = LifeRPG.data.load();
+                const savedData = await LifeRPG.data.load();
                 if (savedData) {
                     adminData = {
                         ...adminData,
@@ -409,7 +410,7 @@
          */
         function saveData() {
             try {
-                LifeRPG.data.save(adminData);
+                LifeRPG.storage.saveDebounced('lifeRpgAdminData', () => adminData);
             } catch (error) {
                 console.error('保存数据失败:', error);
                 showToast('保存失败', '⚠️');
