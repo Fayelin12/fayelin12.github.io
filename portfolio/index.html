@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>林晓燕 Faye · 求职 AI 产品商业化操盘手（OPC 合伙人）</title>
+<meta name="description" content="9 年把复杂业务从 0 做到规模化变现，也能亲手用 AI 把想法做成能交付的产品。想找一位能一起把项目做成、并按结果分成的长期搭档。">
+<style>
+  :root{
+    --ink:#111114;--ink-2:#4a4a52;--ink-3:#8b8b93;--line:#e4e4e8;
+    --bg:#ffffff;--paper:#f7f7f5;
+    --accent:#1a7a5e;--accent-soft:#e9f3ef;
+    --serif:"Source Han Serif SC","Noto Serif SC","Songti SC",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Roboto,Helvetica,Arial,sans-serif;
+    --maxw:1120px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(8px);border-bottom:1px solid var(--line)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:56px}
+  .brand{font-family:var(--serif);font-weight:700;font-size:18px;letter-spacing:.5px}
+  .brand .dot{color:var(--accent)}
+  .nav-links{display:flex;gap:24px;font-size:13.5px;color:var(--ink-2)}
+  .nav-links a:hover{color:var(--accent)}
+  .nav-cta{font-size:13px;border:1px solid var(--ink);padding:7px 16px;border-radius:2px;transition:.2s}
+  .nav-cta:hover{background:var(--ink);color:#fff}
+
+  .hero{padding:52px 0 40px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:1.5px;color:var(--accent);margin-bottom:18px;font-weight:600}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent)}
+  .hero-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:46px;align-items:center}
+  h1.name{font-family:var(--serif);font-size:50px;line-height:1.1;font-weight:700;letter-spacing:1px}
+  h1.name .en{font-size:21px;color:var(--ink-3);font-weight:400;font-style:italic;letter-spacing:0}
+  .statement{font-family:var(--serif);font-size:25px;line-height:1.5;margin:18px 0 6px}
+  .statement em{font-style:normal;color:var(--accent)}
+  .sub{font-size:15px;color:var(--ink-2);margin-top:12px;max-width:520px}
+  .hero-cta{display:flex;gap:14px;margin-top:26px;flex-wrap:wrap}
+  .btn{font-size:14px;padding:12px 22px;border-radius:2px;display:inline-flex;align-items:center;gap:8px;transition:.2s;font-weight:500}
+  .btn-primary{background:var(--ink);color:#fff}.btn-primary:hover{background:var(--accent)}
+  .btn-ghost{border:1px solid var(--line)}.btn-ghost:hover{border-color:var(--ink)}
+
+  .proof{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:26px 26px 20px}
+  .proof h4{font-size:11.5px;letter-spacing:1.5px;color:var(--ink-3);margin-bottom:18px;font-weight:600}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:20px 24px}
+  .stat .n{font-family:var(--serif);font-size:29px;font-weight:700;line-height:1}
+  .stat .n .u{font-size:14px;color:var(--accent);font-weight:600}
+  .stat .l{font-size:12.5px;color:var(--ink-2);margin-top:6px;line-height:1.4}
+  .proof-foot{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line);font-size:12px;color:var(--ink-3)}
+  .proof-foot b{color:var(--accent);font-weight:600}
+
+  section{padding:56px 0}
+  .sec-head{margin-bottom:32px}
+  .sec-kicker{font-size:12px;letter-spacing:1.5px;color:var(--accent);font-weight:600}
+  .sec-title{font-family:var(--serif);font-size:29px;font-weight:700;margin-top:8px}
+  .lead{font-size:15px;color:var(--ink-2);margin-top:10px;max-width:700px}
+
+  .fit{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .fit-card{border:1px solid var(--line);border-radius:6px;padding:24px 26px;background:#fff}
+  .fit-card .dir{font-size:12px;letter-spacing:1px;color:var(--accent);font-weight:600}
+  .fit-card h3{font-family:var(--serif);font-size:19px;margin:5px 0 9px}
+  .fit-card p{font-size:13.8px;color:var(--ink-2)}
+  .fit-card p b{color:var(--accent);font-weight:600}
+
+  .cap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  .cap{background:#fff;padding:24px 26px}
+  .cap .role{font-size:12px;color:var(--ink-3);letter-spacing:.5px}
+  .cap h3{font-family:var(--serif);font-size:18px;margin:5px 0 8px}
+  .cap p{font-size:13.5px;color:var(--ink-2)}
+  .cap .kw{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+  .cap .kw span{font-size:11.5px;background:var(--accent-soft);color:var(--accent);padding:3px 9px;border-radius:20px}
+
+  .case{border:1px solid var(--line);border-radius:8px;padding:30px;margin-bottom:22px;background:#fff}
+  .case-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:18px}
+  .case-top h3{font-family:var(--serif);font-size:22px}
+  .case-tag{font-size:12px;color:#fff;background:var(--accent);padding:4px 12px;border-radius:20px;white-space:nowrap}
+  .fields{display:grid;grid-template-columns:118px 1fr;gap:12px 20px}
+  .fields .fk{font-size:12.5px;color:var(--ink-3);font-weight:600;padding-top:2px}
+  .fields .fv{font-size:14px;color:var(--ink-2)}
+  .fields .fv b{color:var(--ink);font-weight:600}
+  .fields .gap .fv,.fields .gap .fk{color:var(--accent)}
+
+  .works-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .wcard{border:1px solid var(--line);border-radius:6px;padding:20px 22px;background:#fff;transition:.2s;display:flex;flex-direction:column;min-height:132px}
+  .wcard:hover{border-color:var(--accent);box-shadow:0 8px 26px -20px rgba(26,122,94,.55)}
+  .wcard .wt{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+  .wcard h4{font-family:var(--serif);font-size:16.5px;font-weight:700}
+  .wcard .st{font-size:11px;color:var(--ink-3);border:1px solid var(--line);padding:2px 8px;border-radius:20px;white-space:nowrap}
+  .wcard .st.on{color:var(--accent);border-color:var(--accent-soft);background:var(--accent-soft)}
+  .wcard p{font-size:13px;color:var(--ink-2);line-height:1.55}
+  .works-count{display:flex;align-items:baseline;gap:10px;margin:2px 0 24px}
+  .works-count .big{font-family:var(--serif);font-size:44px;font-weight:700;color:var(--accent);line-height:1}
+  .works-count .cap-txt{font-size:14px;color:var(--ink-2)}
+
+  .bg-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .bg-item{border-top:2px solid var(--ink);padding-top:16px}
+  .bg-item .yr{font-size:12px;color:var(--ink-3)}
+  .bg-item h4{font-family:var(--serif);font-size:17px;margin:4px 0 6px}
+  .bg-item p{font-size:13px;color:var(--ink-2)}
+
+  .edu-row{margin-top:36px;padding-top:28px;border-top:1px solid var(--line);display:grid;grid-template-columns:1.15fr .85fr;gap:40px}
+  .edu-block h4{font-size:11.5px;letter-spacing:1.5px;color:var(--accent);text-transform:uppercase;margin:0 0 12px;font-weight:600}
+  .edu-main{font-family:var(--serif);font-size:19px;font-weight:700}
+  .edu-sub{font-size:13.5px;color:var(--ink-2);margin-top:6px}
+  .edu-note{font-size:13px;color:var(--ink-2);margin-top:12px;line-height:1.65;max-width:520px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{font-size:12.5px;border:1px solid var(--line);border-radius:20px;padding:5px 12px;color:var(--ink-2);background:#fff}
+  .chip.acc{border-color:var(--accent-soft);background:var(--accent-soft);color:var(--accent);font-weight:500}
+
+  .finale{display:grid;grid-template-columns:1.4fr .8fr;gap:40px;align-items:center}
+  .letter{font-family:var(--serif);font-size:22px;line-height:1.65}
+  .letter .q{color:var(--accent)}
+  .letter .note{font-family:var(--sans);font-size:14px;color:var(--ink-2);margin-top:14px;max-width:520px}
+  .contact-box{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:26px}
+  .contact-box h4{font-size:12px;letter-spacing:1.5px;color:var(--ink-3);margin-bottom:14px}
+  .contact-line{display:flex;align-items:center;gap:12px;font-size:14.5px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .contact-line:last-child{border-bottom:none}
+  .contact-line .k{color:var(--ink-3);width:66px;font-size:12.5px}
+  .contact-line .v{font-weight:500}
+  .contact-line a:hover{color:var(--accent)}
+
+  footer{border-top:1px solid var(--line);padding:24px 0;font-size:12.5px;color:var(--ink-3)}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  @media(max-width:860px){
+    .nav-links{display:none}
+    .hero-grid,.finale{grid-template-columns:1fr;gap:30px}
+    h1.name{font-size:38px}.statement{font-size:21px}
+    .fit,.bg-strip,.works-grid,.cap-grid,.edu-row{grid-template-columns:1fr}
+    .fields{grid-template-columns:1fr;gap:4px}
+    .fields .fv{margin-bottom:10px}
+    section{padding:42px 0}
+  }
+  @media print{.nav{display:none}}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="wrap">
+    <div class="brand">林晓燕<span class="dot">.</span> Faye</div>
+    <div class="nav-links">
+      <a href="#dir">能做什么</a>
+      <a href="#capability">核心能力</a>
+      <a href="#works">代表案例</a>
+      <a href="#background">背景</a>
+      <a href="#contact">联系我</a>
+    </div>
+    <a href="#contact" class="nav-cta">约一次沟通</a>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">求职方向 · AI 产品商业化操盘手（OPC 合伙人）</span>
+    <div class="hero-grid">
+      <div>
+        <h1 class="name">林晓燕 <span class="en">Faye Lin</span></h1>
+        <p class="statement">能把一个项目从需求谈到<em>交付回款</em>，也能亲手用 AI 把它做出来。</p>
+        <p class="sub">9 年做金融 / 支付 / 交易产品，从 0 到 1 主导过能赚钱的产品，也带过 5–8 人的团队把项目落地。从需求到交付回款，也能自己把东西做出来。</p>
+        <div class="hero-cta">
+          <a href="#works" class="btn btn-primary">看我操盘过的案例</a>
+          <a href="#contact" class="btn btn-ghost">约一次沟通</a>
+        </div>
+      </div>
+      <aside class="proof">
+        <h4>用数字说话</h4>
+        <div class="stats">
+          <div class="stat"><div class="n">2.64→8<span class="u">亿</span></div><div class="l">从 0 到 1 主导货车 ETC 金融产品，年交易规模</div></div>
+          <div class="stat"><div class="n">18<span class="u"> 个月</span></div><div class="l">把一条新业务从 0 推到盈亏平衡</div></div>
+          <div class="stat"><div class="n">50+<span class="u"> / 60</span></div><div class="l">拓展的渠道伙伴与代理，资源整合落地</div></div>
+          <div class="stat"><div class="n">17<span class="u"> 个</span></div><div class="l">用 AI 独立做出来的产品与可复制服务</div></div>
+        </div>
+        <div class="proof-foot">需求沟通 · 方案设计 · 商务推进 · 交付回款——<b>这条链路的每一环都实际跑通过</b>。</div>
+      </aside>
+    </div>
+  </div>
+</header>
+
+<!-- 我能带来 -->
+<section id="dir" style="background:var(--paper)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">What I bring</span>
+      <h2 class="sec-title">能做的两类事</h2>
+      <p class="lead">独立把项目做成、并对最终结果负责，是最擅长的做事方式。一头是从需求到回款的完整操盘，一头是能反复交付的服务。</p>
+    </div>
+    <div class="fit">
+      <div class="fit-card">
+        <div class="dir">独立操盘</div>
+        <h3>从需求到回款，一个人也能把项目跑成闭环</h3>
+        <p>完整做过多个从 0 到 1 的项目：摸清业务痛点、设计方案、谈商务、协调研发与外部资源、盯交付、看数据复盘。最典型的一条货车 ETC 金融产品，<b>年交易规模从 2.64 亿增至 8 亿，项目盈利从 400 万增至 1000 万</b>。客户和决策层，能直接对上。</p>
+      </div>
+      <div class="fit-card">
+        <div class="dir">可复制的服务</div>
+        <h3>把 AI 提效沉淀成能反复交付的产品</h3>
+        <p>围绕真实业务，用 AI 独立做出过 <b>17 个作品与自动化工具</b>——取数、对账、客服监控、决策看板、获客链路、企业微信里的 AI 助手。它们不是 demo，是能用、能交付的东西。这套"AI 自动化 + 数据提效"的方法，也能产品化，变成一项能对外复制的服务。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 核心能力 -->
+<section id="capability">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">Capabilities</span>
+      <h2 class="sec-title">把项目做成，靠的是这几样</h2>
+    </div>
+    <div class="cap-grid">
+      <div class="cap">
+        <div class="role">完整项目操盘</div>
+        <h3>需求 → 方案 → 商务 → 交付 → 回款</h3>
+        <p>熟悉一条业务从识别问题到收钱的每一步，愿意对最终结果和客户满意度负责。带过 5–8 人的产研 / 运营 / 客服团队，知道怎么把项目按节点推成。</p>
+        <div class="kw"><span>从0到1</span><span>结果负责</span><span>带团队</span></div>
+      </div>
+      <div class="cap">
+        <div class="role">商业化与增长</div>
+        <h3>算得清账，能把流量变成钱</h3>
+        <p>主导过带金融属性的产品变现闭环，也参与过会员体系商业化（付费会员 0→20 万、月毛利 200 万）。擅长从存量里找出第二增长曲线，把成本中心做成增值引擎。</p>
+        <div class="kw"><span>收益模型</span><span>存量变现</span><span>定价策略</span></div>
+      </div>
+      <div class="cap">
+        <div class="role">客户与资源整合</div>
+        <h3>能独立面对客户，也能把外部资源盘进来</h3>
+        <p>协同过银行、保理、政府与 50+ 渠道伙伴；参与的一套结算方案被交通部采纳为全国标准。面对企业决策层，能把需求谈清楚、把合作推下去。</p>
+        <div class="kw"><span>商务谈判</span><span>跨部门</span><span>渠道拓展</span></div>
+      </div>
+      <div class="cap">
+        <div class="role">AI 落地与自驱</div>
+        <h3>不精通所有技术，但能把东西做出来</h3>
+        <p>自己写 Python / SQL，用 AI 工作流把想法快速做成能演示、能试用的原型再迭代上线。Agent、RAG、MCP 这些是天天在搭、持续在学的东西，不是停留在概念。</p>
+        <div class="kw"><span>vibe coding</span><span>Agent / RAG</span><span>数据驱动</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 代表案例 -->
+<section id="works" style="background:var(--paper)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">Selected work</span>
+      <h2 class="sec-title">三个完整操盘、拿到结果的项目</h2>
+      <p class="lead">从把一条业务做到规模化变现，到把存量流量变成第二增长曲线，再到把 AI 提效沉淀成能交付的服务。</p>
+    </div>
+
+    <div class="case">
+      <div class="case-top"><h3>货车 ETC 金融产品 · 从 0 到 1</h3><span class="case-tag">主导操盘 · 商业闭环</span></div>
+      <div class="fields">
+        <div class="fk">解决什么问题</div><div class="fv">公司硬件增长放缓、收入结构单一，需要一条高价值、高粘性的金融服务新赛道来撑起第二增长曲线。</div>
+        <div class="fk">用了什么 / 形态</div><div class="fv">带金融属性的货车 ETC 产品（日结卡 / 周结卡）+ 硬件与服务权益的复合产品包，跑通"硬件获客—服务留存—金融变现"闭环。</div>
+        <div class="fk">做了什么</div><div class="fv"><b>从 0 到 1 主导</b>：1 年内接入 4 家头部省份，设计产品与定价、搭建转化漏斗、拓展 50+ 渠道伙伴，把商务到落地全流程跑通。</div>
+        <div class="fk">效果</div><div class="fv">线上硬件销售 13 万台，支付转化率长期稳定在 51%；<b>年交易规模从 2.64 亿增至 8 亿，项目盈利从 400 万增至 1000 万</b>。</div>
+        <div class="fk gap">还能更好</div><div class="fv">金融合规与风控的精细化程度还能更高，早期更偏快速起量，后续需要把长期经营和留存做得更扎实。</div>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="case-top"><h3>发票流量商业化 · 存量变现</h3><span class="case-tag">项目负责人 · 第二曲线</span></div>
+      <div class="fields">
+        <div class="fk">解决什么问题</div><div class="fv">公司有一年开票 3 亿人次的庞大用户池，却被当成长期纯成本的基础服务，会员转化不足核心用户的 1/3，价值没被挖出来。</div>
+        <div class="fk">用了什么 / 形态</div><div class="fv">把低频开票工具改造成高价值交易触点：开票完成节点嵌入会员权益与增值服务推荐，配用户价值分层与沉默召回机制。</div>
+        <div class="fk">做了什么</div><div class="fv">作为<b>项目负责人</b>重设计产品路径、搭建 15 万用户价值分层模型、设计沉默用户召回机制，把流量导到增值业务上。</div>
+        <div class="fk">效果</div><div class="fv">单月内会员访问 UV 增长 6 倍、支付人数翻 5 倍；累计为增值业务导流 105 万人次、贡献 GMV 100 万+。</div>
+        <div class="fk gap">还能更好</div><div class="fv">变现主要靠导流，自有付费产品的深度还不够；分层模型可以更动态，召回的长期留存仍有提升空间。</div>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="case-top"><h3>AI 自动化中台 · 可复制的服务</h3><span class="case-tag">独立搭建 · 产品化</span></div>
+      <div class="fields">
+        <div class="fk">解决什么问题</div><div class="fv">业务里大量重复劳动——取数、对账、客服监控、客诉分析、竞品追踪——散在多个后台，靠人来回问、来回查，慢且易错。</div>
+        <div class="fk">用了什么 / 形态</div><div class="fv">用 AI 工作流 + 自动化搭出一批能直接用的工具与智能体，并沉淀成覆盖多个业务域的标准技能，形成可复用的"提效中台"。</div>
+        <div class="fk">做了什么</div><div class="fv">独立设计并落地 6+ 个智能体与 17 个 AI 作品，含订单自动化导出、客服监控预警、客诉数据分析、决策看板与趋势预测；还做了一个跑在企业微信里的 AI 助手，员工发消息就能管待办、查数据、看看板。</div>
+        <div class="fk">效果</div><div class="fv">日常数据处理效率提升约 60%，核心业务环节效率提升 83%–100%；这套方法可以打包成一项能对外交付、按项目复制的服务。</div>
+        <div class="fk gap">还能更好</div><div class="fv">目前多为自用与内部提效，产品化和标准化交付还在路上——这也正是想找有客户、有技术团队的伙伴一起把它做成生意的原因。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 作品墙 -->
+<section id="more">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">Keep building</span>
+      <h2 class="sec-title">工作之外，几乎每天都在用 AI 做东西</h2>
+      <div class="works-count"><span class="big">17</span><span class="cap-txt">个——用 AI 独立做出来的项目，也是把想法快速做成能交付产品的日常方式。</span></div>
+    </div>
+    <div class="works-grid">
+      <div class="wcard"><div class="wt"><h4>业务决策模型与看板</h4><span class="st on">在用</span></div><p>收益计算、趋势预测、通行费与车型分析、逾期外推、风控与客服质检看板，帮企业把业务做成能算、能预测的决策依据。</p></div>
+      <div class="wcard"><div class="wt"><h4>企业微信 AI 助手与门户</h4><span class="st on">已上线</span></div><p>跑在企业微信里的"数字员工"+ 数据门户，发消息就能管待办、查数据、看考勤与趋势看板。</p></div>
+      <div class="wcard"><div class="wt"><h4>dsh-office · 开源插件</h4><span class="st on">已发布</span></div><p>独立开发并发布到 npm 的 Agent 面板插件，日均 50+ 下载，含消息语义召回与群聊助理自动应答。</p></div>
+      <div class="wcard"><div class="wt"><h4>AI 海外获客全链路</h4><span class="st">在用</span></div><p>AI 分层挖线索 → 多身份邮件触达（A/B + 合规门禁）→ 自建埋点 → 自动数据日报，把获客跑成自动循环。</p></div>
+      <div class="wcard"><div class="wt"><h4>财务对账 / 客诉分析</h4><span class="st on">在用</span></div><p>结算对账、客诉归类与可视化报告，把散乱数据变成能核对、能复盘的标准流程。</p></div>
+      <div class="wcard"><div class="wt"><h4>专家知识蒸馏 Agent</h4><span class="st">部署中</span></div><p>通过对话把专家脑子里的隐性经验，沉淀成可复用的知识资产——也是可对外交付的服务雏形。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 背景 -->
+<section id="background" style="background:var(--paper)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">Background</span>
+      <h2 class="sec-title">9 年，从省国企到腾讯系独角兽再到上市公司</h2>
+    </div>
+    <div class="bg-strip">
+      <div class="bg-item">
+        <div class="yr">2024.9 – 至今 · 万集科技（SZ300552）</div>
+        <h4>产品经理</h4>
+        <p>主导 ETC 金融产品从 0 到 1，搭建 LTV 与成本回收模型，推动新业务 18 个月盈亏平衡；引入 AI 重构运营工作流。</p>
+      </div>
+      <div class="bg-item">
+        <div class="yr">2023.5 – 2024.8 · 广东金瑜科技</div>
+        <h4>产品负责人</h4>
+        <p>天使轮公司，从 0 到 1 搭车主会员平台与支付结算闭环，半年内 5 款省级产品上线、日 GMV 破 9 万；带 5–8 人团队。</p>
+      </div>
+      <div class="bg-item">
+        <div class="yr">2020.5 – 2023.3 · 高灯科技（ETC 助手）</div>
+        <h4>产品经理</h4>
+        <p>从 0 到 1 主导货车 ETC 金融，年交易规模 2.64→8 亿；参与会员商业化，付费会员 0→20 万。</p>
+      </div>
+    </div>
+
+    <div class="edu-row">
+      <div class="edu-block">
+        <h4>Education · 教育经历</h4>
+        <div class="edu-main">广州大学 · 汉语言文学（本科）</div>
+        <div class="edu-sub">2012 – 2016 ｜ 主修秘书实务、企业经管、公共关系、文学鉴赏与创作</div>
+        <div class="edu-note">中文与秘书实务的训练，加上品牌公关与新媒体的实战，让写作、表达和跨方协调成为长项——这也是能独立面对客户、把方案讲清楚、把文档写扎实的原因。</div>
+      </div>
+      <div class="edu-block">
+        <h4>Skills · 技能</h4>
+        <div class="chips">
+          <span class="chip acc">项目操盘 / 商业化</span>
+          <span class="chip acc">AI Coding / vibe coding</span>
+          <span class="chip">支付 / 金融 / 结算</span>
+          <span class="chip">SQL / 数据分析</span>
+          <span class="chip">RAG / Agent / MCP</span>
+          <span class="chip">商务谈判 / 资源整合</span>
+        </div>
+        <h4 style="margin-top:24px">Languages · 语言</h4>
+        <div class="chips">
+          <span class="chip">中文 · 母语</span>
+          <span class="chip">英语 · CET-6</span>
+          <span class="chip">粤语</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 联系 -->
+<section id="contact" style="background:#fff">
+  <div class="wrap">
+    <div class="finale">
+      <div class="letter">
+        <p>「<span class="q">我找的不是一个岗位，</span>是一个能一起把项目做成、并按结果分成的长期搭档。」</p>
+        <p class="note">9 年把复杂业务从 0 做到规模化变现，也能亲手用 AI 把想法做成能交付的东西。手上有一套可复制的"AI 自动化 + 数据提效"服务，想找个有企业客户和技术团队的伙伴，一起把它跑成商业闭环。合作上更看重按结果分成、一起把项目做成。</p>
+      </div>
+      <div class="contact-box">
+        <h4>联系我</h4>
+        <div class="contact-line"><span class="k">GitHub</span><span class="v"><a href="https://github.com/Fayelin12" target="_blank" rel="noopener">github.com/Fayelin12</a></span></div>
+        <div class="contact-line"><span class="k">个人站</span><span class="v"><a href="https://fayelin12.github.io" target="_blank" rel="noopener">fayelin12.github.io</a></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>林晓燕 · Faye — 求职 AI 产品商业化操盘手（OPC 合伙人）</span>
+    <span>© 2026</span>
+  </div>
+</footer>
+
+</body>
+</html>
