@@ -5,7 +5,7 @@
  * 功能：提供与浏览器 DOMParser 兼容的解析接口，以及 Node 类型常量。
  * 仅支持当前存量数据中出现的标签和属性，不支持 script/style/CDATA。
  *
- * @author Qoder Agent
+ * @author 南飞
  * @version 1.0.0
  */
 

@@ -5,7 +5,7 @@
  * 功能：将产品经理编写的 HTML 字符串（使用 am-* 类名）解析为结构化的 JSON Schema。
  * 运行环境：浏览器（依赖 DOMParser），兼容 Node.js（需额外提供 DOM 环境如 jsdom）。
  *
- * @author Qoder Agent
+ * @author 南飞
  * @version 1.0.0
  */
 

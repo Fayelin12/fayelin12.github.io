@@ -13,7 +13,7 @@
  * 3. package.json 导出后不能每次重写，IDE 的 Node Package Manager 会反复提示。
  * 4. exportProject 清理只用 cleanDir 处理 pages/，不动 node_modules/ 和 package-lock.json。
  *
- * @author Qoder Agent
+ * @author 南飞
  * @version 3.1.0
  */
 

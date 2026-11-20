@@ -15,7 +15,7 @@
  *
  * 运行环境：浏览器 / Node.js（原生 JavaScript，无模块依赖）
  *
- * @author Qoder Agent
+ * @author 南飞
  * @version 3.1.0
  */
 

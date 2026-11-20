@@ -19,7 +19,7 @@
  *   getDependencies()         - package.json 依赖声明
  *   getInstallHint()          - 使用提示信息
  *
- * @author Qoder Agent
+ * @author 南飞
  * @version 2.0.0
  */
 

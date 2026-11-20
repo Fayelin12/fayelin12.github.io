@@ -6,7 +6,7 @@
  * 所有组件元数据（标签、类名映射）及特殊组件渲染逻辑已收敛至 component-registry.js，
  * 本文件仅保留 H5 特有的通用渲染逻辑（事件映射、style 转换、默认节点渲染）。
  *
- * @author Qoder Agent
+ * @author 南飞
  * @version 3.1.0
  */
 

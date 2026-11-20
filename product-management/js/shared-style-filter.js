@@ -7,7 +7,7 @@
  * 使用: SharedStyleFilter.filterStyle(style, classes, { isAntComponent: true })
  * 返回: { css: 'key1:val1;key2:val2', skipped: ['background','border'] }
  *
- * @author Qoder Agent
+ * @author 南飞
  * @version 1.0.0
  */
 

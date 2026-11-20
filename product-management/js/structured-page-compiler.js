@@ -11,7 +11,7 @@
  * 3. Props、events、className、style 都在配置对象中扁平表达
  * 4. 嵌套结构尽量使用语义化 slot 名（header/body/items）
  *
- * @author Qoder Agent
+ * @author 南飞
  * @version 1.0.0
  */
 
