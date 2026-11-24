@@ -1,0 +1,14 @@
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 本地过程文件
+*.log
+*.tmp
+*.bak
+*.backup
+*.old
+*~
+.workbuddy/
+.scratch/
