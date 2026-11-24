@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大纲</title>
+<style>
+:root {
+  --bg: #F5F2EB;
+  --bg-card: rgba(255,255,255,0.82);
+  --bg-card-hover: rgba(255,255,255,0.9);
+  --bg-input: rgba(0,0,0,0.02);
+  --bg-input-focus: rgba(74,124,89,0.04);
+  --bg-overlay: rgba(0,0,0,0.04);
+  --text-1: #1A1A1A;
+  --text-2: #5C5C5C;
+  --text-3: #9E9E9E;
+  --text-4: #C4C4C4;
+  --border: #E8E4DB;
+  --border-focus: #4A7C59;
+  --accent: #4A7C59;
+  --accent-soft: rgba(74,124,89,0.08);
+  --accent-mid: rgba(74,124,89,0.15);
+  --danger: #C0503E;
+  --danger-soft: rgba(192,80,62,0.08);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.08);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --font: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --bar-characters: #E8927C;
+  --bar-factions: #7C8EC8;
+  --bar-items: #C8A87C;
+  --bar-locations: #7CC8A8;
+  --bar-plot: #C87CA8;
+  --bar-dungeons: #9C7CC8;
+  --bar-world: #8CBC7C;
+}
+[data-theme="dark"] {
+  --bg: #1A1A1A;
+  --bg-card: rgba(40,40,40,0.85);
+  --bg-card-hover: rgba(50,50,50,0.88);
+  --bg-input: rgba(255,255,255,0.03);
+  --bg-input-focus: rgba(107,170,125,0.06);
+  --bg-overlay: rgba(255,255,255,0.04);
+  --text-1: #E0E0E0;
+  --text-2: #8A8A8A;
+  --text-3: #5A5A5A;
+  --text-4: #3A3A3A;
+  --border: #333;
+  --border-focus: #6BAA7D;
+  --accent: #6BAA7D;
+  --accent-soft: rgba(107,170,125,0.1);
+  --accent-mid: rgba(107,170,125,0.18);
+  --danger: #D47268;
+  --danger-soft: rgba(212,114,104,0.1);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.25);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.3);
+  --bar-characters: #C06A54;
+  --bar-factions: #5C6EA8;
+  --bar-items: #A88654;
+  --bar-locations: #54A888;
+  --bar-plot: #A85488;
+  --bar-dungeons: #7C54A8;
+  --bar-world: #6CA854;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; font-family: var(--font); font-size: 13px; color: var(--text-1); background: var(--bg); }
+* { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+*::-webkit-scrollbar { width: 4px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.hidden { display: none !important; }
+
+/* ============================================================
+   确认弹窗
+   ============================================================ */
+.confirm-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.4); backdrop-filter: blur(2px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+.confirm-overlay.is-visible { opacity: 1; pointer-events: auto; }
+.confirm-box {
+  background: var(--bg-card); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-radius: var(--radius-lg);
+  padding: 24px 28px; min-width: 280px; max-width: 360px;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(8px) scale(0.97);
+  transition: transform 0.15s ease;
+}
+.confirm-overlay.is-visible .confirm-box { transform: translateY(0) scale(1); }
+.confirm-msg { font-size: 14px; color: var(--text-1); line-height: 1.6; margin-bottom: 20px; }
+.confirm-actions { display: flex; gap: 10px; justify-content: center; }
+.confirm-btn {
+  padding: 7px 20px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500;
+  cursor: pointer; border: none; transition: all 0.1s ease;
+  font-family: var(--font);
+}
+.confirm-btn--cancel { background: var(--bg-input); color: var(--text-2); }
+.confirm-btn--cancel:hover { background: var(--bg-overlay); color: var(--text-1); }
+.confirm-btn--danger { background: var(--danger); color: #fff; }
+.confirm-btn--danger:hover { opacity: 0.85; }
+
+/* ============================================================
+   布局
+   ============================================================ */
+.root { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+/* ============================================================
+   Tab 栏
+   ============================================================ */
+.tabs {
+  display: flex; height: 40px; gap: 2px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0; padding: 4px 12px 0;
+  background: var(--bg);
+}
+.tab {
+  display: flex; align-items: center; gap: 5px;
+  padding: 0 14px; height: 34px;
+  border: none; background: none;
+  font-family: var(--font); font-size: 12px;
+  color: var(--text-3); cursor: pointer;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  transition: all 0.12s ease;
+  position: relative;
+}
+.tab:hover { color: var(--text-2); background: var(--bg-input); }
+.tab.is-active {
+  color: var(--accent); background: var(--accent-soft);
+  font-weight: 500;
+}
+.tab.is-active::after {
+  content: ''; position: absolute; bottom: -1px; left: 8px; right: 8px;
+  height: 2px; background: var(--accent); border-radius: 1px 1px 0 0;
+}
+
+/* ============================================================
+   内容区
+   ============================================================ */
+.body { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 16px; display: flex; flex-direction: column; min-height: 0; }
+
+/* ============================================================
+   分区标题
+   ============================================================ */
+.section { margin-bottom: 24px; display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.section__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.section__title {
+  font-size: 11px; font-weight: 600; color: var(--text-3);
+  letter-spacing: 0.8px; text-transform: uppercase;
+}
+.section__add {
+  display: flex; align-items: center; gap: 4px;
+  height: 28px; padding: 0 10px;
+  border: 1px dashed var(--border); background: none;
+  font-family: var(--font); font-size: 11px;
+  color: var(--text-3); border-radius: var(--radius-sm);
+  cursor: pointer; transition: all 0.12s ease;
+}
+.section__add:hover {
+  border-color: var(--accent); color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* ============================================================
+   双列
+   ============================================================ */
+.columns { display: flex; gap: 20px; flex: 1; min-height: 0; min-width: 0; }
+.column { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+
+/* ============================================================
+   卡片网格
+   ============================================================ */
+.grid {
+  display: grid; grid-template-columns: 1fr; gap: 10px;
+  flex: 1; overflow-y: auto; align-content: start;
+  min-width: 0;
+}
+
+/* ============================================================
+   卡片
+   ============================================================ */
+.card {
+  position: relative;
+  background: var(--bg-card);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px 12px 18px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; bottom: 0;
+  width: 3px; border-radius: var(--radius-md) 0 0 var(--radius-md);
+  background: var(--bar-color, var(--accent));
+  opacity: 0.7; transition: opacity 0.12s ease;
+}
+.card:hover { box-shadow: var(--shadow-md); border-color: color-mix(in srgb, var(--border) 60%, var(--bar-color, var(--accent)) 40%); }
+.card:hover::before { opacity: 1; }
+
+/* 删除按钮 */
+.card__delete {
+  position: absolute; top: 8px; right: 8px;
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; background: none; color: var(--text-4);
+  border-radius: var(--radius-sm); cursor: pointer; font-size: 15px;
+  opacity: 0; transition: all 0.12s ease;
+}
+.card:hover .card__delete { opacity: 1; }
+.card__delete:hover { background: var(--danger-soft); color: var(--danger); }
+
+/* ============================================================
+   卡片引用章节标签
+   ============================================================ */
+.card__refs { padding: 8px 14px 0; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; border-top: 1px solid var(--border); }
+.card__refs-label { font-size: 11px; color: var(--text-3); margin-right: 4px; }
+.card__ref-tag { padding: 2px 8px; border-radius: 3px; border: 1px solid var(--accent-soft); background: var(--accent-soft); color: var(--accent); font-size: 11px; cursor: pointer; transition: all 0.1s; }
+.card__ref-tag:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* ============================================================
+   卡片标题行 + 折叠
+   ============================================================ */
+.card__header {
+  display: flex; align-items: center; gap: 6px;
+  padding-right: 28px; min-height: 26px;
+  cursor: pointer; user-select: none;
+}
+.card__toggle {
+  width: 18px; height: 18px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: transform 0.2s ease;
+  color: var(--text-4);
+}
+.card__toggle::after {
+  content: ''; display: block;
+  width: 0; height: 0;
+  border-left: 4px solid currentColor;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  transform: rotate(90deg);
+}
+.card.is-collapsed .card__toggle::after { transform: rotate(0deg); }
+
+.card__title {
+  flex: 1; border: none; background: transparent;
+  color: var(--text-1); font-size: 13px; font-weight: 600;
+  font-family: var(--font); outline: none;
+  min-width: 0; padding: 2px 0;
+  border-bottom: 1.5px solid transparent;
+  transition: border-color 0.12s ease;
+}
+.card__title:focus { border-bottom-color: var(--accent); }
+.card__title::placeholder { color: var(--text-4); font-weight: 400; }
+
+/* 收起态摘要 */
+.card__summary {
+  display: none;
+  flex: 1; min-width: 0;
+  font-size: 12px; color: var(--text-2); font-weight: 500;
+  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+}
+.card__summary-tag {
+  font-size: 11px; color: var(--text-3); font-weight: 400;
+  margin-left: 6px;
+}
+.card.is-collapsed .card__title { display: none; }
+.card.is-collapsed .card__summary { display: flex; align-items: center; }
+
+/* 折叠动画 */
+.card__body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: min(600px, calc(100vh - 220px));
+  transition: max-height 0.25s ease, opacity 0.2s ease, margin-top 0.2s ease;
+  margin-top: 10px; opacity: 1;
+}
+.card.is-collapsed .card__body {
+  max-height: 0; opacity: 0; margin-top: 0;
+}
+/* 字段布局：双列 / 三列 */
+.card__body.is-dual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
+.card__body.is-triple {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0 12px;
+}
+/* textarea 在多列中紧凑排布 */
+.card__body.is-dual .field--textarea textarea,
+.card__body.is-triple .field--textarea textarea {
+  min-height: 36px;
+}
+
+/* ============================================================
+   字段
+   ============================================================ */
+.field {
+  margin-bottom: 10px;
+}
+.field:last-child { margin-bottom: 0; }
+.field__label {
+  display: block; font-size: 11px; font-weight: 500;
+  color: var(--text-3); margin-bottom: 4px;
+  letter-spacing: 0.3px;
+}
+.field__input {
+  width: 100%; border: none; background: var(--bg-input);
+  color: var(--text-1); font-size: 12px;
+  font-family: var(--font); outline: none;
+  padding: 6px 8px; border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: all 0.12s ease;
+  min-width: 0;
+}
+.field__input::placeholder { color: var(--text-4); }
+.field__input:focus {
+  background: var(--bg-input-focus);
+  border-color: var(--accent);
+}
+
+/* textarea 变体 */
+.field--textarea .field__input {
+  min-height: 40px; line-height: 1.6;
+  resize: none; padding: 8px;
+  overflow: hidden;
+}
+
+/* select 变体 */
+.field__input[type="text"] + .field__label,
+select.field__input {
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23999'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 24px;
+  cursor: pointer;
+}
+
+/* ============================================================
+   空状态
+   ============================================================ */
+.empty-hint {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px; padding: 32px 16px;
+  color: var(--text-4); font-size: 12px; line-height: 1.6;
+}
+.empty-hint__icon {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; opacity: 0.5;
+  border: 1.5px dashed var(--border);
+  border-radius: 50%;
+  margin-bottom: 4px;
+}
+
+/* ============================================================
+   Tab 操作按钮
+   ============================================================ */
+.tabs__spacer { flex: 1; }
+.tabs__actions { display: flex; gap: 2px; align-items: flex-end; padding-bottom: 4px; }
+.tabs__action {
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border: none; background: none;
+  color: var(--text-3); cursor: pointer; border-radius: var(--radius-sm);
+  font-size: 13px; transition: all 0.12s ease;
+}
+.tabs__action:hover { color: var(--accent); background: var(--accent-soft); }
+
+/* ============================================================
+   导入弹窗按钮
+   ============================================================ */
+.confirm-btn--merge { background: var(--accent); color: #fff; }
+.confirm-btn--merge:hover { opacity: 0.85; }
+
+/* ============================================================
+   Toast 提示
+   ============================================================ */
+.toast {
+  position: fixed; top: 16px; right: 16px; z-index: 2000;
+  padding: 10px 18px; border-radius: var(--radius-sm);
+  background: var(--bg-card); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); color: var(--text-1);
+  box-shadow: var(--shadow-lg); font-size: 13px;
+  transform: translateY(-10px); opacity: 0;
+  transition: all 0.2s ease; pointer-events: none;
+}
+.toast.is-visible { transform: translateY(0); opacity: 1; }
+.toast--error { border-left: 3px solid var(--danger); }
+.toast--success { border-left: 3px solid var(--accent); }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" integrity="sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="root">
+  <div class="tabs">
+    <button class="tab is-active" data-tab="world" data-action="switch-tab">🌍 世界</button>
+    <button class="tab" data-tab="characters" data-action="switch-tab">👤 人物</button>
+    <button class="tab" data-tab="factions" data-action="switch-tab">⚔️ 势力</button>
+    <button class="tab" data-tab="items" data-action="switch-tab">💎 物品</button>
+    <button class="tab" data-tab="locations" data-action="switch-tab">📍 地点</button>
+    <button class="tab" data-tab="plot" data-action="switch-tab">📖 剧情</button>
+    <button class="tab" data-tab="dungeons" data-action="switch-tab">🏰 副本</button>
+    <span class="tabs__spacer"></span>
+    <div class="tabs__actions">
+      <button class="tabs__action" data-action="export-excel" title="导出 Excel">📊</button>
+      <button class="tabs__action" data-action="export-json" title="导出 JSON">{ }</button>
+      <button class="tabs__action" data-action="trigger-import" title="导入 JSON">📥</button>
+    </div>
+  </div>
+
+  <!-- 世界 -->
+  <div class="body" id="worldPanel">
+    <div class="columns">
+      <div class="section column">
+        <div class="section__header">
+          <span class="section__title">🌤️ 表世界</span>
+          <button class="section__add" data-action="add-card" data-collection="worldCards" data-type="surface">+ 世界</button>
+        </div>
+        <div class="grid" id="worldCards_surfaceGrid"></div>
+      </div>
+      <div class="section column">
+        <div class="section__header">
+          <span class="section__title">🌑 里世界</span>
+          <button class="section__add" data-action="add-card" data-collection="worldCards" data-type="inner">+ 世界</button>
+        </div>
+        <div class="grid" id="worldCards_innerGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 人物 -->
+  <div class="body hidden" id="charactersPanel">
+    <div class="columns">
+      <div class="section column">
+        <div class="section__header">
+          <span class="section__title">⭐ 主要角色</span>
+          <button class="section__add" data-action="add-card" data-collection="characters" data-type="main">+ 角色</button>
+        </div>
+        <div class="grid" id="characters_mainGrid"></div>
+      </div>
+      <div class="section column">
+        <div class="section__header">
+          <span class="section__title">👥 次要角色</span>
+          <button class="section__add" data-action="add-card" data-collection="characters" data-type="secondary">+ 角色</button>
+        </div>
+        <div class="grid" id="characters_secondaryGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 势力 -->
+  <div class="body hidden" id="factionsPanel">
+    <div class="columns">
+      <div class="section column">
+        <div class="section__header">
+          <span class="section__title">🏰 主要势力</span>
+          <button class="section__add" data-action="add-card" data-collection="factions" data-type="main">+ 势力</button>
+        </div>
+        <div class="grid" id="factions_mainGrid"></div>
+      </div>
+      <div class="section column">
+        <div class="section__header">
+          <span class="section__title">🏚️ 次要势力</span>
+          <button class="section__add" data-action="add-card" data-collection="factions" data-type="secondary">+ 势力</button>
+        </div>
+        <div class="grid" id="factions_secondaryGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 物品 -->
+  <div class="body hidden" id="itemsPanel">
+    <div class="columns">
+      <div class="section column">
+        <div class="section__header">
+          <span class="section__title">💎 重要物品</span>
+          <button class="section__add" data-action="add-card" data-collection="items" data-type="important">+ 物品</button>
+        </div>
+        <div class="grid" id="items_importantGrid"></div>
+      </div>
+      <div class="section column">
+        <div class="section__header">
+          <span class="section__title">📦 一般物品</span>
+          <button class="section__add" data-action="add-card" data-collection="items" data-type="common">+ 物品</button>
+        </div>
+        <div class="grid" id="items_commonGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 地点 -->
+  <div class="body hidden" id="locationsPanel">
+    <div class="columns">
+      <div class="section column">
+        <div class="section__header">
+          <span class="section__title">🏰 主要地点</span>
+          <button class="section__add" data-action="add-card" data-collection="locations" data-type="main">+ 地点</button>
+        </div>
+        <div class="grid" id="locations_mainGrid"></div>
+      </div>
+      <div class="section column">
+        <div class="section__header">
+          <span class="section__title">🏚️ 次要地点</span>
+          <button class="section__add" data-action="add-card" data-collection="locations" data-type="secondary">+ 地点</button>
+        </div>
+        <div class="grid" id="locations_secondaryGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 剧情 -->
+  <div class="body hidden" id="plotPanel">
+    <div class="columns">
+      <div class="section column">
+        <div class="section__header">
+          <span class="section__title">🔥 主线剧情</span>
+          <button class="section__add" data-action="add-card" data-collection="plotNodes" data-type="mainline">+ 节点</button>
+        </div>
+        <div class="grid" id="plotNodes_mainlineGrid"></div>
+      </div>
+      <div class="section column">
+        <div class="section__header">
+          <span class="section__title">🌿 支线剧情</span>
+          <button class="section__add" data-action="add-card" data-collection="plotNodes" data-type="subline">+ 支线</button>
+        </div>
+        <div class="grid" id="plotNodes_sublineGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 副本 -->
+  <div class="body hidden" id="dungeonsPanel">
+    <div class="section">
+      <div class="section__header">
+        <span class="section__title">🏰 副本</span>
+        <button class="section__add" data-action="add-card" data-collection="dungeons">+ 副本</button>
+      </div>
+      <div class="grid" id="dungeonsGrid"></div>
+    </div>
+  </div>
+</div>
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <div class="confirm-msg" id="confirmMsg"></div>
+    <div class="confirm-actions">
+      <button class="confirm-btn confirm-btn--cancel" id="confirmCancel">取消</button>
+      <button class="confirm-btn confirm-btn--danger" id="confirmOk">删除</button>
+    </div>
+  </div>
+</div>
+
+<!-- 导入文件选择 -->
+<input type="file" id="importFileInput" accept=".json" style="display:none">
+
+<!-- 导入确认弹窗 -->
+<div class="confirm-overlay" id="importOverlay">
+  <div class="confirm-box">
+    <div class="confirm-msg" id="importMsg"></div>
+    <div class="confirm-actions">
+      <button class="confirm-btn confirm-btn--cancel" id="importCancel">取消</button>
+      <button class="confirm-btn confirm-btn--merge" id="importMerge">合并</button>
+      <button class="confirm-btn confirm-btn--danger" id="importOverwrite">覆盖</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+(function() {
+'use strict';
+
+/* ============================================================
+   I18N 文案常量
+   ============================================================ */
+const I18N = {
+  untitled: '未命名',
+  unknownChapter: '未知章节',
+  excelFilename: '小说大纲.xlsx',
+  jsonFilename: '小说大纲.json',
+  deleteConfirm: function(label, name) { return '确定删除' + label + '「' + name + '」吗？'; },
+  deleteNameFallback: function(label) { return '该' + label; },
+  saveFailed: '保存失败：存储空间不足，请删除部分数据后重试',
+  excelNeedsNetwork: 'Excel 导出需要网络连接',
+  excelExported: '已导出 Excel 文件',
+  jsonExported: '已导出 JSON 文件',
+  importFailed: '导入失败：',
+  importParseFailed: '导入失败：无法解析 JSON 文件',
+  importOverwritten: function(n) { return '已覆盖导入 ' + n + ' 条记录'; },
+  importMerged: function(parts) { return '已合并：' + parts.join('，'); },
+  importAdded: function(n) { return '新增 ' + n + ' 条'; },
+  importUpdated: function(n) { return '更新 ' + n + ' 条'; },
+  importWillImport: function(n, current) { return '将导入 ' + n + ' 条记录（当前 ' + current + ' 条）'; },
+  importMissingIds: function(n) { return '\n其中 ' + n + ' 条缺少 ID，已自动生成'; },
+  // 空状态提示
+  emptyHintWith: function(typeLabel, label) { return '添加' + typeLabel + label; },
+  emptyHint: function(label) { return '添加' + label; },
+  // 导入校验错误
+  invalidJson: '无效的 JSON 格式',
+  unsupportedVersion: function(v) { return '不支持的版本号：' + v; },
+  missingDataField: '缺少 data 字段',
+  notArray: function(key) { return key + ' 不是数组'; },
+  missingFields: function(key) { return key + ' 中的条目缺少 fields'; },
+  noValidData: 'data 中没有有效的大纲数据'
+};
+
+/* ============================================================
+   Schema 定义
+   ============================================================ */
+
+/**
+ * @typedef {Object} SchemaField
+ * @property {string} key   - 字段标识符
+ * @property {string} label - 显示标签
+ * @property {'title'|'text'|'textarea'|'select'} type - 字段类型
+ * @property {string[]} [options] - select 类型的选项列表
+ */
+
+/**
+ * @typedef {Object} OutlineItem
+ * @property {string} id          - 唯一标识
+ * @property {string} [type]      - 子分类（如 main/secondary）
+ * @property {Object<string, string>} fields - 字段键值对
+ * @property {string[]} [chapterRefs] - 引用章节 ID 列表
+ */
+
+/** @type {Object<string, SchemaField[]>} */
+const SCHEMAS = {
+  worldCards: [
+    { key: 'title', label: '设定名称', type: 'title' },
+    { key: 'worldType', label: '类型', type: 'text' },
+    { key: 'desc', label: '描述', type: 'textarea' }
+  ],
+  characters: [
+    { key: 'title', label: '姓名（原文）', type: 'title' },
+    { key: 'alias', label: '别名 / 化名', type: 'text' },
+    { key: 'epithet', label: '称号 / 外号', type: 'text' },
+    { key: 'gender', label: '性别', type: 'text' },
+    { key: 'age', label: '年龄', type: 'text' },
+    { key: 'identity', label: '身份地位', type: 'text' },
+    { key: 'appearance', label: '外貌特征', type: 'text' },
+    { key: 'personality', label: '性格关键词', type: 'text' },
+    { key: 'relation', label: '与主角关系', type: 'text' },
+    { key: 'firstAppear', label: '首次出场章节', type: 'text' },
+    { key: 'keySetting', label: '关键设定', type: 'textarea' },
+    { key: 'isDead', label: '是否会死亡', type: 'select', options: ['否', '是'] },
+    { key: 'isOnce', label: '是否仅出场一次', type: 'select', options: ['否', '是'] }
+  ],
+  factions: [
+    { key: 'title', label: '名称（原文）', type: 'title' },
+    { key: 'factionType', label: '类型', type: 'text' },
+    { key: 'location', label: '所在地', type: 'text' },
+    { key: 'powerLevel', label: '实力等级', type: 'text' },
+    { key: 'coreMembers', label: '核心成员', type: 'text' },
+    { key: 'relation', label: '与主角关系', type: 'text' },
+    { key: 'firstAppear', label: '首次出场章节', type: 'text' },
+    { key: 'keyEvents', label: '重要事件', type: 'textarea' },
+    { key: 'structure', label: '内部结构', type: 'textarea' }
+  ],
+  items: [
+    { key: 'title', label: '名称（原文）', type: 'title' },
+    { key: 'category', label: '类型', type: 'text' },
+    { key: 'grade', label: '等级 / 品阶', type: 'text' },
+    { key: 'owner', label: '当前拥有者', type: 'text' },
+    { key: 'ownerHistory', label: '历代拥有者', type: 'text' },
+    { key: 'effect', label: '功能 / 效果', type: 'textarea' },
+    { key: 'origin', label: '来源 / 出处', type: 'text' },
+    { key: 'firstAppear', label: '首次出场章节', type: 'text' },
+    { key: 'keyEvents', label: '关键事件', type: 'textarea' }
+  ],
+  locations: [
+    { key: 'title', label: '名称（原文）', type: 'title' },
+    { key: 'locType', label: '类型', type: 'text' },
+    { key: 'faction', label: '所属势力', type: 'text' },
+    { key: 'parent', label: '上级地点', type: 'text' },
+    { key: 'geoDesc', label: '地理位置描述', type: 'textarea' },
+    { key: 'importance', label: '重要程度', type: 'text' },
+    { key: 'firstAppear', label: '首次出场章节', type: 'text' },
+    { key: 'keyEvents', label: '关键事件', type: 'textarea' }
+  ],
+  plotNodes: [
+    { key: 'title', label: '节点名称', type: 'title' },
+    { key: 'desc', label: '描述', type: 'textarea' }
+  ],
+  dungeons: [
+    { key: 'title', label: '名称与别称', type: 'title' },
+    { key: 'firstAppear', label: '登场章节', type: 'text' },
+    { key: 'entryCondition', label: '进入条件', type: 'text' },
+    { key: 'friendlyNpc', label: '非敌对角色', type: 'text' },
+    { key: 'geoEnv', label: '地理位置与环境', type: 'textarea' },
+    { key: 'mechanics', label: '内部机制', type: 'textarea' },
+    { key: 'enemies', label: '敌人配置', type: 'textarea' },
+    { key: 'relations', label: '角色关系网', type: 'textarea' },
+    { key: 'resources', label: '资源与物品', type: 'textarea' },
+    { key: 'risks', label: '挑战与风险', type: 'textarea' },
+    { key: 'rewards', label: '奖励与收益', type: 'textarea' },
+    { key: 'narrativeRole', label: '叙事作用', type: 'textarea' }
+  ]
+};
+
+// 集合 → 左侧色条 CSS 变量
+/** @type {Object<string, string>} */
+const BAR_COLORS = {
+  worldCards: 'var(--bar-world)',
+  characters: 'var(--bar-characters)',
+  factions: 'var(--bar-factions)',
+  items: 'var(--bar-items)',
+  locations: 'var(--bar-locations)',
+  plotNodes: 'var(--bar-plot)',
+  dungeons: 'var(--bar-dungeons)'
+};
+
+// 集合 → 空状态图标
+/** @type {Object<string, string>} */
+const EMPTY_ICONS = {
+  worldCards: '🌍',
+  characters: '👤',
+  factions: '⚔️',
+  items: '💎',
+  locations: '📍',
+  plotNodes: '📖',
+  dungeons: '🏰'
+};
+
+/* ============================================================
+   数据
+   ============================================================ */
+/** @type {string} localStorage 存储键 */
+const OUTLINE_KEY = 'novelWriterOutline';
+
+/** @type {{ worldCards: OutlineItem[], characters: OutlineItem[], factions: OutlineItem[], items: OutlineItem[], locations: OutlineItem[], plotNodes: OutlineItem[], dungeons: OutlineItem[], createdAt: number, updatedAt: number }} */
+let outlineData = {
+  worldCards: [],
+  characters: [],
+  factions: [],
+  items: [],
+  locations: [],
+  plotNodes: [],
+  dungeons: [],
+  createdAt: Date.now(),
+  updatedAt: Date.now()
+};
+
+/** @type {Set<string>} 当前展开的卡片 ID 集合 */
+const expandedIds = new Set();
+
+const TYPES = {
+  worldCards: ['surface', 'inner'],
+  characters: ['main', 'secondary'],
+  factions: ['main', 'secondary'],
+  items: ['important', 'common'],
+  locations: ['main', 'secondary'],
+  plotNodes: ['mainline', 'subline'],
+  dungeons: []
+};
+
+const LABELS = {
+  worldCards: '世界',
+  characters: '角色',
+  factions: '势力',
+  items: '物品',
+  locations: '地点',
+  plotNodes: '节点',
+  dungeons: '副本'
+};
+
+const TYPE_LABELS = {
+  main: '主要', secondary: '次要',
+  important: '重要', common: '一般',
+  mainline: '主线', subline: '支线',
+  surface: '表世界', inner: '里世界'
+};
+
+const ID_PREFIXES = {
+  worldCards: 'wc',
+  characters: 'ch',
+  factions: 'fa',
+  items: 'it',
+  locations: 'lo',
+  plotNodes: 'pn',
+  dungeons: 'dg'
+};
+
+/**
+ * 生成唯一 ID
+ * @param {string} collectionKey - 集合键名，用于确定 ID 前缀
+ * @returns {string} 格式为 {prefix}_{uuid} 或 {prefix}_{timestamp}_{random}
+ */
+function generateId(collectionKey) {
+  const prefix = ID_PREFIXES[collectionKey] || 'uk';
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return prefix + '_' + crypto.randomUUID();
+  }
+  // fallback：12 位随机字符，碰撞概率极低
+  const ts = Date.now();
+  const rand = Math.random().toString(36).substring(2, 14);
+  return prefix + '_' + ts + '_' + rand;
+}
+
+/**
+ * 从 localStorage 加载大纲数据，含旧格式迁移
+ */
+function loadOutlineData() {
+  try {
+    const raw = localStorage.getItem(OUTLINE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (typeof parsed === 'object' && parsed !== null) {
+        Object.keys(TYPES).forEach(key => {
+          if (Array.isArray(parsed[key])) outlineData[key] = parsed[key];
+        });
+        if (parsed.createdAt) outlineData.createdAt = parsed.createdAt;
+        if (parsed.updatedAt) outlineData.updatedAt = parsed.updatedAt;
+      }
+    }
+    // 旧 worldCards 没有 type 字段，补上默认 'surface'
+    outlineData.worldCards.forEach(item => {
+      if (!item.type) item.type = 'surface';
+    });
+    // 旧 ID 格式迁移：非「前缀_uuid」或「前缀_时间戳_随机」格式的 ID 替换为新格式
+    let migrated = 0;
+    Object.keys(ID_PREFIXES).forEach(key => {
+      const prefix = ID_PREFIXES[key];
+      const pattern = new RegExp('^' + prefix + '_[0-9a-f]{8}-[0-9a-f]{4}-|^' + prefix + '_\\d+_[a-z0-9]+$');
+      outlineData[key].forEach(item => {
+        if (item.id && !pattern.test(item.id)) {
+          item.id = generateId(key);
+          migrated++;
+        }
+      });
+    });
+    if (migrated > 0) save();
+  } catch (e) {
+    // 解析失败不删除用户数据，保留默认空结构
+    console.warn('大纲数据解析失败，使用默认空数据', e);
+  }
+}
+
+/**
+ * 保存大纲数据到 localStorage，失败时提示用户
+ */
+function save() {
+  outlineData.updatedAt = Date.now();
+  try {
+    localStorage.setItem(OUTLINE_KEY, JSON.stringify(outlineData));
+  } catch (e) {
+    console.warn('大纲数据保存失败', e);
+    showToast(I18N.saveFailed, 'error');
+    if (window._showSaveError) window._showSaveError();
+  }
+  if (window.parent !== window) {
+    try { window.parent.postMessage({ type: 'outline-updated' }, window.location.origin === 'null' ? '*' : window.location.origin); } catch (e) {}
+  }
+}
+
+/** @type {number} 防抖保存定时器 */
+let _saveTimer;
+/** 防抖保存，300ms 内多次调用只执行最后一次 */
+function debouncedSave() { clearTimeout(_saveTimer); _saveTimer = setTimeout(save, 300); }
+
+// 监听其他标签页的数据变更，差异同步（避免销毁当前编辑状态）
+window.addEventListener('storage', function(e) {
+  if (e.key === OUTLINE_KEY && e.newValue) {
+    try {
+      const parsed = JSON.parse(e.newValue);
+      if (typeof parsed === 'object' && parsed !== null) {
+        // 保存当前焦点信息
+        const activeEl = document.activeElement;
+        const activeCard = activeEl?.closest('.card');
+        let focusInfo = null;
+        if (activeCard) {
+          focusInfo = {
+            collection: activeCard.dataset.collection,
+            id: activeCard.dataset.id,
+            fieldKey: activeEl.closest('.field')?.dataset?.key || null,
+            isTitle: activeEl.classList?.contains('card__title'),
+            selStart: activeEl.selectionStart,
+            selEnd: activeEl.selectionEnd
+          };
+        }
+        // 差异更新：只对变化的集合重新渲染
+        let changed = false;
+        Object.keys(TYPES).forEach(key => {
+          if (Array.isArray(parsed[key])) {
+            // 简单比较：长度变化或任一 ID 不同即视为变化
+            const oldIds = outlineData[key].map(i => i.id).join(',');
+            const newIds = parsed[key].map(i => i.id).join(',');
+            if (oldIds !== newIds || outlineData[key].length !== parsed[key].length) {
+              outlineData[key] = parsed[key];
+              renderCollection(key);
+              changed = true;
+            } else {
+              // 长度和 ID 相同，检查内容是否有变化
+              const oldJson = JSON.stringify(outlineData[key]);
+              const newJson = JSON.stringify(parsed[key]);
+              if (oldJson !== newJson) {
+                outlineData[key] = parsed[key];
+                renderCollection(key);
+                changed = true;
+              }
+            }
+          }
+        });
+        if (parsed.createdAt) outlineData.createdAt = parsed.createdAt;
+        if (parsed.updatedAt) outlineData.updatedAt = parsed.updatedAt;
+        // 恢复焦点
+        if (changed && focusInfo) {
+          requestAnimationFrame(() => {
+            const card = document.querySelector(`.card[data-collection="${focusInfo.collection}"][data-id="${focusInfo.id}"]`);
+            if (!card) return;
+            let target;
+            if (focusInfo.isTitle) {
+              target = card.querySelector('.card__title');
+            } else if (focusInfo.fieldKey) {
+              target = card.querySelector(`.field[data-key="${focusInfo.fieldKey}"] .field__input`);
+            }
+            if (target) {
+              target.focus();
+              try { target.setSelectionRange(focusInfo.selStart, focusInfo.selEnd); } catch(e) {}
+            }
+          });
+        }
+      }
+    } catch (err) {
+      console.warn('跨标签页同步失败', err);
+    }
+  }
+});
+
+/**
+ * 自适应 textarea 高度
+ * @param {HTMLTextAreaElement} el
+ */
+function autoResizeTextarea(el) {
+  // 必须等浏览器完成布局后才能拿到正确的 scrollHeight
+  requestAnimationFrame(() => {
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
+  });
+}
+
+/* ============================================================
+   主题
+   ============================================================ */
+function syncTheme() {
+  try {
+    const t = window.parent.document.documentElement.getAttribute('data-theme');
+    if (t) document.documentElement.setAttribute('data-theme', t);
+  } catch (e) { /* 跨域或独立打开，忽略 */ }
+}
+window.addEventListener('message', e => {
+  // 放宽来源校验：允许 file://、null origin 及同源
+  const origin = e.origin;
+  if (origin && origin !== 'null' && origin !== window.location.origin && !window.location.href.startsWith('file:')) return;
+  if (e.data?.type === 'theme-changed') syncTheme();
+  if (e.data?.type === 'refs-updated') {
+    // 章节概要引用变更 → 重新加载数据并刷新当前 tab
+    loadOutlineData();
+    renderAll();
+  }
+  if (e.data?.type === 'chapter-data' && Array.isArray(e.data.chapters)) {
+    chapterMap = {};
+    e.data.chapters.forEach(ch => { if (ch.id && ch.title) chapterMap[ch.id] = ch.title; });
+    // 重新解析当前页面的引用标签
+    document.querySelectorAll('.card__ref-tag').forEach(tag => {
+      const chId = tag.dataset.chId;
+      tag.textContent = chapterMap[chId] || I18N.unknownChapter;
+    });
+  }
+});
+
+/* ============================================================
+   Tab
+   ============================================================ */
+const PANELS = ['world','characters','factions','items','locations','plot','dungeons'];
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('is-active', t.dataset.tab === tab));
+  PANELS.forEach(p => document.getElementById(p + 'Panel').classList.toggle('hidden', p !== tab));
+  // 面板可见后重新计算 textarea 高度（修复 display:none 时 height=0 的问题）
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      var panel = document.getElementById(tab + 'Panel');
+      if (panel) {
+        panel.querySelectorAll('.field--textarea .field__input').forEach(function(ta) {
+          if (ta.value && ta.value.trim()) autoResizeTextarea(ta);
+        });
+      }
+    });
+  });
+}
+
+/* ============================================================
+   卡片渲染
+   ============================================================ */
+function gridId(collectionKey, type) {
+  return type ? collectionKey + '_' + type + 'Grid' : collectionKey + 'Grid';
+}
+
+/**
+ * 渲染指定集合的所有卡片到对应 grid 容器
+ * @param {string} collectionKey - 集合键名（如 'characters'）
+ */
+function renderCollection(collectionKey) {
+  const collection = outlineData[collectionKey];
+  const label = LABELS[collectionKey];
+  const schema = SCHEMAS[collectionKey];
+  const barColor = BAR_COLORS[collectionKey];
+  const emptyIcon = EMPTY_ICONS[collectionKey];
+
+  const types = TYPES[collectionKey];
+  const typeList = types.length > 0 ? types : [null];
+  typeList.forEach(type => {
+    const grid = document.getElementById(gridId(collectionKey, type));
+    const items = type ? collection.filter(i => i.type === type) : collection;
+
+    grid.innerHTML = '';
+    if (items.length === 0) {
+      const hint = type
+        ? I18N.emptyHintWith(TYPE_LABELS[type], label)
+        : I18N.emptyHint(label);
+      grid.innerHTML =
+        '<div class="empty-hint">' +
+          '<div class="empty-hint__icon">' + emptyIcon + '</div>' +
+          '<span>' + hint + '</span>' +
+        '</div>';
+      return;
+    }
+
+    items.forEach(item => {
+      const el = document.createElement('div');
+      el.className = 'card' + (expandedIds.has(item.id) ? '' : ' is-collapsed');
+      el.dataset.collection = collectionKey;
+      el.dataset.id = item.id;
+      el.style.setProperty('--bar-color', barColor);
+
+      // 删除按钮
+      let html = '<button class="card__delete" data-action="delete-card" data-collection="' + escAttr(collectionKey) + '" data-id="' + escAttr(item.id) + '" title="删除">&times;</button>';
+
+      // 标题行（含折叠切换）
+      html += '<div class="card__header" data-action="toggle-collapse">';
+      html += '<span class="card__toggle"></span>';
+      html += '<input type="text" class="card__title" value="' + escAttr(item.fields.title || '') + '" placeholder="' + escAttr(schema[0].label) + '">';
+      html += '<span class="card__summary"></span>';
+      html += '</div>';
+
+      // 字段区
+      const nonTitleFields = schema.filter(f => f.type !== 'title');
+      const textareaCount = nonTitleFields.filter(f => f.type === 'textarea').length;
+      const layoutClass = textareaCount > 4 ? ' is-triple' : (nonTitleFields.length > 6 ? ' is-dual' : '');
+      html += '<div class="card__body' + layoutClass + '">';
+
+      // 非空字段排前面，空字段排后面（各自保持原始顺序）
+      const filled = [], empty = [];
+      nonTitleFields.forEach(field => {
+        const val = item.fields[field.key];
+        (val && val.trim()) ? filled.push(field) : empty.push(field);
+      });
+      const orderedFields = [...filled, ...empty];
+
+      orderedFields.forEach(field => {
+        const val = item.fields[field.key] || '';
+        if (field.type === 'textarea') {
+          html += '<div class="field field--textarea">';
+          html += '<label class="field__label">' + field.label + '</label>';
+          html += '<textarea class="field__input" placeholder="' + field.label + '">' + esc(val) + '</textarea>';
+          html += '</div>';
+        } else if (field.type === 'select') {
+          html += '<div class="field">';
+          html += '<label class="field__label">' + field.label + '</label>';
+          html += '<select class="field__input">';
+          (field.options || []).forEach(opt => {
+            html += '<option value="' + escAttr(opt) + '"' + (val === opt ? ' selected' : '') + '>' + esc(opt) + '</option>';
+          });
+          html += '</select>';
+          html += '</div>';
+        } else {
+          html += '<div class="field">';
+          html += '<label class="field__label">' + field.label + '</label>';
+          html += '<input type="text" class="field__input" value="' + escAttr(val) + '" placeholder="' + escAttr(field.label) + '">';
+          html += '</div>';
+        }
+      });
+      html += '</div>';
+
+      // 引用章节标签
+      if (item.chapterRefs && item.chapterRefs.length > 0) {
+        html += '<div class="card__refs">';
+        html += '<span class="card__refs-label">📖 引用章节</span>';
+        item.chapterRefs.forEach(chId => {
+          html += '<button class="card__ref-tag" data-ch-id="' + escAttr(chId) + '" data-action="navigate-chapter" title="跳转到此章节">' + esc(chId) + '</button>';
+        });
+        html += '</div>';
+      }
+
+      el.innerHTML = html;
+
+      // 标记 field key（按 DOM 顺序与 orderedFields 对应）
+      el.querySelectorAll('.field').forEach((fieldEl, i) => {
+        if (orderedFields[i]) fieldEl.dataset.key = orderedFields[i].key;
+      });
+
+      // 事件：title
+      const titleInput = el.querySelector('.card__title');
+      titleInput.addEventListener('input', () => {
+        item.fields.title = titleInput.value;
+        updateSummary(el, item);
+        debouncedSave();
+      });
+      titleInput.addEventListener('click', e => e.stopPropagation());
+
+      // 事件：其他字段
+      nonTitleFields.forEach(field => {
+        const input = el.querySelector('.field[data-key="' + field.key + '"] .field__input');
+        if (!input) return;
+        const eventType = field.type === 'select' ? 'change' : 'input';
+        input.addEventListener(eventType, () => {
+          item.fields[field.key] = input.value;
+          updateSummary(el, item);
+          debouncedSave();
+          // textarea 输入时自适应高度
+          if (field.type === 'textarea') autoResizeTextarea(input);
+        });
+      });
+
+      // 初始化摘要
+      updateSummary(el, item);
+
+      // 解析引用章节标题
+      resolveChapterRefs(el, item);
+
+      grid.appendChild(el);
+
+      // textarea 自适应高度：必须在 DOM 插入后计算（跳过隐藏面板，避免 height=0）
+      el.querySelectorAll('.field--textarea .field__input').forEach(ta => {
+        if (ta.value && ta.value.trim() && !ta.closest('.hidden')) autoResizeTextarea(ta);
+      });
+    });
+  });
+}
+
+// 从父页面获取章节数据，解析引用章节标题
+// 本地缓存的章节 id→title 映射（由父页面通过 postMessage 推送）
+/** @type {Object<string, string>} 章节 id→title 映射（由父页面 postMessage 推送） */
+let chapterMap = {};
+
+/**
+ * 解析卡片中引用章节标签的标题文本
+ * @param {HTMLElement} cardEl - 卡片 DOM 元素
+ * @param {OutlineItem} item  - 卡片数据
+ */
+function resolveChapterRefs(cardEl, item) {
+  if (!item.chapterRefs || !item.chapterRefs.length) return;
+  const tags = cardEl.querySelectorAll('.card__ref-tag');
+  tags.forEach(tag => {
+    const chId = tag.dataset.chId;
+    tag.textContent = chapterMap[chId] || I18N.unknownChapter;
+  });
+}
+
+/**
+ * 通知父页面切换到指定章节
+ * @param {string} chId - 章节 ID
+ */
+function navigateToChapter(chId) {
+  if (window.parent !== window) {
+    try {
+      const targetOrigin = window.location.origin === 'null' ? '*' : window.location.origin;
+      window.parent.postMessage({ type: 'navigate-chapter', chapterId: chId }, targetOrigin);
+    } catch(e) {}
+  }
+}
+
+/**
+ * 更新卡片折叠态摘要（标题 + 首字段值）
+ * @param {HTMLElement} cardEl - 卡片 DOM 元素
+ * @param {OutlineItem} item  - 卡片数据
+ */
+function updateSummary(cardEl, item) {
+  const summary = cardEl.querySelector('.card__summary');
+  const title = item.fields.title || I18N.untitled;
+  // 收集当前 collection 的 select 字段的首个 option（即默认值），用于排除
+  const collectionKey = cardEl.closest('.card')?.dataset?.collection || '';
+  const schema = SCHEMAS[collectionKey];
+  const selectDefaults = new Set();
+  if (schema) {
+    schema.filter(f => f.type === 'select' && f.options && f.options.length > 0)
+      .forEach(f => selectDefaults.add(f.options[0]));
+  }
+  const firstNonTitle = Object.entries(item.fields).find(([k, v]) =>
+    k !== 'title' && v && !selectDefaults.has(v)
+  );
+  summary.innerHTML = esc(title);
+  if (firstNonTitle) {
+    summary.innerHTML += '<span class="card__summary-tag">' + esc(firstNonTitle[1]) + '</span>';
+  }
+}
+
+/**
+ * 切换卡片折叠/展开状态（手风琴模式：同 grid 内只展开一个）
+ * @param {HTMLElement} headerEl - 点击的 .card__header 元素
+ */
+function toggleCollapse(headerEl) {
+  const card = headerEl.closest('.card');
+  if (!card) return;
+  const wasCollapsed = card.classList.contains('is-collapsed');
+  // 先折叠同 grid 下所有卡片
+  collapseAllInGrid(card.closest('.grid'));
+  // 如果原来就是折叠的，则展开当前卡片
+  if (wasCollapsed) {
+    card.classList.remove('is-collapsed');
+    const id = card.dataset.id;
+    if (id) expandedIds.add(id);
+    // 展开后重新计算 textarea 高度
+    card.querySelectorAll('.field--textarea .field__input').forEach(ta => {
+      if (ta.value && ta.value.trim()) autoResizeTextarea(ta);
+    });
+  }
+}
+
+/**
+ * 折叠指定 grid 内所有卡片
+ * @param {HTMLElement} gridEl
+ */
+function collapseAllInGrid(gridEl) {
+  if (!gridEl) return;
+  gridEl.querySelectorAll('.card:not(.is-collapsed)').forEach(card => {
+    card.classList.add('is-collapsed');
+    const id = card.dataset.id;
+    if (id) expandedIds.delete(id);
+  });
+}
+
+/**
+ * 新增一张卡片并聚焦标题输入框
+ * @param {string} collectionKey - 集合键名
+ * @param {string} [type]        - 子分类（如 'main'）
+ */
+function addCard(collectionKey, type) {
+  const fields = {};
+  SCHEMAS[collectionKey].forEach(s => {
+    fields[s.key] = (s.type === 'select' && s.options && s.options.length) ? s.options[0] : '';
+  });
+  const item = { id: generateId(collectionKey), fields };
+  if (type) item.type = type;
+  outlineData[collectionKey].push(item);
+  save();
+  renderCollection(collectionKey);
+  setTimeout(() => {
+    const grid = document.getElementById(gridId(collectionKey, type));
+    const inputs = grid.querySelectorAll('.card__title');
+    if (inputs.length) inputs[inputs.length - 1].focus();
+  }, 50);
+}
+
+/**
+ * 删除指定卡片（带二次确认弹窗）
+ * @param {string} collectionKey - 集合键名
+ * @param {string} id            - 卡片 ID
+ */
+function deleteCard(collectionKey, id) {
+  const idx = outlineData[collectionKey].findIndex(i => i.id === id);
+  if (idx === -1) return;
+  const item = outlineData[collectionKey][idx];
+  const label = LABELS[collectionKey];
+  const name = item?.fields.title || I18N.deleteNameFallback(label);
+  showConfirm(I18N.deleteConfirm(label, name), () => {
+    outlineData[collectionKey].splice(idx, 1);
+    save();
+    renderCollection(collectionKey);
+  });
+}
+
+function renderAll() { Object.keys(TYPES).forEach(renderCollection); }
+
+/* ============================================================
+   工具
+   ============================================================ */
+/**
+ * HTML 内容转义（防 XSS）
+ * @param {string} s - 原始字符串
+ * @returns {string} 转义后的 HTML 安全字符串
+ */
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/**
+ * HTML 属性值转义（防 XSS，含单引号）
+ * @param {string} s - 原始字符串
+ * @returns {string} 转义后的属性安全字符串
+ */
+function escAttr(s) { return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/**
+ * 显示确认弹窗
+ * @param {string} msg  - 确认消息
+ * @param {Function} onOk - 确认回调
+ */
+function showConfirm(msg, onOk) {
+  const overlay = document.getElementById('confirmOverlay');
+  document.getElementById('confirmMsg').textContent = msg;
+  overlay.classList.add('is-visible');
+
+  const ok = document.getElementById('confirmOk');
+  const cancel = document.getElementById('confirmCancel');
+  const controller = new AbortController();
+
+  const close = () => {
+    overlay.classList.remove('is-visible');
+    controller.abort();
+  };
+
+  ok.addEventListener('click', () => { close(); onOk(); }, { signal: controller.signal });
+  cancel.addEventListener('click', close, { signal: controller.signal });
+  overlay.addEventListener('click', e => { if (e.target === overlay) close(); }, { signal: controller.signal });
+}
+
+/* ============================================================
+   导出 / 导入
+   ============================================================ */
+/**
+ * 触发浏览器下载文件
+ * @param {string} filename  - 文件名
+ * @param {string} content   - 文件内容
+ * @param {string} mimeType  - MIME 类型
+ */
+function downloadFile(filename, content, mimeType) {
+  const blob = new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+/**
+ * 计算字符串的显示宽度（CJK 字符算 2）
+ * @param {string} str
+ * @returns {number}
+ */
+function getDisplayWidth(str) {
+  let w = 0;
+  for (const ch of str) { w += ch.charCodeAt(0) > 127 ? 2 : 1; }
+  return w;
+}
+
+function exportOutlineExcel() {
+  if (typeof XLSX === 'undefined') {
+    showToast(I18N.excelNeedsNetwork, 'error');
+    return;
+  }
+  const wb = XLSX.utils.book_new();
+  Object.keys(TYPES).forEach(collectionKey => {
+    const schema = SCHEMAS[collectionKey];
+    const label = LABELS[collectionKey];
+    const collection = outlineData[collectionKey];
+    const hasType = TYPES[collectionKey].length > 0;
+    const headers = ['ID', ...(hasType ? ['分类'] : []), ...schema.map(f => f.label)];
+    const rows = collection.map(item => {
+      const row = [item.id || '', ...(hasType ? [item.type ? TYPE_LABELS[item.type] || item.type : ''] : [])];
+      schema.forEach(f => { row.push(item.fields[f.key] || ''); });
+      return row;
+    });
+    const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+    ws['!cols'] = headers.map((h, i) => {
+      const maxW = Math.max(
+        getDisplayWidth(h),
+        ...rows.map(r => getDisplayWidth(String(r[i] || '')))
+      );
+      return { wch: Math.min(Math.max(maxW + 2, 8), 50) };
+    });
+    XLSX.utils.book_append_sheet(wb, ws, label);
+  });
+  XLSX.writeFile(wb, I18N.excelFilename);
+  showToast(I18N.excelExported, 'success');
+}
+
+function exportOutlineJSON() {
+  const stats = {};
+  Object.keys(TYPES).forEach(key => { stats[key] = outlineData[key].length; });
+  const payload = { version: 1, exportedAt: new Date().toISOString(), data: {}, stats };
+  Object.keys(TYPES).forEach(key => { payload.data[key] = outlineData[key]; });
+  downloadFile(I18N.jsonFilename, JSON.stringify(payload, null, 2), 'application/json');
+  showToast(I18N.jsonExported, 'success');
+}
+
+/**
+ * 校验导入数据的格式
+ * @param {any} parsed - JSON 解析后的对象
+ * @returns {string|null} 错误消息，null 表示校验通过
+ */
+function validateImportData(parsed) {
+  if (!parsed || typeof parsed !== 'object') return I18N.invalidJson;
+  if (parsed.version !== 1) return I18N.unsupportedVersion(parsed.version);
+  if (!parsed.data || typeof parsed.data !== 'object') return I18N.missingDataField;
+  const validKeys = Object.keys(TYPES);
+  let hasValidData = false;
+  for (const key of validKeys) {
+    if (parsed.data[key] !== undefined) {
+      if (!Array.isArray(parsed.data[key])) return I18N.notArray(key);
+      for (const item of parsed.data[key]) {
+        if (!item.fields || typeof item.fields !== 'object') return I18N.missingFields(key);
+        // fields 值应为字符串
+        for (const [fk, fv] of Object.entries(item.fields)) {
+          if (fv !== undefined && fv !== null && typeof fv !== 'string') {
+            return I18N.missingFields(key);
+          }
+        }
+        // chapterRefs 应为字符串数组
+        if (item.chapterRefs !== undefined) {
+          if (!Array.isArray(item.chapterRefs)) return I18N.missingFields(key);
+          for (const ref of item.chapterRefs) {
+            if (typeof ref !== 'string') return I18N.missingFields(key);
+          }
+        }
+      }
+      hasValidData = true;
+    }
+  }
+  if (!hasValidData) return I18N.noValidData;
+  return null;
+}
+
+/**
+ * 为缺少 id 的条目自动补上，为重复 id 的条目重新生成
+ * @param {string} collectionKey - 集合键名
+ * @param {OutlineItem[]} items  - 待处理的条目数组
+ * @returns {OutlineItem[]} 处理后的条目数组
+ */
+function ensureUniqueIds(collectionKey, items) {
+  const seen = new Set();
+  return items.map(item => {
+    if (!item.id || seen.has(item.id)) {
+      item = { ...item, id: generateId(collectionKey) };
+    }
+    seen.add(item.id);
+    return item;
+  });
+}
+
+/**
+ * 处理导入文件选择
+ * @param {HTMLInputElement} input - file input 元素
+ */
+function handleImportFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  input.value = '';
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      const error = validateImportData(parsed);
+      if (error) { showToast(I18N.importFailed + error, 'error'); return; }
+      let importCount = 0, currentCount = 0, newIdCount = 0;
+      Object.keys(TYPES).forEach(key => {
+        if (Array.isArray(parsed.data[key])) {
+          const before = parsed.data[key].filter(i => !i.id).length;
+          parsed.data[key] = ensureUniqueIds(key, parsed.data[key]);
+          newIdCount += before;
+          importCount += parsed.data[key].length;
+        }
+        currentCount += outlineData[key].length;
+      });
+      let confirmMsg = I18N.importWillImport(importCount, currentCount);
+      if (newIdCount > 0) confirmMsg += I18N.importMissingIds(newIdCount);
+      showImportConfirm(
+        confirmMsg,
+        function onOverwrite() {
+          Object.keys(TYPES).forEach(key => {
+            outlineData[key] = Array.isArray(parsed.data[key]) ? parsed.data[key] : [];
+          });
+          outlineData.worldCards.forEach(item => { if (!item.type) item.type = 'surface'; });
+          save(); renderAll();
+          showToast(I18N.importOverwritten(importCount), 'success');
+        },
+        function onMerge() {
+          let added = 0, updated = 0;
+          Object.keys(TYPES).forEach(key => {
+            if (!Array.isArray(parsed.data[key])) return;
+            const existingMap = new Map(outlineData[key].map(i => [i.id, i]));
+            parsed.data[key].forEach(item => {
+              if (existingMap.has(item.id)) {
+                // 同 ID：用导入数据覆盖现有数据
+                const idx = outlineData[key].findIndex(i => i.id === item.id);
+                if (idx !== -1) { outlineData[key][idx] = item; updated++; }
+              } else {
+                // 新 ID：追加
+                outlineData[key].push(item);
+                added++;
+              }
+            });
+          });
+          save(); renderAll();
+          const parts = [];
+          if (added > 0) parts.push(I18N.importAdded(added));
+          if (updated > 0) parts.push(I18N.importUpdated(updated));
+          showToast(I18N.importMerged(parts), 'success');
+        }
+      );
+    } catch (err) {
+      showToast(I18N.importParseFailed, 'error');
+    }
+  };
+  reader.readAsText(file);
+}
+
+/**
+ * 显示导入确认弹窗（覆盖/合并/取消三选一）
+ * @param {string} msg        - 确认消息
+ * @param {Function} onOverwrite - 覆盖回调
+ * @param {Function} onMerge     - 合并回调
+ */
+function showImportConfirm(msg, onOverwrite, onMerge) {
+  const overlay = document.getElementById('importOverlay');
+  document.getElementById('importMsg').textContent = msg;
+  overlay.classList.add('is-visible');
+  const overwrite = document.getElementById('importOverwrite');
+  const merge = document.getElementById('importMerge');
+  const cancel = document.getElementById('importCancel');
+  const controller = new AbortController();
+
+  const close = () => {
+    overlay.classList.remove('is-visible');
+    controller.abort();
+  };
+
+  overwrite.addEventListener('click', () => { close(); onOverwrite(); }, { signal: controller.signal });
+  merge.addEventListener('click', () => { close(); onMerge(); }, { signal: controller.signal });
+  cancel.addEventListener('click', close, { signal: controller.signal });
+  overlay.addEventListener('click', e => { if (e.target === overlay) close(); }, { signal: controller.signal });
+}
+
+/**
+ * 显示 Toast 提示
+ * @param {string} msg  - 提示文案
+ * @param {'success'|'error'} [type] - 提示类型
+ */
+function showToast(msg, type) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'toast toast--' + (type || 'success') + ' is-visible';
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => { toast.classList.remove('is-visible'); }, 2500);
+}
+
+/* ============================================================
+   初始化
+   ============================================================ */
+init();
+function init() {
+  syncTheme();
+  loadOutlineData();
+  renderAll();
+  switchTab('world');
+
+  // 点击空白处折叠当前可见面板的所有卡片
+  document.querySelectorAll('.body').forEach(panel => {
+    panel.addEventListener('click', e => {
+      if (e.target.closest('.card')) return;
+      panel.querySelectorAll('.grid').forEach(grid => collapseAllInGrid(grid));
+    });
+  });
+
+  // ── 事件委托：统一处理所有 data-action 点击 ──
+  document.addEventListener('click', function(e) {
+    const actionEl = e.target.closest('[data-action]');
+    if (!actionEl) return;
+    const action = actionEl.dataset.action;
+
+    switch (action) {
+      case 'switch-tab':
+        switchTab(actionEl.dataset.tab);
+        break;
+      case 'add-card':
+        addCard(actionEl.dataset.collection, actionEl.dataset.type || undefined);
+        break;
+      case 'delete-card':
+        deleteCard(actionEl.dataset.collection, actionEl.dataset.id);
+        break;
+      case 'toggle-collapse':
+        toggleCollapse(actionEl);
+        // 阻止事件冒泡到 card header 的 input
+        break;
+      case 'navigate-chapter':
+        navigateToChapter(actionEl.dataset.chId);
+        break;
+      case 'export-excel':
+        exportOutlineExcel();
+        break;
+      case 'export-json':
+        exportOutlineJSON();
+        break;
+      case 'trigger-import':
+        document.getElementById('importFileInput').click();
+        break;
+    }
+  });
+
+  // 导入文件选择
+  document.getElementById('importFileInput').addEventListener('change', function() {
+    handleImportFile(this);
+  });
+}
+
+})();
+</script>
+</body>
+</html>
